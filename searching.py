@@ -49,21 +49,21 @@ class Searching():
             # Element is not present in the array
             return -1
 
-
 # Driver Code
-cls_obj = Searching()
+if __name__ == "__main__":
+    cls_obj = Searching()
 
-# Linear Search call
-arr = [2, 5, 1, 6, 0, 9, 7, 10]
-srch = 7
-print('Element is present at index', cls_obj.linear_search(arr, srch))
+    # Linear Search call
+    arr = [2, 5, 1, 6, 0, 9, 7, 10]
+    srch = 7
+    print('Linear Search Element is present at index', cls_obj.linear_search(arr, srch))
 
-# Binary Search call
-arr = [2, 3, 4, 10, 40]
-x = 10
-result = cls_obj.binarySearch(arr, 0, len(arr)-1, x)
+    # Binary Search call
+    arr = [2, 3, 4, 10, 40]
+    x = 10
+    result = cls_obj.binarySearch(arr, 0, len(arr)-1, x)
 
-if result != -1:
-    print("Element is present at index", result)
-else:
-    print("Element is not present in array")
+    if result != -1:
+        print("Binary Search Element is present at index", result)
+    else:
+        print("Binary Search Element is not present in array")
