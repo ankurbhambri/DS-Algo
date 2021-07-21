@@ -3,16 +3,15 @@ in which each pair of adjacent elements is compared and the elements are swapped
 are not in order.'''
 
 
-def recursive_bubble_sort(arr):  # O(n)
-    count = 0
-    for i in range(len(arr) - 1):
+def recursive_bubble_sort(arr, n):  # O(n)
+
+    if n == 1:
+        return arr
+    for i in range(n - 1):
         if arr[i] > arr[i + 1]:
             arr[i], arr[i + 1] = arr[i + 1], arr[i]
-            count += 1
-    if count == 0:
-        return arr
-    else:
-        return recursive_bubble_sort(arr)
+
+    return recursive_bubble_sort(arr, n - 1)
 
 
 def bubble_sort(arr):  # Ο(n^2)
@@ -49,7 +48,7 @@ def selection_sort(arr):
     from the unsorted subarray is picked and moved to the sorted subarray.'''
 
     for i in range(len(arr)):
-        min_val = min(arr[i : len(arr)])
+        min_val = min(arr[i: len(arr)])
         pos = arr.index(min_val)
         if min_val < arr[i]:
             arr[pos], arr[i] = arr[i], min_val
@@ -77,7 +76,7 @@ def quickSort(arr):
     # Sorts the elements to the left of pivot
     left = quickSort(arr[0:current_position])
     # sorts the elements to the right of pivot
-    right = quickSort(arr[current_position + 1 : n])
+    right = quickSort(arr[current_position + 1: n])
 
     # Merging everything together
     arr = left + [arr[current_position]] + right
@@ -103,7 +102,7 @@ if __name__ == "__main__":
 
     arr = [45, 3, 67, 56, 8, 0]
 
-    print('Recursive Bubble Sort', recursive_bubble_sort(arr))
+    print('Recursive Bubble Sort', recursive_bubble_sort(arr, len(arr)))
 
     # print('Bubble Sort', buuble_sort(arr))
 
