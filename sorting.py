@@ -48,7 +48,7 @@ def selection_sort(arr):
     from the unsorted subarray is picked and moved to the sorted subarray.'''
 
     for i in range(len(arr)):
-        min_val = min(arr[i: len(arr)])
+        min_val = min(arr[i : len(arr)])
         pos = arr.index(min_val)
         if min_val < arr[i]:
             arr[pos], arr[i] = arr[i], min_val
@@ -76,7 +76,7 @@ def quickSort(arr):
     # Sorts the elements to the left of pivot
     left = quickSort(arr[0:current_position])
     # sorts the elements to the right of pivot
-    right = quickSort(arr[current_position + 1: n])
+    right = quickSort(arr[current_position + 1 : n])
 
     # Merging everything together
     arr = left + [arr[current_position]] + right
@@ -98,6 +98,44 @@ def swapSort(arr):
             print('swap sort duplicate', arr[i], 'swap sort missing', i + 1)
 
 
+def mergeSort(arr):
+
+    if len(arr) > 1:
+
+        mid = len(arr) // 2
+
+        L = arr[:mid]
+
+        R = arr[mid:]
+
+        mergeSort(L)
+
+        mergeSort(R)
+
+        i = j = k = 0
+
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1
+
+    return arr
+
+
 if __name__ == "__main__":
 
     arr = [45, 3, 67, 56, 8, 0]
@@ -115,3 +153,7 @@ if __name__ == "__main__":
     arr2 = [2, 3, 1, 8, 2, 3, 5, 1]
 
     swapSort(arr2)
+
+    arr = [54, 26, 93, 17, 77, 31, 44, 55, 20]
+
+    print('Merge Sort', mergeSort(arr))
