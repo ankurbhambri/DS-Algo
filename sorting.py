@@ -55,31 +55,36 @@ def selection_sort(arr):
     return arr
 
 
-def quickSort(arr):
-    n = len(arr)
+def partitioning(arr, l, h):
 
-    if n < 2:
-        return arr
+    pivot = arr[l]
 
-    # Position of the partitioning element
-    current_position = 0
+    i, j = l, h
 
-    # Partitioning loop
-    for i in range(1, n):
-        if arr[i] <= arr[0]:
-            current_position += 1
-            arr[i], arr[current_position] = arr[current_position], arr[i]
+    while i < j:
 
-    # Brings pivot to it's appropriate position
-    arr[0], arr[current_position] = arr[current_position], arr[0]
+        while arr[i] <= pivot:
+            i += 1
 
-    # Sorts the elements to the left of pivot
-    left = quickSort(arr[0:current_position])
-    # sorts the elements to the right of pivot
-    right = quickSort(arr[current_position + 1 : n])
+        while arr[j] > pivot:
+            j -= 1
 
-    # Merging everything together
-    arr = left + [arr[current_position]] + right
+        if i < j:
+            arr[i], arr[j] = arr[j], arr[i]
+
+    arr[l], arr[j] = arr[j], arr[l]
+
+    return j
+
+
+def quickSort(arr, l, h):
+
+    if l < h:
+
+        j = partitioning(arr, l, h)
+
+        quickSort(arr, l, j)
+        quickSort(arr, j + 1, h)
 
     return arr
 
@@ -89,6 +94,7 @@ def swapSort(arr):
     '''swap sorting on the basis of index position values
     like 1 index 2 is needed if values is present in
     its indes then no swap'''
+    # O(n^2)
     for i in range(len(arr)):
         if arr[i] != arr[arr[i] - 1]:
             arr[arr[i] - 1], arr[i] = arr[i], arr[arr[i] - 1]
@@ -96,6 +102,17 @@ def swapSort(arr):
     for i in range(len(arr)):
         if i + 1 != arr[i]:
             print('swap sort duplicate', arr[i], 'swap sort missing', i + 1)
+    # O(n)
+    for i in range(len(arr) - 1):
+        if arr[i] != arr[arr[i] - 1]:
+            arr[arr[i] - 1], arr[i] = arr[i], arr[arr[i] - 1]
+
+        if i + 1 == arr[i]:
+            pass
+        else:
+            print(i + 1)
+
+    print(arr)
 
 
 def mergeSort(arr):
@@ -148,7 +165,7 @@ if __name__ == "__main__":
 
     print('Selection Sort', selection_sort(arr))
 
-    print("Quick Sort", quickSort(arr))
+    print("Quick Sort", quickSort(arr, 0, len(arr) - 1))
 
     arr2 = [2, 3, 1, 8, 2, 3, 5, 1]
 
