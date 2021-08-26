@@ -107,9 +107,7 @@ def swapSort(arr):
         if arr[i] != arr[arr[i] - 1]:
             arr[arr[i] - 1], arr[i] = arr[i], arr[arr[i] - 1]
 
-        if i + 1 == arr[i]:
-            pass
-        else:
+        if i + 1 != arr[i]:
             print(i + 1)
 
     print(arr)
