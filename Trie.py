@@ -28,11 +28,6 @@ class Trie:
         else:
             return False
 
-    def func(self):
-        return self.head
-
-
-
 obj = Trie()
 obj.add('Hi')
 obj.add('Hello')
