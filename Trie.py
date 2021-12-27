@@ -33,9 +33,6 @@ obj.add('Hi')
 obj.add('Hello')
 obj.add('He')
 obj.add('Hel')
-obj.add('V')
-print(obj.func())
-
 
 print(obj.search('He'))
 print(obj.search('Hell'))
