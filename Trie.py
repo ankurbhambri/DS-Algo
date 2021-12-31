@@ -23,10 +23,7 @@ class Trie:
                 return False
             curr = curr[ch]
 
-        if '*' in curr:
-            return True
-        else:
-            return False
+        return '*' in curr
 
 obj = Trie()
 obj.add('Hi')
