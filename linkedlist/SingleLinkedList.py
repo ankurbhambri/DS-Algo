@@ -1,24 +1,19 @@
-class Node:
+import ipdb
 
+
+class Node:
     def __init__(self, val=None):
         self.val = val
         self.next = None
 
 
-class SLinkedList:
+class SinglyLinkedList:
 
     def __init__(self):
         self.head = None # first of node
         self.tail = None # last of node
 
-    def printLL(self):
-
-        node = self.head
-        while node:
-            print(node.val)
-            node = node.next
-
-    def insertSLL(self, val, location):
+    def insertSLL(self, val, loc):
 
         newNode = Node(val)
 
@@ -27,13 +22,11 @@ class SLinkedList:
             self.tail = newNode
 
         else:
-
-            if location == 0:
+            if loc == 0:
                 newNode.next = self.head
                 self.head = newNode
 
-            elif location == -1:
-                newNode.next = None
+            elif loc == -1:
                 self.tail.next = newNode
                 self.tail = newNode
 
@@ -41,25 +34,15 @@ class SLinkedList:
                 cur = self.head
                 index = 0
 
-                while index < location - 1:
+                while index < loc - 1:
                     cur = cur.next
                     index += 1
-                nextNode = cur.next
+
+                newNode.next = cur.next
                 cur.next = newNode
-                newNode.next = nextNode
+                # In case cur is equeal to last node
                 if cur == self.tail:
-                    self.tail=newNode
-
-    # Traverse Singly Linked List
-    def traverseSLL(self):
-
-        if self.head is None:
-            print("The Singly Linked List does not exist")
-        else:
-            node = self.head
-            while node is not None:
-                print(node.val)
-                node = node.next
+                    self.tail = newNode
 
     # Search for a node in Singly Linked List
     def searchSLL(self, nodeval):
@@ -75,24 +58,24 @@ class SLinkedList:
             return "The val does not exist in this list"
 
     #  Delete a node from Singly Linked List
-    def deleteNode(self, location):
+    def deleteNode(self, loc):
 
         if self.head is None:
-            print("The SLL does not exist")
+            return 'In bound'
         else:
-            if location == 0:
+            if loc == 0:
                 if self.head == self.tail:
                     self.head = None
                     self.tail = None
                 else:
                     self.head = self.head.next
-            elif location == -1:
+            elif loc == -1:
                 if self.head == self.tail:
                     self.head = None
                     self.tail = None
                 else:
                     node = self.head
-                    while node is not None:
+                    while node:
                         if node.next == self.tail:
                             break
                         node = node.next
@@ -101,11 +84,10 @@ class SLinkedList:
             else:
                 cur = self.head
                 index = 0
-                while index < location - 1:
+                while index < loc - 1:
                     cur = cur.next
                     index += 1
-                nextNode = cur.next
-                cur.next = nextNode.next
+                cur.next = cur.next.next
 
     # Delete entire SLL
     def deleteEntireSLL(self):
@@ -115,17 +97,68 @@ class SLinkedList:
             self.head = None
             self.tail = None
 
+    # Reverse Linked List
+    def reverseLL(self):
+        cur = self.head
+        prev = None
+        while cur:
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nxt
+        self.head = prev
 
-obj = SLinkedList()
-obj.insertSLL(1, 1)
+
+    def reverseBtw(self, left, right):
+
+        cur = self.head
+        
+        l_prev = None
+        while cur:
+            if cur.val == left:
+                break
+            l_prev = cur
+            cur = cur.next
+
+        prev = None
+        while cur:
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            if cur.val == right:
+                l_prev.next = prev
+                tt = l_prev
+                while tt:
+                    if tt.val == left:
+                        tt.next = nxt
+                        return self.head
+                    tt = tt.next
+            cur = nxt
+
+    # Traverse Linked List
+    def traverse(self):
+        cur = self.head
+        while cur:
+            print(cur.val)
+            cur = cur.next
+
+
+
+obj = SinglyLinkedList()
+obj.insertSLL(1, 0)
 obj.insertSLL(2, 1)
-obj.insertSLL(3, 1)
-obj.insertSLL(4, 1)
-obj.insertSLL(0, 0)
+obj.insertSLL(3, 2)
+obj.insertSLL(4, 3)
+obj.insertSLL(5, 4)
 obj.insertSLL(7, -1)
-obj.insertSLL(5, 1)
 
 
-obj.printLL()
-obj.deleteEntireSLL()
-obj.printLL()
+
+# obj.deleteNode(1)
+# obj.printLL()
+# obj.traverse()
+# obj.deleteEntireSLL()
+# obj.reverseLL()
+obj.reverseBtw(2, 4)
+obj.traverse()
+
