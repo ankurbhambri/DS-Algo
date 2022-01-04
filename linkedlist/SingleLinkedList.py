@@ -114,26 +114,23 @@ class SinglyLinkedList:
         cur = self.head
         
         l_prev = None
-        while cur:
-            if cur.val == left:
-                break
-            l_prev = cur
-            cur = cur.next
+        
+        for _ in range(left - 1):
+            l_prev, cur = cur, cur.next
 
         prev = None
-        while cur:
+        for _ in range(right - left + 1):
             nxt = cur.next
             cur.next = prev
             prev = cur
-            if cur.val == right:
-                l_prev.next = prev
-                tt = l_prev
-                while tt:
-                    if tt.val == left:
-                        tt.next = nxt
-                        return self.head
-                    tt = tt.next
             cur = nxt
+
+        # last node in cur = 5
+        l_prev.next.next = cur
+        # prev = 4->3->2
+        l_prev.next = prev
+        
+        return self.head
 
     # Traverse Linked List
     def traverse(self):
@@ -150,7 +147,9 @@ obj.insertSLL(2, 1)
 obj.insertSLL(3, 2)
 obj.insertSLL(4, 3)
 obj.insertSLL(5, 4)
-obj.insertSLL(7, -1)
+obj.insertSLL(6, 5)
+obj.insertSLL(7, 6)
+obj.insertSLL(8, -1)
 
 
 
@@ -159,6 +158,6 @@ obj.insertSLL(7, -1)
 # obj.traverse()
 # obj.deleteEntireSLL()
 # obj.reverseLL()
-obj.reverseBtw(2, 4)
+obj.reverseBtw(2, 5)
 obj.traverse()
 
