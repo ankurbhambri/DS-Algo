@@ -6,7 +6,6 @@ class Node:
         self.data = data
 
     def insert(self, data):
-        # import ipdb; ipdb.set_trace()
         if self.data:
             # if data smaller than root
             if data < self.data:
@@ -124,14 +123,14 @@ if __name__ == "__main__":
     root.right.right.left = Node(3)
     root.right.right.right = Node(4)
 
-    print('Print tree')
+    print("Print tree")
     root.printTree()
 
-    print('inorder')
+    print("inorder")
     inorder(root)
-    print('preorder')
+    print("preorder")
     preorder(root)
-    print('postorder')
+    print("postorder")
     postorder(root)
-    print('Max path sum in binary tree')
+    print("Max path sum in binary tree")
     print(findMaxSum(root))

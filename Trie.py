@@ -1,4 +1,5 @@
-'''Trie Data Stucture'''
+"""Trie Data Stucture"""
+
 
 class Trie:
     head = {}
@@ -12,7 +13,7 @@ class Trie:
                 curr[ch] = {}
             curr = curr[ch]
 
-        curr['*'] = True
+        curr["*"] = True
 
     def search(self, word):
 
@@ -23,13 +24,14 @@ class Trie:
                 return False
             curr = curr[ch]
 
-        return '*' in curr
+        return "*" in curr
+
 
 obj = Trie()
-obj.add('Hi')
-obj.add('Hello')
-obj.add('He')
-obj.add('Hel')
+obj.add("Hi")
+obj.add("Hello")
+obj.add("He")
+obj.add("Hel")
 
-print(obj.search('He'))
-print(obj.search('Hell'))
+print(obj.search("He"))
+print(obj.search("Hell"))

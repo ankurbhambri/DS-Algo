@@ -1,19 +1,19 @@
 class Searching:
     def linear_search(self, arr, srch_val):
-        '''This is the simplest technique
+        """This is the simplest technique
         to find out an element in an unsorted list
         with O(n) time complexity
-        '''
+        """
         # linear serach pythonic way
         if srch_val in arr:
             return arr.index(srch_val)
         else:
-            return 'Not Found'
+            return "Not Found"
 
     # Returns index of x in arr if present, else -1
 
     def binarySearch(self, arr, l, r, x):
-        '''This technique works on
+        """This technique works on
         sorted list and it  repeatedly
         dividing the search interval in half.
         If the value of the search key is less
@@ -24,7 +24,7 @@ class Searching:
         or the interval is empty.
         It's time complexity is O(log n)
         mid = (low+hig)/2
-        '''
+        """
         # Check base case
         if r >= l:
 
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     arr = [2, 5, 1, 6, 0, 9, 7, 10]
     srch = 7
     print(
-        'Linear Search Element is present at index',
+        "Linear Search Element is present at index",
         cls_obj.linear_search(arr, srch),
     )
 

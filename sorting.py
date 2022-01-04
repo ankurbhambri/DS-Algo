@@ -1,6 +1,6 @@
-'''It's a simple sorting algorithm. This sorting algorithm is comparison-based algorithm
+"""It's a simple sorting algorithm. This sorting algorithm is comparison-based algorithm
 in which each pair of adjacent elements is compared and the elements are swapped if they
-are not in order.'''
+are not in order."""
 
 
 def recursive_bubble_sort(arr, n):  # O(n)
@@ -24,8 +24,8 @@ def bubble_sort(arr):  # Ο(n^2)
 
 
 def insertion_sort(arr):
-    '''Insertion sort is a simple sorting algorithm that works the way we sort
-    playing cards in our hands.'''
+    """Insertion sort is a simple sorting algorithm that works the way we sort
+    playing cards in our hands."""
     for j in range(1, len(arr)):
         value = arr[j]
         i = j - 1
@@ -37,7 +37,7 @@ def insertion_sort(arr):
 
 
 def selection_sort(arr):
-    '''The selection sort algorithm sorts an array by repeatedly finding the minimum
+    """The selection sort algorithm sorts an array by repeatedly finding the minimum
     element (considering ascending order) from unsorted part and putting it at
     the beginning. The algorithm maintains two subarrays in a given array.
 
@@ -45,7 +45,7 @@ def selection_sort(arr):
     2) Remaining subarray which is unsorted.
 
     In every iteration of selection sort, the minimum element (considering ascending order)
-    from the unsorted subarray is picked and moved to the sorted subarray.'''
+    from the unsorted subarray is picked and moved to the sorted subarray."""
 
     for i in range(len(arr)):
         min_val = min(arr[i : len(arr)])
@@ -91,9 +91,9 @@ def quickSort(arr, l, h):
 
 def swapSort(arr):
 
-    '''swap sorting on the basis of index position values
+    """swap sorting on the basis of index position values
     like 1 index 2 is needed if values is present in
-    its indes then no swap'''
+    its indes then no swap"""
     # O(n^2)
     for i in range(len(arr)):
         if arr[i] != arr[arr[i] - 1]:
@@ -101,7 +101,7 @@ def swapSort(arr):
     # position where wrong nos is present
     for i in range(len(arr)):
         if i + 1 != arr[i]:
-            print('swap sort duplicate', arr[i], 'swap sort missing', i + 1)
+            print("swap sort duplicate", arr[i], "swap sort missing", i + 1)
     # O(n)
     for i in range(len(arr) - 1):
         if arr[i] != arr[arr[i] - 1]:
@@ -155,13 +155,13 @@ if __name__ == "__main__":
 
     arr = [45, 3, 67, 56, 8, 0]
 
-    print('Recursive Bubble Sort', recursive_bubble_sort(arr, len(arr)))
+    print("Recursive Bubble Sort", recursive_bubble_sort(arr, len(arr)))
 
     # print('Bubble Sort', buuble_sort(arr))
 
-    print('Insertion Sort', insertion_sort(arr))
+    print("Insertion Sort", insertion_sort(arr))
 
-    print('Selection Sort', selection_sort(arr))
+    print("Selection Sort", selection_sort(arr))
 
     print("Quick Sort", quickSort(arr, 0, len(arr) - 1))
 
@@ -171,4 +171,4 @@ if __name__ == "__main__":
 
     arr = [54, 26, 93, 17, 77, 31, 44, 55, 20]
 
-    print('Merge Sort', mergeSort(arr))
+    print("Merge Sort", mergeSort(arr))
