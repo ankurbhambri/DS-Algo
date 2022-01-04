@@ -82,16 +82,21 @@ class DoublyLinkedList:
             if cur.val == val:
                 return cur.val
             cur = cur.next
-
         return 'No val found'
-
-
 
     def traverse(self):
         cur = self.head
         while cur:
             print(cur.val)
             cur = cur.next
+
+    def deletionDLL(self):
+        cur = self.head
+        while cur:
+            cur.prev = None
+            cur = cur.next
+        self.head = None
+        self.tail = None
 
 
 obj = DoublyLinkedList()
