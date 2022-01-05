@@ -143,22 +143,28 @@ class SinglyLinkedList:
     def removeDuplicay(self):
 
         cur = self.head
-
+        visit = set()
+        prev = None
         while cur:
-            while cur.next and cur.next.val == cur.val:
-                cur.next = cur.next.next
+            if cur.val in visit:
+                prev.next = cur.next
+            else:
+                visit.add(cur.val)
+                prev = cur
             cur = cur.next
 
 
 obj = SinglyLinkedList()
 obj.insertSLL(1, 0)
 obj.insertSLL(2, 1)
-obj.insertSLL(2, 2) # Duplicacy added
 obj.insertSLL(3, 2)
 obj.insertSLL(4, 3)
 obj.insertSLL(5, 4)
 obj.insertSLL(6, 5)
 obj.insertSLL(7, 6)
+obj.insertSLL(2, 7) # Duplicacy added
+obj.insertSLL(2, 7) # Duplicacy added
+obj.insertSLL(5, 8) # Duplicacy added
 obj.insertSLL(8, -1)
 
 # obj.deleteNode(1)
