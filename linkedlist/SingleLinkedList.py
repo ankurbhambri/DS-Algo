@@ -139,10 +139,21 @@ class SinglyLinkedList:
             print(cur.val)
             cur = cur.next
 
+    # Remove Duplicacy
+    def removeDuplicay(self):
+
+        cur = self.head
+
+        while cur:
+            while cur.next and cur.next.val == cur.val:
+                cur.next = cur.next.next
+            cur = cur.next
+
 
 obj = SinglyLinkedList()
 obj.insertSLL(1, 0)
 obj.insertSLL(2, 1)
+obj.insertSLL(2, 2) # Duplicacy added
 obj.insertSLL(3, 2)
 obj.insertSLL(4, 3)
 obj.insertSLL(5, 4)
@@ -150,11 +161,11 @@ obj.insertSLL(6, 5)
 obj.insertSLL(7, 6)
 obj.insertSLL(8, -1)
 
-
 # obj.deleteNode(1)
 # obj.printLL()
 # obj.traverse()
 # obj.deleteEntireSLL()
 # obj.reverseLL()
-obj.rangeReverse(2, 5)
+# obj.rangeReverse(2, 5)
+obj.removeDuplicay()
 obj.traverse()
