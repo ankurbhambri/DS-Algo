@@ -1,4 +1,4 @@
-import ipdb
+""" Single Linked List"""
 
 
 class Node:
@@ -8,10 +8,9 @@ class Node:
 
 
 class SinglyLinkedList:
-
     def __init__(self):
-        self.head = None # first of node
-        self.tail = None # last of node
+        self.head = None  # first of node
+        self.tail = None  # last of node
 
     def insertSLL(self, val, loc):
 
@@ -22,14 +21,15 @@ class SinglyLinkedList:
             self.tail = newNode
 
         else:
+            # Insert at first
             if loc == 0:
                 newNode.next = self.head
                 self.head = newNode
-
+            # Insert at last
             elif loc == -1:
                 self.tail.next = newNode
                 self.tail = newNode
-
+            # Insert at given location
             else:
                 cur = self.head
                 index = 0
@@ -61,7 +61,7 @@ class SinglyLinkedList:
     def deleteNode(self, loc):
 
         if self.head is None:
-            return 'In bound'
+            return "In bound"
         else:
             if loc == 0:
                 if self.head == self.tail:
@@ -108,13 +108,13 @@ class SinglyLinkedList:
             cur = nxt
         self.head = prev
 
-
-    def reverseBtw(self, left, right):
+    # Reverse Doubly Linked List with in a range
+    def rangeReverse(self, left, right):
 
         cur = self.head
-        
+
         l_prev = None
-        
+
         for _ in range(left - 1):
             l_prev, cur = cur, cur.next
 
@@ -129,7 +129,7 @@ class SinglyLinkedList:
         l_prev.next.next = cur
         # prev = 4->3->2
         l_prev.next = prev
-        
+
         return self.head
 
     # Traverse Linked List
@@ -138,7 +138,6 @@ class SinglyLinkedList:
         while cur:
             print(cur.val)
             cur = cur.next
-
 
 
 obj = SinglyLinkedList()
@@ -152,12 +151,10 @@ obj.insertSLL(7, 6)
 obj.insertSLL(8, -1)
 
 
-
 # obj.deleteNode(1)
 # obj.printLL()
 # obj.traverse()
 # obj.deleteEntireSLL()
 # obj.reverseLL()
-obj.reverseBtw(2, 5)
+obj.rangeReverse(2, 5)
 obj.traverse()
-

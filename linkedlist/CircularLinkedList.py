@@ -1,3 +1,6 @@
+""" Circluar Linked List"""
+
+
 class Node:
     def __init__(self, val=None):
         self.val = val
@@ -5,10 +8,9 @@ class Node:
 
 
 class CircularLL:
-
     def __init__(self):
-        self.head = None # first of node
-        self.tail = None # last of node
+        self.head = None  # first of node
+        self.tail = None  # last of node
 
     def insertCll(self, data, loc=None):
 
@@ -17,24 +19,24 @@ class CircularLL:
             self.head = newNode
             self.tail = newNode
             self.tail.next = self.head
-
+        # Insert at first
         elif loc == 0:
             newNode.next = self.head
             self.head = newNode
             self.tail.next = self.head
-
+        # Insert at last
         elif loc == -1:
-            newNode.next = self.tail.next # or self.head basically this is head node
+            newNode.next = self.tail.next  # or self.head basically this is head node
             self.tail.next = newNode
             self.tail = newNode
-
+        # Insert at given location
         else:
             cur = self.head
             i = 0
             while i < loc - 1:
                 cur = cur.next
                 i += 1
-            
+
             nextNode = cur.next
             cur.next = newNode
             newNode.next = nextNode
@@ -45,13 +47,15 @@ class CircularLL:
     def searchnode(self, val):
 
         if not self.node:
-            return 'In bound'
+            return "In bound"
 
         elif val is not None:
             cur = self.head
             while cur:
                 if cur.val == val:
                     return cur.val
+                if cur == self.tail:
+                    return "No value found"
                 cur = cur.next
 
         return "The val does not exist in this list"
@@ -59,7 +63,7 @@ class CircularLL:
     def deletenode(self, loc):
 
         if self.head is None:
-            return 'In bound'
+            return "In bound"
 
         elif loc == 0:
             self.head = self.head.next
@@ -69,7 +73,7 @@ class CircularLL:
             prev = None
             cur = self.head
             while cur != self.tail:
-                prev = cur 
+                prev = cur
                 cur = cur.next
             self.tail = prev
             self.tail.next = self.head
@@ -106,13 +110,31 @@ class CircularLL:
                 return prev
             cur = nxt
 
+    # Reverse Doubly Linked List with in a range
+    def rangeReverse(self, left, right):
+
+        l_prev, cur = None, self.head
+        for _ in range(left - 1):
+            l_prev, cur = cur, cur.next
+
+        prev = None
+        for _ in range(right - left + 1):
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nxt
+
+        l_prev.next.next = cur
+        l_prev.next = prev
+
     # Traverse Linked List
     def traverse(self):
         cur = self.head
-        while cur and cur != self.tail:
+        while cur:
             print(cur.val)
+            if cur == self.tail:
+                break
             cur = cur.next
-        print(cur.val)
 
 
 # 0 means start 1 means add after first and -1 means add at last
@@ -126,6 +148,7 @@ obj.insertCll(3, 3)
 obj.insertCll(4, -1)
 
 # provide +1 in location coz we have 1 decrement
-# obj.deletenode(1) 
-obj.reverseLL()
+# obj.deletenode(1)
+# obj.reverseLL()
+# obj.rangeReverse(2, 4)
 obj.traverse()
