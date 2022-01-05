@@ -1,15 +1,14 @@
-''' Circluar Doubly Linked List'''
+""" Circluar Doubly Linked List"""
 
 
 class Node:
-     def __init__(self, val=None, next=None, prev=None):
-         self.val = val
-         self.next = next
-         self.prev = prev
+    def __init__(self, val=None, next=None, prev=None):
+        self.val = val
+        self.next = next
+        self.prev = prev
 
 
 class CircularDoublyLL:
-
     def __init__(self):
         self.head = None
         self.tail = None
@@ -43,7 +42,7 @@ class CircularDoublyLL:
 
             # Insert at given location
             else:
-                i = 0 
+                i = 0
                 cur = self.head
                 while i < loc - 1:
                     cur = cur.next
@@ -61,11 +60,14 @@ class CircularDoublyLL:
         cur = self.head
         while cur:
             print(
-                "Current->",cur.val,
-                '|',
-                "Current Previous->", cur.prev.val if cur.prev else None,
-                '|',
-                "Current Next->",cur.next.val if cur.next else None
+                "Current->",
+                cur.val,
+                "|",
+                "Current Previous->",
+                cur.prev.val if cur.prev else None,
+                "|",
+                "Current Next->",
+                cur.next.val if cur.next else None,
             )
             if cur.next == self.head:
                 break
@@ -73,7 +75,7 @@ class CircularDoublyLL:
 
     def deleteNode(self, loc):
         if self.head is None:
-            return 'In bound'
+            return "In bound"
 
         else:
             if loc == 0:
@@ -87,8 +89,8 @@ class CircularDoublyLL:
                 prev = self.tail.prev
                 prev.next = self.head
                 self.head.prev = prev
-                self.tail = prev     
-           
+                self.tail = prev
+
             else:
                 cur = self.head
                 i = 0
@@ -98,7 +100,6 @@ class CircularDoublyLL:
 
                 cur.next = cur.next.next
                 cur.next.prev = cur
-
 
     # Reverse Circular Doubly Linked List
     def reverseCDLL(self):
@@ -158,7 +159,6 @@ class CircularDoublyLL:
                 break
             cur = cur.next
 
-
     # Search Circular Doubly Linked List
     def searchNode(self, val):
         cur = self.head
@@ -166,17 +166,32 @@ class CircularDoublyLL:
             if cur.val == val:
                 return cur.val
             if cur == self.tail:
-                return 'No value found'
+                return "No value found"
             cur = cur.next
-        return 'No val found'
+        return "No val found"
+
+    # Delete entire Circular Doubly Linked List
+    def deleteCDLL(self):
+        if self.head is None:
+            print("There is not any element to delete")
+        else:
+            self.tail.next = None
+            cur = self.head
+            while cur:
+                cur.prev = None
+                cur = cur.next
+            self.head = None
+            self.tail = None
+            print("The CDLL has been successfully deleted")
+
 
 obj = CircularDoublyLL()
-obj.insertNode(0,0)
-obj.insertNode(1,1)
-obj.insertNode(2,2)
-obj.insertNode(3,-1)
+obj.insertNode(0, 0)
+obj.insertNode(1, 1)
+obj.insertNode(2, 2)
+obj.insertNode(3, -1)
 
 # obj.deleteNode(3)
 # obj.reverseCDLL()
-obj.rangeReverse(2,3)
+obj.rangeReverse(2, 3)
 obj.traverse()
