@@ -9,9 +9,9 @@ class LRUCache:
 
         self.cap = capacity
         self.cache = {}  # map key to node
-        """ 
-        left will point least recently uses and 
-        right will point for most recently used 
+        """
+        left will point least recently uses and
+        right will point for most recently used
         """
         self.left, self.right = Node(0, 0), Node(0, 0)
         self.left.next, self.right.prev = self.right, self.left
