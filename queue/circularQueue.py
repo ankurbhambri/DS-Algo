@@ -1,7 +1,7 @@
 # Circular Queue implementation in Python
 
-class MyCircularQueue():
 
+class MyCircularQueue:
     def __init__(self, size):
         self.size = size
         self.queue = [None] * size
@@ -10,10 +10,10 @@ class MyCircularQueue():
     # Insert an element into the circular queue
     def enqueue(self, data):
 
-        if ((self.rear + 1) % self.size == self.front):
+        if (self.rear + 1) % self.size == self.front:
             print("The circular queue is full\n")
 
-        elif (self.front == -1):
+        elif self.front == -1:
             self.front = 0
             self.rear = 0
             self.queue[self.rear] = data
@@ -23,10 +23,10 @@ class MyCircularQueue():
 
     # Delete an element from the circular queue
     def dequeue(self):
-        if (self.front == -1):
+        if self.front == -1:
             print("The circular queue is empty\n")
 
-        elif (self.front == self.rear):
+        elif self.front == self.rear:
             temp = self.queue[self.front]
             self.front = -1
             self.rear = -1
@@ -37,10 +37,10 @@ class MyCircularQueue():
             return temp
 
     def printCQueue(self):
-        if(self.front == -1):
+        if self.front == -1:
             print("No element in the circular queue")
 
-        elif (self.rear >= self.front):
+        elif self.rear >= self.front:
             for i in range(self.front, self.rear + 1):
                 print(self.queue[i], end=" ")
             print()
