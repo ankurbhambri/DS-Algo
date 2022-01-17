@@ -45,7 +45,6 @@ class MaxStack:
             if self.maxNode and val == self.maxNode.val:
                 self.maxNode = self.maxNode.nxt
             self.head = self.head.nxt
-            print(val)
             return val
 
     """
@@ -61,7 +60,6 @@ class MaxStack:
     """
 
     def peekMax(self):
-        print(self.maxNode.val)
         return self.maxNode.val
 
     """
@@ -88,11 +86,9 @@ class MaxStack:
                     cur = cur.nxt
 
             self.maxNode.nxt = self.maxNode
-            print(val)
             return val
 
-    def pp(self):
+    def llpeek(self):
         cur = self.head
         while cur:
-            print(cur.val)
             cur = cur.nxt
