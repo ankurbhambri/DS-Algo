@@ -1,3 +1,6 @@
+''' It sorts parents and child in correct ordering'''
+
+
 def topologicalSort(n, graph):
 
     adj = {c: [] for c in range(n)}
@@ -19,7 +22,7 @@ def topologicalSort(n, graph):
         # First add in cycle then remove it.
         cycle.add(node)
         for preq in adj[node]:
-            if dfs(preq) == False:
+            if not dfs(preq):
                 return False
 
         cycle.remove(node)
@@ -30,10 +33,10 @@ def topologicalSort(n, graph):
 
     for cur in range(n):
 
-        if dfs(cur) == False:
+        if not dfs(cur):
             return []
 
     return res
 
 
-print(topologicalSort(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
+print(topologicalSort(4, [[1, 0], [2, 0], [3, 1], [3, 4]]))
