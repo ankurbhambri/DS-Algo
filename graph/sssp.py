@@ -1,4 +1,4 @@
-'''Single Source Shortest Path Using BFS and DFS'''
+'''SSSP -> Single Source Shortest Path Using BFS and DFS'''
 
 from collections import deque
 
