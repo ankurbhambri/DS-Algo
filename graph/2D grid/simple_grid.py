@@ -1,43 +1,8 @@
-# Classical Method
-
-
-def classicTraverse(grid):
+# DFS
+def traverseGrid_DFS(graph):
 
     R, C = len(grid), len(grid[0])
     visit = set()
-    res = 0
-
-    def isValid(r, c):
-        if r < 0 or c < 0 or r >= R or c >= C or (r, c) in visit:
-            return False
-        return True
-
-    def dfs(r, c):
-        print(grid[r][c])
-        visit.add((r, c))
-        if isValid(r, c + 1):
-            dfs(r, c + 1)
-        if isValid(r, c - 1):
-            dfs(r, c - 1)
-        if isValid(r + 1, c):
-            dfs(r + 1, c)
-        if isValid(r - 1, c):
-            dfs(r - 1, c)
-
-    for r in range(R):
-        for c in range(C):
-            if dfs(r, c):
-                res += 1
-
-    return res, visit
-
-
-# Clean Method
-def traverseGrid(graph):
-
-    R, C = len(grid), len(grid[0])
-    visit = set()
-    res = 0
 
     def dfs(r, c):
         # base cndt
@@ -58,14 +23,33 @@ def traverseGrid(graph):
 
     for r in range(R):
         for c in range(C):
-            if dfs(r, c):
-                res += 1
+            dfs(r, c)
 
-    return res, visit
+
+# BFS
+def traverseGrid_BFS(grid):
+    R, C = len(grid), len(grid[0])
+    visit = set()
+    q = []
+
+    q.append((0, 0))
+    visit.add((0, 0))
+
+    while q:
+        x, y = q.pop(0)
+        print(grid[x][y])
+
+        dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+        for dr, dc in dirs:
+            r, c = x + dr, y + dc
+            if r < 0 or c < 0 or r >= R or c >= C or (r, c) in visit:
+                continue
+            q.append((r, c))
+            visit.add((r, c))
 
 
 grid = [[3, 1, 5], [7, 8, 2], [14, 11, 9]]
 
-print(classicTraverse(grid))
-
-print(traverseGrid(grid))
+traverseGrid_DFS(grid)
+print('\n')
+traverseGrid_BFS(grid)
