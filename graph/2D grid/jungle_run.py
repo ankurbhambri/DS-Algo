@@ -1,3 +1,5 @@
+''' In this problem we have to find shortest path from start -> S to end -> E in a jungle '''
+
 # Using BFS
 def jungleRun(grid):
 
