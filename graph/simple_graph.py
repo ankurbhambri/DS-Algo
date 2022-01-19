@@ -49,6 +49,8 @@ class DirectedGraph:
 
         return "No Cycle"
 
+    # Size from a node to it's child
+
 
 obj = DirectedGraph()
 
