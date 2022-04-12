@@ -1,4 +1,4 @@
-def cc(graph, all_nodes, find_nodes):
+def func(graph, all_nodes, find_nodes):
 
     adj = {i: [] for i in all_nodes}
 
@@ -36,4 +36,4 @@ all_nodes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'I', 'J', 'K', 'H']
 
 find_nodes = ['A', 'F', 'I', 'K']
 
-print(cc(graph, all_nodes, find_nodes))
+print(func(graph, all_nodes, find_nodes))

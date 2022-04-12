@@ -25,7 +25,7 @@ class DisjointSet:
                 self.adj[p1] += self.adj[p2]
                 self.adj[p2] = p1
             # If p2 is gt than p1 then p1 is root for p2
-            elif self.adj[p1] < self.adj[p1]:
+            elif self.adj[p2] < self.adj[p1]:
                 self.adj[p1] += self.adj[p2]
                 self.adj[p2] = p1
             else:

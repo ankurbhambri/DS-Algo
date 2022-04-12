@@ -19,6 +19,7 @@ def kruskal(n, graph):
     res = []
     graph = sorted(graph, key=lambda i: i[2])
     adj = [i for i in range(n + 1)]
+    print(adj)
     for u, v, _ in graph:
         if union(adj, u, v):
             res.append((u, v))

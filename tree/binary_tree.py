@@ -35,12 +35,12 @@ def findMaxDiameter(root):
     if root is None:
         return 0
 
-    l = findDiameter(root.left)
-    r = findDiameter(root.right)
+    l = findMaxDiameter(root.left)
+    r = findMaxDiameter(root.right)
 
     temp = max(l, r) + 1
     ans = max(temp, 1 + l + r)
-    findDiameter.res = max(findDiameter.res, ans)
+    findMaxDiameter.res = max(findMaxDiameter.res, ans)
 
     return temp
 
