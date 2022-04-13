@@ -61,7 +61,8 @@ def editDistDP(str1, str2):
     # Create a table to store results of subproblems
     m = len(str1)
     n = len(str2)
-    dp = [[0 for x in range(n + 1)] for x in range(m + 1)]
+    # dp = [[0 for x in range(n + 1)] for x in range(m + 1)]
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
 
     # Fill d[][] in bottom up manner
     for i in range(m + 1):
