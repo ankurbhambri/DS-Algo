@@ -17,8 +17,8 @@ def rotten_oranges(grid):
 
             r, c = q.pop(0)
 
-            dirc = [[0, 1], [0, -1], [1, 0], [-1, 0]]
-            for dr, dc in dirc:
+            dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+            for dr, dc in dirs:
 
                 row, col = dr + r, dc + c
                 if (
@@ -29,15 +29,11 @@ def rotten_oranges(grid):
                     or grid[row][col] != 1
                 ):
                     continue
-
+                # Convert orange into rotten
                 grid[row][col] = 2
-
                 q.append([row, col])
-
                 fresh -= 1
-
         time += 1
-
     return time if fresh == 0 else -1
 
 

@@ -4,14 +4,14 @@
 def jungleRun(grid):
 
     R, C = len(grid), len(grid[0])
-    # dis = [[-1] * C] * R  # Havinf  problem of shallow copy
-    dis = []
+    # dis = [[-1] * C] * R  # Having  problem of shallow copy
+    dist = []
     # Finding where is S -> Start and E -> End in the grid
     for i in range(R):
         a = []
         for j in range(C):
             a.append(0)
-        dis.append(a)
+        dist.append(a)
 
     start = None
     end = None
@@ -47,9 +47,9 @@ def jungleRun(grid):
 
             visit.add((r, c))
             q.append((r, c))
-            dis[r][c] = dis[x][y] + 1
+            dist[r][c] = dist[x][y] + 1
 
-    return dis[end[0]][end[1]], dis
+    return dist[end[0]][end[1]], dist
 
 
 grid = [

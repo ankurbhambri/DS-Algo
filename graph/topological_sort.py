@@ -22,7 +22,7 @@ def topologicalSort(n, graph):
         # First add in cycle then remove it.
         cycle.add(node)
         for ch in adj[node]:
-            if dfs(ch) == False:
+            if not dfs(ch):
                 return False
 
         cycle.remove(node)

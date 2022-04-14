@@ -1,4 +1,5 @@
 '''Minimum Cost Spanning Tree using min head O(nlogn)'''
+import heapq
 
 
 def find(graph, node):
@@ -17,9 +18,10 @@ def union(graph, node1, node2):
 
 def kruskal(n, graph):
     res = []
+    # rather than sorting we can use min heap aka priority queue Time complexity will be (O(nlogn))
+    # heapq.heapify(graph)
     graph = sorted(graph, key=lambda i: i[2])
     adj = [i for i in range(n + 1)]
-    print(adj)
     for u, v, _ in graph:
         if union(adj, u, v):
             res.append((u, v))
