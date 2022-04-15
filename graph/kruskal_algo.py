@@ -18,7 +18,7 @@ def union(graph, node1, node2):
 
 def kruskal(n, graph):
     res = []
-    # rather than sorting we can use min heap aka priority queue Time complexity will be (O(nlogn))
+    # rather than sorting we can use min heap aka priority queue Time complexity will be (O(nlogn)) else O(n^2logn)
     # heapq.heapify(graph)
     graph = sorted(graph, key=lambda i: i[2])
     adj = [i for i in range(n + 1)]
