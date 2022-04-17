@@ -72,6 +72,7 @@ def dijkstra(grid):
 
         r, c = q.pop(0)
 
+        # min in all four directions
         for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
             x = r + dr
             y = c + dc
@@ -82,7 +83,7 @@ def dijkstra(grid):
                 and y < col
                 and dist[x][y] > dist[r][c] + grid[x][y]
             ):
-                # min in all four directions
+                # child dist = parent dist + grid dist
                 dist[x][y] = dist[r][c] + grid[x][y]
                 q.append((x, y))
 
