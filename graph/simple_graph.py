@@ -54,8 +54,9 @@ class DirectedGraph:
 
 obj = DirectedGraph()
 
-print(obj.addEdges([[0, 1], [0, 2], [1, 3], [0, 1]]))
-# print(obj.checkCycle_DFS(0))
+# print(obj.addEdges([[0, 1], [0, 2], [1, 3], [0, 1]]))
+print(obj.addEdges([[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]]))
+print(obj.checkCycle_DFS(0))
 # print(obj.checkCycle_BFS(0))
 print(obj.addEdges([[0, 1], [1, 0]]))
 # print(obj.checkCycle_DFS(1))

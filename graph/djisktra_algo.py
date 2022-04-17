@@ -46,13 +46,12 @@ class Solution:
     def minCost(self, maxTime, edges, passingFees):
         n = len(passingFees)
         graph = [[] for _ in range(n)]
-        minHeap = []  # (cost, time, node)
-        cost = [math.inf] * n  # cost[i] := min cost to reach cities[i]
-        time = [math.inf] * n  # time[i] := min cost to reach cities[i]
-
         for x, y, t in edges:
             graph[x].append((y, t))
             graph[y].append((x, t))
+        cost = [math.inf] * n  # cost[i] := min cost to reach cities[i]
+        time = [math.inf] * n  # time[i] := min cost to reach cities[i]
+        minHeap = []  # (cost, time, node)
 
         # start with node 0 with cost = time = 0
         heapq.heappush(minHeap, (passingFees[0], 0, 0))

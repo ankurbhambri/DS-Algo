@@ -30,8 +30,6 @@ class Trie:
 obj = Trie()
 obj.add("Hi")
 obj.add("Hello")
-obj.add("He")
-obj.add("Hel")
 
-print(obj.search("He"))
-print(obj.search("Hell"))
+print(obj.search("Hi"))
+print(obj.search("Hey"))
