@@ -13,7 +13,7 @@ def traverseGrid_DFS(graph):
         print(grid[r][c])
 
         visit.add((r, c))
-
+        # traversing all four directions
         dfs(r, c + 1)
         dfs(r, c - 1)
         dfs(r + 1, c)

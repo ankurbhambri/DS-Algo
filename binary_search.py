@@ -1,6 +1,6 @@
 def binary_search(x, nums):
     l, r = 0, len(nums) - 1
-    while l < r:
+    while l <= r:
         m = (l + r) // 2
         if x == nums[m]:
             return m

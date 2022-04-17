@@ -1,3 +1,9 @@
+# https://www.geeksforgeeks.org/shortest-cycle-in-an-undirected-unweighted-graph/
+
+''' Given an undirected unweighted graph. The task is to find the length of the 
+    shortest cycle in the given graph. If no cycle exists print -1. '''
+
+
 def shortest_cycle_undirected(graph, n):
     adj = {i: [] for i in range(n)}
 
@@ -19,6 +25,7 @@ def shortest_cycle_undirected(graph, n):
             for ch in adj[node]:
 
                 if ch not in visit:
+                    # same as sssp.py bfs logic
                     distance[ch] = 1 + distance[node]
                     visit.add(ch)
                     q.append(ch)

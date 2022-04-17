@@ -41,7 +41,6 @@ class LRUCache:
         if key in self.cache:
             self.remove(self.cache[key])
             self.insert(self.cache[key])
-            print(self.cache[key].val)
             return self.cache[key].val
         return -1
 
@@ -55,7 +54,6 @@ class LRUCache:
             # remove from the left of linked list and delete the LRU from hashmap
             lru = self.left.next
             self.remove(lru)
-            print(lru in self.cache)
             del self.cache[lru.key]
 
 

@@ -1,7 +1,7 @@
 def subGraphSize(n, graph):
     # Vertices stating from 1
     adj = {i: [] for i in range(1, n + 1)}
-    size = {i: 0 for i in range(1, n + 1)}
+    size = {i: 0 for i in range(1, n + 1)}  # size of graph from a node
     for u, v in graph:
         adj[u].append(v)
         adj[v].append(u)
@@ -12,7 +12,7 @@ def subGraphSize(n, graph):
         visit.add(node)
         for ch in adj[node]:
             if ch not in visit:
-                sm = sm + dfs(ch)
+                sm += dfs(ch)
         size[node] = sm + 1
         return size[node]
 

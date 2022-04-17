@@ -1,6 +1,7 @@
 '''
 A Bipartite graph is a graph whose vertices can be divided into two disjoint sets.
-To check graph is Bipartite or not we represent vertices with color but cndt is child and partent color cannot be same like parent is 0 then child must be 1 
+To check graph is Bipartite or not we represent vertices with color but cndt is child 
+and partent color cannot be same like parent is 0 then child must be 1 
 '''
 
 

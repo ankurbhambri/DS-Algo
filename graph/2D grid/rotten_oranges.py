@@ -1,3 +1,6 @@
+# https://leetcode.com/problems/rotting-oranges/
+
+
 def rotten_oranges(grid):
     R, C = len(grid), len(grid[0])
     fresh = time = 0
@@ -20,18 +23,12 @@ def rotten_oranges(grid):
             dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]]
             for dr, dc in dirs:
 
-                row, col = dr + r, dc + c
-                if (
-                    row < 0
-                    or col < 0
-                    or row == R
-                    or col == C
-                    or grid[row][col] != 1
-                ):
+                x, y = dr + r, dc + c
+                if x < 0 or y < 0 or x == R or y == C or grid[x][y] != 1:
                     continue
-                # Convert orange into rotten
-                grid[row][col] = 2
-                q.append([row, col])
+                # Convert oranges into rotten 2 means rotten and 1 means fresh
+                grid[x][y] = 2
+                q.append([x, y])
                 fresh -= 1
         time += 1
     return time if fresh == 0 else -1

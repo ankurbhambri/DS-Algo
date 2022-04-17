@@ -19,7 +19,7 @@ def dijkstra(graph, n, k):
     res = 0
 
     while minHeap:
-
+        # weight, node
         w1, n1 = heapq.heappop(minHeap)
 
         if n1 in visit:

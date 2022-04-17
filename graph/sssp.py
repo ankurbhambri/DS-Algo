@@ -1,11 +1,11 @@
 '''SSSP -> Single Source Shortest Path Using BFS and DFS'''
 
-from collections import deque
-
 
 def using_DFS(n, graph):
 
-    dis = {i: 0 for i in range(n + 1)}
+    dis = {
+        i: 0 for i in range(n + 1)
+    }  # we use distance matrix to get distance of parent node
     adj = {i: [] for i in range(n + 1)}
     for u, v in graph:
         adj[u].append(v)
@@ -17,7 +17,7 @@ def using_DFS(n, graph):
         visit.add(node)
         for ch in adj[node]:
             if ch not in visit:
-                dis[ch] = dis[node] + 1
+                dis[ch] = 1 + dis[node]
                 dfs(ch)
 
     dfs(1)
@@ -32,16 +32,17 @@ def using_BFS(n, graph):
         adj[u].append(v)
         adj[v].append(u)
 
-    q = deque([1])
+    q = []
+    q.append(1)
     visit = set([1])
 
     while q:
-        node = q.popleft()
+        node = q.pop(0)
         for ch in adj[node]:
             if ch not in visit:
                 visit.add(ch)
                 q.append(ch)
-                dis[ch] = dis[node] + 1
+                dis[ch] = 1 + dis[node]
     return dis
 
 

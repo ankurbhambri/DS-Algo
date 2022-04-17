@@ -11,8 +11,9 @@ def jungleRun(grid):
         a = []
         for j in range(C):
             a.append(0)
-        dist.append(a)
+        dist.append(a)  # [[0,0,0], [0,0,0]] means 0 distance initially
 
+    # first find the cordinates for start and end of grid
     start = None
     end = None
 
@@ -42,12 +43,12 @@ def jungleRun(grid):
                 or c >= C
                 or (r, c) in visit
                 or grid[r][c] == 'N'
-            ):
+            ):  # N means we can't go further way block
                 continue
 
             visit.add((r, c))
             q.append((r, c))
-            dist[r][c] = dist[x][y] + 1
+            dist[r][c] = 1 + dist[x][y]
 
     return dist[end[0]][end[1]], dist
 

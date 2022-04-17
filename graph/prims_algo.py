@@ -1,5 +1,7 @@
 ''' Minimum Spanning Tree MST Select minimum vertex but no cycle will be formed '''
 
+# We have to select minimum cost edge but make sure next vertex must me connected to selected one.
+
 import heapq
 
 

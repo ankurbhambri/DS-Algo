@@ -1,6 +1,8 @@
 '''Minimum Cost Spanning Tree using min head O(nlogn)'''
 import heapq
 
+# We have to select minimum cost edge whether it's connected to selected one or not.
+
 
 def find(graph, node):
     if graph[node] != node:
@@ -22,7 +24,7 @@ def kruskal(n, graph):
     # heapq.heapify(graph)
     graph = sorted(graph, key=lambda i: i[2])
     adj = [i for i in range(n + 1)]
-    for u, v, _ in graph:
+    for u, v, _ in graph:  # all nodes in graph in sorted order by weight
         if union(adj, u, v):
             res.append((u, v))
     return res
