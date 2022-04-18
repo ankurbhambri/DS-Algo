@@ -31,57 +31,85 @@ class Node:
 
 
 def findMaxDiameter(root):
+    res = 0
 
-    if root is None:
-        return 0
+    def dfs(root):
+        if not root:
+            return -1
+        left = dfs(root.left)
+        right = dfs(root.right)
+        res = max(res, 2 + left + right)
+        return 1 + max(left, right)
 
-    l = findMaxDiameter(root.left)
-    r = findMaxDiameter(root.right)
-
-    temp = max(l, r) + 1
-    ans = max(temp, 1 + l + r)
-    findMaxDiameter.res = max(findMaxDiameter.res, ans)
-
-    return temp
+    dfs(root)
+    return res
 
 
-# This function returns overall maximum path sum in 'res'
-# And returns max path sum going through root
 def findMaxPathSum(root):
+    res = 0
 
-    # Base Condition
-    if root is None:
-        return 0
+    def dfs(node):
+        if not node:
+            return 0
 
-    # Hypothesis
-    l = findMaxPathSum(root.left)
-    r = findMaxPathSum(root.right)
+        l = max(dfs(node.left), 0)
+        r = max(dfs(node.right), 0)
+        res = max(res, node.val + l + r)
+        return node.val + max(l, r)
 
-    # Induction
-    temp = max(max(l, r) + root.data, root.data)
-
-    # Max top represents the sum when the node under
-    # consideration is the root of the maxSum path and
-    # no ancestor of root are there in max sum path
-    ans = max(temp, l + r + root.data)
-
-    # Static variable to store the changes
-    # Store the maximum result
-    findMaxPathSum.res = max(findMaxPathSum.res, ans)
-
-    return temp
+    dfs(root)
+    return res
 
 
-# Return maximum path sum in tree with given root
-def findMaxSum(root):
-    # Initialize result
-    findMaxPathSum.res = 0
+def pathSum(root, target):
+    def dfs(node):
+        if not node:
+            return False
+        t += node.val
+        if not node.left and not node.right:
+            return t == target
+        return dfs(node.left, t) or dfs(node.right, t)
 
-    # Compute and return result
-    findMaxPathSum(root)
-    return findMaxPathSum.res
+    return dfs(root, 0)
 
 
+def sumRoottoLeafNumbers(root):
+    def dfs(curr, res):
+        if not curr:
+            return 0
+        res = res * 10 + curr.val
+        if not curr.left and not curr.right:
+            return res
+        return dfs(curr.left, res) + dfs(curr.right, res)
+
+    return dfs(root, 0)
+
+
+def isSameTree(p, q):
+
+    if not p and not q:
+        return True
+
+    if p and q and p.val == q.val:
+        return isSameTree(p.left, q.left) and isSameTree(p.right, q.right)
+
+    return False
+
+
+def isSubtree(root, subRoot):
+    if not subRoot:
+        return True
+
+    if not root:
+        return False
+
+    if isSameTree(root, subRoot):
+        return True
+
+    return isSubtree(root.left, subRoot) or isSubtree(root.right, subRoot)
+
+
+# Traversals
 def inorder(root):
     if root:
         inorder(root.left)
@@ -133,4 +161,4 @@ if __name__ == "__main__":
     print("postorder")
     postorder(root)
     print("Max path sum in binary tree")
-    print(findMaxSum(root))
+    print(findMaxPathSum(root))
