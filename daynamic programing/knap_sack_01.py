@@ -9,7 +9,6 @@ def knapSack(val, wt, W):
     for i in range(1, n + 1):
         for w in range(W, 0, -1):
             if wt[i - 1] <= w:
-                print(i, w)
                 dp[w] = max(dp[w], dp[w - wt[i - 1]] + val[i - 1])
     return dp[W]
 
