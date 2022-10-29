@@ -23,16 +23,16 @@ def subsetSumRecursive(N, arr, sum):
     return helper(N, sum)
 
 @measure
-def subsetSumCache(N, arr, sum):
-    cache = {}
+def subsetSumMemo(N, arr, sum):
+    memo = {}
     arr.sort(reverse=True)
     def helper(n, sm):
         if sm == 0:
             return 1
         elif n == 0:
             return 0
-        elif (n, sm) in cache:
-            return cache[(n, sm)]
+        elif (n, sm) in memo:
+            return memo[(n, sm)]
         else:
             item = arr[n - 1]
             if item <= sm:
@@ -40,8 +40,8 @@ def subsetSumCache(N, arr, sum):
                 c2 = helper(n - 1, sm)
                 c = c1 or c2
             else:
-                c = helper(n - 1, sm)
-            cache[(n, sm)] = c
+                c = 0
+            memo[(n, sm)] = c
             return c
 
     return helper(N, sum)
@@ -52,14 +52,15 @@ def subsetSumTabular(N, arr, sum):
     for i in range(N):
         for j in range(sum + 1): # sum value is j
             item = arr[i]
+            sm = j
             if i == 0:
-                if j == 0 or item == j:
-                    dp[i][j] = 1
+                if sm == 0 or item == sm:
+                    dp[i][sm] = 1
             else:
-                if item <= j:
-                    dp[i][j] = dp[i - 1][j - item] or dp[i - 1][j]
+                if item <= sm:
+                    dp[i][sm] = dp[i - 1][sm - item] or dp[i - 1][sm]
                 else:
-                    dp[i][j] = dp[i - 1][j]
+                    dp[i][sm] = dp[i - 1][sm]
 
     return dp[N - 1][sum]
             

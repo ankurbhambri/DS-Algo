@@ -1,27 +1,15 @@
 from utils.functionExeutionDeco import measure
 
 
-# ''' Bottom Up approach
-#     Time Complexity: O(N*W)
-#     Auxiliary Space: O(W) '''
-def knapSack(val, wt, W):
-    n = len(val)
-    dp = [0 for i in range(W + 1)]
-    for i in range(1, n + 1):
-        for w in range(W, 0, -1):
-            if wt[i - 1] <= w:
-                dp[w] = max(dp[w], dp[w - wt[i - 1]] + val[i - 1])
-    return dp[W]
-
 # Recursive approach of knap-sack 01
 @measure
 def knapSackRecursive(bag_cap, item_wt, item_val, N):
-
+    memo = {}
     def helper(N, cap):
 
         if N == 0 or cap == 0:
             return 0
-        
+
         else:
 
             curr_wt = item_wt[N - 1] # current item weight
@@ -41,20 +29,31 @@ def knapSackRecursive(bag_cap, item_wt, item_val, N):
 
     return helper(N, bag_cap)
 
+# ''' Bottom Up iterative or tabulation approach
+#     Time Complexity: O(N*W)
+#     Auxiliary Space: O(W) '''
+def knapSack(val, wt, W):
+    n = len(val)
+    dp = [0 for _ in range(W + 1)]
+    for i in range(1, n + 1):
+        for w in range(W, 0, -1):
+            if wt[i - 1] <= w:
+                dp[w] = max(dp[w], dp[w - wt[i - 1]] + val[i - 1])
+    return dp[W]
 
-# DP approach for knap-sack
+# memoization approach for knap-sack
 @measure
 def knapSackCache(bag_cap, item_wt, item_val, N):
-    cache = {}
+    memo = {}
     # two values are changing N and bag capacity
     def helper(N, cap):
 
         if N == 0 or cap == 0:
             return 0
         
-        # if (M, cap) already in cache
-        elif (N, cap) in cache:
-            return cache[(N, cap)]
+        # if (M, cap) already in memo
+        elif (N, cap) in memo:
+            return memo[(N, cap)]
 
         else:
 
@@ -73,7 +72,7 @@ def knapSackCache(bag_cap, item_wt, item_val, N):
 
                 c = helper(N - 1, cap) 
 
-            cache[(N, cap)] = c
+            memo[(N, cap)] = c
             return c
 
     return helper(N, bag_cap)
