@@ -29,16 +29,17 @@ def knapSackRecursive(bag_cap, item_wt, item_val, N):
 
     return helper(N, bag_cap)
 
-# ''' Bottom Up iterative or tabulation approach
-#     Time Complexity: O(N*W)
-#     Auxiliary Space: O(W) '''
+# Bottom Up iterative or tabulation approach
+# TC: O(N * W)
+# Space: O(W)
 def knapSack(val, wt, W):
     n = len(val)
-    dp = [0 for _ in range(W + 1)]
-    for i in range(1, n + 1):
+    dp = [0] * (W + 1)
+    for i in range(n):
         for w in range(W, 0, -1):
-            if wt[i - 1] <= w:
-                dp[w] = max(dp[w], dp[w - wt[i - 1]] + val[i - 1])
+            cv, cw = val[i], wt[i]
+            if cw <= w:
+                dp[w] = max(dp[w], dp[w - cw] + cv)
     return dp[W]
 
 # memoization approach for knap-sack

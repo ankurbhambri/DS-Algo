@@ -47,22 +47,21 @@ def subsetSumMemo(N, arr, sum):
     return helper(N, sum)
 
 @measure
-def subsetSumTabular(N, arr, sum):
-    dp = [[0] * (sum + 1) for _ in range(N)]
+def subsetSumTabular(N, arr, W):
+    dp = [[0] * (W + 1) for _ in range(N)]
     for i in range(N):
-        for j in range(sum + 1): # sum value is j
+        for w in range(W + 1): # W value is j
             item = arr[i]
-            sm = j
             if i == 0:
-                if sm == 0 or item == sm:
-                    dp[i][sm] = 1
+                if w == 0 or item == w:
+                    dp[i][w] = 1
             else:
-                if item <= sm:
-                    dp[i][sm] = dp[i - 1][sm - item] or dp[i - 1][sm]
+                if item <= w:
+                    dp[i][w] = dp[i - 1][w - item] or dp[i - 1][w]
                 else:
-                    dp[i][sm] = dp[i - 1][sm]
+                    dp[i][w] = dp[i - 1][w]
 
-    return dp[N - 1][sum]
+    return dp[N - 1][W]
             
 
 if __name__ == "__main__":
