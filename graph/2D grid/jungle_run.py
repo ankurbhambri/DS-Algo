@@ -4,25 +4,21 @@
 def jungleRun(grid):
 
     R, C = len(grid), len(grid[0])
-    # dis = [[-1] * C] * R  # Having  problem of shallow copy
-    dist = []
-    # Finding where is S -> Start and E -> End in the grid
-    for i in range(R):
-        a = []
-        for j in range(C):
-            a.append(0)
-        dist.append(a)  # [[0,0,0], [0,0,0]] means 0 distance initially
-
+    # intially 0 distance from every node
+    dist = [[0] * C for _ in range(R)]
     # first find the cordinates for start and end of grid
     start = None
     end = None
 
+    # Finding where is S -> Start and E -> End in the grid
     for i in range(R):
         for j in range(C):
-            if grid[i][j] == 'S':
+            if grid[i][j] == "S":
                 start = (i, j)
             if grid[i][j] == "E":
                 end = (i, j)
+            if start and end:
+                break
 
     visit = set()
     q = []
@@ -42,7 +38,7 @@ def jungleRun(grid):
                 or r >= R
                 or c >= C
                 or (r, c) in visit
-                or grid[r][c] == 'N'
+                or grid[r][c] == 'T'
             ):  # N means we can't go further way block
                 continue
 
@@ -50,7 +46,7 @@ def jungleRun(grid):
             q.append((r, c))
             dist[r][c] = 1 + dist[x][y]
 
-    return dist[end[0]][end[1]], dist
+    return dist[end[0]][end[1]]
 
 
 grid = [
@@ -59,4 +55,21 @@ grid = [
     ['P', 'N', 'N', 'N', 'P'],
     ['p', 'N', 'E', 'P', 'P'],
 ]
-print(jungleRun(grid))
+
+grid2 = [
+    ["S", "P", "P", "P", "P", "P", "P", "T", "P", "T", "P", "P", "P", "P"],
+    ["P", "P", "T", "P", "T", "P", "T", "P", "P", "E", "P", "T", "T", "P"],
+    ["T", "T", "P", "P", "P", "T", "P", "T", "P", "T", "T", "P", "P", "T"],
+    ["P", "P", "P", "T", "P", "T", "T", "P", "P", "P", "P", "P", "T", "P"],
+    ["P", "P", "T", "P", "P", "P", "P", "T", "P", "T", "T", "P", "P", "T"],
+    ["T", "T", "P", "T", "P", "T", "P", "P", "T", "P", "T", "P", "T", "P"],
+    ["P", "P", "P", "P", "P", "T", "P", "T", "P", "P", "P", "P", "P", "P"],
+    ["T", "P", "T", "P", "T", "P", "P", "P", "T", "P", "T", "P", "T", "T"],
+    ["T", "T", "P", "T", "T", "P", "T", "T", "P", "P", "P", "T", "P", "T"],
+    ["P", "P", "T", "P", "P", "P", "T", "P", "T", "P", "T", "P", "P", "P"],
+    ["P", "T", "P", "P", "T", "T", "P", "T", "T", "P", "T", "P", "P", "T"],
+    ["T", "P", "T", "P", "T", "P", "P", "P", "P", "P", "P", "P", "T", "P"],
+    ["P", "T", "P", "P", "P", "P", "T", "P", "P", "T", "P", "T", "P", "T"],
+    ["P", "P", "T", "P", "T", "P", "P", "T", "T", "P", "P", "P", "T", "P"],
+]
+print(jungleRun(grid2))

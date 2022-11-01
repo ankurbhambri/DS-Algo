@@ -1,4 +1,4 @@
-'''Minimum Cost Spanning Tree using min head O(nlogn)'''
+'''Minimum Cost Spanning Tree using min heap O(nlogn)'''
 import heapq
 
 # We have to select minimum cost edge whether it's connected to selected one or not.

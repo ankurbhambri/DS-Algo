@@ -1,7 +1,7 @@
 '''Counting nos of rooms in an grid where 1 is wall and 0 is room diameter or size'''
 
 
-def counting_rooms(graph):
+def counting_rooms_dfs(graph):
 
     R, C = len(grid), len(grid[0])
     visit = set()
@@ -24,7 +24,6 @@ def counting_rooms(graph):
             x, y = r + dr, c + dc
             res += dfs(x, y)
         # res += dfs(r + 1, c) + dfs(r, c + 1) + dfs(r - 1, c) + dfs(r, c - 1)
-
         return res + 1
 
     ans = []
@@ -36,7 +35,6 @@ def counting_rooms(graph):
 
     return ans
 
-
 grid = [
     [0, 1, 0, 0, 0, 0],
     [0, 1, 0, 0, 0, 0],
@@ -46,4 +44,4 @@ grid = [
     [1, 1, 0, 1, 0, 0],
 ]
 
-print(counting_rooms(grid))
+print(counting_rooms_dfs(grid))

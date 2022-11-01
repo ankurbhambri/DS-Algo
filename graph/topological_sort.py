@@ -1,4 +1,11 @@
-''' It sorts parents and child in correct ordering'''
+''' 
+- It sorts parents and child in correct ordering
+
+- Topological sorting for Directed Acyclic Graph (DAG) is a linear ordering of 
+  vertices such that for every directed edge u v, vertex u comes before v in the ordering.
+
+- Topological Sorting for a graph is not possible if the graph is not a DAG.
+'''
 
 
 def topologicalSort(n, graph):
@@ -21,12 +28,13 @@ def topologicalSort(n, graph):
 
         # First add in cycle then remove it.
         cycle.add(node)
+        visit.add(node)
+
         for ch in adj[node]:
             if not dfs(ch):
                 return False
 
-        cycle.remove(node)
-        visit.add(node)
+        cycle.remove(node) # backtrack
         res.append(node)
 
         return True
@@ -37,6 +45,8 @@ def topologicalSort(n, graph):
             return []
 
     return res
+
+# [0, 0, 1, 0, 2, 0, 1, 0, 2, 3]    
 
 
 # Using indegree method but finding cycle here !

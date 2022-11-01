@@ -7,7 +7,6 @@ Parent in time is always less than child in time but out time is gt than child.
 
 timer = 1
 
-
 def in_out(n, graph):
 
     adj = {i: [] for i in range(1, n + 1)}
@@ -26,6 +25,7 @@ def in_out(n, graph):
         in_t[node] = timer
         timer += 1
         visit.add(node)
+
         for ch in adj[node]:
             if ch not in visit:
                 dfs(ch)

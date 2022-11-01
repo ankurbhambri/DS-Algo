@@ -7,17 +7,18 @@ def func(graph, all_nodes, find_nodes):
         adj[v].append(u)
     visit = set()
 
-    def dfs(nv):
+    def dfs(node):
         sm = 0
-        visit.add(nv)
-        for ch in adj[nv]:
+        visit.add(node)
+        for ch in adj[node]:
             if ch not in visit:
                 sm += dfs(ch)
         return sm + 1
 
     res = []
     for n in find_nodes:
-        res.append((n, dfs(n)))
+        if n not in visit:
+            res.append((n, dfs(n)))
 
     return res
 
@@ -36,12 +37,11 @@ all_nodes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'I', 'J', 'K', 'H']
 find_nodes = ['A', 'F', 'I', 'K']
 print(func(graph, all_nodes, find_nodes))
 
+
 # Count nos of Connected Components in an Undirected Graph using UNION and FIND algo
-
-
 def countComponent(n, edges):
 
-    adj = [i for i in range(n)]  # everyone iteself parent
+    adj = [i for i in range(n)]  # everyone iteself is a parent
 
     def find(node):
         if adj[node] != node:
@@ -51,9 +51,7 @@ def countComponent(n, edges):
     def union(node1, node2):
         p1, p2 = find(node1), find(node2)
         if p1 != p2:
-            adj[node2] = adj[
-                node1
-            ]  # if both have different parent then node1 parent will be node2 parent
+            adj[node2] = adj[node1] # if both have different parent then node1 parent will be node2 parent
             return 1
         return 0
 

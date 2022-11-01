@@ -1,14 +1,7 @@
 def knight_moves(grid):
     R, C = len(grid), len(grid[0])
 
-    # dis = [[-1] * C] * R  # Havinf  problem of shallow copy
-    dis = []
-    # Finding where is S -> Start and E -> End in the grid
-    for i in range(R):
-        a = []
-        for j in range(C):
-            a.append(0)
-        dis.append(a)
+    dis = [[0] * C for _ in range(R)]
 
     start = end = None
 
@@ -18,6 +11,8 @@ def knight_moves(grid):
                 start = (i, j)
             if grid[i][j] == 'B':
                 end = (i, j)
+            if start and end:
+                break
 
     q = []
     visit = set()
@@ -35,7 +30,7 @@ def knight_moves(grid):
 
             q.append((x, y))
             visit.add((x, y))
-            dis[x][y] = dis[r][c] + 1
+            dis[x][y] = 1 + dis[r][c]
 
     return dis[end[0]][end[1]]
 

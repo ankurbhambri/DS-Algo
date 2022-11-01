@@ -1,7 +1,7 @@
-''' Minimum Spanning Tree MST Select minimum vertex but no cycle will be formed '''
-
-# We have to select minimum cost edge but make sure next vertex must me connected to selected one.
-
+''' 
+Minimum Spanning Tree MST select min cost vertex but no cycle will be formed.
+We have to select minimum cost edge but make sure next vertex must me connected to selected one.
+'''
 import heapq
 
 
@@ -20,14 +20,14 @@ def prims(N, graph):
     # BFS
     while minHeap:
 
-        d, v = heapq.heappop(minHeap)
+        cost, v = heapq.heappop(minHeap)
         if v in visit:
             continue
-        res += d
+        res += cost
         visit.add(v)
-        for d1, nei in adj[v]:
+        for new_cost, nei in adj[v]:
             if nei not in visit:
-                heapq.heappush(minHeap, [d1, nei])
+                heapq.heappush(minHeap, [new_cost, nei])
 
     return res
 
