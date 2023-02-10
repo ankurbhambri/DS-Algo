@@ -28,18 +28,17 @@ def find_cycle(graph, n):
 # Example usage
 n = 5
 graph = defaultdict(list)
-graph[1].append(0)
-graph[0].append(2)
+graph[0].append(1)
 graph[2].append(1)
-graph[0].append(3)
+graph[4].append(0)
+graph[2].append(3)
 graph[3].append(4)
+graph[4].append(2)
 
 if find_cycle(graph, n):
     print("Graph contains a cycle")
 else:
     print("Graph does not contain a cycle")
-    
-    
 
 '''
 It is not possible to find a cycle in a graph using a breadth-first search (BFS) algorithm,
