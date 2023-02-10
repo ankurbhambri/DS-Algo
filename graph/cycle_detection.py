@@ -2,68 +2,50 @@
 In graph theory, a cycle graph or circular graph is a graph that consists of a single cycle, 
 or in other words, some number of vertices connected in a closed chain
 '''
+from collections import defaultdict
 
-def check_cycle_dfs(edges, st, n):
+def has_cycle(graph, vertex, parent, visited):
+    visited[vertex] = True
 
-    adj = {i: [] for i in range(n + 1)}
+    for v in graph[vertex]:
+        if not visited[v]:
+            if has_cycle(graph, v, vertex, visited):
+                return True
+        elif v != parent:
+            return True
 
-    for u, v in edges:
-        adj[u].append(v)
-        adj[v].append(u)
+    return False
 
-    visit = set()
+def find_cycle(graph, n):
+    visited = [False] * n
+    for i in range(n):
+        if not visited[i]:
+            if has_cycle(graph, i, -1, visited):
+                return True
 
-    def dfs(node, pt):
-        visit.add(node)
-        for ch in adj[node]:
-            if ch not in visit:
-                return dfs(ch, node) # assigning it's parent
-            else:
-                if ch != pt:
-                    return 'Cycle'
-        return 'No cycle'
+    return False
 
-    return dfs(st, -1) # starting node, parent node initially for root node there is no parent
+# Example usage
+n = 5
+graph = defaultdict(list)
+graph[1].append(0)
+graph[0].append(2)
+graph[2].append(1)
+graph[0].append(3)
+graph[3].append(4)
 
-def check_cycle_bfs(edges, st, n):
+if find_cycle(graph, n):
+    print("Graph contains a cycle")
+else:
+    print("Graph does not contain a cycle")
     
-    adj = {i: [] for i in range(n + 1)}
+    
 
-    for u, v in edges:
-        adj[u].append(v)
-        adj[v].append(u)
-
-    q = [st] # queue
-    visit = set()
-    pt = -1 # parent node initially for root node there is no parent
-
-    while q:
-        node = q.pop(0)
-        for ch in adj[node]:
-            if ch not in visit:
-                q.append(ch)
-                visit.add(ch)
-                pt = node # assigning it's parent
-            else:
-                if ch != pt:
-                    return 'Cycle'
-    return 'No cycle'
-
-
-e = [[1, 2], [1, 3], [2, 3], [2, 4], [4, 5], [5, 1]]
-e1 = [[0, 1],[0, 2],[1, 2],[2, 0],[2, 3],[3, 3]]
-e2 = [[0, 1], [1, 2]]
-e3 = [(0, 1), (0, 2), (2, 3), (2, 4), (3, 4)]
-
-# using dfs
-print(check_cycle_dfs(e, 1, 5))
-print(check_cycle_dfs(e1, 0, 3))
-print(check_cycle_dfs(e2, 0, 2))
-print(check_cycle_dfs(e3, 0, 5))
-
-# using bfs
-print(check_cycle_bfs(e, 1, 5))
-print(check_cycle_bfs(e1, 0, 3))
-print(check_cycle_bfs(e2, 0, 2))
-print(check_cycle_bfs(e3, 0, 5))
-
+'''
+It is not possible to find a cycle in a graph using a breadth-first search (BFS) algorithm,
+as BFS traverses the graph in a level-by-level manner, visiting all vertices at the current
+level before moving on to the next level. On the other hand, cycles are formed by vertices
+that are reachable from each other in a circular manner, which is not possible to detect
+using BFS. To find a cycle in a graph, you can use depth-first search (DFS), as explained
+in my previous answer.
+'''
