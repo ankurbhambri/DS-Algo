@@ -47,5 +47,5 @@ as BFS traverses the graph in a level-by-level manner, visiting all vertices at 
 level before moving on to the next level. On the other hand, cycles are formed by vertices
 that are reachable from each other in a circular manner, which is not possible to detect
 using BFS. To find a cycle in a graph, you can use depth-first search (DFS), as explained
-in my previous answer.
+above.
 '''
