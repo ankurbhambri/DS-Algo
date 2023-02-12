@@ -2,15 +2,12 @@
 In graph theory, a cycle graph or circular graph is a graph that consists of a single cycle, 
 or in other words, some number of vertices connected in a closed chain
 '''
-from collections import defaultdict
 
 
 def has_cycle(graph, node, parent, visited):
 
     visited[node] = True
-    print('node cam in fnction with visited', node, visited, parent)
     for nei in graph[node]:
-        print('nei', nei)
         if not visited[nei]:
             if has_cycle(graph, nei, node, visited):
                 return True
@@ -23,34 +20,61 @@ def has_cycle(graph, node, parent, visited):
 def find_cycle(graph, n):
     visited = [False] * n
     for i in range(n):
-        print('find_cycle', i)
         if not visited[i]:
             if has_cycle(graph, i, -1, visited):
                 return True
     return False
 
 
-# Example usage
-n = 6
-graph = defaultdict(list)
-graph[0].append(1)
-graph[2].append(1)
-graph[4].append(0)
-# graph[2].append(3)
-# graph[3].append(4)
-# graph[4].append(2)
+graph = {0: [1], 1: [2], 2: [3], 3: []}  # no cycle
+graph1 = {0: [1], 3: [0, 2], 2: [1], 1: []}  # cycle
 
-# graph[0].append(1)
-# graph[1].append(2)
-# graph[2].append(3)
-# graph[3].append(4)
-# graph[2].append(5)
+print("Cycle" if find_cycle(graph, 4) else "No cycle")  # no cycle
+
+print("Cycle" if find_cycle(graph1, 4) else "No cycle")  # cycle
 
 
-if find_cycle(graph, n):
-    print("Graph contains a cycle")
-else:
-    print("Graph does not contain a cycle")
+# Detect Cycle in a directed graph using colors
+
+
+def DFSUtil(u, color, graph):
+    # GRAY : This vertex is being processed (DFS
+    # 		 for this vertex has started, but not
+    # 		 ended (or this vertex is in function
+    # 		 call stack)
+    color[u] = "GRAY"
+
+    for v in graph[u]:
+
+        if color[v] == "GRAY":
+            return True
+
+        if color[v] == "WHITE" and DFSUtil(v, color, graph) == True:
+            return True
+
+    color[u] = "BLACK"
+    return False
+
+
+def isCyclic(graph, V):
+    color = ["WHITE"] * V
+
+    for i in range(V):
+        if color[i] == "WHITE":
+            if DFSUtil(i, color, graph) == True:
+                return True
+    return False
+
+
+# Driver program to test above functions
+g = {0: [1, 2], 1: [2], 2: [0, 3], 3: [3]}
+
+print(
+    "Graph contains a cycle"
+    if isCyclic(g, 4)
+    else "Graph doesn't contain cycle"
+)
+
 
 '''
 It is not possible to find a cycle in a graph using a breadth-first search (BFS) algorithm,
