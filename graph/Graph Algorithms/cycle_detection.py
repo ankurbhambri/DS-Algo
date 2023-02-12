@@ -34,10 +34,20 @@ print("Cycle" if find_cycle(graph, 4) else "No cycle")  # no cycle
 print("Cycle" if find_cycle(graph1, 4) else "No cycle")  # cycle
 
 
-# Detect Cycle in a directed graph using colors
+'''
+ Detect Cycle in a directed graph using colors
+ Create a recursive function that takes the edge and color array (this can be also kept as a global variable)
+    a. Mark the current node as GREY.
+    b. Traverse all the adjacent nodes and if any node is marked GREY then return
+       true as a loop is bound to exist.
+    c. If any adjacent vertex is WHITE then call the recursive function for that node.
+       If the function returns true. Return true.
+    d. If no adjacent node is grey or has not returned true then mark the current
+       Node as BLACK and return false.
+'''
 
 
-def DFSUtil(u, color, graph):
+def dfs(u, color, graph):
     # GRAY : This vertex is being processed (DFS
     # 		 for this vertex has started, but not
     # 		 ended (or this vertex is in function
@@ -49,7 +59,7 @@ def DFSUtil(u, color, graph):
         if color[v] == "GRAY":
             return True
 
-        if color[v] == "WHITE" and DFSUtil(v, color, graph) == True:
+        if color[v] == "WHITE" and dfs(v, color, graph) == True:
             return True
 
     color[u] = "BLACK"
@@ -61,13 +71,13 @@ def isCyclic(graph, V):
 
     for i in range(V):
         if color[i] == "WHITE":
-            if DFSUtil(i, color, graph) == True:
+            if dfs(i, color, graph) == True:
                 return True
     return False
 
 
 # Driver program to test above functions
-g = {0: [1, 2], 1: [2], 2: [0, 3], 3: [3]}
+g = {0: [1, 2], 1: [2], 2: [0, 3], 3: []}
 
 print(
     "Graph contains a cycle"
