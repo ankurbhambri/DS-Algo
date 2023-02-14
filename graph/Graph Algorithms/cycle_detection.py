@@ -11,6 +11,7 @@ def has_cycle(graph, node, parent, visited):
         if not visited[nei]:
             if has_cycle(graph, nei, node, visited):
                 return True
+        # already visited node and that node is not parent means cycle exists
         elif nei != parent:
             return True
 
