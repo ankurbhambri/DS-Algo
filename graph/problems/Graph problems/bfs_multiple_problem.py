@@ -1,20 +1,21 @@
 # Here's an example implementation of the shortest path in a unweighted graph using BFS in Python:
 
+import heapq
 from collections import defaultdict, deque
 
 
 def shortest_path(graph, start, end):
-    queue = deque([start])
+    q = deque([start])
     distances = defaultdict(lambda: float('inf'))
     distances[start] = 0
-    while queue:
-        node = queue.popleft()
+    while q:
+        node = q.popleft()
         if node == end:
             return distances[end]
         for neighbor in graph[node]:
             if distances[neighbor] == float('inf'):
                 distances[neighbor] = distances[node] + 1
-                queue.append(neighbor)
+                q.append(neighbor)
     return -1
 
 
@@ -39,13 +40,13 @@ def connected_components(graph):
     for node in graph:
         if node not in visited:
             component = []
-            queue = [node]
-            while queue:
-                vertex = queue.pop(0)
+            q = [node]
+            while q:
+                vertex = q.pop(0)
                 if vertex not in visited:
                     visited.add(vertex)
                     component.append(vertex)
-                    queue.extend(
+                    q.extend(
                         neighbor
                         for neighbor in graph[vertex]
                         if neighbor not in visited
@@ -73,13 +74,13 @@ def is_bipartite(graph):
     for node in graph:
         if colors[node] is None:
             colors[node] = 0
-            queue = [node]
-            while queue:
-                vertex = queue.pop(0)
+            q = [node]
+            while q:
+                vertex = q.pop(0)
                 for neighbor in graph[vertex]:
                     if colors[neighbor] is None:
                         colors[neighbor] = 1 - colors[vertex]
-                        queue.append(neighbor)
+                        q.append(neighbor)
                     elif colors[neighbor] == colors[vertex]:
                         return False
     return True
@@ -102,17 +103,17 @@ from collections import defaultdict, deque
 
 
 def word_ladder(start, end, dictionary):
-    queue = deque([(start, 1)])
+    q = deque([(start, 1)])
     visited = set()
-    while queue:
-        word, depth = queue.popleft()
+    while q:
+        word, depth = q.popleft()
         if word == end:
             return depth
         for i in range(len(word)):
             for j in 'abcdefghijklmnopqrstuvwxyz':
                 next_word = word[:i] + j + word[i + 1 :]
                 if next_word in dictionary and next_word not in visited:
-                    queue.append((next_word, depth + 1))
+                    q.append((next_word, depth + 1))
                     visited.add(next_word)
     return 0
 
@@ -126,10 +127,10 @@ from collections import deque
 
 
 def shortest_path(x1, y1, x2, y2):
-    queue = deque([(x1, y1, 0)])
+    q = deque([(x1, y1, 0)])
     visited = set((x1, y1))
-    while queue:
-        x, y, depth = queue.popleft()
+    while q:
+        x, y, depth = q.popleft()
         if x == x2 and y == y2:
             return depth
         for dx, dy in (
@@ -144,7 +145,7 @@ def shortest_path(x1, y1, x2, y2):
         ):
             nx, ny = x + dx, y + dy
             if 0 <= nx < 8 and 0 <= ny < 8 and (nx, ny) not in visited:
-                queue.append((nx, ny, depth + 1))
+                q.append((nx, ny, depth + 1))
                 visited.add((nx, ny))
     return -1
 
@@ -161,20 +162,20 @@ def word_ladder(beginWord, endWord, wordList):
     wordList = set(wordList)
     if endWord not in wordList:
         return 0
-    queue = deque([beginWord])
+    q = deque([beginWord])
     visited = set([beginWord])
     distance = 1
-    while queue:
-        size = len(queue)
+    while q:
+        size = len(q)
         for _ in range(size):
-            word = queue.popleft()
+            word = q.popleft()
             if word == endWord:
                 return distance
             for i in range(len(word)):
                 for j in range(26):
                     next_word = word[:i] + chr(97 + j) + word[i + 1 :]
                     if next_word in wordList and next_word not in visited:
-                        queue.append(next_word)
+                        q.append(next_word)
                         visited.add(next_word)
         distance += 1
     return 0
@@ -195,16 +196,14 @@ def wallsAndGates(rooms):
     if not rooms:
         return
     m, n = len(rooms), len(rooms[0])
-    queue = deque(
-        [(i, j) for i in range(m) for j in range(n) if rooms[i][j] == 0]
-    )
-    while queue:
-        x, y = queue.popleft()
+    q = deque([(i, j) for i in range(m) for j in range(n) if rooms[i][j] == 0])
+    while q:
+        x, y = q.popleft()
         for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
             nx, ny = x + dx, y + dy
             if 0 <= nx < m and 0 <= ny < n and rooms[nx][ny] == 2147483647:
                 rooms[nx][ny] = rooms[x][y] + 1
-                queue.append((nx, ny))
+                q.append((nx, ny))
 
 
 rooms = [
@@ -227,20 +226,20 @@ def ladderLength(beginWord, endWord, wordList):
     wordList = set(wordList)
     if endWord not in wordList:
         return 0
-    queue = deque([beginWord])
+    q = deque([beginWord])
     visited = set([beginWord])
     distance = 1
-    while queue:
-        size = len(queue)
+    while q:
+        size = len(q)
         for _ in range(size):
-            word = queue.popleft()
+            word = q.popleft()
             if word == endWord:
                 return distance
             for i in range(len(word)):
                 for j in range(26):
                     next_word = word[:i] + chr(97 + j) + word[i + 1 :]
                     if next_word in wordList and next_word not in visited:
-                        queue.append(next_word)
+                        q.append(next_word)
                         visited.add(next_word)
         distance += 1
     return 0
@@ -250,3 +249,18 @@ beginWord = "hit"
 endWord = "cog"
 wordList = ["hot", "dot", "dog", "lot", "log", "cog"]
 print(ladderLength(beginWord, endWord, wordList))
+
+# Given an undirected, weighted graph, check whether there exist more than one shortest path between a source and destination node.
+
+
+def moreShortestPath(adj, src, dst):
+    vis, q = [False] * len(adj), [[0, src]]
+    heapq.heapify(q)
+    while q:
+        d, u = heapq.heappop(q)
+        if u == dst:
+            return [d, u] == (q and heapq.heappop(q))
+        vis[u] = True
+        for v, w in adj[u]:
+            if not vis[v]:
+                heapq.heappush(q, [w + d, v])
