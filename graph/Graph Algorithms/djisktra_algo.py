@@ -2,46 +2,57 @@
 It runs only one iterations - o(n^2) best and worst o(n^3)'''
 
 import heapq
+import math
 from collections import defaultdict
 
+'''
+TC nlogn with priority queue aka Min Heap 
+TC worst case is n^2 in case of n vertices processed and n vertex relaxed
+'''
 
-def dijkstra(graph, n, k):
+
+def dijkstra(graph, N, start):
 
     adj = defaultdict(list)
 
     for u, v, w in graph:
         adj[u].append((v, w))
 
-    visit = set()
+    dist = {i: float("inf") for i in range(N)}
 
-    minHeap = [(0, k)]
+    dist[start] = 0
 
-    res = 0
+    minHeap = [(0, start)]
 
     while minHeap:
         # weight, node
-        w1, n1 = heapq.heappop(minHeap)
+        weight, node = heapq.heappop(minHeap)
 
-        if n1 in visit:
+        if weight > dist[node]:
             continue
 
-        visit.add(n1)
-        res = max(res, w1)
+        for nei, nei_weight in adj[node]:
 
-        for n2, w2 in adj[n1]:
-            if n2 not in visit:
-                heapq.heappush(minHeap, (w1 + w2, n2))
+            new_dist = dist[node] + nei_weight
 
-    return res if len(visit) == n else -1
+            if new_dist < dist[nei]:
+
+                dist[nei] = new_dist
+
+                heapq.heappush(minHeap, (new_dist, nei))
+
+    return dist
 
 
 # graph = [2 (U), 1 (V), 1 (Weight)]
-print(dijkstra(graph=[[2, 1, 1], [2, 3, 1], [3, 4, 1]], n=4, k=2))
+print(
+    dijkstra(
+        [[1, 2, 5], [1, 3, 2], [2, 4, 4], [3, 2, 1], [3, 4, 4]], N=5, start=1
+    )
+)  # o/p {1: 0, 2: 3, 3: 2, 4: 6}
 
 
-import math
-
-
+# https://leetcode.com/problems/minimum-cost-to-reach-destination-in-time/
 class Solution:
     def minCost(self, maxTime, edges, passingFees):
         n = len(passingFees)

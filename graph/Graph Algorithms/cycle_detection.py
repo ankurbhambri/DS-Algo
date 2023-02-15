@@ -72,6 +72,81 @@ print("Cycle" if find_cycle_directed(graph, 4) else "No cycle")  # no cycle
 
 print("Cycle" if find_cycle_directed(graph1, 3) else "No cycle")  # cycle
 
+
+# In Undirected graph case using BFS
+
+
+def has_cycle_undirected_bfs(graph, node, visited):
+
+    q = [(node, -1)]
+    visited.add(node)
+
+    while q:
+        n, p = q.pop()
+        for nei in graph[n]:
+            if nei not in visited:
+                visited.add(nei)
+                q.append((nei, node))
+            elif nei != p:
+                return True
+    return False
+
+
+def find_cycle_undirected_bfs(graph, n):
+    visited = set()
+    for i in range(n):
+        if i not in visited:
+            if has_cycle_undirected_bfs(graph, i, visited):
+                return True
+    return False
+
+
+graph = {0: [1], 1: [2], 2: [3], 3: []}  # no cycle
+graph1 = {0: [1], 3: [0, 2], 2: [1], 1: []}  # cycle
+
+print(
+    "Cycle" if find_cycle_undirected_bfs(graph, 4) else "No cycle"
+)  # no cycle
+
+print("Cycle" if find_cycle_undirected_bfs(graph1, 4) else "No cycle")  # cycle
+
+
+# Cycle Detection in Directed Graph using BFS(Kahn's Algorithm) indegree method
+
+
+def topologicalSort2(n, graph):
+
+    adj = {c: [] for c in range(n)}
+    in_degree = {i: 0 for i in range(n)}
+
+    for n1, n2 in graph:
+        adj[n1].append(n2)
+        in_degree[n2] += 1
+
+    visit = set()
+
+    # Taking all the edges who has no incoming edge into it.
+    q = [k for k, v in in_degree.items() if v == 0]
+
+    count = 0  # only this is the change in above code
+
+    while q:
+        node = q.pop(0)
+        count += 1  # keep counting
+        for ch in adj[node]:
+            if ch not in visit:
+                in_degree[ch] -= 1
+                if in_degree[ch] == 0:
+                    q.append(ch)
+                    visit.add(ch)
+
+    # If i'm able to generate the topological sort that means count will be
+    # equal to n where n will be total number of nodes
+    if count == n:  # if counting equals to
+        return False
+    return True
+
+
 '''
 It is not possible to find a cycle in a graph using a breadth-first search (BFS) algorithm,
 as BFS traverses the graph in a level-by-level manner, visiting all vertices at the current
