@@ -28,6 +28,27 @@ def dijkstra(graph, N, start):
         # weight, node
         weight, node = heapq.heappop(minHeap)
 
+        '''
+        However, the check if dist > distances[current_node]: continue is still
+        included as an optimization to improve the algorithm's efficiency.
+        The reason is that when a node is added to the priority queue with a
+        certain tentative distance, there may be other nodes in the queue with
+        smaller tentative distances to the same node. These nodes may be processed
+        later and update the distance to the same node, resulting in a shorter path.
+
+        If we did not skip the node in the check, we would process the node again
+        with a longer distance, which would not result in a shorter path and would
+        slow down the algorithm unnecessarily. By skipping the node if its distance
+        is already smaller than the tentative distance in the priority queue, we
+        avoid processing it again and guarantee that we have found the shortest
+        path to that node.
+
+        So the check if dist > distances[current_node]: continue is a way to ensure
+        that we are only processing each node once and that we are finding the
+        shortest path to each node, while avoiding unnecessary computations and
+        speeding up the algorithm.
+        '''
+
         if weight > dist[node]:
             continue
 

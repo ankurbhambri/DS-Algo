@@ -1,31 +1,27 @@
 '''Shortest path algorithm works with negative weights but when the cycle found it fials
 It runs algorithm V - 1 times relations of vertices using edges weights - o(n^2)'''
 
+# Function to find the shortest path between a given source node and all other nodes in a graph using Bellman-Ford algorithm
+def bellman_ford(graph, source):
+    # Step 1: Initialize distance of all nodes as infinity except the source node, which has distance 0
+    V = len(graph)
+    distance = {node: float('inf') for node in graph}
+    distance[source] = 0
 
-def bellman_ford(n, flights, src, dst, k):
-    prices = [float("inf")] * n
-    prices[src] = 0
+    # Step 2: Relax edges repeatedly |V - 1| times
+    for _ in range(V - 1):
+        for node in graph:
+            for neighbor, weight in graph[node].items():
+                if distance[node] + weight < distance[neighbor]:
+                    distance[neighbor] = distance[node] + weight
 
-    for i in range(k + 1):
+    # Even after relaxation we found some improvement that means -ve weight and cycle.
+    # Step 3: Check for negative-weight cycles
+    for node in graph:
+        for neighbor, weight in graph[node].items():
+            if distance[node] + weight < distance[neighbor]:
+                print("Graph contains negative-weight cycle")
+                return {}
 
-        temp = prices.copy()
-        for s, d, p in flights:
-
-            if prices[s] == float("-inf"):
-                continue
-
-            if prices[s] + p < temp[d]:
-                temp[d] = prices[s] + p
-
-        prices = temp
-
-    return -1 if prices[dst] == float("inf") else prices[dst]
-
-
-# n is nos of edges, flights is adjacency list, src as source, dst as destination with k stops
-
-print(
-    bellman_ford(
-        n=3, flights=[[0, 1, 100], [1, 2, 100], [0, 2, 500]], src=0, dst=2, k=1
-    )
-)
+    # Step 4: Return the shortest distance between the source node and all other nodes
+    return distance
