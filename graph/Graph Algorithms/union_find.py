@@ -1,79 +1,60 @@
-# Clasical Way
 class DisjointSet:
-    def __init__(self, n, graph):
+    def __init__(self, n):
         self.n = n
-        self.graph = graph
-        # Root have negative value
-        self.adj = {i: -1 for i in range(n)}
-
-        for u, v in self.graph:
-            self.adj[u] = v
+        # initially every noe rank is 0
+        self.rank = [1] * n
+        # initially every node is its own parent
+        self.parent = list(range(n))
 
     def find(self, node):
-
-        if self.adj[node] < 0:
-            return node
-        return self.find(self.adj[node])
+        if node != self.parent[node]:
+            self.parent[node] = self.find(self.parent[node])
+        return self.parent[node]
 
     def union(self, node1, node2):
-        p1, p2 = self.find(node1), self.find(node2)
+
+        p1 = self.find(node1)
+        p2 = self.find(node2)
+
         # If both nodes parent are same then union is not possible
         if p1 == p2:
-            return False
-        else:
-            if self.adj[p1] == self.adj[p1]:
-                self.adj[p1] += self.adj[p2]
-                self.adj[p2] = p1
-            # If p2 is gt than p1 then p1 is root for p2
-            elif self.adj[p2] < self.adj[p1]:
-                self.adj[p1] += self.adj[p2]
-                self.adj[p2] = p1
-            else:
-                self.adj[p2] += self.adj[p1]
-                self.adj[p1] = p2
-        return True
+            print("Same parent")
+            return
+
+        if self.rank[p1] < self.rank[p2]:
+            p1, p2 = p2, p1
+
+        self.parent[p2] = p1
+        self.rank[p1] += self.rank[p2]
 
     def peek(self):
-        return self.adj
+        self.parent, self.rank
 
 
-# Improved Code
-class DisjointSet1:
-    def __init__(self, n, graph):
-        self.n = n
-        self.graph = graph
-        self.adj = [i for i in range(n)]
+if __name__ == "__main__":
 
-        for u, v in self.graph:
-            self.union(u, v)
+    uf = DisjointSet(10)
 
-    def find(self, node):
-        if self.adj[node] != node:
-            self.adj[node] = self.find(self.adj[node])
-        return self.adj[node]
+    uf.union(0, 1)
+    uf.union(1, 2)
+    uf.union(2, 3)
+    uf.union(3, 4)
 
-    def union(self, node1, node2):
-        p1, p2 = self.find(node1), self.find(node2)
-        if p1 != p2:
-            self.adj[node2] = self.adj[node1]
-            return True
-        return False
+    uf.union(2, 4)  # not possible to union because same parent
 
-    def peek(self):
-        return self.adj
+    uf.union(5, 6)
+    uf.union(6, 7)
+    uf.union(7, 8)
+    uf.union(8, 9)
 
+    print(uf.find(2))  # output: 0 -> connected to 1 but 1 itself parent is 0.
+    print(uf.find(4))  # output: 0 -> connected to 3 -> 2 -> 1 -> 0.
+    print(uf.find(9))  # output: 6 -> 8 -> 7 -> 6
 
-# obj = DisjointSet(7, [[0, 1], [1, 2], [2, 3], [4, 5]])
-# obj.find(0)
-# obj.find(4)
-# print(obj.union(2, 4))
-# print(obj.union(1, 5))
-# print(obj.peek())
+    print(uf.find(1) == uf.find(2))  # True because their parents are same 0
 
+    print(
+        uf.find(4) == uf.find(9)
+    )  # False because their parents are different
 
-obj1 = DisjointSet1(7, [[0, 1], [1, 2], [2, 3], [4, 5]])
-obj1.find(0)
-obj1.find(4)
-print(obj1.union(2, 4))
-print(obj1.union(1, 5))
-print(obj1.peek())
+    print(uf.parent, uf.rank)
