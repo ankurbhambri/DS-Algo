@@ -15,59 +15,67 @@ Ways to find Strongly connected components in a graph
 # T.C  = 3 * (V + E) = O(V + E)
 
 
-def dfs2(node, visited):
-    print(node)
-    visited[node] = True
-    for nei in graph[node]:
-        if not visited[nei]:
-            dfs2(nei, visited)
+from collections import defaultdict
+
+V = 8
+adj = defaultdict(list)
+rev = defaultdict(list)
 
 
-def reverse_graph(graph, n):
-    for i in range(n):
-        for j in graph[i]:
-            graph[j].append(i)
-    return graph
+def DFS1(i, visited, st):
+    visited[i] = True
+    for j in adj[i]:
+        if not visited[j]:
+            DFS1(j, visited, st)
+
+    st.append(i)
 
 
-def dfs(node, visited, st):
-    visited[node] = True
-    for nei in graph[node]:
-        if not visited[nei]:
-            dfs(nei, visited, st)
-    st.append(node)
+def reverse():
+    for i in range(V):
+        for j in adj[i]:
+            rev[j].append(i)
 
 
-def findSCCs(graph, n):
+def DFS2(i, visited):
+    print(i, end=' ')
+    visited[i] = True
+    for j in rev[i]:
+        if not visited[j]:
+            DFS2(j, visited)
 
-    visit = {i: False for i in range(n)}
+
+def findSCCs():
     st = []
 
-    for i in range(n):
-        if not visit[i]:
-            dfs(i, visit, st)
+    visited = [False] * V
+    for i in range(V):
+        if not visited[i]:
+            DFS1(i, visited, st)
 
-    graph = reverse_graph(graph, n)
+    reverse()
 
-    visit = {i: False for i in range(n)}  # reset visit false
+    visited = [False] * V
 
-    print("Strongly connected components are: \n")
+    print("Strongly Connected Components are:")
     while st:
-        node = st.pop(0)
-        if not visit[i]:
-            dfs2(node, visit)
-            print("\n")
+        curr = st.pop()
+        if not visited[curr]:
+            DFS2(curr, visited)
+            print()
+            visited[curr] = True
 
 
-graph = {i: [] for i in range(8)}
-graph[0].append(1)
-graph[1].append(2)
-graph[2].append(0)
-graph[3].append(4)
-graph[4].append(5)
-graph[4].append(7)
-graph[5].append(6)
-graph[6].append(4)
-graph[6].append(7)
+if __name__ == '__main__':
+    adj[0].append(1)
+    adj[1].append(2)
+    adj[2].append(0)
+    adj[2].append(3)
+    adj[3].append(4)
+    adj[4].append(5)
+    adj[4].append(7)
+    adj[5].append(6)
+    adj[6].append(4)
+    adj[6].append(7)
 
-findSCCs(graph, 8)
+    findSCCs()
