@@ -1,5 +1,19 @@
-# Given an undirected graph, indicate if there is a cycle in the graph. Follow up,
-# return a list of all cycles that are seen. If there is none, return an empty list.
+'''
+
+Given an undirected graph, indicate if there is a cycle in the graph. Follow up,
+return a list of all cycles that are seen. If there is none, return an empty list.
+
+0 -----1-----2
+| xxxxx|xxxxx |
+3 -----4-----5
+
+
+there are three cycles:
+0, 1, 4, 3, 0
+0, 1, 2, 5, 4, 3, 0
+1, 2, 4, 5, 1
+
+'''
 
 
 def find_cycles_util(node, parent, graph, visited, path, result):
