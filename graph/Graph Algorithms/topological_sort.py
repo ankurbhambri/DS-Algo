@@ -77,7 +77,7 @@ def topologicalSort2(n, graph):
         for ch in adj[node]:
             if ch not in visit:
                 in_degree[ch] -= 1
-                if in_degree[ch] == 0:
+                if not in_degree[ch]:
                     q.append(ch)
                     visit.add(ch)
     return res
@@ -89,7 +89,7 @@ print(topologicalSort2(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
 # Cycle Detection in Directed Graph using BFS(Kahn's Algorithm) indegree method
 
 
-def topologicalSort2(n, graph):
+def Kahn_algo(n, graph):
 
     adj = {c: [] for c in range(n)}
     in_degree = {i: 0 for i in range(n)}
@@ -111,7 +111,7 @@ def topologicalSort2(n, graph):
         for ch in adj[node]:
             if ch not in visit:
                 in_degree[ch] -= 1
-                if in_degree[ch] == 0:
+                if not in_degree[ch]:
                     q.append(ch)
                     visit.add(ch)
 
@@ -121,6 +121,8 @@ def topologicalSort2(n, graph):
         return False
     return True
 
+
+print(Kahn_algo(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
 
 '''
 Note:-
