@@ -1,6 +1,29 @@
-# https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
 '''
+https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
+Given a string s, find the length of the longest substring without repeating characters.
+'''
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        
+        charSet = set()
+        l = 0
+        res = 0
+        for r in range(len(s)):
+            while s[r] in charSet:
+                charSet.remove(s[l])
+                l += 1
+            charSet.add(s[r])
+            res = max(res, r - l + 1)
+
+        return res
+
+'''
+https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
+
 Given a string, find the length of the longest substring S that contains at most 2 distinct characters.
+
 '''
 
 from collections import defaultdict
@@ -36,11 +59,14 @@ class Solution:
 
         return res
 
-# https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
+'''
+    https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
 
-# Given a string S, find the length of the longest substring T that contains at most k distinct characters.
+    Given a string S, find the length of the longest substring T that contains at most k distinct characters.
 
-# same as above replace static value 2 with k only
+    Note - same as above replace static value 2 with k only
+
+'''
 
 class Solution:
 
