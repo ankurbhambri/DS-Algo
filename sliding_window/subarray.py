@@ -13,7 +13,7 @@ class Solution:
 
             freq[x] = freq.get(x, 0) + 1
 
-            if len(freq) == k + 1:
+            if len(freq) > k:
 
                 # remove distinct value from r index and increment r, l
                 del freq[nums[r]]
