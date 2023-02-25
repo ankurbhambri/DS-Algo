@@ -9,8 +9,7 @@
 - Searching
 - Sorting
 - Trie
-- Caching (Lru
-- Lfu)
+- Caching (Lru, Lfu)
 - Heap
 - Dynamic Programming
 - Recursion and Rolling Hash.
