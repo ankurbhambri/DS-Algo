@@ -1,14 +1,22 @@
 # https://www.hackerrank.com/challenges/sherlock-and-anagrams/problem
 
 def sherlockAndAnagrams(s):
+
+    freq_dict = {}
     res = 0
-    for i in range(1, len(s)):
-        d = {}
-        for j in range(0, len(s) - i + 1):  # till length of s - i + 1
-            # sliding window
-            sub = "".join(sorted(s[j : j + i]))  # sorted return list
-            d[sub] = 1 + d.get(sub, 0)
-            res += (
-                d[sub] - 1
-            )  # if there is only one anagram then it's not good
+
+    for i in range(len(s)):
+        for j in range(i, len(s)):
+
+            # Get the substring
+            substr = s[i: j + 1]
+            
+            # Sort the substring to get its character combination
+            sorted_substr = ''.join(sorted(substr))
+
+            freq_dict[sorted_substr] = 1 + freq_dict.get(sorted_substr, 0)
+
+            # if there is only one anagram then it's not good            
+            res += (freq_dict[sorted_substr] - 1)
+
     return res
