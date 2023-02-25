@@ -1,7 +1,6 @@
 # https://leetcode.com/problems/subarrays-with-k-different-integers/
 
 class Solution:
-
     def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
 
         freq = {}
@@ -16,7 +15,7 @@ class Solution:
 
             if len(freq) == k + 1:
 
-                # remove the distinct at start_k, move start_k, start
+                # remove distinct value from r index and increment r, l
                 del freq[nums[r]]
 
                 r += 1
