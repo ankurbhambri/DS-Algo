@@ -12,4 +12,6 @@
 - Caching (Lru, Lfu)
 - Heap
 - Dynamic Programming
-- Recursion and Rolling Hash.
+- Recursion
+- Rolling Hash
+- Array
