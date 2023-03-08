@@ -11,8 +11,8 @@ def frogJump(n: int, heights: List[int]) -> int:
         if i == 0:
             return 0
         
-        if dp[i] != -1:
-            return dp[i]
+        if memo[i] != -1:
+            return memo[i]
         
         left = helper(i - 1) + abs(heights[i] - heights[i - 1])
 
