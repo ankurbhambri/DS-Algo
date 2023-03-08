@@ -1,4 +1,4 @@
-# Dynamic Programming approaches:
+# Dynamic Programming approaches
 
 1. Top Down Approach (Memoization is based on recursion) - Breaking big problem into small problems and simultaneously lookup into dp.
 2. Bottom-up Approach (Tabulation is based on iterative) -  Moving from small to large value.
