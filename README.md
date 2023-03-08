@@ -1,4 +1,4 @@
-# This is my learning of Data Structure using Python
+# Data Structure algorithms using Python
 
 ## Topic's covered
 
