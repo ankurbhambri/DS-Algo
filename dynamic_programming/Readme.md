@@ -6,7 +6,7 @@
 
 ## Important Points:
 
-a. Try to represent the problem in terms of index.
-b. Do all possible ways on that index all to the problem statement.
-c. Sum all ways, count of all ways, min of all ways
-d. whenever there is index there must be possibilty of space optimization.
+- Try to represent the problem in terms of index.
+- Do all possible ways on that index all to the problem statement.
+- Sum all ways, count of all ways, min of all ways
+- whenever there is index there must be possibilty of space optimization.
