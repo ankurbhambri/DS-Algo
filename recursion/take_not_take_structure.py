@@ -1,10 +1,12 @@
 # simple structure of take not take values from subsequences
 
-def func(arr, n):
+def func(arr):
+
+  n = len(arr)
 
   def helper(i, res):
 
-    if len(res) >= n:
+    if i == n:
       print(res)
       return
     
@@ -16,4 +18,6 @@ def func(arr, n):
     res.remove(arr[i])
     helper(i, res)
     
-  return helper(res)
+  return helper(0, [])
+
+func([3, 1, 2])
