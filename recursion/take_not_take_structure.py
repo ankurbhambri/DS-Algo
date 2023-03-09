@@ -1,4 +1,4 @@
-# simple structure of take not take values from subsequences
+# simple structure of tak/not take values from subsequences
 
 def func(arr):
 
