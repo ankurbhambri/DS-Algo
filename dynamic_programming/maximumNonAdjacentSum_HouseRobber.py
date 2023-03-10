@@ -43,28 +43,3 @@ def maximumNonAdjacentSum(nums):
     for n in nums:
         n1, n2 = n2, max(n1 + n, n2)
     return n2
-
-
-# similar to house robber problem leetcode
-# https://leetcode.com/problems/house-robber/
-def rob(self, nums: List[int]) -> int:
-  rob1, rob2 = 0, 0
-  for n in nums:
-      rob1, rob2 = rob2, max(n + rob1, rob2)
-  return rob2
-
-
-# https://leetcode.com/problems/house-robber-ii/
-class Solution:
-    def rob(self, nums: List[int]) -> int:
-
-        return max(nums[0], self.helper(nums[1:]), self.helper(nums[:-1]))
-        
-    def helper(self, nums):
-
-        rob1, rob2 = 0, 0
-        for n in nums:
-            temp = max(n + rob1, rob2)
-            rob1 = rob2
-            rob2 = temp
-        return rob2
