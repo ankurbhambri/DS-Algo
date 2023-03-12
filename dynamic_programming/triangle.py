@@ -35,18 +35,13 @@ def minimumPathSum(triangle, n):
 # TC = O(N * N)
 # SC = O(N)
 
+
 def minimumPathSum(triangle, n):
     prev = triangle[n - 1] # copy last row no way to compute down from it
-
     for i in range(n - 2, -1, -1):
-
         col = triangle[i]
-        tmp = [0] * (n)
-
+        tmp = [0] * len(col)
         for j in range(len(col) - 1, -1, -1):
-
             tmp[j] = min(triangle[i][j] + prev[j], triangle[i][j] + prev[j + 1])
-
         prev = tmp
-
     return prev[0]
