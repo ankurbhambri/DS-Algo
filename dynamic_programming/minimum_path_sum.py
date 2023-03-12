@@ -1,7 +1,7 @@
 # https://leetcode.com/problems/minimum-path-sum/
 
 # memoization
-# TC 2^N
+# TC O(M * N)
 # Space O(M * N) + Stack space
 def minSumPath(matrix):
 
