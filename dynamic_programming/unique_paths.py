@@ -1,7 +1,7 @@
 # https://leetcode.com/problems/unique-paths/submissions/
 
 # memoization
-# TC = O(M * N)
+# TC = O(2 ^ M * N)
 # SC = O(M * N) + Stack Space
 
 class Solution:
