@@ -13,7 +13,8 @@ def minSumPath(matrix):
             return memo[i][j]
 
         if i == 0 and j == 0:
-            return grid[0][0]
+            memo[i][j] = grid[0][0]
+            return memo[i][j]
 
         if i < 0 or j < 0:
             return float("inf")
@@ -35,7 +36,6 @@ class Solution:
             for j in range(n):
                 if i == 0 and j == 0:
                     dp[i][j] = grid[i][j]
-
                 else:
                     up = grid[i][j] + (float("inf") if i == 0 else dp[i - 1][j])
                     left = grid[i][j] + (float("inf") if j == 0 else dp[i][j - 1])
