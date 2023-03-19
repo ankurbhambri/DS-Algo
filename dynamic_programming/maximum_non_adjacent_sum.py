@@ -30,7 +30,7 @@ def maximumNonAdjacentSum(nums):
     dp[0] = nums[0]
     
     for i in range(1, n):
-        take = nums[i] + (dp[i - 2] if i > 1 else 0) # to prevent negative indexing
+        take = nums[i] + (dp[i - 2] if i > 1 else 0) # to prevent out of boud cndt
         nontake = dp[i - 1]
         dp[i] = max(take, nontake)
     return dp[n - 1]
