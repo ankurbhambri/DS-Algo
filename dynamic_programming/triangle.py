@@ -34,8 +34,6 @@ def minimumPathSum(triangle, n):
 # space optimization
 # TC = O(N * N)
 # SC = O(N)
-
-
 def minimumPathSum(triangle, n):
     prev = triangle[n - 1] # copy last row no way to compute down from it
     for i in range(n - 2, -1, -1):
