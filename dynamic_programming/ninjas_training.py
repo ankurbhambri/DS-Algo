@@ -18,7 +18,6 @@ def ninjaTraining(n: int, points: List[List[int]]) -> int:
             return memo[day][last]
 
         res = 0
-
         for j in range(3):
             if j != last:
                 activity = points[day][j] + helper(day - 1, j)
@@ -36,7 +35,7 @@ def ninjaTraining(n: int, points: List[List[int]]) -> int:
     dp[0][0] = max(points[0][1], points[0][2])
     dp[0][1] = max(points[0][0], points[0][2])
     dp[0][2] = max(points[0][0], points[0][1])
-    dp[0][3] = max(points[0][0], max(points[0][1], points[0][2]))
+    dp[0][3] = max(points[0][0], points[0][1], points[0][2])
 
     for day in range(1, n):
         for last in range(4):
@@ -54,7 +53,7 @@ def ninjaTraining(n: int, points: List[List[int]]) -> int:
     prev[0] = max(points[0][1], points[0][2])
     prev[1] = max(points[0][0], points[0][2])
     prev[2] = max(points[0][0], points[0][1])
-    prev[3] = max(points[0][0], max(points[0][1], points[0][2]))
+    prev[3] = max(points[0][0], points[0][1], points[0][2])
 
     for day in range(1, n):
         curr = [0] * 4
