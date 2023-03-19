@@ -18,7 +18,7 @@ def minSumPath(matrix):
         if i < 0 or j < 0:
             return float("inf")
 
-        memo[i][j] = min(grid[i][j] + helper(i - 1, j), grid[i][j] + helper(i, j - 1))
+        memo[i][j] = grid[i][j] + min(helper(i - 1, j), helper(i, j - 1))
         return memo[i][j]
 
     helper(m - 1, n - 1)
