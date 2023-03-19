@@ -27,7 +27,7 @@ def minimumPathSum(triangle, n):
     for i in range(n - 2, -1, -1):
         col = triangle[i] # col size in changing
         for j in range(len(col) - 1, -1, -1):
-            dp[i][j] = min(triangle[i][j] + dp[i + 1][j], triangle[i][j] + dp[i + 1][j + 1])
+            dp[i][j] = triangle[i][j] + min(dp[i + 1][j], dp[i + 1][j + 1])
     return dp[0][0]
 
 
@@ -42,6 +42,6 @@ def minimumPathSum(triangle, n):
         col = triangle[i]
         tmp = [0] * len(col)
         for j in range(len(col) - 1, -1, -1):
-            tmp[j] = min(triangle[i][j] + prev[j], triangle[i][j] + prev[j + 1])
+            tmp[j] = triangle[i][j] + min(prev[j], prev[j + 1])
         prev = tmp
     return prev[0]
