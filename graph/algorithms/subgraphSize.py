@@ -27,3 +27,9 @@ graph = [[1, 2], [2, 4], [2, 5], [2, 6], [1, 3], [3, 7], [1, 8]]
 n = 8
 
 print(subGraphSize(n, graph))
+
+
+graph = [[1, 2], [1, 3], [3, 4], [4, 5]]
+n = 5
+{1: 5, 2: 1, 3: 3, 4: 2, 5: 1}
+print(subGraphSize(n, graph))
