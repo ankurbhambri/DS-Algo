@@ -8,9 +8,9 @@ Ways to find Strongly connected components in a graph
        (i.e, unreachable) except self loops.
 
 2. Kosaraju Algorithm
-    a. Perform DFS traversal of graph. Push node to stack before returning.
-    b. Find the transpose graph by reversing the edges.
-    c. Pop nodes one by one from stack and again do DFS on modifies graph.(Keep popping nodes)
+    a. Perform DFS traversal of graph. Push node to stack before returning. - DFS
+    b. Find the transpose graph by reversing the edges. - Reverse
+    c. Pop nodes one by one from stack and again do DFS on modifies graph.(Keep popping nodes) - DFS
 '''
 # T.C  = 3 * (V + E) = O(V + E)
 
@@ -46,20 +46,20 @@ def DFS2(i, visited):
 
 
 def findSCCs():
-    st = []
+    stack = []
 
     visited = [False] * V
     for i in range(V):
         if not visited[i]:
-            DFS1(i, visited, st)
+            DFS1(i, visited, stack)
 
     reverse()
 
     visited = [False] * V
 
     print("Strongly Connected Components are:")
-    while st:
-        curr = st.pop()
+    while stack:
+        curr = stack.pop()
         if not visited[curr]:
             DFS2(curr, visited)
             print()
