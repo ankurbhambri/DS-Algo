@@ -1,7 +1,7 @@
 '''
 To check whether node is a child of a node or not.
 We calculate in and out time of every node.
-Parent in time is always less than child in time but out time is gt than child.
+Parent in time is always less than child in time but out time is greater than child.
 '''
 
 

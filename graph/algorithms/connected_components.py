@@ -51,7 +51,8 @@ def countComponent(n, edges):
     def union(node1, node2):
         p1, p2 = find(node1), find(node2)
         if p1 != p2:
-            adj[node2] = adj[node1] # if both have different parent then node1 parent will be node2 parent
+            # if both have different parent then node1 parent will be node2 parent
+            adj[node2] = adj[node1]
             return 1
         return 0
 

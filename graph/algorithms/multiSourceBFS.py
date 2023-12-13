@@ -1,3 +1,5 @@
+from collections import deque
+
 # Walls and Gates leetcode problem
 
 

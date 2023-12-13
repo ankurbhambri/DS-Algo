@@ -6,11 +6,11 @@ def find_euler_graph(graph, N):
 
         visit.add(node)
 
-        for nei in graph[node]:
+        for child in graph[node]:
 
-            if nei not in visit:
+            if child not in visit:
 
-                dfs(nei, visit)
+                dfs(child, visit)
 
     def connect_component():
 
@@ -46,7 +46,7 @@ def find_euler_graph(graph, N):
 
         for i in range(N):
 
-            if len(graph[i]) & 1:
+            if len(graph[i]) & 1:  # or len(graph[i]) % 2 != 0:
                 odd += 1
 
         if odd > 2:

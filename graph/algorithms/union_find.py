@@ -12,7 +12,6 @@ class DisjointSet:
         return self.parent[node]
 
     def union(self, node1, node2):
-
         p1 = self.find(node1)
         p2 = self.find(node2)
 
@@ -26,6 +25,7 @@ class DisjointSet:
 
         self.parent[p2] = p1
         self.rank[p1] += self.rank[p2]
+        return
 
     def peek(self):
         self.parent, self.rank
