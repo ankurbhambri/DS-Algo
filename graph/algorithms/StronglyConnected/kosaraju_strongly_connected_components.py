@@ -1,4 +1,4 @@
-'''
+"""
 Ways to find Strongly connected components in a graph
 
 1. Brute force
@@ -11,7 +11,7 @@ Ways to find Strongly connected components in a graph
     a. Perform DFS traversal of graph. Push node to stack before returning. - DFS
     b. Find the transpose graph by reversing the edges. - Reverse
     c. Pop nodes one by one from stack and again do DFS on modifies graph.(Keep popping nodes) - DFS
-'''
+"""
 # T.C  = 3 * (V + E) = O(V + E)
 
 
@@ -38,7 +38,7 @@ def reverse():
 
 
 def DFS2(i, visited):
-    print(i, end=' ')
+    print(i, end=" ")
     visited[i] = True
     for j in rev[i]:
         if not visited[j]:
@@ -66,7 +66,7 @@ def findSCCs():
             visited[curr] = True
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     adj[0].append(1)
     adj[1].append(2)
     adj[2].append(0)

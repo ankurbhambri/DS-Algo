@@ -2,11 +2,13 @@
 
 # https://practice.geeksforgeeks.org/problems/coin-change2448/1
 
+
 def coin_change_memo(coins, N, amount):
     memo = {}
+
     def helper(n, amt):
         if amt == 0:
-            return  1
+            return 1
         elif n == 0:
             return 0
         elif (n, amt) in memo:
@@ -25,8 +27,9 @@ def coin_change_memo(coins, N, amount):
 
     return helper(N, amount)
 
+
 def coin_change_tabular(coins, N, amount):
-    dp = [[0] * (amount + 1) for _ in range(N  + 1)]
+    dp = [[0] * (amount + 1) for _ in range(N + 1)]
     for i in range(N + 1):
         for amt in range(amount + 1):
             if amt == 0:
@@ -44,9 +47,10 @@ def coin_change_tabular(coins, N, amount):
 
     return dp[N][amount]
 
+
 amount = 10
 N = 4
-coins = [2,5,3,6]
+coins = [2, 5, 3, 6]
 
 print(coin_change_memo(coins, N, amount))
 print(coin_change_tabular(coins, N, amount))

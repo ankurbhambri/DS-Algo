@@ -1,11 +1,12 @@
-'''Shortest path algorithm works with negative weights but when the cycle found it fials
-It runs algorithm V - 1 times relations of vertices using edges weights - o(n^2)'''
+"""Shortest path algorithm works with negative weights but when the cycle found it fials
+It runs algorithm V - 1 times relations of vertices using edges weights - o(n^2)"""
+
 
 # Function to find the shortest path between a given source node and all other nodes in a graph using Bellman-Ford algorithm
 def bellman_ford(graph, source):
     # Step 1: Initialize distance of all nodes as infinity except the source node, which has distance 0
     V = len(graph)
-    distance = {node: float('inf') for node in graph}
+    distance = {node: float("inf") for node in graph}
     distance[source] = 0
 
     # Step 2: Relax edges repeatedly |V - 1| times

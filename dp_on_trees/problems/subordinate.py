@@ -4,7 +4,6 @@ from collections import defaultdict
 
 
 def subordinates(n, bosses):
-
     graph = [[] for _ in range(n)]
 
     for i in range(1, n):
@@ -23,6 +22,7 @@ def subordinates(n, bosses):
 
     dfs(0)
     return ans
+
 
 n = 5
 bosses = [1, 1, 2, 3]
