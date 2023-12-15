@@ -3,11 +3,23 @@
 
 # AIRPORT CONNECTIONS
 
+# A - airports
+# R - routes
+# O(A * (A + R) + A + R + Alog(A)) - time
+# O(A + R) - space
 
-# O(A * (A + R) + A + R + Alog(A)) time, O(A + R) space
+'''
+Steps : 
+1. Adjacency List
+2. Unreachable nodes
+3. Build a connected component or cluster of Unreachable nodes.
+4. Representative node of each Unreachable graph.
+5. Count them
+'''
+
+
 def airportConnections(airports, routes, startingAirport):
-    # Write your code here.
-    airportGraph = createAirportGraph(airports, routes)
+    airportGraph = createGraph(airports, routes)
     unreachableAirportNodes = getUnreachableAirportNodes(
         airportGraph, airports, startingAirport
     )
@@ -15,38 +27,37 @@ def airportConnections(airports, routes, startingAirport):
     return getMinNumberOfNewConnections(airportGraph, unreachableAirportNodes)
 
 
-def createAirportGraph(airports, routes):
+def createGraph(airports, routes):
     airportGraph = {}
     for airport in airports:
         airportGraph[airport] = AirportNode(airport)
-    for route in routes:
-        airport, connection = route
+    for airport, connection in routes:
         airportGraph[airport].connections.append(connection)
     return airportGraph
 
 
 def getUnreachableAirportNodes(airportGraph, airports, startingAirport):
     visitedAirports = {}
-    depthFirstTraverseAirports(airportGraph, startingAirport, visitedAirports)
+    dfs(airportGraph, startingAirport, visitedAirports)
 
     unreachableAirportNodes = []
     for airport in airports:
-        if airport in airports:
-            if airport in visitedAirports:
-                continue
-            airportNode = airportGraph[airport]
-            airportNode.isReachable = False
-            unreachableAirportNodes.append(airportNode)
+        if airport in visitedAirports:
+            continue
+        airportNode = airportGraph[airport]
+        airportNode.isReachable = False
+        unreachableAirportNodes.append(airportNode)
     return unreachableAirportNodes
 
 
-def depthFirstTraverseAirports(airportGraph, airport, visitedAirports):
+def dfs(airportGraph, airport, visitedAirports):
     if airport in visitedAirports:
         return
     visitedAirports[airport] = True
-    connections = airportGraph[airport].connections
-    for connection in connections:
-        depthFirstTraverseAirports(airportGraph, connection, visitedAirports)
+    for connection in airportGraph[airport].connections:
+        dfs(airportGraph, connection, visitedAirports)
+
+# Representative node for each connected component.
 
 
 def markUnreachableConnections(airportGraph, unreachableAirportNodes):
@@ -142,4 +153,25 @@ routes = [
 ]
 
 startingAirport = "LGA"
-print(airportConnections(airports, routes, startingAirport))
+# print(airportConnections(airports, routes, startingAirport))
+
+
+airports1 = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H"
+]
+routes1 = [
+    ["A", "B"],
+    ["C", "D"],
+    ["D", "E"],
+    ["H", "F"],
+    ["F", "G"]
+]
+
+print(airportConnections(airports1, routes1, "B"))

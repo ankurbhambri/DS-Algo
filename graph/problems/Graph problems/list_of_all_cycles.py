@@ -16,40 +16,42 @@ there are three cycles:
 '''
 
 
-def find_cycles_util(node, parent, graph, visited, path, result):
-    visited[node] = True
-    path.append(node)
+def solve(graph, n):
 
-    for neighbor in graph[node]:
-        if visited[neighbor] == False:
-            find_cycles_util(neighbor, node, graph, visited, path, result)
-        elif neighbor != parent:
-            if neighbor in path:
-                cycle = path[path.index(neighbor) :]
-                result.append(cycle)
-    path.pop()
-
-
-def find_cycles(graph):
-    n = len(graph)
-    visited = [False for _ in range(n)]
     path = []
-    result = []
+    res = []
+    visit = set()
+
+    # to find out cycle
+    def dfs(node, parent):
+
+        visit.add(node)
+        path.append(node)
+
+        for child in graph[node]:
+            if child not in visit:
+                dfs(child, node)
+            elif child != parent:
+                if child in path:
+                    cycle = path[path.index(child):]
+                    res.append(cycle)
+        path.pop()
+
     for i in range(n):
-        if not visited[i]:
-            find_cycles_util(i, -1, graph, visited, path, result)
-    return result
+        if i not in visit:
+            dfs(i, -1)
+    return res
 
 
 graph = {
     0: [1, 3],
-    2: [1, 5],
     1: [0, 2, 4],
+    2: [1, 5],
     3: [0, 4],
     5: [2, 4],
     4: [1, 3, 5],
 }
 
-cycles = find_cycles(graph)
+cycles = solve(graph)
 for cycle in cycles:
     print(" -> ".join([str(node) for node in cycle]))
