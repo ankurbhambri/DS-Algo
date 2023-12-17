@@ -5,26 +5,27 @@ or in other words, some number of vertices connected in a closed chain
 
 # In Undirected graph case using DFS
 
-
-def has_cycle_undirected(graph, node, parent, visited):
-
-    visited.add(node)
-    for nei in graph[node]:
-        if nei not in visited:
-            if has_cycle_undirected(graph, nei, node, visited):
-                return True
-        # already visited node and that node is not parent means cycle exists
-        elif nei != parent:
-            return True
-
-    return False
+# https://leetcode.com/problems/graph-valid-tree/
 
 
-def find_cycle_undirected(graph, n):
+def find_cycle_undirected_graph(graph, n):
     visited = set()
+
+    def dfs(node, parent):
+        visited.add(node)
+        for child in graph[node]:
+            if child not in visited:
+                if dfs(child, node):
+                    return True
+            # already visited node and that node is not parent means cycle exists
+            elif child != parent:
+                return True
+
+        return False
+
     for i in range(n):
         if i not in visited:
-            if has_cycle_undirected(graph, i, -1, visited):
+            if dfs(i, -1):
                 return True
     return False
 
@@ -32,32 +33,31 @@ def find_cycle_undirected(graph, n):
 graph = {0: [1], 1: [2], 2: [3], 3: []}  # no cycle
 graph1 = {0: [1], 3: [0, 2], 2: [1], 1: []}  # cycle
 
-print("Cycle" if find_cycle_undirected(graph, 4) else "No cycle")  # no cycle
+print("Cycle" if find_cycle_undirected_graph(
+    graph, 4) else "No cycle")  # no cycle
 
-print("Cycle" if find_cycle_undirected(graph1, 4) else "No cycle")  # cycle
+print("Cycle" if find_cycle_undirected_graph(
+    graph1, 4) else "No cycle")  # cycle
 
 
 # In  Directed graph case using DFS
-
-
-def has_cycle_directed(graph, node, visited, dfs_visited):
-
-    visited.add(node)
-    dfs_visited.add(node)
-    for nei in graph[node]:
-        if nei not in visited:
-            if has_cycle_directed(graph, nei, visited, dfs_visited):
-                return True
-        # if node present in both set that means cycle exists.
-        elif nei in dfs_visited:
-            return True
-    dfs_visited.remove(node)
-    return False
-
-
 def find_cycle_directed(graph, n):
     visited = set()
     dfs_visited = set()
+
+    def has_cycle_directed(graph, node, visited, dfs_visited):
+        visited.add(node)
+        dfs_visited.add(node)
+        for nei in graph[node]:
+            if nei not in visited:
+                if has_cycle_directed(graph, nei, visited, dfs_visited):
+                    return True
+            # if node present in both set that means cycle exists.
+            elif nei in dfs_visited:
+                return True
+        dfs_visited.remove(node)
+        return False
+
     for i in range(n):
         if i not in visited:
             if has_cycle_directed(graph, i, visited, dfs_visited):
@@ -74,8 +74,6 @@ print("Cycle" if find_cycle_directed(graph1, 3) else "No cycle")  # cycle
 
 
 # In Undirected graph case using BFS
-
-
 def has_cycle_undirected_bfs(graph, node, visited):
 
     q = [(node, -1)]
@@ -112,8 +110,6 @@ print("Cycle" if find_cycle_undirected_bfs(graph1, 4) else "No cycle")  # cycle
 
 
 # Cycle Detection in Directed Graph using BFS(Kahn's Algorithm) indegree method
-
-
 def topologicalSort2(n, graph):
 
     adj = {c: [] for c in range(n)}
