@@ -8,7 +8,7 @@ or in other words, some number of vertices connected in a closed chain
 # https://leetcode.com/problems/graph-valid-tree/
 
 
-def find_cycle_undirected_graph(graph, n):
+def find_cycle_undirected_graph_dfs(graph, n):
     visited = set()
 
     def dfs(node, parent):
@@ -33,15 +33,14 @@ def find_cycle_undirected_graph(graph, n):
 graph = {0: [1], 1: [2], 2: [3], 3: []}  # no cycle
 graph1 = {0: [1], 3: [0, 2], 2: [1], 1: []}  # cycle
 
-print("Cycle" if find_cycle_undirected_graph(
+print("Cycle" if find_cycle_undirected_graph_dfs(
     graph, 4) else "No cycle")  # no cycle
-
-print("Cycle" if find_cycle_undirected_graph(
+print("Cycle" if find_cycle_undirected_graph_dfs(
     graph1, 4) else "No cycle")  # cycle
 
 
-# In  Directed graph case using DFS
-def find_cycle_directed(graph, n):
+# In Directed graph case using DFS
+def find_cycle_directed_dfs(graph, n):
     visited = set()
     dfs_visited = set()
 
@@ -68,9 +67,8 @@ def find_cycle_directed(graph, n):
 graph = {0: [1], 1: [2], 2: [3], 3: []}  # no cycle
 graph1 = {0: [1], 1: [2], 2: [0]}  # cycle
 
-print("Cycle" if find_cycle_directed(graph, 4) else "No cycle")  # no cycle
-
-print("Cycle" if find_cycle_directed(graph1, 3) else "No cycle")  # cycle
+print("Cycle" if find_cycle_directed_dfs(graph, 4) else "No cycle")  # no cycle
+print("Cycle" if find_cycle_directed_dfs(graph1, 3) else "No cycle")  # cycle
 
 
 # In Undirected graph case using BFS
@@ -105,7 +103,6 @@ graph1 = {0: [1], 3: [0, 2], 2: [1], 1: []}  # cycle
 print(
     "Cycle" if find_cycle_undirected_bfs(graph, 4) else "No cycle"
 )  # no cycle
-
 print("Cycle" if find_cycle_undirected_bfs(graph1, 4) else "No cycle")  # cycle
 
 
@@ -141,13 +138,3 @@ def topologicalSort2(n, graph):
     if count == n:  # if counting equals to
         return False
     return True
-
-
-'''
-It is not possible to find a cycle in a graph using a breadth-first search (BFS) algorithm,
-as BFS traverses the graph in a level-by-level manner, visiting all vertices at the current
-level before moving on to the next level. On the other hand, cycles are formed by vertices
-that are reachable from each other in a circular manner, which is not possible to detect
-using BFS. To find a cycle in a graph, you can use depth-first search (DFS), as explained
-above.
-'''
