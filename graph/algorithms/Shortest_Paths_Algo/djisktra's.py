@@ -22,7 +22,7 @@ def dijkstra(graph, N, start):
 
     dist[start] = 0
 
-    minHeap = [(0, start)]
+    minHeap = [(0, start)]  # weight, node
 
     while minHeap:
         # weight, node
@@ -52,15 +52,15 @@ def dijkstra(graph, N, start):
         if weight > dist[node]:
             continue
 
-        for nei, nei_weight in adj[node]:
+        for child, child_weight in adj[node]:
 
-            new_dist = dist[node] + nei_weight
+            new_dist = dist[node] + child_weight
 
-            if new_dist < dist[nei]:
+            if dist[child] > new_dist:
 
-                dist[nei] = new_dist
+                dist[child] = new_dist
 
-                heapq.heappush(minHeap, (new_dist, nei))
+                heapq.heappush(minHeap, (new_dist, child))
 
     return dist
 
@@ -91,18 +91,28 @@ class Solution:
         time[0] = 0
 
         while minHeap:
-            currCost, currTime, x = heapq.heappop(minHeap)
-            for y, pathTime in graph[x]:
+            currCost, currTime, node = heapq.heappop(minHeap)
+
+            for child, pathTime in graph[node]:
+
                 if currTime + pathTime <= maxTime:
-                    # go from x -> y
-                    newCost = currCost + passingFees[y]
+
+                    newCost = currCost + passingFees[child]
                     newTime = currTime + pathTime
-                    if cost[y] > newCost:
-                        cost[y] = newCost
-                        time[y] = newTime
-                        heapq.heappush(minHeap, (newCost, newTime, y))
-                    elif time[y] > newTime:
-                        time[y] = newTime
-                        heapq.heappush(minHeap, (newCost, newTime, y))
+
+                    if cost[child] > newCost:
+                        cost[child] = newCost
+                        time[child] = newTime
+                        heapq.heappush(minHeap, (newCost, newTime, child))
+
+                    elif time[child] > newTime:
+                        time[child] = newTime
+                        heapq.heappush(minHeap, (newCost, newTime, child))
 
         return -1 if cost[-1] == math.inf else cost[-1]
+
+
+# More Problems
+# https://leetcode.com/problems/the-maze/
+# https://leetcode.com/problems/the-maze-ii/
+# https://leetcode.com/problems/the-maze-iii/

@@ -30,10 +30,10 @@ def shortest_path_undirected_bfs(n, graph, start):
 
     while q:
         node = q.pop(0)
-        for nei in graph[node]:
-            if dist[node] + 1 < dist[nei]:  # adding one to connected nodes
-                dist[nei] = dist[node] + 1
-                q.append(nei)
+        for child in graph[node]:
+            if dist[node] + 1 < dist[child]:  # adding one to connected nodes
+                dist[child] = dist[node] + 1
+                q.append(child)
     return dist
 
 
@@ -52,9 +52,9 @@ def shortest_path_directed_acyclic(n, edges, start):
 
         visit.add(node)
 
-        for nei, d in adj[node]:
-            if nei not in visit:
-                topological_sort(visit, nei)
+        for child, d in adj[node]:
+            if child not in visit:
+                topological_sort(visit, child)
 
         st.append(node)
 
@@ -72,9 +72,9 @@ def shortest_path_directed_acyclic(n, edges, start):
         node = st.pop()
         if dist[node] != float("inf"):
             # in weighted graph make sure to add given distance
-            for nei, d in adj[node]:
-                if dist[node] + d < dist[nei]:
-                    dist[nei] = dist[node] + d
+            for child, d in adj[node]:
+                if dist[node] + d < dist[child]:
+                    dist[child] = dist[node] + d
 
     return dist
 
