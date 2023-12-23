@@ -16,16 +16,15 @@ class Graph:
         self.graph[u].append(v)
         self.graph[v].append(u)
 
-    '''A recursive function that find articulation points
+    """A recursive function that find articulation points
 	using DFS traversal
 	u --> The vertex to be visited next
 	visited[] --> keeps track of visited vertices
 	disc[] --> Stores discovery times of visited vertices
 	parent[] --> Stores parent vertices in DFS tree
-	ap[] --> Store articulation points'''
+	ap[] --> Store articulation points"""
 
     def APUtil(self, u, visited, ap, parent, low, disc):
-
         # Count of children in current node
         children = 0
 
@@ -66,7 +65,6 @@ class Graph:
 
     # The function to do DFS traversal. It uses recursive APUtil()
     def AP(self):
-
         # Mark all the vertices as not visited
         # and Initialize parent and visited,
         # and ap(articulation point) arrays

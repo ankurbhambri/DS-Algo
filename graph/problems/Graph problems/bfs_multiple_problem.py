@@ -6,14 +6,14 @@ from collections import defaultdict, deque
 
 def shortest_path(graph, start, end):
     q = deque([start])
-    distances = defaultdict(lambda: float('inf'))
+    distances = defaultdict(lambda: float("inf"))
     distances[start] = 0
     while q:
         node = q.popleft()
         if node == end:
             return distances[end]
         for neighbor in graph[node]:
-            if distances[neighbor] == float('inf'):
+            if distances[neighbor] == float("inf"):
                 distances[neighbor] = distances[node] + 1
                 q.append(neighbor)
     return -1
@@ -110,7 +110,7 @@ def word_ladder(start, end, dictionary):
         if word == end:
             return depth
         for i in range(len(word)):
-            for j in 'abcdefghijklmnopqrstuvwxyz':
+            for j in "abcdefghijklmnopqrstuvwxyz":
                 next_word = word[:i] + j + word[i + 1 :]
                 if next_word in dictionary and next_word not in visited:
                     q.append((next_word, depth + 1))
@@ -118,9 +118,9 @@ def word_ladder(start, end, dictionary):
     return 0
 
 
-dictionary = set(['hot', 'dot', 'dog', 'lot', 'log', 'cog'])
+dictionary = set(["hot", "dot", "dog", "lot", "log", "cog"])
 
-print(word_ladder('hit', 'cog', dictionary))
+print(word_ladder("hit", "cog", dictionary))
 # Here's an example implementation of finding the shortest path of a knight in a chess board using BFS in Python:
 
 from collections import deque

@@ -22,7 +22,7 @@ class Solution:
     def addEdge(self, u, v):
         self.graph[u].append(v)
 
-    '''A recursive function that find finds and prints strongly connected
+    """A recursive function that find finds and prints strongly connected
 	components using DFS traversal
 	u --> The vertex to be visited next
 	disc[] --> Stores discovery times of visited vertices
@@ -33,10 +33,9 @@ class Solution:
 		of SCC)
 	visited[] --> bit/index array for faster check whether
 				a node is in stack
-	'''
+	"""
 
     def dfs(self, u, low, disc, visited, st):
-
         disc[u] = self.Time
         low[u] = self.Time
         self.Time += 1
@@ -44,7 +43,6 @@ class Solution:
         st.append(u)
 
         for v in self.graph[u]:
-
             # If v is not visited yet, then recur for it
             if disc[v] == -1:
                 self.dfs(v, low, disc, visited, st)
@@ -55,10 +53,9 @@ class Solution:
                 low[u] = min(low[u], low[v])
 
             elif v in visited:
-
-                '''Update low value of 'u' only if 'v' is still in stack
+                """Update low value of 'u' only if 'v' is still in stack
                 (i.e. it's a back edge, not cross edge).
-                Case 2 (per above discussion on Disc and Low value)'''
+                Case 2 (per above discussion on Disc and Low value)"""
                 low[u] = min(low[u], disc[v])
 
         # head node found, pop the stack and print an SCC
@@ -75,7 +72,6 @@ class Solution:
     # It uses recursive dfs()
 
     def SCC(self):
-
         # Mark all the vertices as not visited
         # and Initialize parent and visited,
         # and ap(articulation point) arrays

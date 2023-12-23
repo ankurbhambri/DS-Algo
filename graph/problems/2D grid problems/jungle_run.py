@@ -1,8 +1,8 @@
-''' In this problem we have to find shortest path from start -> S to end -> E in a jungle '''
+""" In this problem we have to find shortest path from start -> S to end -> E in a jungle """
+
 
 # Using BFS
 def jungleRun(grid):
-
     R, C = len(grid), len(grid[0])
     # intially 0 distance from every node
     dist = [[0] * C for _ in range(R)]
@@ -38,7 +38,7 @@ def jungleRun(grid):
                 or r >= R
                 or c >= C
                 or (r, c) in visit
-                or grid[r][c] == 'T'
+                or grid[r][c] == "T"
             ):  # N means we can't go further way block
                 continue
 
@@ -50,10 +50,10 @@ def jungleRun(grid):
 
 
 grid = [
-    ['S', 'N', 'P', 'P', 'P'],
-    ['P', 'P', 'P', 'N', 'P'],
-    ['P', 'N', 'N', 'N', 'P'],
-    ['p', 'N', 'E', 'P', 'P'],
+    ["S", "N", "P", "P", "P"],
+    ["P", "P", "P", "N", "P"],
+    ["P", "N", "N", "N", "P"],
+    ["p", "N", "E", "P", "P"],
 ]
 
 grid2 = [

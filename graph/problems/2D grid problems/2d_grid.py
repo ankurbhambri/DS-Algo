@@ -1,6 +1,5 @@
 # DFS
 def traverseGrid_DFS(graph):
-
     R, C = len(grid), len(grid[0])
     visit = set()
 
@@ -51,5 +50,5 @@ def traverseGrid_BFS(grid):
 grid = [[3, 1, 5], [7, 8, 2], [14, 11, 9]]
 
 traverseGrid_DFS(grid)
-print('\n')
+print("\n")
 traverseGrid_BFS(grid)

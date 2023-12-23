@@ -2,7 +2,6 @@
 
 
 def first():
-
     #  Manhattan distance between two cities
     def manhattan_distance(city1, city2):
         return abs(city1[0] - city2[0]) + abs(city1[1] - city2[1])
@@ -20,14 +19,15 @@ def first():
 
     # Find the minimum cost solution
     for i in range(n):
-        min_cost = float('inf')
+        min_cost = float("inf")
         station_idx = -1
 
         # Check the cost of building a station in each city
         for j in range(n):
             if i != j:
-                cost = manhattan_distance(
-                    cities[i], cities[j]) * (costs_connections[i] + costs_connections[j])
+                cost = manhattan_distance(cities[i], cities[j]) * (
+                    costs_connections[i] + costs_connections[j]
+                )
                 if cost < min_cost:
                     min_cost = cost
                     station_idx = j
@@ -90,8 +90,9 @@ class Solution:
         edges = [(cost_power[i], 0, i) for i in range(1, n + 1)]
         for i in range(1, n + 1):
             for j in range(i + 1, n + 1):
-                dis = abs(coordinates[j][0] - coordinates[i][0]) + \
-                    abs(coordinates[j][1] - coordinates[i][1])
+                dis = abs(coordinates[j][0] - coordinates[i][0]) + abs(
+                    coordinates[j][1] - coordinates[i][1]
+                )
                 cost = dis * (cost_wire[i] + cost_wire[j])
                 edges.append((cost, i, j))
 

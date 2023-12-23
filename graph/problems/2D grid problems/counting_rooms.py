@@ -1,21 +1,12 @@
-'''Counting nos of rooms in an grid where 1 is wall and 0 is room diameter or size'''
+"""Counting nos of rooms in an grid where 1 is wall and 0 is room diameter or size"""
 
 
 def counting_rooms_dfs(graph):
-
     R, C = len(grid), len(grid[0])
     visit = set()
 
     def dfs(r, c):
-
-        if (
-            r < 0
-            or c < 0
-            or r >= R
-            or c >= C
-            or grid[r][c] == 1
-            or (r, c) in visit
-        ):
+        if r < 0 or c < 0 or r >= R or c >= C or grid[r][c] == 1 or (r, c) in visit:
             return 0
 
         visit.add((r, c))
@@ -34,6 +25,7 @@ def counting_rooms_dfs(graph):
                 ans.append(dfs(r, c))
 
     return ans
+
 
 grid = [
     [0, 1, 0, 0, 0, 0],

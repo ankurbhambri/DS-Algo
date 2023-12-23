@@ -1,4 +1,4 @@
-'''
+"""
 
 Given an undirected graph, indicate if there is a cycle in the graph. Follow up,
 return a list of all cycles that are seen. If there is none, return an empty list.
@@ -13,18 +13,16 @@ there are three cycles:
 0, 1, 2, 5, 4, 3, 0
 1, 2, 4, 5, 1
 
-'''
+"""
 
 
 def solve(graph, n):
-
     path = []
     res = []
     visit = set()
 
     # to find out cycle
     def dfs(node, parent):
-
         visit.add(node)
         path.append(node)
 
@@ -33,7 +31,7 @@ def solve(graph, n):
                 dfs(child, node)
             elif child != parent:
                 if child in path:
-                    cycle = path[path.index(child):]
+                    cycle = path[path.index(child) :]
                     res.append(cycle)
         path.pop()
 

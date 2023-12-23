@@ -16,17 +16,8 @@ def walls_and_gates(self, rooms):
                 q.append([i, j])
                 visit.add((i, j))
 
-    def helper(
-        x, y
-    ):  # checking whether things are out of bounce or not wall etc
-        if (
-            x < 0
-            or x == r
-            or y < 0
-            or y == c
-            or rooms[x][y] == -1
-            or (x, y) in visit
-        ):
+    def helper(x, y):  # checking whether things are out of bounce or not wall etc
+        if x < 0 or x == r or y < 0 or y == c or rooms[x][y] == -1 or (x, y) in visit:
             return
         q.append([x, y])
         visit.add((x, y))

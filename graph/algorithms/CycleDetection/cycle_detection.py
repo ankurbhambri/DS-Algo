@@ -1,7 +1,7 @@
-''' 
+""" 
 In graph theory, a cycle graph or circular graph is a graph that consists of a single cycle, 
 or in other words, some number of vertices connected in a closed chain
-'''
+"""
 
 # In Undirected graph case using DFS
 
@@ -33,10 +33,8 @@ def find_cycle_undirected_graph_dfs(graph, n):
 graph = {0: [1], 1: [2], 2: [3], 3: []}  # no cycle
 graph1 = {0: [1], 3: [0, 2], 2: [1], 1: []}  # cycle
 
-print("Cycle" if find_cycle_undirected_graph_dfs(
-    graph, 4) else "No cycle")  # no cycle
-print("Cycle" if find_cycle_undirected_graph_dfs(
-    graph1, 4) else "No cycle")  # cycle
+print("Cycle" if find_cycle_undirected_graph_dfs(graph, 4) else "No cycle")  # no cycle
+print("Cycle" if find_cycle_undirected_graph_dfs(graph1, 4) else "No cycle")  # cycle
 
 
 # In Directed graph case using DFS
@@ -73,7 +71,6 @@ print("Cycle" if find_cycle_directed_dfs(graph1, 3) else "No cycle")  # cycle
 
 # In Undirected graph case using BFS
 def has_cycle_undirected_bfs(graph, node, visited):
-
     q = [(node, -1)]
     visited.add(node)
 
@@ -100,15 +97,12 @@ def find_cycle_undirected_bfs(graph, n):
 graph = {0: [1], 1: [2], 2: [3], 3: []}  # no cycle
 graph1 = {0: [1], 3: [0, 2], 2: [1], 1: []}  # cycle
 
-print(
-    "Cycle" if find_cycle_undirected_bfs(graph, 4) else "No cycle"
-)  # no cycle
+print("Cycle" if find_cycle_undirected_bfs(graph, 4) else "No cycle")  # no cycle
 print("Cycle" if find_cycle_undirected_bfs(graph1, 4) else "No cycle")  # cycle
 
 
 # Cycle Detection in Directed Graph using BFS(Kahn's Algorithm) indegree method
 def topologicalSort2(n, graph):
-
     adj = {c: [] for c in range(n)}
     in_degree = {i: 0 for i in range(n)}
 

@@ -5,7 +5,6 @@ class Trie:
     head = {}
 
     def add(self, word):
-
         curr = self.head
 
         for ch in word:
@@ -16,7 +15,6 @@ class Trie:
         curr["*"] = True
 
     def search(self, word):
-
         curr = self.head
 
         for ch in word:

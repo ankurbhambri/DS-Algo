@@ -1,10 +1,9 @@
-'''
+"""
 Floyd-Warshall algorithm | All pairs shortest path - Dynamic Programming - o(n^3)
-'''
+"""
 
 
 def floyd_warshall(n, graph):
-
     temp = graph  # copy
     for k in range(n):
         for i in range(n):

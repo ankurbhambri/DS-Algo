@@ -1,12 +1,11 @@
-'''SSSP -> Single Source Shortest Path Using BFS and DFS
+"""SSSP -> Single Source Shortest Path Using BFS and DFS
 Finding the shortest paths between a given vertex v and all other vertices in the graph.
-'''
+"""
 
 
 def using_DFS(n, graph):
-
     # distance list to get distance from parent node
-    dis = {i: 0 for i in range(1, n + 1)}  
+    dis = {i: 0 for i in range(1, n + 1)}
 
     # adjacency list
     adj = {i: [] for i in range(1, n + 1)}
@@ -24,12 +23,11 @@ def using_DFS(n, graph):
                 dis[ch] = 1 + dis[node]
                 dfs(ch)
 
-    dfs(1) # start node
+    dfs(1)  # start node
     return dis
 
 
 def using_BFS(n, graph):
-
     dis = {i: 0 for i in range(1, n + 1)}
     adj = {i: [] for i in range(1, n + 1)}
     for u, v in graph:

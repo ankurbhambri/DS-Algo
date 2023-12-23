@@ -8,14 +8,14 @@
 # O(A * (A + R) + A + R + Alog(A)) - time
 # O(A + R) - space
 
-'''
+"""
 Steps : 
 1. Adjacency List
 2. Unreachable nodes
 3. Build a connected component or cluster of Unreachable nodes.
 4. Representative node of each Unreachable graph.
 5. Count them
-'''
+"""
 
 
 def airportConnections(airports, routes, startingAirport):
@@ -56,6 +56,7 @@ def dfs(airportGraph, airport, visitedAirports):
     visitedAirports[airport] = True
     for connection in airportGraph[airport].connections:
         dfs(airportGraph, connection, visitedAirports)
+
 
 # Representative node for each connected component.
 
@@ -156,22 +157,7 @@ startingAirport = "LGA"
 # print(airportConnections(airports, routes, startingAirport))
 
 
-airports1 = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H"
-]
-routes1 = [
-    ["A", "B"],
-    ["C", "D"],
-    ["D", "E"],
-    ["H", "F"],
-    ["F", "G"]
-]
+airports1 = ["A", "B", "C", "D", "E", "F", "G", "H"]
+routes1 = [["A", "B"], ["C", "D"], ["D", "E"], ["H", "F"], ["F", "G"]]
 
 print(airportConnections(airports1, routes1, "B"))

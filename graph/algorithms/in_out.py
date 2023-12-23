@@ -1,14 +1,14 @@
-'''
+"""
 To check whether node is a child of a node or not.
 We calculate in and out time of every node.
 Parent in time is always less than child in time but out time is greater than child.
-'''
+"""
 
 
 timer = 1
 
-def in_out(n, graph):
 
+def in_out(n, graph):
     adj = {i: [] for i in range(1, n + 1)}
     for u, v in graph:
         adj[u].append(v)
@@ -19,7 +19,6 @@ def in_out(n, graph):
     visit = set()
 
     def dfs(node):
-
         global timer
 
         in_t[node] = timer

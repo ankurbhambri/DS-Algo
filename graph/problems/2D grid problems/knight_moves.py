@@ -7,9 +7,9 @@ def knight_moves(grid):
 
     for i in range(R):
         for j in range(C):
-            if grid[i][j] == 'A':
+            if grid[i][j] == "A":
                 start = (i, j)
-            if grid[i][j] == 'B':
+            if grid[i][j] == "B":
                 end = (i, j)
             if start and end:
                 break
@@ -36,11 +36,11 @@ def knight_moves(grid):
 
 
 grid = [
-    ['', 'B', '', ''],
-    ['', '', '', ''],
-    ['', 'A', '', ''],
-    ['', '', '', ''],
-    ['', '', '', ''],
+    ["", "B", "", ""],
+    ["", "", "", ""],
+    ["", "A", "", ""],
+    ["", "", "", ""],
+    ["", "", "", ""],
 ]
 
 print(knight_moves(grid))

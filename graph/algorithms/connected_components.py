@@ -1,5 +1,4 @@
 def func(graph, all_nodes, find_nodes):
-
     adj = {i: [] for i in all_nodes}
 
     for u, v in graph:
@@ -24,23 +23,22 @@ def func(graph, all_nodes, find_nodes):
 
 
 graph = [
-    ['A', 'B'],
-    ['A', 'C'],
-    ['A', 'D'],
-    ['D', 'E'],
-    ['B', 'E'],
-    ['F', 'H'],
-    ['F', 'G'],
-    ['I', 'J'],
+    ["A", "B"],
+    ["A", "C"],
+    ["A", "D"],
+    ["D", "E"],
+    ["B", "E"],
+    ["F", "H"],
+    ["F", "G"],
+    ["I", "J"],
 ]
-all_nodes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'I', 'J', 'K', 'H']
-find_nodes = ['A', 'F', 'I', 'K']
+all_nodes = ["A", "B", "C", "D", "E", "F", "G", "I", "J", "K", "H"]
+find_nodes = ["A", "F", "I", "K"]
 print(func(graph, all_nodes, find_nodes))
 
 
 # Count nos of Connected Components in an Undirected Graph using UNION and FIND algo
 def countComponent(n, edges):
-
     adj = [i for i in range(n)]  # everyone iteself is a parent
 
     def find(node):

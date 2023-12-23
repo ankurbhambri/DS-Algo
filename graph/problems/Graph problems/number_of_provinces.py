@@ -1,5 +1,6 @@
 # https://leetcode.com/problems/number-of-provinces/
 
+
 def solve(graph):
     n = len(graph)
     visit = set()

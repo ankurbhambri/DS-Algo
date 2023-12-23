@@ -1,12 +1,11 @@
-'''
+"""
 A Bipartite graph is a graph whose vertices can be divided into two disjoint sets.
 To check graph is Bipartite or not we represent vertices with color but condition is 
 an adjacent node cannot be of same color is 0 then child must be 1.
-'''
+"""
 
 
 def bipartite(n, graph):
-
     adj = {i: [] for i in range(n + 1)}
 
     color = {i: 0 for i in range(n + 1)}
@@ -18,13 +17,11 @@ def bipartite(n, graph):
     visit = set()
 
     def dfs(node, c):
-
         visit.add(node)
 
         color[node] = c
 
         for child in adj[node]:
-
             if child not in visit:
                 if not dfs(child, c ^ 1):
                     return False

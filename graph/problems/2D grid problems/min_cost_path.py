@@ -2,18 +2,17 @@
 
 # https://www.geeksforgeeks.org/min-cost-path-dp-6/
 
-''' Given a cost matrix cost[][] and a position (m, n) in cost[][],
+""" Given a cost matrix cost[][] and a position (m, n) in cost[][],
 write a function that returns minimum cost path to reach (m, n) from (0, 0). 
 Each cell of the matrix represents a cost to traverse through that cell. 
 The total cost of a path to reach (m, n) is the sum of all the costs on that path 
 (including both source and destination). You can only traverse down,
 right and diagonally lower cells from a given cell, i.e., from a given cell (i, j), 
 cells (i+1, j), (i, j+1), and (i+1, j+1) can be traversed. 
-You may assume that all costs are positive integers. '''
+You may assume that all costs are positive integers. """
 
 
 def minCost(cost, row, col):
-
     # For 1st column
     for i in range(1, row):
         cost[i][0] += cost[i - 1][0]
@@ -25,9 +24,7 @@ def minCost(cost, row, col):
     # For rest of the 2d matrix
     for i in range(1, row):
         for j in range(1, col):
-            cost[i][j] += min(
-                cost[i - 1][j - 1], min(cost[i - 1][j], cost[i][j - 1])
-            )
+            cost[i][j] += min(cost[i - 1][j - 1], min(cost[i - 1][j], cost[i][j - 1]))
 
     return cost[-1][-1]
 
@@ -42,24 +39,23 @@ print(minCost(cost, row, col))
 
 # Minimum Cost Path with Left, Right, Bottom and Up moves allowed all four dirs ... hard prblm
 
-'''
+"""
 Given a two dimensional grid, each cell of which contains integer cost which 
 represents a cost to traverse through that cell, we need to find a path from 
 top left cell to bottom right cell by which total cost incurred is minimum.
-'''
+"""
 
-'''It is not possible to solve this problem using dynamic programming similar to 
+"""It is not possible to solve this problem using dynamic programming similar to 
 previous problem (upper prblm) because here current state depends not only on right and bottom 
 cells but also on left and upper cells. We solve this problem using dijkstra’s algorithm. 
 Each cell of grid represents a vertex and neighbor cells adjacent vertices. 
 We do not make an explicit graph from these cells instead we will use matrix 
-as it is in our dijkstra’s algorithm. '''
+as it is in our dijkstra’s algorithm. """
 
 # https://www.geeksforgeeks.org/minimum-cost-path-left-right-bottom-moves-allowed/
 
 
 def dijkstra(grid):
-
     row, col = len(grid), len(grid[0])
 
     dist = [[float("inf")] * col for _ in range(row)]
@@ -69,7 +65,6 @@ def dijkstra(grid):
     q = [(0, 0)]
 
     while q:
-
         r, c = q.pop(0)
 
         # min in all four directions

@@ -1,7 +1,7 @@
 # https://www.geeksforgeeks.org/shortest-cycle-in-an-undirected-unweighted-graph/
 
-''' Given an undirected or bi-directional unweighted graph. The task is to find the length of the 
-    shortest cycle in the given graph. If no cycle exists print -1. '''
+""" Given an undirected or bi-directional unweighted graph. The task is to find the length of the 
+    shortest cycle in the given graph. If no cycle exists print -1. """
 
 
 from collections import deque
@@ -17,7 +17,6 @@ def shortest_cycle_undirected(graph, n):
     res = float("inf")
 
     for i in range(n):
-
         visit = set()
         distance = {i: 0 for i in range(n)}
         q = [(i)]
@@ -26,7 +25,6 @@ def shortest_cycle_undirected(graph, n):
             node = q.pop(0)
 
             for ch in adj[node]:
-
                 if ch not in visit:
                     # same as sssp.py bfs logic
                     distance[ch] = 1 + distance[node]
@@ -44,21 +42,19 @@ graph = [[0, 6], [0, 5], [5, 1], [1, 6], [2, 6], [2, 3], [3, 4], [4, 1]]
 print(shortest_cycle_undirected(graph, n))
 
 # above logic falling in this test case but below one is working need to return -1 but returning 4.
-print("ank", shortest_cycle_undirected(
-    [[0, 1], [0, 2]], 4))
+print("ank", shortest_cycle_undirected([[0, 1], [0, 2]], 4))
 
 # https://leetcode.com/problems/shortest-cycle-in-a-graph/
 
 
 def findShortestCycle(n, edges):
-
     # Creating Graph
     adj = {i: [] for i in range(n)}
     for u, v in edges:
         adj[u].append(v)
         adj[v].append(u)
 
-    res = float('inf')
+    res = float("inf")
 
     for i in range(n):
         time = [-1] * n
@@ -78,10 +74,8 @@ def findShortestCycle(n, edges):
                 elif time[child] >= time[node]:
                     res = min(res, time[child] + time[node] + 1)
 
-    return -1 if res == float('inf') else res
+    return -1 if res == float("inf") else res
 
 
-print(findShortestCycle(
-    7, [[0, 1], [1, 2], [2, 0], [3, 4], [4, 5], [5, 6], [6, 3]]))
-print(findShortestCycle(4,
-                        [[0, 1], [0, 2]]))
+print(findShortestCycle(7, [[0, 1], [1, 2], [2, 0], [3, 4], [4, 5], [5, 6], [6, 3]]))
+print(findShortestCycle(4, [[0, 1], [0, 2]]))

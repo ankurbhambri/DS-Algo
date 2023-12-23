@@ -1,4 +1,4 @@
-''' 
+""" 
 - It sorts parents and child in correct ordering
 
 - DAG - A directed graph with no cycle is called DAG.
@@ -7,11 +7,10 @@
   vertices such that for every directed edge u v, vertex u comes before v in the ordering.
 
 - Topological Sorting for a graph is not possible if the graph is not a DAG(Direct Acyclic Graph).
-'''
+"""
 
 
 def topologicalSort(n, graph):
-
     adj = {c: [] for c in range(n)}
 
     for n1, n2 in graph:
@@ -21,7 +20,6 @@ def topologicalSort(n, graph):
     visit = cycle = set()
 
     def dfs(node):
-
         # if there is cycle means no possible to do topological sort
         if node in cycle:
             return False
@@ -43,7 +41,6 @@ def topologicalSort(n, graph):
         return True
 
     for cur in range(n):
-
         if dfs(cur) == False:
             return []
 
@@ -59,7 +56,6 @@ print(topologicalSort(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
 
 
 def topologicalSort2(n, graph):
-
     adj = {c: [] for c in range(n)}
     in_degree = {i: 0 for i in range(n)}
 
@@ -92,7 +88,6 @@ print(topologicalSort2(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
 
 
 def Kahn_algo(n, graph):
-
     adj = {c: [] for c in range(n)}
     in_degree = {i: 0 for i in range(n)}
 
@@ -126,7 +121,7 @@ def Kahn_algo(n, graph):
 
 print(Kahn_algo(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
 
-'''
+"""
 Note:-
 Topological sort is an algorithm that takes a directed acyclic graph (DAG) as 
 input and produces a linear ordering of its vertices such that for every directed
@@ -139,4 +134,4 @@ all nodes have been processed.
 
 In summary, Kahn's algorithm is one specific implementation of the topological
 sort algorithm.
-'''
+"""

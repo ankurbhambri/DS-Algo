@@ -1,5 +1,6 @@
 # https://www.geeksforgeeks.org/maximum-number-of-edges-to-be-removed-to-contain-exactly-k-connected-components-in-the-graph/
 
+
 def max_edges_to_remove(N, M, K, Edges):
     adj = {i: [] for i in range(N + 1)}
     for u, v in Edges:
@@ -13,6 +14,7 @@ def max_edges_to_remove(N, M, K, Edges):
         for child in adj[node]:
             if child not in visit:
                 dfs(child)
+
     c = 0
     for i in range(N):
         if i not in visit:

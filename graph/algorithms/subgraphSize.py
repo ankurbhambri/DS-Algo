@@ -1,7 +1,9 @@
-'''
+"""
 Similar to connected component technique but in this we are just calculating size 
 for all nodes and saving it in a dictionary.
-'''
+"""
+
+
 def subGraphSize(n, graph):
     # Vertices stating from 1
     adj = {i: [] for i in range(1, n + 1)}

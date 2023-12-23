@@ -1,16 +1,15 @@
-''' 
+""" 
 Minimum Spanning Tree MST select min cost vertex but no cycle will be formed.
 We have to select minimum cost edge but make sure next vertex must me connected to selected one.
 
 The time complexity of Prim's algorithm for finding the Minimum Spanning Tree 
 (MST) of an undirected weighted graph is O(E log V), where E is the number of 
 edges and V is the number of vertices in the graph.
-'''
+"""
 import heapq
 
 
 def prims_algo(N, graph, start):
-
     adj = {i: [] for i in range(N + 1)}
 
     for u, v, d in graph:  # list of [cost and node]
@@ -27,13 +26,10 @@ def prims_algo(N, graph, start):
     minHeap = [[0, start]]
 
     while minHeap:
-
         d, node = heapq.heappop(minHeap)
 
         for nei_dist, nei in adj[node]:
-
             if nei not in visit and dist[nei] > nei_dist:
-
                 visit.add(node)
 
                 parent[nei] = node

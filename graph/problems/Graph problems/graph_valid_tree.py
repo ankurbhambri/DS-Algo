@@ -3,7 +3,6 @@
 # No multiple component in graph
 class Solution:
     def validTree(self, n: int, edges):
-
         graph = {i: [] for i in range(n)}
 
         for u, v in edges:
@@ -22,6 +21,7 @@ class Solution:
                     return True
 
             return False
+
         res = 0
         for i in range(n):
             if i not in visited:

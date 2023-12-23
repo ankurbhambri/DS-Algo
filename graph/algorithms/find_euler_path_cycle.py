@@ -3,17 +3,13 @@ from collections import defaultdict
 
 def find_euler_graph(graph, N):
     def dfs(node, visit):
-
         visit.add(node)
 
         for child in graph[node]:
-
             if child not in visit:
-
                 dfs(child, visit)
 
     def connect_component():
-
         visit = set()
         node = -1
 
@@ -23,21 +19,17 @@ def find_euler_graph(graph, N):
                 break
 
         if node == -1:
-
             return True
 
         dfs(node, visit)
 
         for i in range(N):
-
             if not visit[i] and len(graph[i]) > 0:
-
                 return False
 
         return True
 
     def find_euler(N):
-
         # if we having multi component graph there must be one component which having at-least one edge
         if not connect_component():
             return 0
@@ -45,7 +37,6 @@ def find_euler_graph(graph, N):
         odd = 0
 
         for i in range(N):
-
             if len(graph[i]) & 1:  # or len(graph[i]) % 2 != 0:
                 odd += 1
 

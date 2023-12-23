@@ -22,7 +22,6 @@ def shortest_path(arr):
 
 
 def shortest_path_undirected_bfs(n, graph, start):
-
     dist = {i: float("inf") for i in range(n)}
     dist[start] = 0
 
@@ -38,7 +37,6 @@ def shortest_path_undirected_bfs(n, graph, start):
 
 
 def shortest_path_directed_acyclic(n, edges, start):
-
     st = []  # first fill all nodes in topological sorted order in stack
 
     adj = defaultdict(list)
@@ -47,7 +45,6 @@ def shortest_path_directed_acyclic(n, edges, start):
         adj[u].append((v, d))
 
     def topological_sort(visit, node):
-
         nonlocal st
 
         visit.add(node)
@@ -58,9 +55,7 @@ def shortest_path_directed_acyclic(n, edges, start):
 
         st.append(node)
 
-    topological_sort(
-        set(), 0
-    )  # call topological sort and get stack filled w.t values
+    topological_sort(set(), 0)  # call topological sort and get stack filled w.t values
 
     # BFS to find shortest path for all values present in stack
 

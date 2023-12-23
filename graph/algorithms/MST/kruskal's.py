@@ -1,4 +1,4 @@
-'''Minimum Cost Spanning Tree using min heap O(nlogn)'''
+"""Minimum Cost Spanning Tree using min heap O(nlogn)"""
 
 from union_find import DisjointSet
 
@@ -6,7 +6,6 @@ from union_find import DisjointSet
 
 
 def kruskal_algo(n, adj):
-
     res = []
     adj = sorted(adj, key=lambda i: i[2])
     obj = DisjointSet(n + 1)

@@ -32,7 +32,6 @@ class DisjointSet:
 
 
 if __name__ == "__main__":
-
     uf = DisjointSet(10)
 
     uf.union(0, 1)
@@ -53,8 +52,6 @@ if __name__ == "__main__":
 
     print(uf.find(1) == uf.find(2))  # True because their parents are same 0
 
-    print(
-        uf.find(4) == uf.find(9)
-    )  # False because their parents are different
+    print(uf.find(4) == uf.find(9))  # False because their parents are different
 
     print(uf.parent, uf.rank)

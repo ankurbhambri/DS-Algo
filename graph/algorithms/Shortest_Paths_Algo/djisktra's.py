@@ -1,18 +1,17 @@
-'''Shortest path algorithm works may work in negative weights or may not
-It runs only one iterations - o(n^2) best and worst o(n^3)'''
+"""Shortest path algorithm works may work in negative weights or may not
+It runs only one iterations - o(n^2) best and worst o(n^3)"""
 
 import heapq
 import math
 from collections import defaultdict
 
-'''
+"""
 TC nlogn with priority queue aka Min Heap 
 TC worst case is n^2 in case of n vertices processed and n vertex relaxed
-'''
+"""
 
 
 def dijkstra(graph, N, start):
-
     adj = defaultdict(list)
 
     for u, v, w in graph:
@@ -28,7 +27,7 @@ def dijkstra(graph, N, start):
         # weight, node
         weight, node = heapq.heappop(minHeap)
 
-        '''
+        """
         However, the check if dist > distances[current_node]: continue is still
         included as an optimization to improve the algorithm's efficiency.
         The reason is that when a node is added to the priority queue with a
@@ -47,17 +46,15 @@ def dijkstra(graph, N, start):
         that we are only processing each node once and that we are finding the
         shortest path to each node, while avoiding unnecessary computations and
         speeding up the algorithm.
-        '''
+        """
 
         if weight > dist[node]:
             continue
 
         for child, child_weight in adj[node]:
-
             new_dist = dist[node] + child_weight
 
             if dist[child] > new_dist:
-
                 dist[child] = new_dist
 
                 heapq.heappush(minHeap, (new_dist, child))
@@ -67,9 +64,7 @@ def dijkstra(graph, N, start):
 
 # graph = [2 (U), 1 (V), 1 (Weight)]
 print(
-    dijkstra(
-        [[1, 2, 5], [1, 3, 2], [2, 4, 4], [3, 2, 1], [3, 4, 4]], N=5, start=1
-    )
+    dijkstra([[1, 2, 5], [1, 3, 2], [2, 4, 4], [3, 2, 1], [3, 4, 4]], N=5, start=1)
 )  # o/p {1: 0, 2: 3, 3: 2, 4: 6}
 
 
@@ -94,9 +89,7 @@ class Solution:
             currCost, currTime, node = heapq.heappop(minHeap)
 
             for child, pathTime in graph[node]:
-
                 if currTime + pathTime <= maxTime:
-
                     newCost = currCost + passingFees[child]
                     newTime = currTime + pathTime
 

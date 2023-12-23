@@ -1,4 +1,4 @@
-''' A* is based on using heuristic methods to achieve optimality and completeness, and is a variant of the best-first algorithm.
+""" A* is based on using heuristic methods to achieve optimality and completeness, and is a variant of the best-first algorithm.
 When a search algorithm has the property of optimality, it means it is guaranteed to find the best possible solution, 
 in our case the shortest path to the finish state. When a search algorithm has the property of completeness, 
 it means that if a solution to a given problem exists, the algorithm is guaranteed to find it.
@@ -6,7 +6,7 @@ it means that if a solution to a given problem exists, the algorithm is guarante
 Each time A* enters a state, it calculates the cost, f(n) (n being the neighboring node), to travel to 
 all of the neighboring nodes, and then enters the node with the lowest value of f(n).
 
-These values are calculated with the following formula: f(n) = g(n) + h(n)  '''
+These values are calculated with the following formula: f(n) = g(n) + h(n)  """
 
 from collections import deque
 from heapq import heappop, heappush
@@ -16,7 +16,7 @@ def shortestPathBinaryMatrix(grid):
     shortest_path = a_star_graph_search(
         start=(0, 0),
         successor_function_obj=get_successor_function(grid),
-        heuristic_function_obj=get_heuristic(grid)
+        heuristic_function_obj=get_heuristic(grid),
     )
     if shortest_path is None or grid[0][0] == 1:
         return -1
@@ -48,6 +48,7 @@ def get_successor_function(grid):
     >>> sorted(f((2, 1)))
     [(1, 0), (1, 2), (2, 2)]
     """
+
     def get_clear_adjacent_cells(cell):
         i, j = cell
         return (
@@ -59,6 +60,7 @@ def get_successor_function(grid):
             if 0 <= j + b < len(grid[0])
             if grid[i + a][j + b] == 0
         )
+
     return get_clear_adjacent_cells
 
 
@@ -78,11 +80,11 @@ def get_heuristic(grid):
     def get_clear_path_distance_from_goal(cell):
         (i, j) = cell
         return max(abs(a - i), abs(b - j))
+
     return get_clear_path_distance_from_goal
 
 
 class PriorityQueue:
-
     def __init__(self, iterable=[]):
         self.heap = []
         for value in iterable:
@@ -100,7 +102,6 @@ class PriorityQueue:
 
 
 def a_star_graph_search(start, successor_function_obj, heuristic_function_obj):
-
     M, N = len(grid), len(grid[0])
     visited = set()
     came_from = dict()
@@ -109,29 +110,29 @@ def a_star_graph_search(start, successor_function_obj, heuristic_function_obj):
     frontier.add(start)
 
     while frontier:
-
         node = frontier.pop()
 
         if node in visited:
             continue
         # !! if coordinates reaches bottom right corner we got the answer hurray !!
 
-        if node == (M-1, N-1):
+        if node == (M - 1, N - 1):
             return reconstruct_path(came_from, start, node)
         visited.add(node)
 
         for successor in successor_function_obj(node):
             frontier.add(
                 successor,
-                priority=distance[node] + 1 + heuristic_function_obj(successor)
+                priority=distance[node] + 1 + heuristic_function_obj(successor),
             )
 
-            if (successor not in distance
-                    or distance[node] + 1 < distance[successor]):
+            if successor not in distance or distance[node] + 1 < distance[successor]:
                 distance[successor] = distance[node] + 1
                 came_from[successor] = node
 
     return None
+
+
 ############################################# USing BFS #######################
 
 
@@ -185,7 +186,7 @@ grid = [
     [0, 0, 0, 0, 0, 1, 1, 1],
     [1, 0, 1, 0, 0, 0, 0, 0],
     [1, 1, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0]
+    [0, 0, 0, 0, 0, 1, 0, 0],
 ]
 
 print(breadth_first_search(grid))

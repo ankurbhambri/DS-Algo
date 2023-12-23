@@ -15,15 +15,12 @@ def rotten_oranges(grid):
                 q.append([i, j])
 
     while q and fresh > 0:
-
         for i in range(len(q)):
-
             r, c = q.pop(0)
 
             dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
 
             for dr, dc in dirs:
-
                 x, y = dr + r, dc + c
 
                 if x < 0 or y < 0 or x == R or y == C or grid[x][y] != 1:
