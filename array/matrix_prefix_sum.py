@@ -38,7 +38,9 @@ def compute_prefix_sum(arr):
             prefix[i][j] = (
                 prefix[i - 1][j]
                 + prefix[i][j - 1]
-                - prefix[i - 1][j - 1]
+                - prefix[i - 1][
+                    j - 1
+                ]  # it is subtracted because it's included twice in the sum of prefix[i - 1][j] and prefix[i][j - 1] and shouldn't be counted twice in the sum.
                 + arr[i - 1][j - 1]
             )
 
