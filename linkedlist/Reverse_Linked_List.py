@@ -14,7 +14,6 @@ def reverseList(head):
         head = nxt
 
     # concise way
-
     # prev = None
     # while head:
     #     head.next, prev, head = prev, head, head.next
