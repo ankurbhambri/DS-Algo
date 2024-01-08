@@ -22,7 +22,9 @@ def max_edges_to_remove(N, M, K, Edges):
             dfs(i)
 
     if c <= K:
-        return M - N + K
+        return (
+            M - N + K
+        )  # N is the number f nodes, M is the number of edges and K is the required number of connected components.
 
     return -1
 
