@@ -20,10 +20,8 @@ class Solution:
         while q:
             for _ in range(len(q)):
                 r, c = q.popleft()
-                print(r, c)
                 for x, y in paths:
                     nr, nc = r + x, c + y
-                    print(nr, nc)
                     # skipping out of bounds, obstacles and already updated cells
                     if not (0 <= nr < m and 0 <= nc < n) or rooms[nr][nc] != empty:
                         continue

@@ -18,13 +18,12 @@ Steps :
 """
 
 
-def airportConnections(airports, routes, startingAirport):
-    airportGraph = createGraph(airports, routes)
-    unreachableAirportNodes = getUnreachableAirportNodes(
-        airportGraph, airports, startingAirport
-    )
-    markUnreachableConnections(airportGraph, unreachableAirportNodes)
-    return getMinNumberOfNewConnections(airportGraph, unreachableAirportNodes)
+class AirportNode:
+    def __init__(self, airport):
+        self.airport = airport
+        self.connections = []
+        self.isReachable = True
+        self.unreachableConnections = []
 
 
 def createGraph(airports, routes):
@@ -34,6 +33,14 @@ def createGraph(airports, routes):
     for airport, connection in routes:
         airportGraph[airport].connections.append(connection)
     return airportGraph
+
+
+def dfs(airportGraph, airport, visitedAirports):
+    if airport in visitedAirports:
+        return
+    visitedAirports[airport] = True
+    for connection in airportGraph[airport].connections:
+        dfs(airportGraph, connection, visitedAirports)
 
 
 def getUnreachableAirportNodes(airportGraph, airports, startingAirport):
@@ -48,27 +55,6 @@ def getUnreachableAirportNodes(airportGraph, airports, startingAirport):
         airportNode.isReachable = False
         unreachableAirportNodes.append(airportNode)
     return unreachableAirportNodes
-
-
-def dfs(airportGraph, airport, visitedAirports):
-    if airport in visitedAirports:
-        return
-    visitedAirports[airport] = True
-    for connection in airportGraph[airport].connections:
-        dfs(airportGraph, connection, visitedAirports)
-
-
-# Representative node for each connected component.
-
-
-def markUnreachableConnections(airportGraph, unreachableAirportNodes):
-    for airportNode in unreachableAirportNodes:
-        airport = airportNode.airport
-        unreachableConnections = []
-        depthFirstAddUnreachableConnections(
-            airportGraph, airport, unreachableConnections, {}
-        )
-        airportNode.unreachableConnections = unreachableConnections
 
 
 def depthFirstAddUnreachableConnections(
@@ -87,6 +73,16 @@ def depthFirstAddUnreachableConnections(
         )
 
 
+def markUnreachableConnections(airportGraph, unreachableAirportNodes):
+    for airportNode in unreachableAirportNodes:
+        airport = airportNode.airport
+        unreachableConnections = []
+        depthFirstAddUnreachableConnections(
+            airportGraph, airport, unreachableConnections, {}
+        )
+        airportNode.unreachableConnections = unreachableConnections
+
+
 def getMinNumberOfNewConnections(airportGraph, unreachableAirportNodes):
     unreachableAirportNodes.sort(
         key=lambda airport: len(airport.unreachableConnections), reverse=True
@@ -102,12 +98,13 @@ def getMinNumberOfNewConnections(airportGraph, unreachableAirportNodes):
     return numberOfNewConnections
 
 
-class AirportNode:
-    def __init__(self, airport):
-        self.airport = airport
-        self.connections = []
-        self.isReachable = True
-        self.unreachableConnections = []
+def airportConnections(airports, routes, startingAirport):
+    airportGraph = createGraph(airports, routes)
+    unreachableAirportNodes = getUnreachableAirportNodes(
+        airportGraph, airports, startingAirport
+    )
+    markUnreachableConnections(airportGraph, unreachableAirportNodes)
+    return getMinNumberOfNewConnections(airportGraph, unreachableAirportNodes)
 
 
 airports = [

@@ -122,5 +122,5 @@ class Solution:
 
 
 if __name__ == "__main__":
-    first()
-    # Solution().solve()
+    # first()
+    Solution().solve()
