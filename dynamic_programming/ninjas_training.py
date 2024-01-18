@@ -1,5 +1,5 @@
 # Memoization
-def ninjaTraining(n: int, points: List[List[int]]) -> int:
+def ninjaTraining(n: int, points) -> int:
 
     memo = [[-1 for j in range(4)] for i in range(n)]
 
@@ -30,7 +30,7 @@ def ninjaTraining(n: int, points: List[List[int]]) -> int:
 
 
 # Tabulation
-def ninjaTraining(n: int, points: List[List[int]]) -> int:
+def ninjaTraining(n: int, points) -> int:
     dp = [[0 for j in range(4)] for i in range(n)]
 
     dp[0][0] = max(points[0][1], points[0][2])
@@ -49,7 +49,7 @@ def ninjaTraining(n: int, points: List[List[int]]) -> int:
 
 
 # Space optimization
-def ninjaTraining(n: int, points: List[List[int]]) -> int:
+def ninjaTraining(n: int, points) -> int:
     prev = [0] * 4
 
     prev[0] = max(points[0][1], points[0][2])
