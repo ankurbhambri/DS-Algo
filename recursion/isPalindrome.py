@@ -5,8 +5,10 @@ def is_palindrome(string):
             return False
     return True
 
-print(is_palindrome("racecar")) # True
-print(is_palindrome("hello")) # False
+
+print(is_palindrome("racecar"))  # True
+print(is_palindrome("hello"))  # False
+
 
 # using recursion
 def is_palindrome(string):
@@ -17,5 +19,6 @@ def is_palindrome(string):
     else:
         return False
 
-print(is_palindrome("racecar")) # True
-print(is_palindrome("hello")) # False
+
+print(is_palindrome("racecar"))  # True
+print(is_palindrome("hello"))  # False

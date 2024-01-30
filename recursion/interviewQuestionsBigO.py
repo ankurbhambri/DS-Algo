@@ -63,7 +63,8 @@ def reverse(array):
     return array
 
 
-print('reversed array ', reverse(arrayA))
+print("reversed array ", reverse(arrayA))
+
 
 # Question8
 def factorial(n):
@@ -76,6 +77,7 @@ def factorial(n):
 
 
 print(factorial(3))
+
 
 # Question9
 def allFib(n):
@@ -92,6 +94,7 @@ def fib(n):
 
 
 allFib(4)
+
 
 # Question10
 def powersOf2(n):
