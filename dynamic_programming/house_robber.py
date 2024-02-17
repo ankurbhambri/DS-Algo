@@ -1,6 +1,6 @@
 # https://leetcode.com/problems/house-robber/
 class Solution:
-    def rob(self, nums: List[int]) -> int:
+    def rob(self, nums) -> int:
         rob1, rob2 = 0, 0
         for n in nums:
             rob1, rob2 = rob2, max(n + rob1, rob2)
@@ -9,7 +9,7 @@ class Solution:
 
 # https://leetcode.com/problems/house-robber-ii/
 class Solution:
-    def rob(self, nums: List[int]) -> int:
+    def rob(self, nums) -> int:
         return max(nums[0], self.helper(nums[1:]), self.helper(nums[:-1]))
 
     def helper(self, nums):
