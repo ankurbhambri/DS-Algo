@@ -1,6 +1,8 @@
-'''
+"""
 S1 and S2 given strings we have to convert S2 to S1 using delete, insert, replace operations and find the min count of operations.
-'''
+"""
+
+
 # To Down approach
 def findMinOperations_DP(s1, s2, i1, i2, dp):
     if i1 == len(s1):
@@ -19,17 +21,17 @@ def findMinOperations_DP(s1, s2, i1, i2, dp):
         return dp[key]
 
 
-print(findMinOperations_DP('catch', 'catrh', 0, 0, {}))
-print(findMinOperations_DP('table', 'tbres', 0, 0, {}))
+print(findMinOperations_DP("catch", "catrh", 0, 0, {}))
+print(findMinOperations_DP("table", "tbres", 0, 0, {}))
 
 
 # Botoom Up approach
 def findMinOperation_TB(s1, s2, tb):
     for i1 in range(len(s1) + 1):
-        key = str(i1) + '0'
+        key = str(i1) + "0"
         tb[key] = i1
     for i2 in range(len(s2) + 1):
-        key = '0' + str(i2)
+        key = "0" + str(i2)
         tb[key] = i2
 
     for i1 in range(1, len(s1) + 1):
@@ -51,8 +53,9 @@ def findMinOperation_TB(s1, s2, tb):
     return tb[key]
 
 
-print(findMinOperation_TB('catch', 'catrh', {}))
-print(findMinOperation_TB('table', 'tbres', {}))
+print(findMinOperation_TB("catch", "catrh", {}))
+print(findMinOperation_TB("table", "tbres", {}))
+
 
 # Another Botoom Up approach
 # Time Complexity: O(m x n)
@@ -95,7 +98,7 @@ def editDistDP(str1, str2):
     return dp[m][n]
 
 
-print(editDistDP('catch', 'catrh'))
-print(editDistDP('table', 'tbres'))
-print(editDistDP('sunday', 'saturday'))
-print(editDistDP('food', 'money'))
+print(editDistDP("catch", "catrh"))
+print(editDistDP("table", "tbres"))
+print(editDistDP("sunday", "saturday"))
+print(editDistDP("food", "money"))
