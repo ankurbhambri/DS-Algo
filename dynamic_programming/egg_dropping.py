@@ -1,4 +1,4 @@
-'''First, this is not an easy problem to understand. Before moving on, ask yourself how would you calculate the number of moves needed given 100 floors and 2 eggs
+"""First, this is not an easy problem to understand. Before moving on, ask yourself how would you calculate the number of moves needed given 100 floors and 2 eggs
 
 A Natural Thinking Process: Assume we need x moves to find the egg breaking point in 100 floors with 2 eggs available. 
 The floor you should start with given 2 eggs is the x-th floor. WHY? Becase if the first egg breaks on the x-th floor, 
@@ -20,7 +20,7 @@ Because you have "m-1" moves and "k-1" eggs left, and you are in a position (str
 As for arr[m-1][k] , it represents the remaining floor we can check if the first egg dropping form the (1 + arr[m-1][k-1])-th floor is not broken. 
 Therefore, given m moves and k eggs we can check 1 + arr[m-1][k-1] + arr[m-1][k] number of floors in total!
 
-If you still don't get it. No worry. Please see the below comments in code:'''
+If you still don't get it. No worry. Please see the below comments in code:"""
 
 
 def superEggDrop(K, N):
