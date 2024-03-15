@@ -28,10 +28,10 @@ def equal_sum_memo(nums):
 
     if sum(nums) % 2 != 0:
         return False
-    
+
     dp = set()
     dp.add(0)
-    
+
     val = sum(nums) // 2
 
     for i in range(len(nums) - 1, -1, -1):
@@ -39,14 +39,14 @@ def equal_sum_memo(nums):
         for t in dp:
             nextDp.add(t + nums[i])
             nextDp.add(t)
-            
+
         dp = nextDp
-        
-    return True if val in dp else False   
-    
+
+    return True if val in dp else False
+
+
 if __name__ == "__main__":
 
     arr = [1, 5, 11, 5]
     print(equal_sum_recursive(arr))
     print(equal_sum_memo(arr))
-
