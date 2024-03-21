@@ -18,11 +18,11 @@ def knapSackRecursive(bag_cap, item_wt, item_val, N):
 
             if curr_wt <= cap:  # if current item weight is lte to bag capacity
 
-                # there are two cases 1 take current item and add it's val or 2 skip current item
-                t1 = curr_val + helper(
-                    N - 1, cap - curr_wt
-                )  # 1. add current item with it's val
-                t2 = helper(N - 1, cap)  # 2 or skip current item
+                # Now we have two choices 1 take it or 2 skip current item
+                # 1. add current item with it's val
+                t1 = curr_val + helper(N - 1, cap - curr_wt)
+                # 2 or skip current item
+                t2 = helper(N - 1, cap)
 
                 return max(t1, t2)
 
