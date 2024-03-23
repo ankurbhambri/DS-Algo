@@ -3,7 +3,7 @@
 # Top down (Memoization)
 
 
-def frogJump(n: int, heights: List[int]) -> int:
+def frogJump(n: int, heights) -> int:
 
     memo = [-1] * n
 
@@ -29,7 +29,7 @@ def frogJump(n: int, heights: List[int]) -> int:
 
 
 # Bottom up (Tabulation)
-def frogJump(n: int, heights: List[int]) -> int:
+def frogJump(n: int, heights) -> int:
 
     dp = [0] * n
     for i in range(1, n):
@@ -40,7 +40,7 @@ def frogJump(n: int, heights: List[int]) -> int:
 
 
 # Space optimized way
-def frogJump(n: int, heights: List[int]) -> int:
+def frogJump(n: int, heights) -> int:
 
     a = b = 0
     for i in range(1, n):
