@@ -8,5 +8,6 @@ def longestCommonSubstr(s1, s2, n, m):
                 res = max(res, dp[i][j])
     return res
 
+
 print(longestCommonSubstr("ABC", "ACB", 3, 3))
 print(longestCommonSubstr("ABCDGH", "ACDGHR", 6, 6))
