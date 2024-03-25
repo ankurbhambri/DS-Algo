@@ -1,7 +1,7 @@
-
 def longestSubsequence_memo(arr, N):
 
     memo = {}
+
     def solve(n, last_index):
         if n == 0:
             return 0
@@ -16,9 +16,10 @@ def longestSubsequence_memo(arr, N):
                 c = solve(n - 1, last_index)
             memo[(n, last_index)] = c
             return c
+
     return solve(N, -1)
 
-    
+
 def longestSubsequence_iterative(arr, N):
     dp = [0] * N
     dp[0] = 1
@@ -34,5 +35,12 @@ def longestSubsequence_iterative(arr, N):
         dp[i] = 1 + mx
     return max(dp)
 
-print(longestSubsequence_memo([0,8,4,12,2,10,6,14,1,9,5, 13,3,11,7,15], 16))
-print(longestSubsequence_iterative([0,8,4,12,2,10,6,14,1,9,5,13,3,11,7,15], 16))
+
+print(
+    longestSubsequence_memo([0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15], 16)
+)
+print(
+    longestSubsequence_iterative(
+        [0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15], 16
+    )
+)
