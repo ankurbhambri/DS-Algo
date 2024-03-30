@@ -1,5 +1,5 @@
 # memoization
-def frog_k_jumps(n, heights):
+def frog_k_jumps(n, heights, k):
 
     memo = [-1] * n
 
@@ -9,7 +9,7 @@ def frog_k_jumps(n, heights):
             return 0
 
         if memo[i] != -1:
-            return dp[i]
+            return memo[i]
 
         res = float("inf")
 
