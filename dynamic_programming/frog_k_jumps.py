@@ -25,7 +25,7 @@ def frog_k_jumps(n, heights, k):
 
 
 # tabulation
-def frog_k_jumps(n, heights):
+def frog_k_jumps(n, heights, k):
 
     dp = [0] * n
 
