@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/lfu-cache/
+
 from collections import defaultdict
 
 
@@ -23,9 +25,8 @@ class DLL:
         node.next.prev = new_node
         node.next = new_node
 
-    def remove(
-        self, node
-    ):  # removing where the node is present and changing its prev and next pointers only
+    # removing where the node is present and changing its prev and next pointers only
+    def remove(self, node):
         nxt, prev = node.next, node.prev
         prev.next = nxt
         nxt.prev = prev
