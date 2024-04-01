@@ -12,6 +12,7 @@ Ways to find Strongly connected components in a graph
     b. Find the transpose graph by reversing the edges. - Reverse
     c. Pop nodes one by one from stack and again do DFS on modifies graph.(Keep popping nodes) - DFS
 """
+
 # T.C  = 3 * (V + E) = O(V + E)
 
 

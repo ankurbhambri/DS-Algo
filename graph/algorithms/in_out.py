@@ -4,7 +4,6 @@ We calculate in and out time of every node.
 Parent in time is always less than child in time but out time is greater than child.
 """
 
-
 timer = 1
 
 
