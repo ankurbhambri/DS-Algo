@@ -13,7 +13,7 @@ def solution(n, edges):
 
         # If both nodes parent are same then union is not possible
         if p1 == p2:
-            return 0 # Same parent
+            return 0  # Same parent
 
         if rank[p1] < rank[p2]:
             par[p1] = p2
@@ -22,12 +22,12 @@ def solution(n, edges):
             par[p2] = p1
             rank[p1] += rank[p2]
         return 1
-        
-    res = n # Here, the logic subtracts the total nodes by the number of unions, which returns 1 if the union is successful
+
+    res = n  # Here, the logic subtracts the total nodes by the number of unions, which returns 1 if the union is successful
     for n1, n2 in edges:
         res -= union(n1, n2)
 
     return res
-    
-print(solution(5, [[0,1], [1,2], [3,4]]))
-        
+
+
+print(solution(5, [[0, 1], [1, 2], [3, 4]]))

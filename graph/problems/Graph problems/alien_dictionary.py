@@ -43,11 +43,12 @@ print(alienOrder(["wrt", "wrf", "er", "ett", "rftt"]))
 
 # using Khan's algo
 
+
 def alienOrder(words):
-    
+
     adj = {c: set() for w in words for c in w}
     indegree = {c: 0 for w in words for c in w}
-    
+
     for i in range(1, len(words)):
         w1, w2 = words[i - 1], words[i]
         for j in range(min(len(w1), len(w2))):
@@ -55,8 +56,8 @@ def alienOrder(words):
                 adj[w1[j]].add(w2[j])
                 indegree[w2[j]] += 1
                 break
-     
-    print(adj, indegree)     
+
+    print(adj, indegree)
     q = [k for k, v in indegree.items() if v == 0]
     res = []
     while q:
