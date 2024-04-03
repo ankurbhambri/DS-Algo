@@ -9,4 +9,4 @@ def capitalizeFirst(arr):
     return result + capitalizeFirst(arr[1:])
 
 
-print(capitalizeFirst(['car', 'taco', 'banana']))  # ['Car','Taco','Banana']
+print(capitalizeFirst(["car", "taco", "banana"]))  # ['Car','Taco','Banana']

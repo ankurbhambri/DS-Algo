@@ -9,5 +9,5 @@ def capitalizeWords(arr):
     return result + capitalizeWords(arr[1:])
 
 
-words = ['i', 'am', 'learning', 'recursion']
+words = ["i", "am", "learning", "recursion"]
 print(capitalizeWords(words))  # ['I', 'AM', 'LEARNING', 'RECURSION']
