@@ -1,4 +1,4 @@
-def fib(n, dp): # memoization recursive method
+def fib(n, dp):  # memoization recursive method
     if n == 0:
         return 0
     elif n == 1:
@@ -8,7 +8,7 @@ def fib(n, dp): # memoization recursive method
     return dp[n]
 
 
-def fib_tab(n): # tabular approach
+def fib_tab(n):  # tabular approach
     tb = [0, 1]
     for i in range(2, n + 1):
         tb.append(tb[i - 1] + tb[i - 2])

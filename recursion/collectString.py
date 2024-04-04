@@ -12,12 +12,12 @@ def collectStrings(obj):
 
 
 obj = {
-    "stuff": 'foo',
+    "stuff": "foo",
     "data": {
         "val": {
             "thing": {
-                "info": 'bar',
-                "moreInfo": {"evenMoreInfo": {"weMadeIt": 'baz'}},
+                "info": "bar",
+                "moreInfo": {"evenMoreInfo": {"weMadeIt": "baz"}},
             }
         }
     },
