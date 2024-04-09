@@ -1,5 +1,6 @@
 # https://leetcode.com/problems/minimum-path-sum/
 
+
 # memoization
 # TC O(M * N)
 # Space O(M * N) + Stack space
@@ -7,6 +8,7 @@ def minSumPath(matrix):
 
     m, n = len(grid), len(grid[0])
     memo = [[-1 for _ in range(n)] for _ in range(m)]
+
     def helper(i, j):
 
         if memo[i][j] != -1:
@@ -25,6 +27,7 @@ def minSumPath(matrix):
     helper(m - 1, n - 1)
     return memo[m - 1][n - 1]
 
+
 # tabulation
 # TC O(M * N)
 # Space O(M * N)
@@ -42,6 +45,7 @@ class Solution:
                     dp[i][j] = min(up, left)
 
         return dp[m - 1][n - 1]
+
 
 # space optimization
 # TC O(M * N)
