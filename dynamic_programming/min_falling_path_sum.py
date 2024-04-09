@@ -1,11 +1,13 @@
 # https://leetcode.com/problems/minimum-falling-path-sum/
 
+
 # memoization
 # TC O(M * N)
 # SC (M * N) + Stack space
-def minFallingPathSum(vec,  n):
+def minFallingPathSum(vec, n):
     m = len(vec[0])
     memo = [[-1 for _ in range(m)] for _ in range(n)]
+
     def helper(i, j):
         if j < 0 or j >= m:
             return float("inf")
@@ -25,6 +27,7 @@ def minFallingPathSum(vec,  n):
         res = min(res, helper(n - 1, i))
     return res
 
+
 # tabulation
 # TC O(M * N)
 # SC (M * N)
@@ -36,10 +39,15 @@ class Solution:
         for i in range(1, m):
             for j in range(n):
                 up = matrix[i][j] + dp[i - 1][j]
-                left_up = matrix[i][j] + (dp[i - 1][j - 1] if j - 1 >= 0 else float("inf"))
-                right_up = matrix[i][j] + (dp[i - 1][j + 1] if j + 1 < n else float("inf"))
+                left_up = matrix[i][j] + (
+                    dp[i - 1][j - 1] if j - 1 >= 0 else float("inf")
+                )
+                right_up = matrix[i][j] + (
+                    dp[i - 1][j + 1] if j + 1 < n else float("inf")
+                )
                 dp[i][j] = min(up, left_up, right_up)
         return min(dp[m - 1])
+
 
 # space optimization
 # TC O(M * N)
