@@ -28,6 +28,7 @@ def ninjaTraining(n: int, points: List[List[int]]) -> int:
 
     return helper(n - 1, 3)
 
+
 # Tabulation
 def ninjaTraining(n: int, points: List[List[int]]) -> int:
     dp = [[0 for j in range(4)] for i in range(n)]
@@ -45,6 +46,7 @@ def ninjaTraining(n: int, points: List[List[int]]) -> int:
                     dp[day][last] = max(dp[day][last], activity)
 
     return dp[n - 1][3]
+
 
 # Space optimization
 def ninjaTraining(n: int, points: List[List[int]]) -> int:
