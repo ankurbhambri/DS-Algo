@@ -1,6 +1,7 @@
 def minDifferenceMemo(arr, n):
     sm = sum(arr)
     memo = {}
+
     def helper(N, p1, W):
         p2 = W - p1
         if N == 0:
@@ -17,7 +18,7 @@ def minDifferenceMemo(arr, n):
                 c = helper(N - 1, p1, W)
             memo[(N, p1)] = c
             return c
-            
+
     return helper(n, sm, sm)
 
 
