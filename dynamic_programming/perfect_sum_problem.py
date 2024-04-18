@@ -1,5 +1,6 @@
 # number of subset can be drived from array
 
+
 def perfect_sum_recursive(arr, W):
 
     def helper(n, W):
@@ -15,13 +16,15 @@ def perfect_sum_recursive(arr, W):
                 return c1 + c2
             else:
                 return helper(n - 1, W)
+
     return helper(len(arr), W)
 
 
 def perfect_sum_memo(arr, W):
     memo = {}
-    mod = 10 ** 9 + 7
-    arr.sort(reverse = True)
+    mod = 10**9 + 7
+    arr.sort(reverse=True)
+
     def helper(N, sm):
         if N == 0:
             if sm == 0:
@@ -42,20 +45,21 @@ def perfect_sum_memo(arr, W):
                     c = 0
             memo[(N, sm)] = c
             return c
+
     return helper(len(arr), W)
 
 
 def perfect_sum_tabular(arr, W):
 
     n = len(arr)
-    mod = 10 ** 9 + 7
+    mod = 10**9 + 7
     dp = [[0] * (W + 1) for _ in range(n)]
 
     for i in range(n):
         for j in range(W + 1):
             sm = j
             item = arr[i]
-            if i == 0:                     
+            if i == 0:
                 if sm == 0:
                     if item == 0:
                         dp[i][j] = 2
@@ -64,14 +68,15 @@ def perfect_sum_tabular(arr, W):
                 else:
                     if sm == item:
                         dp[i][j] = 1
-            
+
             else:
                 if item <= sm:
                     dp[i][j] = (dp[i - 1][sm - item] + dp[i - 1][sm]) % mod
                 else:
                     dp[i][j] = dp[i - 1][sm]
-                    
+
     return dp[n - 1][W]
+
 
 if __name__ == "__main__":
 
@@ -79,4 +84,3 @@ if __name__ == "__main__":
     print(perfect_sum_recursive(arr, 31))
     print(perfect_sum_memo(arr, 31))
     print(perfect_sum_tabular(arr, 31))
-
