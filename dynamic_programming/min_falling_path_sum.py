@@ -32,7 +32,7 @@ def minFallingPathSum(vec, n):
 # TC O(M * N)
 # SC (M * N)
 class Solution:
-    def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+    def minFallingPathSum(self, matrix) -> int:
         m, n = len(matrix), len(matrix[0])
         dp = [[0 for _ in range(n)] for _ in range(m)]
         dp[0] = matrix[0]
@@ -53,7 +53,7 @@ class Solution:
 # TC O(M * N)
 # SC (N)
 class Solution:
-    def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+    def minFallingPathSum(self, matrix) -> int:
         m, n = len(matrix), len(matrix[0])
         # dp = [[0 for _ in range(n)] for _ in range(m)]
         prev = matrix[0]

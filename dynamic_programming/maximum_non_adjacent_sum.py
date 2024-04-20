@@ -15,7 +15,7 @@ def maximumNonAdjacentSum(nums):
             return memo[i]
         # if i pick index 1 then cannot pick 2 because it will adjacent to pick i + 2
         # in our case we are running n - 1 thats why i - 1, i - 2
-        memo[i] = max(arr[i] + helper(i - 2), helper(i - 1))
+        memo[i] = max(nums[i] + helper(i - 2), helper(i - 1))
 
         return memo[i]
 
