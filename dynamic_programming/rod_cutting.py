@@ -1,7 +1,9 @@
 # https://practice.geeksforgeeks.org/problems/rod-cutting0840/1
 
+
 def cutRod_memo(price, N):
     memo = {}
+
     def solve(cl, rl):
         if rl == 0 or cl == 0:
             return 0
@@ -17,8 +19,9 @@ def cutRod_memo(price, N):
                 c = solve(cl - 1, rl)
             memo[(cl, rl)] = c
             return c
-        
+
     return solve(N, N)
+
 
 def cutRod_iterative(price, n):
     dp = [0] * (n + 1)
