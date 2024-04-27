@@ -4,7 +4,7 @@
 # memoization
 # TC O(M * N)
 # Space O(M * N) + Stack space
-def minSumPath(matrix):
+def minSumPath(grid):
 
     m, n = len(grid), len(grid[0])
     memo = [[-1 for _ in range(n)] for _ in range(m)]
@@ -32,7 +32,7 @@ def minSumPath(matrix):
 # TC O(M * N)
 # Space O(M * N)
 class Solution:
-    def minPathSum(self, grid: List[List[int]]) -> int:
+    def minPathSum(self, grid) -> int:
         m, n = len(grid), len(grid[0])
         dp = [[0 for j in range(n)] for i in range(m)]
         for i in range(m):
@@ -52,7 +52,7 @@ class Solution:
 # Space O(N)
 class Solution:
 
-    def minPathSum(self, grid: List[List[int]]) -> int:
+    def minPathSum(self, grid) -> int:
 
         m, n = len(grid), len(grid[0])
 
