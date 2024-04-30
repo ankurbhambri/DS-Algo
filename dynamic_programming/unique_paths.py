@@ -4,6 +4,7 @@
 # TC = O(M * N)
 # SC = O(M * N) + Stack Space
 
+
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         memo = [[-1 for i in range(n + 1)] for j in range(m + 1)]
@@ -26,9 +27,11 @@ class Solution:
         helper(m - 1, n - 1)
         return memo[m - 1][n - 1]
 
+
 # tabulation
 # TC = O(M * N)
 # SC = O(M * N)
+
 
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
@@ -43,15 +46,16 @@ class Solution:
 # TC = O(M * N)
 # SC = O(N)
 
+
 def uniquePaths(m, n):
-	prev_row = [0] * n
-	prev_row[0] = 1
-	for i in range(m):
-		tmp = [0] * n
-		for j in range(n):
-			if i == 0 and j == 0:
-				tmp[j] = 1
-			else:
-				tmp[j] = prev_row[j] + tmp[j - 1]
-		prev_row = tmp
-	return prev_row[-1]
+    prev_row = [0] * n
+    prev_row[0] = 1
+    for i in range(m):
+        tmp = [0] * n
+        for j in range(n):
+            if i == 0 and j == 0:
+                tmp[j] = 1
+            else:
+                tmp[j] = prev_row[j] + tmp[j - 1]
+        prev_row = tmp
+    return prev_row[-1]

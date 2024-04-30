@@ -1,7 +1,9 @@
 # unlimited supply of values in comparision of knapsack problem
 
+
 def unbounded_knapSack_memo(N, W, val, wt):
     memo = {}
+
     def helper(n, cap):
         if n == 0 or cap == 0:
             return 0
@@ -18,9 +20,10 @@ def unbounded_knapSack_memo(N, W, val, wt):
                 c = helper(n - 1, cap)
             memo[(n, cap)] = c
             return c
-        
+
     return helper(N, W)
-    
+
+
 # Bottom Up iterative or tabulation approach
 # TC: O(N * W)
 # Space: O(W)
@@ -39,4 +42,6 @@ N = 4
 W = 8
 val = [1, 4, 5, 7]
 wt = [1, 3, 4, 5]
-print(unbounded_knapSack_memo(N, W, val, wt), unbounded_knapSack_iterative(N, W, val, wt))
+print(
+    unbounded_knapSack_memo(N, W, val, wt), unbounded_knapSack_iterative(N, W, val, wt)
+)
