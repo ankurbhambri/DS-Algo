@@ -78,7 +78,7 @@ print(powerOfTwoIt(4))
 
 
 def factorial(n):
-    assert n >= 0 and int(n) == n, 'The number must be positive integer only!'
+    assert n >= 0 and int(n) == n, "The number must be positive integer only!"
     if n in [0, 1]:
         return 1
     else:
@@ -91,7 +91,7 @@ def factorial(n):
 def fibonacci(n):
     assert (
         n >= 0 and int(n) == n
-    ), 'Fibonacci number cannot be negative number or non integer.'
+    ), "Fibonacci number cannot be negative number or non integer."
     if n in [0, 1]:
         return n
     else:

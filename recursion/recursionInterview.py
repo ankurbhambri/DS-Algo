@@ -1,8 +1,6 @@
 # Question 1
 def sumofDigits(n):
-    assert (
-        n >= 0 and int(n) == n
-    ), 'The number has to be a postive integer only!'
+    assert n >= 0 and int(n) == n, "The number has to be a postive integer only!"
     if n == 0:
         return 0
     else:
@@ -10,6 +8,7 @@ def sumofDigits(n):
 
 
 print(sumofDigits(11111))
+
 
 # Question 2
 def power(base, exp):
@@ -23,9 +22,10 @@ def power(base, exp):
 
 print(power(4, 2))
 
+
 # Question 3
 def gcd(a, b):
-    assert int(a) == a and int(b) == b, 'The numbers must be integer only!'
+    assert int(a) == a and int(b) == b, "The numbers must be integer only!"
     if a < 0:
         a = -a
     if b < 0:
@@ -38,9 +38,10 @@ def gcd(a, b):
 
 print(gcd(12, 1.2))
 
+
 # Question 4
 def decimalToBinary(n):
-    assert int(n) == n, 'The parameter must be interger only'
+    assert int(n) == n, "The parameter must be interger only"
     if n == 0:
         return 0
     else:
