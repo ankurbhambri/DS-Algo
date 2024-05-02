@@ -4,5 +4,5 @@ def reverse(strng):
     return strng[len(strng) - 1] + reverse(strng[0 : len(strng) - 1])
 
 
-print(reverse('python'))  # 'nohtyp'
-print(reverse('appmillers'))  # 'srellimppa'
+print(reverse("python"))  # 'nohtyp'
+print(reverse("appmillers"))  # 'srellimppa'
