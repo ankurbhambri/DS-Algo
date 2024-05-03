@@ -16,8 +16,8 @@ obj = {
 print(stringifyNumbers(obj))
 
 {
-    'num': '1',
-    'test': [11],
-    'data': {'val': '4', 'info': {'isRight': True, 'random': '66'}},
+    "num": "1",
+    "test": [11],
+    "data": {"val": "4", "info": {"isRight": True, "random": "66"}},
 }
 print(stringifyNumbers(obj))
