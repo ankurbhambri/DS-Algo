@@ -1,7 +1,7 @@
-'''
+"""
 Given an array of integers. We are required to write a program 
 to print the number of factors of every element of the given array.
-'''
+"""
 
 
 def func(arr):
@@ -31,6 +31,7 @@ def NosFactor(n):
 
 
 print(NosFactor(5))
+
 
 # Top down approach
 def NosFactor_DP(n):
