@@ -90,7 +90,6 @@ def quickSort(arr, l, h):
 
 
 def swapSort(arr):
-
     """swap sorting on the basis of index position values
     like 1 index 2 is needed if values is present in
     its indes then no swap"""

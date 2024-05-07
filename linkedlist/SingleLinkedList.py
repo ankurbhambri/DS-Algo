@@ -162,9 +162,9 @@ obj.insertSLL(4, 3)
 obj.insertSLL(5, 4)
 obj.insertSLL(6, 5)
 obj.insertSLL(7, 6)
-obj.insertSLL(2, 7) # Duplicacy added
-obj.insertSLL(2, 7) # Duplicacy added
-obj.insertSLL(5, 8) # Duplicacy added
+obj.insertSLL(2, 7)  # Duplicacy added
+obj.insertSLL(2, 7)  # Duplicacy added
+obj.insertSLL(5, 8)  # Duplicacy added
 obj.insertSLL(8, -1)
 
 # obj.deleteNode(1)
