@@ -28,7 +28,7 @@ class Queue:
 
     def __str__(self):
         values = [str(x) for x in self.linkedList]
-        return ' '.join(values)
+        return " ".join(values)
 
     def enqueue(self, value):
         newNode = Node(value)
