@@ -1,1 +1,14 @@
 https://leetcode.com/problems/maximum-vacation-days/submissions/
+
+Finding all cycles in an undirected graph - https://stackoverflow.com/questions/5068086/finding-all-cycles-in-an-undirected-graph
+
+https://stackoverflow.com/questions/526331/cycles-in-an-undirected-graph - detects only whether there is a cycle or not
+
+https://stackoverflow.com/questions/9804127/finding-polygons-within-an-undirected-graph - very nice description, but no solution
+
+https://stackoverflow.com/questions/546655/finding-all-cycles-in-a-directed-graph/549402#549402 - finds cycles only in directed graphs
+
+https://stackoverflow.com/questions/9626249/detect-cycles-in-undirected-graph-using-boost-graph-library - Detect cycles in undirected graph using boost graph library
+
+https://stackoverflow.com/questions/2839908/find-all-cycles-in-graph-redux - Find all cycles in graph, redux
+
