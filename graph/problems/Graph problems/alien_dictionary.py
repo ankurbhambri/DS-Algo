@@ -67,3 +67,6 @@ def alienOrder(words):
             if indegree[nei] == 0:
                 q.append(nei)
     return res
+
+
+# Similar question - https://leetcode.com/discuss/interview-question/4370961/google-interview-question/2404127
