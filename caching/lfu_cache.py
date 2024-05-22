@@ -1,60 +1,81 @@
-from collections import OrderedDict, defaultdict
+from collections import defaultdict
 
 
 class Node:
-    def __init__(self, val, count):
-        self.val = val
-        self.count = count
+    def __init__(self, key, value, prev=None, nxt=None):
+        self.key = key
+        self.value = value
+        self.freq = 1
+        self.prev = prev
+        self.next = nxt
+
+
+class DLL:
+    def __init__(self):
+        self.head = Node(0, 0)
+        self.tail = Node(0, 0)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def insert_after(self, node, new_node):  # head -> here ...... <- tail
+        new_node.next = node.next
+        new_node.prev = node
+        node.next.prev = new_node
+        node.next = new_node
+
+    def remove(
+        self, node
+    ):  # removing where the node is present and changing its prev and next pointers only
+        nxt, prev = node.next, node.prev
+        prev.next = nxt
+        nxt.prev = prev
 
 
 class LFUCache:
     def __init__(self, capacity: int):
-        self.cap = capacity
-        self.cache = {}
-        self.nodeCounts = defaultdict(OrderedDict)
-        self.min = None
+        self.capacity = capacity
+        self.cache = {}  # Key to Node mapping
+        self.freq_map = defaultdict(DLL)
+        self.min_freq = 0
+
+    def _update_freq(self, node):
+        freq = node.freq
+        self.freq_map[freq].remove(node)
+        if (
+            self.min_freq == freq
+            and self.freq_map[freq].head.next
+            == self.freq_map[freq].tail  # if that freq is empty
+        ):
+            self.min_freq += 1
+            del self.freq_map[freq]
+
+        node.freq += 1
+        self.freq_map[node.freq].insert_after(self.freq_map[node.freq].head, node)
 
     def get(self, key: int) -> int:
-
-        if key not in self.cache:
-            return -1
-
-        node = self.cache[key]
-        del self.nodeCounts[node.count][key]
-
-        # If no element in bucket then remove that bucket
-        if not self.nodeCounts[node.count]:
-            del self.nodeCounts[node.count]
-
-        # if node is found then increase it's cunt
-        node.count += 1
-        # Then we'll access that bucket and enter this node
-        self.nodeCounts[node.count][key] = node
-
-        # If minimum count of process is exceded then increase it
-        if not self.nodeCounts[self.min]:
-            self.min += 1
-
-        return node.val
+        if key in self.cache:
+            node = self.cache[key]
+            self._update_freq(node)
+            return node.value
+        return -1
 
     def put(self, key: int, value: int) -> None:
 
-        if not self.cap:
-            return None
-
         if key in self.cache:
-            self.cache[key].val = value
-            self.get(key)
-            return
+            node = self.cache[key]
+            node.value = value
+            self._update_freq(node)
 
-        if len(self.cache) == self.cap:
-            lfu, _ = self.nodeCounts[self.min].popitem(last=False)
-            del self.cache[lfu]
+        else:
+            if len(self.cache) == self.capacity:
+                min_freq_list = self.freq_map[self.min_freq]
+                del self.cache[min_freq_list.tail.prev.key]
+                min_freq_list.remove(min_freq_list.tail.prev)
 
-        newNode = Node(value, 1)
-        self.cache[key] = newNode
-        self.nodeCounts[1][key] = newNode
-        self.min = 1
+            new_node = Node(key, value)
+            self.cache[key] = new_node
+            self.freq_map[1].insert_after(self.freq_map[1].head, new_node)
+            self.min_freq = 1
 
 
 # Driver code
