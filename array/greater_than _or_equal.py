@@ -45,5 +45,6 @@ def specialArray(nums):
 
 
 # 3 must be the answer because 3 elements are greater than or equal to 3 in the array
+print(specialArray([3, 5]))
 print(solution([1, 2, 4, 5, 6]))
 print(specialArray([1, 2, 4, 5, 6]))
