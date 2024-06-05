@@ -1,4 +1,7 @@
-# https://leetcode.com/discuss/interview-question/1481915/amazon-oa-count-distinct-characters-in-all-substrings
+# Discussion Post - https://leetcode.com/discuss/interview-question/1481915/amazon-oa-count-distinct-characters-in-all-substrings
+
+# Similar question - https://leetcode.com/problems/total-appeal-of-a-string/
+
 """
     Given a string, return the sum of count of distinct characters in all the substrings of that string.
     For example:
@@ -20,20 +23,15 @@
 """
 
 
-def solution(ss):
-    dd = {}
-    n = len(ss)
-    tmp = 1
-    count = 0
-    dd[ss[0]] = 1
-    for i in range(n):
-        tmp += 1 + i - dd.get(ss[i], 0)
-        dd[ss[i]] = i + 1
-        count += tmp
-    return count
+def solution(s):
 
+    last = {}
+    res = 0
+    for i,c in enumerate(s):
+        last[c] = i + 1
+        res += sum(last.values())
+    return res
 
-# Example usage
-input_string = "test"
-output = solution(input_string)
-print("Output:", output)
+print(solution("test"))  # 19
+print(solution("abbca")) # 28
+print(solution("code")) # 20
