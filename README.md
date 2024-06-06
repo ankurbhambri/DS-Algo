@@ -5,6 +5,7 @@
 - Graph
 - LinkedList
 - Queue
+- String manupulation
 - Stack
 - Searching
 - Sorting
@@ -14,4 +15,4 @@
 - Dynamic Programming
 - Recursion
 - Rolling Hash
-- Array
+- Array manupulation
