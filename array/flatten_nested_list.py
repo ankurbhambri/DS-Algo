@@ -1,5 +1,6 @@
 # Python Program to Flatten a Nested List using Recursion
 
+
 def flatten_list(nested_list):
     flattened = []
     for item in nested_list:
@@ -8,6 +9,7 @@ def flatten_list(nested_list):
         else:
             flattened.append(item)
     return flattened
+
 
 # Example usage:
 nested_list = [1, 2, [3, 4, [5, 6]], 7, [8, [9, 10]]]
