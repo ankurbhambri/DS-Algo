@@ -1,41 +1,42 @@
-from collections import Counter
-
 """
 Idea behind this problem is to moving the sliding window on S2 word and counting the number of characters in that window length,
 if that matches with S1 characters frequency then return True
+
+Actual problem - https://leetcode.com/problems/permutation-in-string/
+
+Similar problem - https://leetcode.com/problems/find-all-anagrams-in-a-string/
 
 """
 
 
 def checkInclusion(s1, s2):
 
-    freqs1 = Counter(s1)
-    freqs2 = Counter()
+    c1 = {}
+    c2 = {}
 
-    winLen = len(s1)
+    if len(s1) > len(s2):
+        return False
 
-    # checking whether starting length is equal then return from here.
-    if freqs1 == Counter(s2[: winLen + 1]):
+    for i in range(len(s1)):
+        c1[s1[i]] = c1.get(s1[i], 0) + 1
+        c2[s2[i]] = c2.get(s2[i], 0) + 1
+
+    if c1 == c2:
         return True
+    l = 0
+    for r in range(len(s1), len(s2)):
+        c2[s2[r]] = 1 + c2.get(s2[r], 0)
+        c2[s2[l]] -= 1
 
-    i, j = 0, 0
+        if c2[s2[l]] == 0:
+            del c2[s2[l]]
 
-    while j <= len(s2) - 1:
-
-        freqs2[s2[j]] += 1
-
-        if j - i + 1 == winLen:
-            if freqs2 != freqs1:
-
-                freqs2[s2[i]] -= 1
-                i += 1
-
-            else:
-                return True
-
-        j += 1
+        l += 1
+        if c1 == c2:
+            return True
 
     return False
 
 
 print(checkInclusion("ab", "eidbaooo"))
+print(checkInclusion("xy", "eidbaooo"))

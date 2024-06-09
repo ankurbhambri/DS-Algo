@@ -2,7 +2,7 @@
 
 
 class Solution:
-    def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
+    def subarraysWithKDistinct(self, nums, k):
         freq = {}
 
         l, r = 0, 0

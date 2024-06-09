@@ -1,30 +1,36 @@
-# Find all permutations of string a in string b
+# Find all permutations of string a in string b or Find All Anagrams in a String
 
-# https://stackoverflow.com/questions/41515081/algorithm-find-all-permutations-of-string-a-in-string-b
 
-from collections import Counter
+# https://leetcode.com/problems/find-all-anagrams-in-a-string/submissions/
 
 
 def find_permutations_in_string(S, B):
-    f1 = Counter(S)
-    len_s = len(S)
-    len_b = len(B)
-    res = []
 
-    if f1 == Counter(B[:len_s]):
-        res.append(0)
+    cs = {}
+    cb = {}
 
-    l, r = 1, len_s
+    if len(S) > len(B):
+        return []
 
-    while r < len_b:
+    for i in range(len(S)):
+        cs[S[i]] = 1 + cs.get(S[i], 0)
+        cb[B[i]] = 1 + cb.get(B[i], 0)
 
-        f2 = Counter(B[l : r + 1])
+    res = [0] if cs == cb else []
 
-        if f1 == f2:
-            res.append(l)
+    l = 0
+    for r in range(len(S), len(B)):
+
+        cb[B[r]] = 1 + cb.get(B[r], 0)
+        cb[B[l]] -= 1
+
+        if cb[B[l]] == 0:
+            del cb[B[l]]
 
         l += 1
-        r += 1
+
+        if cs == cb:
+            res.append(l)
 
     return res
 
@@ -36,7 +42,7 @@ print(result)  # Output: [0, 2, 3, 6]
 
 S = "abc"
 B = "defghicba"
-result = find_permutations_in_string(S, B)  
+result = find_permutations_in_string(S, B)
 print(result)  # Output: [6]
 
 S = "a"

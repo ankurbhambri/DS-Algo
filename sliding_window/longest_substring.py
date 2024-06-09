@@ -28,8 +28,6 @@ Given a string, find the length of the longest substring S that contains at most
 
 """
 
-from collections import defaultdict
-
 
 class Solution:
     def length_of_longest_substring_two_distinct(self, s: str) -> int:
