@@ -1,34 +1,66 @@
 # https://leetcode.com/problems/subarrays-with-k-different-integers/
 
 
-class Solution:
-    def subarraysWithKDistinct(self, nums, k):
-        freq = {}
+def subarraysWithKDistinct(nums, k):
+    freq = {}
 
-        l, r = 0, 0
+    l, r = 0, 0
 
-        res = 0
+    res = 0
 
-        for i, x in enumerate(nums):
-            freq[x] = freq.get(x, 0) + 1
+    for n in nums:
 
-            if len(freq) > k:
-                # remove distinct value from r index and increment r, l
-                del freq[nums[r]]
+        freq[n] = freq.get(n, 0) + 1
+
+        if len(freq) > k:
+            # remove distinct value from r index and increment r, l
+            del freq[nums[r]]
+
+            r += 1
+
+            l = r
+
+        if len(freq) == k:
+            # update r and res (Notice: K >= 1)
+            while freq[nums[r]] > 1:
+                freq[nums[r]] -= 1
 
                 r += 1
 
-                l = r
+            # size of window
+            res += r - l + 1
 
-            if len(freq) == k:
-                # update r and res (Notice: K >= 1)
+    return res
 
-                while freq[nums[r]] > 1:
-                    freq[nums[r]] -= 1
 
-                    r += 1
+print(subarraysWithKDistinct(nums=[1, 2, 1, 2, 3], k=2))
 
-                # size of window
-                res += r - l + 1
 
-        return res
+def subarraysWithKDistinct(nums, k):
+    freq = {}
+
+    l = 0
+
+    res = 0
+
+    for r in range(len(nums)):
+
+        freq[nums[r]] = freq.get(nums[r], 0) + 1
+
+        if len(freq) > k:
+            freq[nums[l]] -= 1
+            if freq[nums[l]] == 0:
+                del freq[nums[l]]
+            l += 1
+
+        if len(freq) == k:
+            while freq[nums[l]] > 1:
+                freq[nums[l]] -= 1
+                l += 1
+
+        res += r - l + 1
+
+    return res
+
+
+print(subarraysWithKDistinct(nums=[1, 2, 1, 2, 3], k=2))
