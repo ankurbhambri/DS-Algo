@@ -6,7 +6,7 @@ Given a string s, find the length of the longest substring without repeating cha
 
 
 class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
+    def lengthOfLongestSubstring(s):
 
         charSet = set()
         l = 0
@@ -24,7 +24,7 @@ class Solution:
     # https://leetcode.com/problems/maximum-erasure-value/
 
 
-def maximumUniqueSubarray(self, s: List[int]) -> int:
+def maximumUniqueSubarray(s):
     charSet = set()
 
     l = 0
@@ -55,7 +55,7 @@ Given a string, find the length of the longest substring S that contains at most
 
 
 class Solution:
-    def length_of_longest_substring_two_distinct(self, s: str) -> int:
+    def length_of_longest_substring_two_distinct(s):
 
         l = 0
         res = 0
@@ -98,7 +98,7 @@ class Solution:
 
 class Solution:
 
-    def length_of_longest_substring_k_distinct(self, s: str, k: int) -> int:
+    def length_of_longest_substring_k_distinct(s, k):
         l = 0
         res = 0
         freq = dict()

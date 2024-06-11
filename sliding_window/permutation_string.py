@@ -23,7 +23,9 @@ def checkInclusion(s1, s2):
 
     if c1 == c2:
         return True
+
     l = 0
+
     for r in range(len(s1), len(s2)):
         c2[s2[r]] = 1 + c2.get(s2[r], 0)
         c2[s2[l]] -= 1

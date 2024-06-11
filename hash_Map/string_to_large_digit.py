@@ -3,7 +3,7 @@
 
 def solution(w):
     freq = {}
-    for c in w:  # on
+    for c in w:  # O(n)
         freq[c] = 1 + freq.get(c, 0)
 
     res = ""

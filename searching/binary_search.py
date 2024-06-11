@@ -1,6 +1,7 @@
 def binary_search(target, nums):
     l, r = 0, len(nums) - 1
     while l <= r:
+        # l + (r - l) // 2 (to avoid overflow)
         m = (l + r) // 2
         if target == nums[m]:
             return m
@@ -13,7 +14,8 @@ def binary_search(target, nums):
 
 # will return 2 different index based on element shifiting
 print(binary_search(2, [1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 6, 8]))
-# issue with classic binary serach is it change index with element shifting
+
+# issue with classic binary serach that, it changes the index with element shifting
 print(binary_search(2, [1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 6, 8, 9, 10, 10]))
 
 

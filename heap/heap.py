@@ -31,3 +31,21 @@ def build_max_heap(arr):
 arr = [10, 20, 15, 30, 40]
 build_max_heap(arr)
 print(arr)
+
+
+# Usage of heap
+
+from heapq import heapify, heappush, heappop
+
+
+def solution(arr):
+    arr = [-i for i in arr]
+    heapify(arr)  # max heap simulation
+    res = []
+    while arr:
+        val = -heappop(arr)
+        res.append(val)
+    return res
+
+
+print(solution([10, 20, 15, 30, 40]))
