@@ -8,7 +8,6 @@ def printLinkedList(head):
     while head:
         print(head.val, end=" -> ")
         head = head.next
-    print("None")
 
 
 # https://leetcode.com/problems/reverse-linked-list/
@@ -36,7 +35,9 @@ obj.next = ListNode(2)
 obj.next.next = ListNode(3)
 obj.next.next.next = ListNode(4)
 obj.next.next.next.next = ListNode(5)
-print(printLinkedList(reverseList(obj)))
+
+printLinkedList(reverseList(obj))
+print()
 
 
 # Another question is to reverse a linked list from a certain position.
@@ -80,4 +81,5 @@ obj.next = ListNode(2)
 obj.next.next = ListNode(3)
 obj.next.next.next = ListNode(4)
 obj.next.next.next.next = ListNode(5)
-print(printLinkedList(reverse_at_position(obj, 2)))  # 1 -> 4 -> 3 -> 2 -> 5
+
+printLinkedList(reverse_at_position(obj, 2))  # 1 -> 4 -> 3 -> 2 -> 5
