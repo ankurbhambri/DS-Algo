@@ -16,3 +16,4 @@
 - Recursion
 - Rolling Hash
 - Array manupulation
+- Bit Manupulation
