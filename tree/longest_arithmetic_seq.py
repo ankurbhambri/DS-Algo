@@ -1,10 +1,10 @@
-'''Longest path to the bottom of a Binary Tree forming an Arithmetic Progression'''
+"""Longest path to the bottom of a Binary Tree forming an Arithmetic Progression"""
 
-'''
+"""
     Given a Binary Tree consisting of N nodes, the task is to find the length of
     the longest path from any node to the bottom of the tree such that all the node
     values form an Arithmetic Progression.
-'''
+"""
 
 
 class Node:

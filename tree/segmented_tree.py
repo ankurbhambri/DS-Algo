@@ -5,6 +5,7 @@
     Creating the tree takes O(n) time. Query and updates are both O(log n).
 """
 
+
 # Segment tree node
 class Node(object):
     def __init__(self, start, end):
@@ -21,6 +22,7 @@ class NumArray(object):
         initialize your data structure here.
         :type nums: List[int]
         """
+
         # helper function to create the tree from input array
         def createTree(nums, l, r):
 
@@ -56,6 +58,7 @@ class NumArray(object):
         :type val: int
         :rtype: int
         """
+
         # Helper function to update a value
         def updateVal(root, i, val):
 
@@ -89,6 +92,7 @@ class NumArray(object):
         :type j: int
         :rtype: int
         """
+
         # Helper function to calculate range sum
         def rangeSum(root, i, j):
 
@@ -111,9 +115,7 @@ class NumArray(object):
             # Otherwise, the interval is split. So we calculate the sum recursively,
             # by splitting the interval
             else:
-                return rangeSum(root.left, i, mid) + rangeSum(
-                    root.right, mid + 1, j
-                )
+                return rangeSum(root.left, i, mid) + rangeSum(root.right, mid + 1, j)
 
         return rangeSum(self.root, i, j)
 
