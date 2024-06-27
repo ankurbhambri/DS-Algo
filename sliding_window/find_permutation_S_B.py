@@ -35,6 +35,51 @@ def find_permutations_in_string(S, B):
     return res
 
 
+# space efficinet
+
+
+def find_permutations_in_string_space(txt, pat):
+    freq_p = {}
+    freq_t = {}
+    wn = len(pat)
+
+    # Create frequency table for pattern and initialize variables
+    for c in pat:
+        freq_p[c] = 1 + freq_p.get(c, 0)
+
+    need = len(freq_p)
+    have = 0
+
+    res = []
+
+    for i in range(len(txt)):
+        # Add current character to the window
+        char = txt[i]
+        freq_t[char] = 1 + freq_t.get(char, 0)
+
+        # Check if we have the required frequency for this character
+        if char in freq_p and freq_t[char] == freq_p[char]:
+            have += 1
+
+        # Remove leftmost character from the window when window size exceeds the pattern length
+        if i >= wn:
+            left_char = txt[i - wn]
+            if left_char in freq_p and freq_t[left_char] == freq_p[left_char]:
+                have -= 1
+            freq_t[left_char] -= 1
+            if freq_t[left_char] == 0:
+                del freq_t[left_char]
+
+        # If we have all needed characters with the required frequency, it's a valid permutation
+        if have == need:
+            if i - wn < 0:
+                res.append(0)
+            else:
+                res.append(i - wn)
+
+    return res
+
+
 S = "abc"
 B = "cbabcacab"
 result = find_permutations_in_string(S, B)
