@@ -27,3 +27,4 @@ def longestPalindrome(s):
 
 
 print(longestPalindrome("abccccdd"))
+print(longestPalindrome("racecar"))
