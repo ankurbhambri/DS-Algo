@@ -7,6 +7,9 @@
   vertices such that for every directed edge u v, vertex u comes before v in the ordering.
 
 - Topological Sorting for a graph is not possible if the graph is not a DAG(Direct Acyclic Graph).
+
+
+
 """
 
 
@@ -94,3 +97,63 @@ all nodes have been processed.
 In summary, Kahn's algorithm is one specific implementation of the topological
 sort algorithm.
 """
+
+# Q1 - https://leetcode.com/problems/course-schedule/
+# Q2 - https://leetcode.com/problems/course-schedule-ii/
+
+
+# Q1 solution
+
+
+def canFinish(nos_courses, arr):
+
+    indegree = {i: 0 for i in range(nos_courses)}
+    adj = {i: [] for i in range(nos_courses)}
+
+    for crs, pre in arr:
+        # [1, 0] 0 must be completed before 1 so this way we can make adj
+        adj[pre].append(crs)
+        indegree[crs] += 1  # no
+
+    q = [i for i in range(nos_courses) if indegree[i] == 0]
+
+    res = []
+    while q:
+
+        node = q.pop(0)
+        res.append(node)
+
+        for nei in adj[node]:
+            indegree[nei] -= 1
+
+            if indegree[nei] == 0:
+                q.append(nei)
+    print(res)
+    return len(res) == nos_courses
+
+
+# Q2 Solution
+
+
+def findOrder(n, preq):
+
+    indegree = {i: 0 for i in range(n)}
+
+    adj = {i: [] for i in range(n)}
+
+    for u, v in preq:
+        adj[u].append(v)
+        indegree[v] += 1
+
+    q = [i for i in range(n) if indegree[i] == 0]
+
+    res = []
+    while q:
+        node = q.pop(0)
+        res.append(node)
+        for nei in adj[node]:
+            indegree[nei] -= 1
+            if indegree[nei] == 0:
+                q.append(nei)
+
+    return res[::-1] if len(res) == n else []  # reverse to get the last from first

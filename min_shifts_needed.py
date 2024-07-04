@@ -1,6 +1,6 @@
 def min_shifts_needed(n, row):
-    arts = ['H', 'S', 'P', 'D']
-    min_shifts = float('inf')
+    arts = ["H", "S", "P", "D"]
+    min_shifts = float("inf")
 
     for art in arts:
         shifts = 0
