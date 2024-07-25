@@ -111,17 +111,20 @@ print(obj.networkDelayTime([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2))
 # https://leetcode.com/problems/minimum-cost-to-reach-destination-in-time/
 class Solution:
     def minCost(self, maxTime, edges, passingFees):
+
         n = len(passingFees)
+
         graph = [[] for _ in range(n)]
+
         for x, y, t in edges:
             graph[x].append((y, t))
             graph[y].append((x, t))
+
         cost = [math.inf] * n  # cost[i] := min cost to reach cities[i]
         time = [math.inf] * n  # time[i] := min cost to reach cities[i]
-        minHeap = []  # (cost, time, node)
+        minHeap = [(passingFees[0], 0, 0)]  # (cost, time, node)
 
         # start with node 0 with cost = time = 0
-        heapq.heappush(minHeap, (passingFees[0], 0, 0))
         cost[0] = passingFees[0]
         time[0] = 0
 
@@ -149,3 +152,4 @@ class Solution:
 # https://leetcode.com/problems/the-maze/
 # https://leetcode.com/problems/the-maze-ii/
 # https://leetcode.com/problems/the-maze-iii/
+# https://leetcode.com/problems/minimum-cost-to-convert-string-i/
