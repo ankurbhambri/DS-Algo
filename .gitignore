@@ -9,4 +9,3 @@ __pycache__/
 media/
 .env
 .DS_Store
-mt/
