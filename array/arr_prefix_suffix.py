@@ -1,3 +1,10 @@
+# Prefix and Suffix Sums of an Array
+
+
+# Given an array of integers, calculate the prefix and suffix sums of the array.
+# The prefix sum at index i is the sum of all elements from 0 to i, and the suffix sum at index i is the sum of all elements from i to n-1.
+
+
 def calculate_prefix_suffix_sums(arr):
     n = len(arr)
 
