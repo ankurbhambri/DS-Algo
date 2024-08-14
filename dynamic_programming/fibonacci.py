@@ -1,4 +1,5 @@
-def fib(n, dp):  # memoization recursive method
+# Memoization approach
+def fib(n, dp):
 
     if n <= 1:
         return n
@@ -12,7 +13,8 @@ def fib(n, dp):  # memoization recursive method
 print(fib(7, {}))
 
 
-def fib_tab(n):  # tabular approach
+# Tabular approach
+def fib_tab(n):
 
     tb = [0, 1]
 
@@ -25,6 +27,7 @@ def fib_tab(n):  # tabular approach
 print(fib_tab(7))
 
 
+# Space Optimization
 def fibonacci(n):
 
     if n <= 1:
