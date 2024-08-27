@@ -26,6 +26,7 @@ class Solution:
                         min(dp[i - 1][j - 1], dp[i - 1][j]), dp[i][j - 1]
                     )
                 else:
+                    # if matches then put the diagonal value as it is.
                     dp[i][j] = dp[i - 1][j - 1]
 
         return dp[M][N]
