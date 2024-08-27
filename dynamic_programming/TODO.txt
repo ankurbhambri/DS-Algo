@@ -1,0 +1,4 @@
+1. https://leetcode.com/problems/maximum-number-of-points-with-cost/
+2. https://leetcode.com/discuss/interview-question/1481915/amazon-oa-count-distinct-characters-in-all-substrings
+3. https://leetcode.com/problems/total-appeal-of-a-string/
+4. https://leetcode.com/problems/count-palindromic-subsequences/
