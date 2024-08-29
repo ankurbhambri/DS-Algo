@@ -36,6 +36,10 @@ def lcs_tabular(m, n, str1, str2):
     return dp[m][n]
 
 
+print(lcs_recursive_memo(3, 2, "ABC", "AC"))
+print(lcs_tabular(3, 2, "ABC", "AC"))
+
+
 def printlongestCommonSubsequence(str1, str2):
     m = len(str1)
     n = len(str2)
@@ -62,6 +66,4 @@ def printlongestCommonSubsequence(str1, str2):
     return "".join(res[::-1])
 
 
-print(lcs_recursive_memo(3, 2, "ABC", "AC"))
-print(lcs_tabular(3, 2, "ABC", "AC"))
 print(printlongestCommonSubsequence("ABC", "AC"))
