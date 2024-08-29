@@ -1,46 +1,35 @@
-def longestSubsequence_memo(arr, N):
+# https://leetcode.com/problems/longest-increasing-subsequence/
 
-    memo = {}
+"""
+    The idea here is to use dynamic programming to solve the problem.
+    We start with a dp array of length equal to the number of elements in the input array, nums.
+    We initialize each element of the dp array to 1, as the minimum length of any subsequence is 1.
 
-    def solve(n, last_index):
-        if n == 0:
-            return 0
-        elif (n, last_index) in memo:
-            return memo[(n, last_index)]
-        else:
-            if last_index == -1 or arr[n - 1] < arr[last_index]:
-                c1 = 1 + solve(n - 1, n - 1)
-                c2 = solve(n - 1, last_index)
-                c = max(c1, c2)
-            else:
-                c = solve(n - 1, last_index)
-            memo[(n, last_index)] = c
-            return c
+    Then, we iterate over the elements of the nums array.
+    For each element, we iterate over the previous elements (from 0 to i-1) and check if the current element is greater than the previous element.
+    If it is, we update the dp array at index i with the maximum value between its current value and 1 plus the dp value at the previous index.
+    This ensures that we keep track of the longest increasing subsequence ending at each index.
 
-    return solve(N, -1)
+    Finally, we return the maximum value in the dp array, which represents the length of the longest increasing subsequence in the nums array.
+
+    TC: O(n^2)
+    SC: O(n)
+
+"""
 
 
-def longestSubsequence_iterative(arr, N):
-    dp = [0] * N
-    dp[0] = 1
-    for i in range(1, N):
-        y = arr[i]
-        j = i - 1
-        mx = 0
-        # left side traversal
-        while j >= 0:
-            if arr[j] < y:
-                mx = max(mx, dp[j])
-            j -= 1
-        dp[i] = 1 + mx
+def lengthOfLIS(nums):
+    dp = [1] * len(nums)
+
+    for i in range(1, len(nums)):  # -> i to len(nums)
+        for j in range(i):  # -> 0 to i
+            if nums[i] > nums[j]:
+                dp[i] = max(dp[i], 1 + dp[j])
     return max(dp)
 
 
-print(
-    longestSubsequence_memo([0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15], 16)
-)
-print(
-    longestSubsequence_iterative(
-        [0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15], 16
-    )
-)
+print(lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]))  # 4
+print(lengthOfLIS([0, 1, 0, 3, 2, 3]))  # 4
+print(lengthOfLIS([7, 7, 7, 7, 7, 7, 7]))  # 1
+print(lengthOfLIS([4, 10, 4, 3, 8, 9]))  # 3
+print(lengthOfLIS([1, 3, 6, 7, 9, 4, 10, 5, 6]))  # 6
