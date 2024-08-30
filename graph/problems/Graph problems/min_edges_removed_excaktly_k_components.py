@@ -1,8 +1,14 @@
 # https://www.geeksforgeeks.org/maximum-number-of-edges-to-be-removed-to-contain-exactly-k-connected-components-in-the-graph/
 
+# Given an undirected graph G with N nodes, M edges, and an integer K,
+# the task is to find the maximum count of edges that can be removed such that there
+# remains exactly K connected components after the removal of edges. If the graph cannot contain K connect components, print -1.
+
 
 def max_edges_to_remove(N, M, K, Edges):
+
     adj = {i: [] for i in range(N + 1)}
+
     for u, v in Edges:
         adj[u].append(v)
         adj[v].append(u)

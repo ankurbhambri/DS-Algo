@@ -5,23 +5,29 @@ Given a string s, find the length of the longest substring without repeating cha
 """
 
 
-class Solution:
-    def lengthOfLongestSubstring(s):
+def lengthOfLongestSubstring(s):
 
-        charSet = set()
-        l = 0
-        res = 0
-        for r in range(len(s)):
-            while s[r] in charSet:
-                charSet.remove(s[l])
-                l += 1
-            charSet.add(s[r])
-            res = max(res, r - l + 1)
+    charSet = set()
+    l = 0
+    res = 0
+    for r in range(len(s)):
+        while s[r] in charSet:
+            charSet.remove(s[l])
+            l += 1
+        charSet.add(s[r])
+        res = max(res, r - l + 1)
 
-        return res
+    return res
 
-    # same for array as well
-    # https://leetcode.com/problems/maximum-erasure-value/
+
+# same for array as well
+# https://leetcode.com/problems/maximum-erasure-value/
+
+
+print(lengthOfLongestSubstring("abcabcbb"))  # 3
+print(lengthOfLongestSubstring("bbbbb"))  # 1
+print(lengthOfLongestSubstring("pwwkew"))  # 3
+print(lengthOfLongestSubstring(""))  # 0
 
 
 def maximumUniqueSubarray(s):
@@ -46,6 +52,11 @@ def maximumUniqueSubarray(s):
     return res
 
 
+print(maximumUniqueSubarray([4, 2, 4, 5, 6]))  # 17
+print(maximumUniqueSubarray([5, 2, 1, 2, 5, 2, 1, 2, 5]))  # 8
+print(maximumUniqueSubarray([10000]))  # 10000
+
+
 """
     https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
 
@@ -58,32 +69,50 @@ def maximumUniqueSubarray(s):
 """
 
 
-class Solution:
+def length_of_longest_substring_k_distinct(s, k):
+    l = 0
+    res = 0
+    freq = dict()
 
-    def length_of_longest_substring_k_distinct(s, k):
-        l = 0
-        res = 0
-        freq = dict()
+    for r in range(len(s)):
 
-        for r in range(len(s)):
+        freq[s[r]] = 1 + freq.get(s[r], 0)
 
-            freq[s[r]] = 1 + freq.get(s[r], 0)
+        while len(freq) > k:
 
-            while len(freq) > k:
+            freq[s[l]] -= 1
 
-                freq[s[l]] -= 1
+            l += 1
 
-                l += 1
+            if freq[s[l]] == 0:
 
-                if freq[s[l]] == 0:
+                del freq[s[l]]
 
-                    del freq[s[l]]
+        # windows length always calculated from (r - l + 1)
+        res = max(res, r - l + 1)
 
-            # windows length always calculated from (r - l + 1)
-            res = max(res, r - l + 1)
+    return res
 
-        return res
 
+print(length_of_longest_substring_k_distinct("eceba", 2))  # 3
+print(length_of_longest_substring_k_distinct("aa", 1))  # 2
+print(
+    length_of_longest_substring_k_distinct(
+        "nfhiexxjrtvpfhkrxcutexxcodfioburrtjefrgwrnqtyzelvtpvwdvvpsbudwtiryqzzy", 25
+    )
+)  # 70
+
+
+"""
+    https://leetcode.com/problems/longest-substring-with-at-most-k-repeating-characters/
+
+    Given a string s, find the length of the longest substring T that contains at most k distinct characters.
+
+    Note - same as above replace static value 2 with k only
+
+    Similar question - https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/ replace k with 2
+
+"""
 
 # 2461. Maximum Sum of Distinct Subarrays With Length K
 
@@ -114,3 +143,5 @@ def maximumSubarraySum(nums, k):
 
 
 print(maximumSubarraySum([1, 5, 4, 2, 9, 9, 9], 3))  # 15
+print(maximumSubarraySum([1, 2, 1, 2, 3], 2))  # 4
+print(maximumSubarraySum([1, 2, 1, 3, 4], 3))  # 7
