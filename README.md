@@ -1,19 +1,22 @@
 # Data Structure algorithms using Python
 
-## Topic's covered
+## Topics Covered
 
 - Graph
 - LinkedList
 - Queue
-- String manupulation
+- String Manipulation
 - Stack
 - Searching
 - Sorting
 - Trie
-- Caching (Lru, Lfu)
+- Caching (LRU, LFU)
 - Heap
 - Dynamic Programming
 - Recursion
 - Rolling Hash
-- Array manupulation
-- Bit Manupulation
+- Array Manipulation
+- Bit Manipulation
+- Binary Search
+- Greedy
+- Caching

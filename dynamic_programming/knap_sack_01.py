@@ -1,4 +1,4 @@
-from utils.functionExeutionDeco import measure
+from Extras.functionExeutionDeco import measure
 
 
 # Recursive approach of knap-sack 01
