@@ -1,10 +1,7 @@
-from Extras.functionExeutionDeco import measure
-
-
 # Recursive approach of knap-sack 01
-@measure
+
+
 def knapSackRecursive(bag_cap, item_wt, item_val, N):
-    memo = {}
 
     def helper(N, cap):
 
@@ -37,6 +34,7 @@ def knapSackRecursive(bag_cap, item_wt, item_val, N):
 # TC: O(N * W)
 # Space: O(W)
 def knapSack(val, wt, W):
+
     n = len(val)
     dp = [0] * (W + 1)
     for i in range(n):
@@ -48,7 +46,8 @@ def knapSack(val, wt, W):
 
 
 # memoization approach for knap-sack
-@measure
+
+
 def knapSackCache(bag_cap, item_wt, item_val, N):
     memo = {}
 
@@ -87,7 +86,6 @@ def knapSackCache(bag_cap, item_wt, item_val, N):
     return helper(N, bag_cap)
 
 
-@measure
 def knapsackTabular(bag_cap, item_wt, item_val, N):
     dp = [[0] * (bag_cap + 1) for _ in range(N)]
     for i in range(N):

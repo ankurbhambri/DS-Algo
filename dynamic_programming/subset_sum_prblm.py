@@ -1,9 +1,6 @@
-from Extras.functionExeutionDeco import measure
-
 # 1 means possible to create subset whose sum ewauls to target and 0 means not possible
 
 
-@measure
 def subsetSumRecursive(N, arr, sum):
 
     def helper(n, sm):
@@ -24,7 +21,6 @@ def subsetSumRecursive(N, arr, sum):
     return helper(N, sum)
 
 
-@measure
 def subsetSumMemo(N, arr, sum):
     memo = {}
     arr.sort(reverse=True)
@@ -50,7 +46,6 @@ def subsetSumMemo(N, arr, sum):
     return helper(N, sum)
 
 
-@measure
 def subsetSumTabular(N, arr, W):
     dp = [[0] * (W + 1) for _ in range(N)]
     for i in range(N):

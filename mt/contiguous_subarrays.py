@@ -1,14 +1,3 @@
-import sys
-import os
-
-# Add the parent directory to the sys.path
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-sys.path.append(parent_dir)
-
-
-from Extras.test_case_check import check
-
 """
 
 Contiguous Subarrays

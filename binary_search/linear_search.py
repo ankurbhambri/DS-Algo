@@ -2,7 +2,8 @@ from Extras.functionExeutionDeco import measure
 
 
 # O(n) time complexity
-@measure
+
+
 def linear_search(arr, target):
     if target in arr:
         return arr.index(target)
