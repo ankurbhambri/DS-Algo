@@ -1,39 +1,43 @@
+# https://www.geeksforgeeks.org/minimum-length-unsorted-subarray-sorting-which-makes-the-complete-array-sorted/
+# https://www.youtube.com/watch?v=TGWkLukqnls
+
 # Given array of integers find length subarray such that if this subarray is sorted, entire array will be sorted as well.
 
 
 def solution(arr):
 
-    mn = min(arr)
-    mx = max(arr)
+    mn = float("-inf")
+    mx = float("inf")
 
     l = 0
-
-    if arr[0] != mn:
-        l = 0
-    else:
-        for i in range(1, len(arr)):
-            if arr[i - 1] >= arr[i]:
-                l = i - 1
-                break
+    for i in range(1, len(arr)):
+        if arr[i] < arr[i - 1]:
+            l = i
+            break
 
     r = len(arr) - 1
-    arr2 = set(arr)
 
-    if arr[-1] < mx:
-        r = len(arr)
-    else:
-        # O(N ^ 2)
-        for j in range(len(arr) - 2, -1, -1):  # O(N)
-            temp = arr[r]
+    for j in range(len(arr) - 2, -1, -1):
+        if arr[j] > arr[j + 1]:
+            r = j
+            break
 
-            if temp - 1 not in arr2:
-                temp -= 1
-                while temp not in arr:  # O(N)
-                    temp -= 1
+    if l == 0 and r == len(arr) - 1:
+        return 0
 
-            if arr[j] != temp:
-                r = j
-                break
+    mn = min(arr[l : r + 1])
+    mx = max(arr[l : r + 1])
+
+    for i in range(0, l + 1):
+        if arr[i] > mn:
+            l = i
+            break
+
+    for j in range(len(arr) - 1, -r, -1):
+        print(j, arr[j])
+        if arr[j] < mx:
+            r = j
+            break
 
     return r - l + 1, r, l
 
@@ -45,9 +49,13 @@ test1 = [2, 6, 4, 8, 10, 9, 15]
 print(solution(test1))
 
 test2 = [1, 2, 3, 4, 5, 6, 7]
-print(solution(test2)[0], len(test2) - 1)
+print(solution(test2))
 
-# print(0 if hello(test2) == len(test2) - 1 else hello(test2))
+test3 = [1, 2, 4, -1, 0, 3, 5, 7]
+print(solution(test3))
+
+test4 = [1, 2, 2, 2, 1, 2, 3]
+print(solution(test4))
 
 #    i            i
 
