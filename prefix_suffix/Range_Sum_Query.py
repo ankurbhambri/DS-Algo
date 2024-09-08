@@ -1,4 +1,5 @@
 # https://leetcode.com/problems/range-sum-query-immutable/
+# https://www.hackerrank.com/challenges/crush/problem
 
 
 # O(N) computation, O(1) query, O(1) Space
