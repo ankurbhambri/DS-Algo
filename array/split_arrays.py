@@ -13,18 +13,25 @@
 def solution(arr, k):
 
     n = len(arr)
-    parts = n // k
-    rem = n % k
+
+    parts = n // k  # number of elements in each subarray
+    rem = n % k  # number of subarrays with one more element
+
     res = []
     l = 0
+
     for i in range(k):
+
+        # custom_parts is the number of elements in the subarray
         custom_parts = parts + (1 if i < rem else 0)
         tmp = []
+
         if l <= n - 1:
             for _ in range(custom_parts):
                 tmp.append(arr[l])
                 l += 1
         res.append(tmp)
+
     return res
 
 
