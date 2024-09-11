@@ -51,12 +51,8 @@ listOfLockers = [(3, 0), (2, 2)]
 
 print(calculate_distances(m, n, listOfLockers))
 
-# [
-#     [2.8, 2.2, 2.0],
-#     [2.0, 1.4, 1.0],
-#     [1.0, 1.0, 0],
-#     [0, 1.0, 1.0]
-# ]
+
+# Approach: Multisource BFS
 
 from collections import deque
 
