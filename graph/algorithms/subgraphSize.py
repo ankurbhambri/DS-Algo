@@ -5,9 +5,11 @@ for all nodes and saving it in a dictionary.
 
 
 def subGraphSize(n, graph):
+
     # Vertices stating from 1
     adj = {i: [] for i in range(1, n + 1)}
     size = {i: 0 for i in range(1, n + 1)}  # size of graph from a node
+
     for u, v in graph:
         adj[u].append(v)
         adj[v].append(u)

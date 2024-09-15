@@ -5,6 +5,7 @@ def solution(A):
     count = 0
     sums = {}
     prev_sum = -1
+
     for i in range(len(A) - 1):
         current_sum = A[i] + A[i + 1]
 

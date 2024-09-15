@@ -55,3 +55,92 @@ A = [[1, 3], [5, 7], [9, 11]]
 B = [[1, 3], [5, 7], [9, 11]]
 
 print(solution(A, B))  # [[1, 3], [5, 7], [9, 11]]
+
+
+# Another approach
+
+
+# TC: O(N * M), SC: O(1)
+def merge(arr1, l1, arr2, l2):
+    for i in range(l1):
+        # compare the current element from arr1 with the first element of the second array
+        if arr1[i] > arr2[0]:
+            # swap if the element in the first array is greater than the element in the second array
+            arr1[i], arr2[0] = arr2[0], arr1[i]
+        # sort second array in non-decreasing order
+        first = arr2[0]
+        pos = 1
+        while pos < l2 and arr2[pos] < first:
+            arr2[pos - 1] = arr2[pos]
+            pos += 1
+        arr2[pos - 1] = first
+        i += 1
+
+
+n = 4
+nums1 = [2, 9, 11, 15]
+
+m = 6
+nums2 = [-18, 1, 3, 7, 10, 12]
+print(merge(nums1, n, nums2, m))
+
+# Two sorted arrays and merge them.
+
+
+# TC: O(n + m), SC: O(N)
+
+
+import math
+
+
+def next_gap(gap):
+    if gap <= 1:
+        return 0
+    return math.ceil(gap / 2)
+
+
+def merge(array1, array2):
+    n = len(array1)
+    m = len(array2)
+
+    # Initial gap
+    gap = next_gap(n + m)
+
+    while gap > 0:
+        # Comparing elements in the first array
+        i = 0
+        while i + gap < n:
+            if array1[i] > array1[i + gap]:
+                array1[i], array1[i + gap] = array1[i + gap], array1[i]
+            i += 1
+
+        # Comparing elements between the first and second array
+        j = gap - n if gap > n else 0
+        while i < n and j < m:
+            if array1[i] > array2[j]:
+                array1[i], array2[j] = array2[j], array1[i]
+            i += 1
+            j += 1
+
+        # Comparing elements in the second array
+        if j < m:
+            while j + gap < m:
+                if array2[j] > array2[j + gap]:
+                    array2[j], array2[j + gap] = array2[j + gap], array2[j]
+                j += 1
+
+        # Reduce the gap for the next iteration
+        gap = next_gap(gap)
+
+    return array1 + array2
+
+
+# Example usage
+array1 = [1, 5, 10, 14]
+array2 = [2, 6, 8, 11]
+
+print(merge(array1, array2))
+print("Array 1:", array1)  # [1, 2, 3, 5]
+print("Array 2:", array2)  # [8, 9, 10, 13, 14]
+
+# TC: O(n log m), SC: O(1)
