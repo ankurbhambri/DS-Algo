@@ -31,8 +31,6 @@ class Solution:
     def serve(self):
         l, r = 0, len(self.state_arr)
 
-        print(self.c, self.state_arr)
-
         while l < r:
             mid = (l + r) // 2
 
