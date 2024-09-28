@@ -57,3 +57,23 @@ def solution2(arr):
 print(solution2([[0, 30], [5, 10], [15, 20]]))
 print(solution2([[7, 10], [2, 4]]))
 print(solution2([[6, 15], [13, 20], [6, 17]]))
+
+
+# similar problem -  https://leetcode.com/problems/divide-intervals-into-minimum-number-of-groups/
+
+
+def minGroups(intervals):
+
+    arr = []
+
+    for s, e in intervals:
+        arr.append([s, 1])
+        arr.append([e + 1, -1])
+
+    req = 0
+    res = 0
+    for a, diff in sorted(arr):
+        req += diff
+        res = max(req, res)
+
+    return res
