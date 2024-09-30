@@ -1,3 +1,4 @@
+from typing import List
 from sortedcontainers import SortedDict
 
 # https://leetcode.com/problems/my-calendar-i/
@@ -108,3 +109,19 @@ class MyCalendarThree:
 # similar problems:
 # https://leetcode.com/problems/car-pooling/
 # https://leetcode.com/problems/corporate-flight-bookings/submissions/
+
+
+# https://leetcode.com/problems/corporate-flight-bookings/
+class Solution:
+    def corpFlightBookings(self, bookings: List[List[int]], n: int) -> List[int]:
+
+        hm = [0] * (n + 1)
+
+        for i, j, v in bookings:
+            hm[i - 1] += v
+            hm[j] -= v
+
+        for i in range(1, n):
+            hm[i] += hm[i - 1]
+
+        return hm[:-1]
