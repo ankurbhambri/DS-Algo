@@ -1,5 +1,6 @@
 ################ Interview Questions #############
 # Question1
+
 def foo(array):
     sum = 0
     product = 1
