@@ -14,12 +14,12 @@ class LRUCache:
         self.left, self.right = Node(0, 0), Node(0, 0)
         self.left.next, self.right.prev = self.right, self.left
 
-    # Remove node from list
+    # Remove node from last (rear)
     def remove(self, node):
         prev, nxt = node.prev, node.next
         prev.next, nxt.prev = nxt, prev
 
-    # Insert node at head
+    # Insert node at head (front)
     def insert(self, node):
         next_node = self.left.next
         self.left.next = next_node.prev = node
