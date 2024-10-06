@@ -34,53 +34,81 @@ Answer should be true.
 
 
 def assassin(matrix):
+
     rows = len(matrix)
     cols = len(matrix[0])
 
     def is_valid(r, c):
         return 0 <= r < rows and 0 <= c < cols
 
-    def mark_guard_sight(r, c, direction):
-        while is_valid(r, c):
-            matrix[r][c] = "X"  # Block path in guard's sight
-            if direction == "^":
-                r -= 1
-            elif direction == "v":
-                r += 1
-            elif direction == "<":
-                c -= 1
-            else:
-                c += 1
-
     def dfs(r, c):
-        if r == rows - 1 and c == cols - 1:  # If reached bottom-right corner
+
+        # If reached bottom-right corner
+        if r == rows - 1 and c == cols - 1:
             return True
 
         matrix[r][c] = "#"  # Mark visited
+
         for dr, dc in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
             new_r, new_c = r + dr, c + dc
-            if (
-                is_valid(new_r, new_c)
-                and matrix[new_r][new_c] != "X"  # Obstacle
-                and matrix[new_r][new_c] != "#"  # Already visited
-            ):
+            # Unvisited and no obstacle
+            if is_valid(new_r, new_c) and matrix[new_r][new_c] == ".":
                 if dfs(new_r, new_c):
                     return True
         return False
 
-    # Mark guards' lines of sight
+    def mark_guard_sight(r, c, direction):
+
+        # if we find sight up side means all above line is blocked
+        if direction == "^":
+            r -= 1
+            while is_valid(r, c) and matrix[r][c] == ".":
+                matrix[r][c] = "X"
+                r -= 1
+
+        elif direction == "v":
+            r += 1
+            while is_valid(r, c) and matrix[r][c] == ".":
+                matrix[r][c] = "X"
+                r += 1
+
+        elif direction == "<":
+            c -= 1
+            while is_valid(r, c) and matrix[r][c] == ".":
+                matrix[r][c] = "X"
+                c -= 1
+
+        elif direction == ">":
+            c += 1
+            while is_valid(r, c) and matrix[r][c] == ".":
+                matrix[r][c] = "X"
+                c += 1
+
+    # Step 1: Mark guards' lines of sight in the matrix
     for r in range(rows):
         for c in range(cols):
             if matrix[r][c] in "^v<>":
                 mark_guard_sight(r, c, matrix[r][c])
 
-    # Find assassin and start DFS
+    # Step 2: Find assassin and start DFS
     for r in range(rows):
         for c in range(cols):
             if matrix[r][c] == "A":
                 return dfs(r, c)
 
     return False  # No path found
+
+
+# Example usage:
+matrix1 = [[".", "v", "."], [".", ".", "."], ["A", ".", "."]]
+
+matrix2 = [["A", ".", ".", "."], [".", "<", "X", "X"], [".", ".", ".", "."]]
+
+matrix3 = [[".", ".", ".", "<"], ["A", ".", ".", "^"], ["X", ".", ".", "."]]
+
+print(assassin(matrix1))  # Output: False
+print(assassin(matrix2))  # Output: False
+print(assassin(matrix3))  # Output: True
 
 
 # Test Cases

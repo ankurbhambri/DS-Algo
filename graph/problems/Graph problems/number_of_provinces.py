@@ -4,7 +4,6 @@
 def solve(graph):
     n = len(graph)
     visit = set()
-    res = 0
 
     def dfs(node):
         visit.add(node)
@@ -12,6 +11,7 @@ def solve(graph):
             if graph[node][i] == 1 and node not in visit:
                 dfs(graph[node][i])
 
+    res = 0
     for i in range(n):
         if i not in visit:
             res += 1

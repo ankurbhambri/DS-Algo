@@ -1,6 +1,38 @@
-# Find all permutations of string a in string b or Find All Anagrams in a String
+from collections import Counter
+
+# Same Question permutations of string A in string B or Find All Anagrams of A in String B, only difference is that we need to return the starting index of the anagram.
 
 
+# https://leetcode.com/problems/permutation-in-string/
+
+
+def checkInclusion(p, s):
+
+    cs = Counter(s[: len(p)])
+    cp = Counter(p)
+
+    if cs == cp:
+        return True
+
+    l = 0
+
+    for r in range(len(p), len(s)):
+
+        cs[s[r]] = 1 + cs.get(s[r], 0)
+        cs[s[l]] -= 1
+
+        if cs[s[l]] == 0:
+            del cs[s[l]]
+
+        l += 1
+
+        if cs == cp:
+            return True
+
+    return False
+
+
+# Same as Above only storing in array the starting index
 # https://leetcode.com/problems/find-all-anagrams-in-a-string/submissions/
 
 
@@ -39,21 +71,19 @@ def find_permutations_in_string(S, B):
 
 
 def find_permutations_in_string_space(txt, pat):
-    freq_p = {}
+
     freq_t = {}
+    freq_p = Counter(p)
+
     wn = len(pat)
 
-    # Create frequency table for pattern and initialize variables
-    for c in pat:
-        freq_p[c] = 1 + freq_p.get(c, 0)
-
-    need = len(freq_p)
+    need = wn
     have = 0
 
     res = []
 
     for i in range(len(txt)):
-        # Add current character to the window
+
         char = txt[i]
         freq_t[char] = 1 + freq_t.get(char, 0)
 
@@ -78,6 +108,9 @@ def find_permutations_in_string_space(txt, pat):
                 res.append(i - wn)
 
     return res
+
+
+# https://leetcode.com/problems/minimum-window-substring/description/
 
 
 S = "abc"

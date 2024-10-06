@@ -14,17 +14,20 @@ def wordBreakI(s, wordDict):
             if dp[j] and s[j:i] in w:
                 dp[i] = True
                 break
-
     return dp[len(s)]
 
 
 print(wordBreakI("catsanddog", ["cat", "cats", "and", "sand", "dog"]))
+
+# https://leetcode.com/problems/word-break-ii/
 
 
 # Word Break II
 def wordBreakII(s, wordDict):
 
     w = set(wordDict)
+    curr = []
+    res = []
 
     def helper(i):
 
@@ -38,8 +41,6 @@ def wordBreakII(s, wordDict):
                 helper(j + 1)
                 curr.pop()
 
-    curr = []
-    res = []
     helper(0)
     return res
 

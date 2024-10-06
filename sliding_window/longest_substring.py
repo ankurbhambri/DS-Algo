@@ -2,6 +2,8 @@
 https://leetcode.com/problems/longest-substring-without-repeating-characters/
 
 Given a string s, find the length of the longest substring without repeating characters.
+
+Note: r - l + 1 is used to get the window size
 """
 
 
@@ -14,13 +16,14 @@ def lengthOfLongestSubstring(s):
         while s[r] in charSet:
             charSet.remove(s[l])
             l += 1
+
         charSet.add(s[r])
         res = max(res, r - l + 1)
 
     return res
 
 
-# same for array as well
+# Same for array [] as well
 # https://leetcode.com/problems/maximum-erasure-value/
 
 

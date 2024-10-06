@@ -3,14 +3,14 @@ from collections import deque
 # Walls and Gates leetcode problem
 
 
-def walls_and_gates(self, rooms):
+def walls_and_gates(rooms):
+
     r, c = len(rooms), len(rooms[0])
     q = deque()
     visit = set()
 
-    for i in range(
-        r
-    ):  # starting with gates and filling rest of rooms with shortest distance
+    # starting with gates and filling rest of rooms with shortest distance
+    for i in range(r):
         for j in range(c):
             if rooms[i][j] == 0:
                 q.append([i, j])
@@ -23,6 +23,7 @@ def walls_and_gates(self, rooms):
         visit.add((x, y))
 
     depth = 0
+
     while q:
         for i in range(len(q)):  # layer by layer
             a, b = q.popleft()

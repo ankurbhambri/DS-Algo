@@ -55,17 +55,14 @@ print(topologicalSort(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
 
 # Cycle Detection in Directed Graph using BFS(Kahn's Algorithm) indegree method
 def khan_algo(graph):
+
     indegree = {i: 0 for i in graph}
 
     for i in range(len(graph)):  # need n here
         for node in graph[i]:
             indegree[node] += 1
 
-    q = []
-
-    for i in range(len(graph)):  # let's add those nodes whose indegree is 0
-        if indegree[i] == 0:
-            q.append(i)
+    q = [i for i in range(len(graph)) if indegree[i] == 0]
 
     res = []
     while q:
