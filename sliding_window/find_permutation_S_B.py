@@ -73,7 +73,7 @@ def find_permutations_in_string(S, B):
 def find_permutations_in_string_space(txt, pat):
 
     freq_t = {}
-    freq_p = Counter(p)
+    freq_p = Counter(pat)
 
     wn = len(pat)
 

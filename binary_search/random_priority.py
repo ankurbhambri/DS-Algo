@@ -14,52 +14,36 @@ With N 10 times called:
 
 """
 
+# Similar question - https://leetcode.com/problems/random-pick-with-weight/
+
 
 class Solution:
-    def __init__(self, arr):
-        self.arr = arr
-        self.state_arr = []
-        self.c = random.randint(0, max(self.arr))
 
-    def state(self):
+    def __init__(self, w):
+        self.arr = []
         val = 0
-        for i in range(len(self.arr)):
-            self.state_arr.append(val + self.arr[i])
-            val = i + self.arr[i]
-        return self.state_arr
+        for weight in w:
+            val += weight
+            self.arr.append(val)
 
-    def serve(self):
-        l, r = 0, len(self.state_arr)
+    def pickIndex(self):
+
+        # Use 1 to total sum, not length
+        t = random.randint(1, self.arr[-1])
+        l, r = 0, len(self.arr)
 
         while l < r:
-            mid = (l + r) // 2
-
-            if self.c <= self.state_arr[mid]:
-                return mid
-
-            elif self.c > self.state_arr[mid]:
-                l = mid + 1
-
+            m = (l + r) // 2
+            if t > self.arr[m]:
+                l = m + 1
             else:
-                r = mid
+                r = m
 
-        return -1
+        return l
 
 
-obj = Solution([1, 7, 2, 500])
-print(obj.state())
+obj = Solution([1, 7, 2])
 
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
-print(obj.serve())
+# Test case
+for _ in range(10):
+    print(obj.pickIndex())

@@ -63,3 +63,68 @@ class Employee:
 
 B1 = Employee("B1", "B1", "CEO", ["C1", "C2"])
 B2 = Employee("B1", "B1", "CEO", ["C1", "C2"])
+
+# Another solution
+
+
+class Employee:
+    def __init__(self, id, name, manager=None):
+        self.id = id
+        self.name = name
+        self.manager = manager  # pointer to manager
+        self.reports = []  # list of direct reports
+
+    def add_report(self, report):
+        self.reports.append(report)
+        report.manager = self
+
+
+def who_is_our_boss(emp1, emp2):
+    # Get the chain of managers for emp1 and emp2, including themselves
+    def get_chain_of_command(emp):
+        chain = []
+        while emp:
+            chain.append(emp)
+            emp = emp.manager
+        return chain
+
+    # Get the chains of managers for both employees
+    chain1 = get_chain_of_command(emp1)
+    chain2 = get_chain_of_command(emp2)
+
+    # Reverse both chains to start from the CEO
+    chain1.reverse()
+    chain2.reverse()
+
+    # Now find the lowest common manager by comparing both chains
+    common_manager = None
+    for e1, e2 in zip(chain1, chain2):
+        if e1 == e2:
+            common_manager = e1
+        else:
+            break
+
+    return common_manager
+
+
+# Example Usage
+# Create employees as in the diagram
+ceo = Employee(1, "A")
+b1 = Employee(2, "B1")
+b2 = Employee(3, "B2")
+c1 = Employee(4, "C1")
+c2 = Employee(5, "C2")
+c3 = Employee(6, "C3")
+c4 = Employee(7, "C4")
+
+# Build hierarchy
+ceo.add_report(b1)
+ceo.add_report(b2)
+b1.add_report(c1)
+b1.add_report(c2)
+b2.add_report(c3)
+b2.add_report(c4)
+
+# Find the common manager for two employees
+result = who_is_our_boss(c1, c3)
+print(f"The closest common manager is: {result.name}")  # Output: A (the CEO)
