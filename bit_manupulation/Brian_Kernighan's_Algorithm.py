@@ -2,15 +2,11 @@
 
 
 def count_set_bits(n):
-
     count = 0
-
     while n:
-
         rsm = n & -n  # rsm is right most set bit
         n -= rsm
         count += 1
-
     return count
 
 
