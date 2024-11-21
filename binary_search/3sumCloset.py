@@ -5,8 +5,8 @@ def threeSumClosest(nums, target):
 
     for i in range(len(nums)):
 
-        remain = target - nums[i]
         l, r = i + 1, len(nums) - 1
+        remain = target - nums[i]
 
         while l < r:
 
