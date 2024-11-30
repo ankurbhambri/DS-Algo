@@ -96,26 +96,8 @@ print("Connections:", connections)
 # Union-Find (Kruskal’s Algorithm)
 
 
-def find(parent, x):
-    if parent[x] != x:
-        parent[x] = find(parent, parent[x])  # Path compression
-    return parent[x]
-
-
-def union(parent, rank, x, y):
-    root_x = find(parent, x)
-    root_y = find(parent, y)
-    if root_x != root_y:
-        if rank[root_x] > rank[root_y]:
-            parent[root_y] = root_x
-        elif rank[root_x] < rank[root_y]:
-            parent[root_x] = root_y
-        else:
-            parent[root_y] = root_x
-            rank[root_x] += 1
-
-
 def kruskal_algorithm(n, coordinates, power_costs, connection_costs):
+
     edges = []
     total_cost = 0
     power_stations = []
@@ -141,10 +123,27 @@ def kruskal_algorithm(n, coordinates, power_costs, connection_costs):
     parent = [i for i in range(n + 1)]
     rank = [0] * (n + 1)
 
+    def find(parent, x):
+        if parent[x] != x:
+            parent[x] = find(parent, parent[x])  # Path compression
+        return parent[x]
+
+    def union(x, y):
+        root_x = find(parent, x)
+        root_y = find(parent, y)
+        if root_x != root_y:
+            if rank[root_x] > rank[root_y]:
+                parent[root_y] = root_x
+            elif rank[root_x] < rank[root_y]:
+                parent[root_x] = root_y
+            else:
+                parent[root_y] = root_x
+                rank[root_x] += 1
+
     # Process edges
     for cost, u, v in edges:
         if find(parent, u) != find(parent, v):
-            union(parent, rank, u, v)
+            union(u, v)
             total_cost += cost
             if u == 0:
                 power_stations.append(v)
