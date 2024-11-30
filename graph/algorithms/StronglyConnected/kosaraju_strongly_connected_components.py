@@ -1,5 +1,5 @@
 """
-Ways to find Strongly connected components in a graph
+Ways to find Strongly connected components in a Directed Graph
 
 1. Brute force
 
