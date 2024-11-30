@@ -65,6 +65,23 @@ print(is_eulerian(graph))  # Output: Eulerian Path
 
 # Directed Graph
 
+"""
+Steps to Check if a Directed Graph is Eulerian
+
+Check Strong Connectivity:
+A directed graph is strongly connected if there is a directed path from any vertex to every other vertex. Use Depth-First Search (DFS) or any similar algorithm to verify this.
+If the graph is not strongly connected, it is not Eulerian.
+
+Check Degree Conditions:
+For an Eulerian Circuit:
+- In-degree = Out-degree for all vertices.
+
+For an Eulerian Path:
+- Exactly one vertex should have out-degree - in-degree = 1 (starting point of the path).
+- Exactly one vertex should have in-degree - out-degree = 1 (ending point of the path).
+- All other vertices should have in-degree = out-degree.
+"""
+
 
 def strongly_connected(graph, n):
     """

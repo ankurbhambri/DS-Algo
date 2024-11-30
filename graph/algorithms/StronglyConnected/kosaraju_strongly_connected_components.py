@@ -18,35 +18,30 @@ Ways to find Strongly connected components in a Directed Graph
 
 from collections import defaultdict
 
-V = 8
-adj = defaultdict(list)
-rev = defaultdict(list)
 
+def kosaraju_algo(adj):
 
-def DFS1(i, visited, st):
-    visited[i] = True
-    for j in adj[i]:
-        if not visited[j]:
-            DFS1(j, visited, st)
+    rev = defaultdict(list)
 
-    st.append(i)
-
-
-def reverse():
-    for i in range(V):
+    def DFS1(i, visited, st):
+        visited[i] = True
         for j in adj[i]:
-            rev[j].append(i)
+            if not visited[j]:
+                DFS1(j, visited, st)
+        st.append(i)
 
+    def reverse():
+        for i in range(V):
+            for j in adj[i]:
+                rev[j].append(i)
 
-def DFS2(i, visited):
-    print(i, end=" ")
-    visited[i] = True
-    for j in rev[i]:
-        if not visited[j]:
-            DFS2(j, visited)
+    def DFS2(i, visited):
+        print(i, end=" ")
+        visited[i] = True
+        for j in rev[i]:
+            if not visited[j]:
+                DFS2(j, visited)
 
-
-def findSCCs():
     stack = []
 
     visited = [False] * V
@@ -67,16 +62,18 @@ def findSCCs():
             visited[curr] = True
 
 
-if __name__ == "__main__":
-    adj[0].append(1)
-    adj[1].append(2)
-    adj[2].append(0)
-    adj[2].append(3)
-    adj[3].append(4)
-    adj[4].append(5)
-    adj[4].append(7)
-    adj[5].append(6)
-    adj[6].append(4)
-    adj[6].append(7)
+V = 8
+adj = defaultdict(list)
 
-    findSCCs()
+adj[0].append(1)
+adj[1].append(2)
+adj[2].append(0)
+adj[2].append(3)
+adj[3].append(4)
+adj[4].append(5)
+adj[4].append(7)
+adj[5].append(6)
+adj[6].append(4)
+adj[6].append(7)
+
+kosaraju_algo(adj)

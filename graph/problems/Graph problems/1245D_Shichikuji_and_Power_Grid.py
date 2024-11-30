@@ -1,126 +1,173 @@
 # https://codeforces.com/contest/1245/problem/D
 
+import heapq
 
-def first():
-    #  Manhattan distance between two cities
-    def manhattan_distance(city1, city2):
-        return abs(city1[0] - city2[0]) + abs(city1[1] - city2[1])
+# Prim’s Algorithm
 
-    # Input
-    n = int(input())
-    cities = [list(map(int, input().split())) for _ in range(n)]
-    costs_stations = list(map(int, input().split()))
-    costs_connections = list(map(int, input().split()))
 
-    # Initialize variables
+def prim_algorithm(n, coordinates, power_costs, connection_costs):
+
+    visited = [False] * (n + 1)  # Visited nodes
+    pq = []  # Priority queue for edges (cost, u, v)
     total_cost = 0
     power_stations = []
     connections = []
 
-    # Find the minimum cost solution
-    for i in range(n):
-        min_cost = float("inf")
-        station_idx = -1
+    # Add edges from dummy node (0) to all cities
+    for i in range(1, n + 1):
+        heapq.heappush(pq, (power_costs[i - 1], 0, i))
 
-        # Check the cost of building a station in each city
-        for j in range(n):
-            if i != j:
-                cost = manhattan_distance(cities[i], cities[j]) * (
-                    costs_connections[i] + costs_connections[j]
-                )
-                if cost < min_cost:
-                    min_cost = cost
-                    station_idx = j
+    # Process the priority queue
+    while pq:
+        cost, u, v = heapq.heappop(pq)
+        if visited[v]:
+            continue
+        visited[v] = True
+        total_cost += cost
 
-        # Compare the cost of building a station vs making a connection
-        if min_cost < costs_stations[i]:
-            connections.append((i + 1, station_idx + 1))
-            total_cost += min_cost
+        if u == 0:
+            power_stations.append(v)
         else:
-            power_stations.append(i + 1)
-            total_cost += costs_stations[i]
+            connections.append((u, v))
 
-    print(total_cost)  # the minimum amount of yen needed
-    # print an integer v — the number of power stations to be built.
-    print(len(power_stations))
-    # v space-separated integers, denoting the indices of cities in which a power station will be built
-    print(*power_stations)
-    # After that, print an integer e — the number of connections to be made.
-    print(len(connections))
-    # print e pairs of integers a and b
-    for connection in connections:
-        print(*connection)
-
-
-class UnionFind:
-    def __init__(self, n):
-        self.parent = [i for i in range(n + 1)]
-        self.size = [1] * (n + 1)
-
-    def find(self, node):
-        if node != self.parent[node]:
-            self.parent[node] = self.find(self.parent[node])
-        return self.parent[node]
-
-    def union(self, vertex1, vertex2):
-        parent_vertex1 = self.find(vertex1)
-        parent_vertex2 = self.find(vertex2)
-
-        if parent_vertex1 != parent_vertex2:
-            if self.size[parent_vertex1] < self.size[parent_vertex2]:
-                parent_vertex1, parent_vertex2 = parent_vertex2, parent_vertex1
-            self.parent[parent_vertex2] = parent_vertex1
-            self.size[parent_vertex1] += self.size[parent_vertex2]
-
-
-class Solution:
-    def solve(self):
-        n = int(input())
-        coordinates = [(-1, -1)] * (n + 1)
-        cost_power = [-1] * (n + 1)
-        cost_wire = [-1] * (n + 1)
-
-        for i in range(1, n + 1):
-            x, y = map(int, input().split())
-            coordinates[i] = (x, y)
-
-        cost_power[1:] = map(int, input().split())
-        cost_wire[1:] = map(int, input().split())
-
-        edges = [(cost_power[i], 0, i) for i in range(1, n + 1)]
-        for i in range(1, n + 1):
-            for j in range(i + 1, n + 1):
-                dis = abs(coordinates[j][0] - coordinates[i][0]) + abs(
-                    coordinates[j][1] - coordinates[i][1]
+        # Add edges from the current city to all unvisited cities
+        for j in range(1, n + 1):
+            if not visited[j]:
+                connection_cost = (
+                    connection_costs[v - 1] + connection_costs[j - 1]
+                ) * (
+                    abs(coordinates[v - 1][0] - coordinates[j - 1][0])
+                    + abs(coordinates[v - 1][1] - coordinates[j - 1][1])
                 )
-                cost = dis * (cost_wire[i] + cost_wire[j])
-                edges.append((cost, i, j))
+                heapq.heappush(pq, (connection_cost, v, j))
 
-        edges.sort()
-        total = 0
-        uf = UnionFind(n)
+    return total_cost, power_stations, connections
 
-        power_stations = []
-        wires = []
-        for edge in edges:
-            wt, v1, v2 = edge
-            if uf.find(v2) == uf.find(v1):
-                continue
-            uf.union(v1, v2)
-            total += wt
-            if v1 == 0 or v2 == 0:
-                power_stations.append(max(v1, v2))
+
+# Example input
+
+n = 3
+coordinates = [(2, 3), (1, 1), (3, 2)]
+power_costs = [3, 2, 3]
+connection_costs = [3, 2, 3]
+
+total_cost, power_stations, connections = prim_algorithm(
+    n, coordinates, power_costs, connection_costs
+)
+
+print("Total Cost:", total_cost)
+print("Nos of Power Stations:", len(power_stations))
+print("Power Stations:", power_stations)
+print("Nos of Connections:", len(connections))
+print("Connections:", connections)
+
+
+n = 3
+coordinates = [(2, 1), (1, 2), (3, 3)]
+power_costs = [23, 2, 23]
+connection_costs = [3, 2, 3]
+
+total_cost, power_stations, connections = prim_algorithm(
+    n, coordinates, power_costs, connection_costs
+)
+
+print("Total Cost:", total_cost)
+print("Nos of Power Stations:", len(power_stations))
+print("Power Stations:", power_stations)
+print("Nos of Connections:", len(connections))
+print("Connections:", connections)
+
+
+# Union-Find (Kruskal’s Algorithm)
+
+
+def find(parent, x):
+    if parent[x] != x:
+        parent[x] = find(parent, parent[x])  # Path compression
+    return parent[x]
+
+
+def union(parent, rank, x, y):
+    root_x = find(parent, x)
+    root_y = find(parent, y)
+    if root_x != root_y:
+        if rank[root_x] > rank[root_y]:
+            parent[root_y] = root_x
+        elif rank[root_x] < rank[root_y]:
+            parent[root_x] = root_y
+        else:
+            parent[root_y] = root_x
+            rank[root_x] += 1
+
+
+def kruskal_algorithm(n, coordinates, power_costs, connection_costs):
+    edges = []
+    total_cost = 0
+    power_stations = []
+    connections = []
+
+    # Add edges from the dummy node (0) to all cities
+    for i in range(1, n + 1):
+        edges.append((power_costs[i - 1], 0, i))
+
+    # Add edges between every pair of cities
+    for i in range(1, n + 1):
+        for j in range(i + 1, n + 1):
+            cost = (connection_costs[i - 1] + connection_costs[j - 1]) * (
+                abs(coordinates[i - 1][0] - coordinates[j - 1][0])
+                + abs(coordinates[i - 1][1] - coordinates[j - 1][1])
+            )
+            edges.append((cost, i, j))
+
+    # Sort edges by weight
+    edges.sort()
+
+    # Initialize Union-Find structure
+    parent = [i for i in range(n + 1)]
+    rank = [0] * (n + 1)
+
+    # Process edges
+    for cost, u, v in edges:
+        if find(parent, u) != find(parent, v):
+            union(parent, rank, u, v)
+            total_cost += cost
+            if u == 0:
+                power_stations.append(v)
             else:
-                wires.append((v1, v2))
+                connections.append((u, v))
 
-        print(total)
-        print(len(power_stations))
-        print(*power_stations)
-        print(len(wires))
-        for w in wires:
-            print(*w)
+    return total_cost, power_stations, connections
 
 
-if __name__ == "__main__":
-    # first()
-    Solution().solve()
+# Test cases for both functions
+
+n = 3
+coordinates = [(2, 3), (1, 1), (3, 2)]
+power_costs = [3, 2, 3]
+connection_costs = [3, 2, 3]
+
+total_cost, power_stations, connections = kruskal_algorithm(
+    n, coordinates, power_costs, connection_costs
+)
+
+print("Total Cost:", total_cost)
+print("Nos of Power Stations:", len(power_stations))
+print("Power Stations:", power_stations)
+print("Nos of Connections:", len(connections))
+print("Connections:", connections)
+
+
+n = 3
+coordinates = [(2, 1), (1, 2), (3, 3)]
+power_costs = [23, 2, 23]
+connection_costs = [3, 2, 3]
+
+total_cost, power_stations, connections = kruskal_algorithm(
+    n, coordinates, power_costs, connection_costs
+)
+
+print("Total Cost:", total_cost)
+print("Nos of Power Stations:", len(power_stations))
+print("Power Stations:", power_stations)
+print("Nos of Connections:", len(connections))
+print("Connections:", connections)
