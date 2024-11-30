@@ -10,3 +10,35 @@ __pycache__/
 media/
 .env
 .DS_Store
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.log
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+
+# IntelliJ IDEA
+*.iws
+*.iml
+*.ipr
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/

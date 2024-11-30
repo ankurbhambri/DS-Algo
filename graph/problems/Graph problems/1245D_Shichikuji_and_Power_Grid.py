@@ -77,6 +77,21 @@ print("Power Stations:", power_stations)
 print("Nos of Connections:", len(connections))
 print("Connections:", connections)
 
+n = 1
+coordinates = [(1, 1)]
+power_costs = [1]
+connection_costs = [1]
+
+total_cost, power_stations, connections = prim_algorithm(
+    n, coordinates, power_costs, connection_costs
+)
+
+print("Total Cost:", total_cost)
+print("Nos of Power Stations:", len(power_stations))
+print("Power Stations:", power_stations)
+print("Nos of Connections:", len(connections))
+print("Connections:", connections)
+
 
 # Union-Find (Kruskal’s Algorithm)
 
@@ -161,6 +176,22 @@ n = 3
 coordinates = [(2, 1), (1, 2), (3, 3)]
 power_costs = [23, 2, 23]
 connection_costs = [3, 2, 3]
+
+total_cost, power_stations, connections = kruskal_algorithm(
+    n, coordinates, power_costs, connection_costs
+)
+
+print("Total Cost:", total_cost)
+print("Nos of Power Stations:", len(power_stations))
+print("Power Stations:", power_stations)
+print("Nos of Connections:", len(connections))
+print("Connections:", connections)
+
+
+n = 1
+coordinates = [(1, 1)]
+power_costs = [1]
+connection_costs = [1]
 
 total_cost, power_stations, connections = kruskal_algorithm(
     n, coordinates, power_costs, connection_costs
