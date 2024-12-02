@@ -126,5 +126,5 @@ b2.add_report(c3)
 b2.add_report(c4)
 
 # Find the common manager for two employees
-result = who_is_our_boss(c1, c3)
+result = who_is_our_boss(c1, c4)
 print(f"The closest common manager is: {result.name}")  # Output: A (the CEO)

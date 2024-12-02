@@ -14,6 +14,7 @@ def minSteps(n):
 
         if curr_len == n:
             return 0
+
         if curr_len > n:
             return 10000
 
@@ -39,8 +40,6 @@ print(minSteps(315))  # 17
 
 
 # We can solve this problem using prime factorization technique more optimimum way.
-
-
 def minSteps_primeFactors(n):
 
     factors = 0
