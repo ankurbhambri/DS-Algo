@@ -1,25 +1,28 @@
+# https://leetcode.com/problems/partition-equal-subset-sum/description/
+
+
 def equal_sum_recursive(arr):
 
     if sum(arr) % 2 != 0:
         return False
 
-    def helper(n, W):
+    def helper(i, W):
 
         # Base Cases
         if W == 0:
             return True
 
-        elif n == 0:
+        elif i == 0:
             return False
 
         else:
-            item = arr[n - 1]
+            item = arr[i - 1]
             if item <= W:
-                c1 = helper(n - 1, W - item)
-                c2 = helper(n - 1, W)
+                c1 = helper(i - 1, W - item)
+                c2 = helper(i - 1, W)
                 return c1 or c2
             else:
-                return helper(n - 1, W)
+                return helper(i - 1, W)
 
     return helper(len(arr), sum(arr) // 2)
 
@@ -45,8 +48,10 @@ def equal_sum_memo(nums):
     return True if val in dp else False
 
 
-if __name__ == "__main__":
+arr = [1, 5, 11, 5]
+print(equal_sum_recursive(arr))  # true
+print(equal_sum_memo(arr))  # true
 
-    arr = [1, 5, 11, 5]
-    print(equal_sum_recursive(arr))
-    print(equal_sum_memo(arr))
+arr = [1, 2, 3, 5]
+print(equal_sum_recursive(arr))  # false
+print(equal_sum_memo(arr))  # false
