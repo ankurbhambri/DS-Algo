@@ -31,6 +31,7 @@ def solution(s, q):
             tmp[j + 1] += tmp[j]
 
         pref[ch] = tmp
+        # print(pref, ch)
 
     res = []
     for a, b in q:
@@ -44,5 +45,5 @@ def solution(s, q):
     return res
 
 
-print(solution("abcccabaaabb", [[2, 4], [1, 8]]))
+# print(solution("abcccabaaabb", [[2, 4], [1, 8]]))
 print(solution("zbacd", [[1, 2], [1, 4]]))
