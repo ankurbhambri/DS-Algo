@@ -102,17 +102,17 @@ sort algorithm.
 # Q1 solution
 
 
-def canFinish(nos_courses, arr):
+def canFinish(n, preq):
 
-    indegree = {i: 0 for i in range(nos_courses)}
-    adj = {i: [] for i in range(nos_courses)}
+    indegree = {i: 0 for i in range(n)}
+    adj = {i: [] for i in range(n)}
 
-    for crs, pre in arr:
+    for crs, pre in preq:
         # [1, 0] 0 must be completed before 1 so this way we can make adj
         adj[pre].append(crs)
         indegree[crs] += 1  # no
 
-    q = [i for i in range(nos_courses) if indegree[i] == 0]
+    q = [i for i in range(n) if indegree[i] == 0]
 
     res = []
     while q:
@@ -125,8 +125,8 @@ def canFinish(nos_courses, arr):
 
             if indegree[nei] == 0:
                 q.append(nei)
-    print(res)
-    return len(res) == nos_courses
+
+    return len(res) == n
 
 
 # Q2 Solution
@@ -135,7 +135,6 @@ def canFinish(nos_courses, arr):
 def findOrder(n, preq):
 
     indegree = {i: 0 for i in range(n)}
-
     adj = {i: [] for i in range(n)}
 
     for u, v in preq:
@@ -146,10 +145,13 @@ def findOrder(n, preq):
 
     res = []
     while q:
+
         node = q.pop(0)
         res.append(node)
+
         for nei in adj[node]:
             indegree[nei] -= 1
+
             if indegree[nei] == 0:
                 q.append(nei)
 

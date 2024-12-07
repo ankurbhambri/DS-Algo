@@ -46,7 +46,7 @@ Returns
 int: the minimum number of pages to be read each day, or -1 if it is not possible to finish
 
 Constraints
-• 1≤n≤105
+• 1 ≤ n ≤ 105
 • 1 ≤ days ≤ 109
 • 1 ≤ pages[i] ≤ 104
 ▾ Input Format For Custom Testing

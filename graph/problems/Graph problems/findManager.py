@@ -61,70 +61,66 @@ class Employee:
         return self.union(emp1, emp2)
 
 
-B1 = Employee("B1", "B1", "CEO", ["C1", "C2"])
-B2 = Employee("B1", "B1", "CEO", ["C1", "C2"])
+# B1 = Employee("B1", "B1", "CEO", ["C1", "C2"])
+# B2 = Employee("B1", "B1", "CEO", ["C1", "C2"])
 
 # Another solution
 
 
 class Employee:
-    def __init__(self, id, name, manager=None):
-        self.id = id
+    def __init__(self, name, manager=None):
         self.name = name
-        self.manager = manager  # pointer to manager
-        self.reports = []  # list of direct reports
-
-    def add_report(self, report):
-        self.reports.append(report)
-        report.manager = self
+        self.manager = manager  # Pointer to the manager object
 
 
-def who_is_our_boss(emp1, emp2):
-    # Get the chain of managers for emp1 and emp2, including themselves
-    def get_chain_of_command(emp):
-        chain = []
-        while emp:
-            chain.append(emp)
-            emp = emp.manager
-        return chain
+def who_is_our_boss(e1, e2):
+    """
+    Find the closest common manager for two employees.
 
-    # Get the chains of managers for both employees
-    chain1 = get_chain_of_command(emp1)
-    chain2 = get_chain_of_command(emp2)
+    :param e1: Employee 1
+    :param e2: Employee 2
+    :return: Closest common manager (Employee object)
+    """
 
-    # Reverse both chains to start from the CEO
-    chain1.reverse()
-    chain2.reverse()
+    # Helper function to trace the hierarchy up to the CEO
+    def get_hierarchy_path(employee):
+        path = []
+        while employee:
+            path.append(employee)
+            employee = employee.manager
+        return path
 
-    # Now find the lowest common manager by comparing both chains
-    common_manager = None
-    for e1, e2 in zip(chain1, chain2):
-        if e1 == e2:
-            common_manager = e1
+    # Get paths for both employees
+    e1_path = get_hierarchy_path(e1)
+    e2_path = get_hierarchy_path(e2)
+
+    # Reverse the paths to start from the CEO
+    e1_path.reverse()
+    e2_path.reverse()
+
+    # Find the lowest common ancestor
+    closest_manager = None
+    for m1, m2 in zip(e1_path, e2_path):
+        if m1 == m2:
+            closest_manager = m1
         else:
             break
+    return closest_manager
 
-    return common_manager
 
+ceo = Employee("A")
+b1 = Employee("B1", ceo)
+b2 = Employee("B2", ceo)
+c1 = Employee("C1", b1)
+c2 = Employee("C2", b1)
+c3 = Employee("C3", b2)
+c4 = Employee("C4", b2)
+cd1 = Employee("C1D1", c1)
+e1 = Employee("E1", cd1)
 
-# Example Usage
-# Create employees as in the diagram
-ceo = Employee(1, "A")
-b1 = Employee(2, "B1")
-b2 = Employee(3, "B2")
-c1 = Employee(4, "C1")
-c2 = Employee(5, "C2")
-c3 = Employee(6, "C3")
-c4 = Employee(7, "C4")
+# Find the closest manager
+boss = who_is_our_boss(c1, c2)
+print("Closest common manager:", boss.name if boss else "None")  # Output: B1
 
-# Build hierarchy
-ceo.add_report(b1)
-ceo.add_report(b2)
-b1.add_report(c1)
-b1.add_report(c2)
-b2.add_report(c3)
-b2.add_report(c4)
-
-# Find the common manager for two employees
-result = who_is_our_boss(c1, c4)
-print(f"The closest common manager is: {result.name}")  # Output: A (the CEO)
+# TC: O(h), where h is the depth of the hierarchy.
+# Space Complexity: O(h)

@@ -5,7 +5,7 @@
 
 def searchRange(nums, target):
 
-    def getLowerBound():
+    def lowerBound():
 
         l, r = 0, len(nums) - 1
 
@@ -18,7 +18,7 @@ def searchRange(nums, target):
                 l = m + 1
         return l
 
-    l = getLowerBound()
+    l = lowerBound()
     res = -1
 
     for i in range(l, len(nums)):
@@ -27,3 +27,15 @@ def searchRange(nums, target):
         res = i
 
     return [l, res] if res != -1 else [-1, -1]
+
+
+print(searchRange([5, 7, 7, 8, 8, 10], 8))  # [3, 4]
+print(searchRange([5, 7, 7, 8, 8, 10], 6))  # [-1, -1]
+print(searchRange([5, 7, 7, 8, 8, 10], 7))  # [1, 2]
+print(searchRange([5, 7, 7, 8, 8, 10], 5))  # [0, 0]
+print(searchRange([5, 7, 7, 8, 8, 10], 10))  # [5, 5]
+print(searchRange([5, 7, 7, 8, 8, 10], 11))  # [-1, -1]
+print(searchRange([5, 7, 7, 8, 8, 10], 4))  # [-1, -1]
+print(searchRange([], 0))  # [-1, -1]
+print(searchRange([1], 1))  # [0, 0]
+print(searchRange([1], 2))  # [-1, -1]

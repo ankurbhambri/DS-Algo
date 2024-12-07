@@ -15,7 +15,7 @@ def threeSumClosest(nums, target):
             if sum_val == remain:
                 return target  # return target
 
-            if abs(dist) > abs(remain - sum_val):
+            if abs(dist) > abs(remain - sum_val):  # closest value
                 dist = remain - sum_val
 
             elif sum_val > remain:

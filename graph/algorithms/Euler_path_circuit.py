@@ -141,10 +141,11 @@ def is_eulerian_directed(graph, n):
     # Determine if the graph has Eulerian Path or Circuit
     if start == 0 and end == 0:
         return "Eulerian Circuit"
-    elif start == 1 and end == 1:
+
+    if start == 1 and end == 1:
         return "Eulerian Path"
-    else:
-        return "Not Eulerian"
+
+    return "Not Eulerian"
 
 
 # Example Directed Graph as Adjacency List
