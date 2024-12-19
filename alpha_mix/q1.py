@@ -1,5 +1,3 @@
-from typing import List, Tuple
-
 """
     You are given a grid of size r × c and n objects located at specific coordinates. 
     
@@ -34,6 +32,7 @@ from typing import List, Tuple
     positions = [(1, 1), (3, 1), (2, 2)]
 
     ans: 4
+
 """
 
 
