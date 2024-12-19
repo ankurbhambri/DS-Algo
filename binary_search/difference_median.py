@@ -31,5 +31,6 @@ def find_median_difference(arr):
     return low
 
 
+arr = [1, 2, 3, 4, 5, 6, 7]
 median_difference = find_median_difference(arr)
 print(f"Median of differences: {median_difference}")
