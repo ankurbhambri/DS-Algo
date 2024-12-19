@@ -32,35 +32,50 @@ Output:
 """
 
 
-def func(arr, k):
-    r, c = len(arr), len(arr[0])
+def sum_of_sub_squares(arr, k):
 
-    prefix_sum = [[0] * c for _ in range(r)]
+    n = len(arr)
+    prefix_sum = [[0] * n for _ in range(n)]
 
-    for i in range(r):
-        for j in range(c):
+    for i in range(n):
+        for j in range(n):
             prefix_sum[i][j] = arr[i][j]
-            if j > 0:
-                prefix_sum[i][j] += prefix_sum[i][j - 1]
             if i > 0:
                 prefix_sum[i][j] += prefix_sum[i - 1][j]
+            if j > 0:
+                prefix_sum[i][j] += prefix_sum[i][j - 1]
             if i > 0 and j > 0:
                 prefix_sum[i][j] -= prefix_sum[i - 1][j - 1]
 
-    res = []
-    for i in range(k - 1, r):
-        for j in range(k - 1, c):
-            a = (
-                prefix_sum[i][j]
-                - prefix_sum[i - 1][j]
-                - prefix_sum[i][j - 1]
-                + prefix_sum[i - 1][j - 1]
-            )
-        res.append(a)
+    result = []
+    for i in range(k - 1, n):
+        row = []
+        for j in range(k - 1, n):
+            total = prefix_sum[i][j]
+            if i >= k:
+                total -= prefix_sum[i - k][j]
+            if j >= k:
+                total -= prefix_sum[i][j - k]
+            if i >= k and j >= k:
+                total += prefix_sum[i - k][j - k]
+            row.append(total)
+        result.append(row)
 
-    return res
+    return result
 
 
-# [[1, 3, 6], [5, 12, 21], [12, 27, 45]]
+arr = [
+    [1, 1, 1, 1, 1],
+    [2, 2, 2, 2, 2],
+    [3, 3, 3, 3, 3],
+    [4, 4, 4, 4, 4],
+    [5, 5, 5, 5, 5],
+]
+print(sum_of_sub_squares(arr, 4))
 
-print(func([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 2))  # [[12, 16], [24, 28]]
+arr = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+]
+print(sum_of_sub_squares(arr, 2))
