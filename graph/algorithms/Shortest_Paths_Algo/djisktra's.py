@@ -1,14 +1,57 @@
-"""Shortest path algorithm works may work in negative weights or may not
-It runs only one iterations - o(n^2) best and worst o(n^3)"""
+"""
+    Shortest path algorithm works may work in negative weights or may not
+It runs only one iterations - o(n^2) best and worst o(n^3)
+
+TC O(nlogn) with priority queue aka Min Heap 
+TC worst case is O(n^2) in case of n vertices processed and n vertex relaxed
+
+# For Unweighted Graphs - BFS
+# For Weighted Graphs - Dijkstra's Algorithm
+
+"""
 
 import heapq
 import math
 from collections import defaultdict
 
-"""
-TC nlogn with priority queue aka Min Heap 
-TC worst case is n^2 in case of n vertices processed and n vertex relaxed
-"""
+# For Unweighted Graphs (BFS)
+
+
+from collections import deque
+
+
+def bfs_shortest_path(graph, root):
+
+    # distance dict
+    distances = {node: float("inf") for node in graph}
+    distances[root] = 0
+
+    queue = deque([root])
+
+    while queue:
+
+        current_node = queue.popleft()
+
+        for neighbor in graph[current_node]:
+
+            if distances[neighbor] == float("inf"):
+
+                distances[neighbor] = distances[current_node] + 1
+                queue.append(neighbor)
+
+    return distances
+
+
+graph = {
+    "A": ["B", "C"],
+    "B": ["A", "D", "E"],
+    "C": ["A", "F"],
+    "D": ["B"],
+    "E": ["B", "F"],
+    "F": ["C", "E"],
+}
+
+print(bfs_shortest_path(graph, "A"))
 
 
 def dijkstra(graph, N, start):
