@@ -38,12 +38,12 @@
 
 def count_rectangles(r, c, n, k, positions):
 
-    # Step 1: Create a grid and mark positions
+    # Step 1: Create a 2D grid and mark object positions
     grid = [[0] * (c + 1) for _ in range(r + 1)]
     for x, y in positions:
         grid[x][y] += 1
 
-    # Step 2: Build a prefix sum array
+    # Step 2: Construct 2D prefix sum
     prefix_sum = [[0] * (c + 1) for _ in range(r + 1)]
     for i in range(1, r + 1):
         for j in range(1, c + 1):
@@ -54,28 +54,28 @@ def count_rectangles(r, c, n, k, positions):
                 - prefix_sum[i - 1][j - 1]
             )
 
-    # Function to calculate the sum of objects in a given subgrid
-    def get_sum(x1, y1, x2, y2):
+    # Helper function to calculate sum of objects in a subgrid
+    def count_objects(top: int, left: int, bottom: int, right: int) -> int:
         return (
-            prefix_sum[x2][y2]
-            - prefix_sum[x1 - 1][y2]
-            - prefix_sum[x2][y1 - 1]
-            + prefix_sum[x1 - 1][y1 - 1]
+            prefix_sum[bottom][right]
+            - prefix_sum[top - 1][right]
+            - prefix_sum[bottom][left - 1]
+            + prefix_sum[top - 1][left - 1]
         )
 
     # Step 3: Iterate over all possible subgrids
     count = 0
-    for row1 in range(1, r + 1):
-        for row2 in range(row1, r + 1):
-            for col1 in range(1, c + 1):
-                for col2 in range(col1, c + 1):
-                    # Count the number of objects in this subgrid
-                    if get_sum(row1, col1, row2, col2) >= k:
+    for top in range(1, r + 1):
+        for bottom in range(top, r + 1):
+            for left in range(1, c + 1):
+                for right in range(left, c + 1):
+                    if count_objects(top, left, bottom, right) >= k:
                         count += 1
 
     return count
 
 
+# Examples
 print(count_rectangles(2, 2, 1, 1, [(1, 2)]))  # Output: 4
 print(count_rectangles(3, 2, 3, 3, [(1, 1), (3, 1), (2, 2)]))  # Output: 1
 print(count_rectangles(3, 2, 3, 2, [(1, 1), (3, 1), (2, 2)]))  # Output: 4
