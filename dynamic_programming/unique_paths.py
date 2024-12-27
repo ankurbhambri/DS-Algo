@@ -1,4 +1,4 @@
-# https://leetcode.com/problems/unique-paths/submissions/
+# https://leetcode.com/problems/unique-paths/
 
 # memoization
 # TC = O(M * N)
