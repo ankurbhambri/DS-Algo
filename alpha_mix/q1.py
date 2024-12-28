@@ -55,7 +55,8 @@ def count_rectangles(r, c, n, k, positions):
             )
 
     # Helper function to calculate sum of objects in a subgrid
-    def count_objects(top: int, left: int, bottom: int, right: int) -> int:
+    # sum of subgrid = prefix_sum[bottom][right] − prefix_sum[top − 1][right] − prefix_sum[bottom][left − 1]+prefix_sum[top − 1][left − 1]
+    def count_objects(top, left, bottom, right):
         return (
             prefix_sum[bottom][right]
             - prefix_sum[top - 1][right]
