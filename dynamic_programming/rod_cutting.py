@@ -1,6 +1,7 @@
 # https://practice.geeksforgeeks.org/problems/rod-cutting0840/1
 
 
+# TC = O(n^2)
 def cutRod_memo(price, N):
     memo = {}
 
@@ -23,11 +24,18 @@ def cutRod_memo(price, N):
     return solve(N, N)
 
 
-def cutRod_iterative(price, n):
-    dp = [0] * (n + 1)
+# TC = O(n ^ 2)
+def rod_cutting_dp(prices, n):
+    dp = [0] * (n + 1)  # Initialize DP array
+
     for i in range(1, n + 1):
-        ans = 0
+        max_profit = 0
         for j in range(1, i + 1):
-            ans = max(ans, price[j - 1] + dp[i - j])
-        dp[i] = ans
+            max_profit = max(max_profit, prices[j - 1] + dp[i - j])
+        dp[i] = max_profit
+
     return dp[n]
+
+
+print(cutRod_memo([1, 5, 8, 9, 10, 17, 17, 20], 8))
+print(rod_cutting_dp([1, 5, 8, 9, 10, 17, 17, 20], 8))
