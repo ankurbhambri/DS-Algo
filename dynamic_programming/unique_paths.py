@@ -48,14 +48,18 @@ class Solution:
 
 
 def uniquePaths(m, n):
+
     prev_row = [0] * n
     prev_row[0] = 1
+
     for i in range(m):
         tmp = [0] * n
+
         for j in range(n):
             if i == 0 and j == 0:
                 tmp[j] = 1
             else:
                 tmp[j] = prev_row[j] + tmp[j - 1]
         prev_row = tmp
+
     return prev_row[-1]
