@@ -1,5 +1,7 @@
 # https://codeforces.com/contest/1245/problem/D
 
+# manhatan_distance's formula - |x1 - x2| + |y1 - y2|
+
 import heapq
 
 # Prim’s Algorithm
@@ -93,9 +95,12 @@ print("Nos of Connections:", len(connections))
 print("Connections:", connections)
 
 
+print(
+    "##################################################################################"
+)
+
+
 # Union-Find (Kruskal’s Algorithm)
-
-
 def kruskal_algorithm(n, coordinates, power_costs, connection_costs):
 
     edges = []
@@ -110,14 +115,21 @@ def kruskal_algorithm(n, coordinates, power_costs, connection_costs):
     # Add edges between every pair of cities
     for i in range(1, n + 1):
         for j in range(i + 1, n + 1):
-            cost = (connection_costs[i - 1] + connection_costs[j - 1]) * (
-                abs(coordinates[i - 1][0] - coordinates[j - 1][0])
-                + abs(coordinates[i - 1][1] - coordinates[j - 1][1])
-            )
+
+            # manhatan_distance's formula - |x1 - x2| + |y1 - y2|
+            manhatan_distance = abs(
+                coordinates[i - 1][0] - coordinates[j - 1][0]
+            ) + abs(coordinates[i - 1][1] - coordinates[j - 1][1])
+
+            cost = (
+                connection_costs[i - 1] + connection_costs[j - 1]
+            ) * manhatan_distance
+
             edges.append((cost, i, j))
 
     # Sort edges by weight
-    edges.sort()
+    # edges.sort()
+    heapq.heapify(edges)
 
     # Initialize Union-Find structure
     parent = [i for i in range(n + 1)]
@@ -125,20 +137,25 @@ def kruskal_algorithm(n, coordinates, power_costs, connection_costs):
 
     def find(parent, x):
         if parent[x] != x:
-            parent[x] = find(parent, parent[x])  # Path compression
+            parent[x] = find(parent, parent[x])
         return parent[x]
 
-    def union(x, y):
-        root_x = find(parent, x)
-        root_y = find(parent, y)
-        if root_x != root_y:
-            if rank[root_x] > rank[root_y]:
-                parent[root_y] = root_x
-            elif rank[root_x] < rank[root_y]:
-                parent[root_x] = root_y
-            else:
-                parent[root_y] = root_x
-                rank[root_x] += 1
+    def union(node1, node2):
+
+        p1 = find(parent, node1)
+        p2 = find(parent, node2)
+
+        # If both nodes parent are same then union is not possible
+        if p1 == p2:
+            # print("Same parent")
+            return
+
+        if rank[p1] < rank[p2]:
+            p1, p2 = p2, p1
+
+        parent[p2] = p1
+        rank[p1] += rank[p2]
+        return
 
     # Process edges
     for cost, u, v in edges:

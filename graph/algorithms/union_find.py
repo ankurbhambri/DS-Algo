@@ -1,5 +1,6 @@
 class DisjointSet:
     def __init__(self, n):
+
         self.n = n
         # initially every noe rank is 0
         self.rank = [1] * n
@@ -12,6 +13,7 @@ class DisjointSet:
         return self.parent[node]
 
     def union(self, node1, node2):
+
         p1 = self.find(node1)
         p2 = self.find(node2)
 
@@ -27,11 +29,9 @@ class DisjointSet:
         self.rank[p1] += self.rank[p2]
         return
 
-    def peek(self):
-        self.parent, self.rank
-
 
 if __name__ == "__main__":
+
     uf = DisjointSet(10)
 
     uf.union(0, 1)
