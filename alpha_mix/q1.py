@@ -1,5 +1,5 @@
 """
-    You are given a grid of size r × c and n objects located at specific coordinates. 
+    You are given a grid of size r * c and n objects located at specific coordinates. 
     
     You need to find the number of axis-parallel rectangular subgrids that contain at least k of these objects.
 

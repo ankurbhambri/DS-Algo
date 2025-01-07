@@ -1,11 +1,19 @@
-# https://www.geeksforgeeks.org/maximum-number-of-edges-to-be-removed-to-contain-exactly-k-connected-components-in-the-graph/
+"""
+https://www.geeksforgeeks.org/maximum-number-of-edges-to-be-removed-to-contain-exactly-k-connected-components-in-the-graph/
 
-# Given an undirected graph G with N nodes, M edges, and an integer K,
-# the task is to find the maximum count of edges that can be removed such that there
-# remains exactly K connected components after the removal of edges. If the graph cannot contain K connect components, print -1.
+Given an undirected graph G with N nodes, M edges, and an integer K, the task is to find the maximum count of edges that can be removed such that there
+remains exactly K connected components after the removal of edges. If the graph cannot contain K connect components, print -1.
+
+Given an undirected graph with n nodes and m edges, where each edge has a weight w_i, find the minimum number of edges that need to be removed to disconnect the graph into exactly k connected components.
+
+"""
 
 
 def max_edges_to_remove(N, M, K, Edges):
+
+    # Impossible to have more components than nodes
+    if K > N:
+        return -1
 
     adj = {i: [] for i in range(N + 1)}
 
@@ -27,10 +35,14 @@ def max_edges_to_remove(N, M, K, Edges):
             c += 1
             dfs(i)
 
+    # No edges need to be removed
+    if K <= c:
+        return 0
+
     if c <= K:
         return (
             M - N + K
-        )  # N is the number f nodes, M is the number of edges and K is the required number of connected components.
+        )  # N is the number nodes, M is the number of edges and K is the required number of connected components.
 
     return -1
 

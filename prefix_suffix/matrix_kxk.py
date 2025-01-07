@@ -39,6 +39,7 @@ def sum_of_sub_squares(arr, n, k):
 
     for i in range(1, n + 1):
         for j in range(1, n + 1):
+
             prefix_sum[i][j] = (
                 arr[i - 1][j - 1]  # Access the original array using 0-based indexing
                 + prefix_sum[i - 1][j]
@@ -57,12 +58,6 @@ def sum_of_sub_squares(arr, n, k):
 
             # Use inclusion-exclusion to compute sub-square sum
             # sum of subgrid = prefix_sum[bottom][right] − prefix_sum[top − 1][right] − prefix_sum[bottom][left − 1]+prefix_sum[top − 1][left − 1]
-            print(
-                prefix_sum[bottom][right],
-                prefix_sum[i - 1][right],
-                prefix_sum[bottom][j - 1],
-                prefix_sum[i - 1][j - 1],
-            )
             sub_square_sum = (
                 prefix_sum[bottom][right]
                 - prefix_sum[i - 1][right]
