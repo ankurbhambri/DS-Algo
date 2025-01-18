@@ -2,7 +2,11 @@
     Shortest path algorithm works may work in negative weights or may not
 It runs only one iterations - o(n^2) best and worst o(n^3)
 
-TC O(nlogn) with priority queue aka Min Heap 
+TC:
+- O((V + E) log V) - E is the number of edges, V is the number of vertices using priority queue aka Min Heap
+- O(E log V) for the priority queue operations
+- O(V) for the initialization of the distances
+
 TC worst case is O(n^2) in case of n vertices processed and n vertex relaxed
 
 # For Unweighted Graphs - BFS
