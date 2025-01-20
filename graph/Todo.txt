@@ -1,1 +1,9 @@
 https://leetcode.com/problems/modify-graph-edge-weights/
+
+https://codeforces.com/problemset/problem/173/B
+
+https://codeforces.com/problemset/problem/590/C
+
+https://codeforces.com/problemset/problem/173/C
+
+https://codeforces.com/problemset/problem/877/D

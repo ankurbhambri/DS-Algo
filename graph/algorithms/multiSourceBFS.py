@@ -114,3 +114,6 @@ n, m = map(int, input().split())
 grid = [input().strip() for _ in range(n)]
 
 solve_labyrinth(n, m, grid)
+
+
+# https://leetcode.com/problems/escape-the-spreading-fire/description/
