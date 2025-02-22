@@ -8,7 +8,7 @@ class TreeNode:
         self.right = right
 
 
-def recoverFromPreorder(traversal: str) -> Optional[TreeNode]:
+def recoverFromPreorder(traversal: str):
     stack = []
     index = 0
 
