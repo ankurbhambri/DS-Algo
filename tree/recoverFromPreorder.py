@@ -44,3 +44,8 @@ def recoverFromPreorder(traversal: str):
         stack.append(node)
 
     return stack[0]
+
+
+print(recoverFromPreorder("1-2--3--4-5--6--7"))
+print(recoverFromPreorder("1-2--3---4-5--6---7"))
+print(recoverFromPreorder("1-401--349---90--88"))
