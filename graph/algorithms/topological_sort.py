@@ -156,3 +156,36 @@ def findOrder(n, preq):
                 q.append(nei)
 
     return res[::-1] if len(res) == n else []  # reverse to get the last from first
+
+
+# https://leetcode.com/problems/find-all-possible-recipes-from-given-supplies/description/
+
+from collections import defaultdict, deque
+
+class Solution:
+    def findAllRecipes(recipes, ingredients, supplies):
+
+        ingredient_count = defaultdict(int)
+        dependency_graph = defaultdict(list)
+        
+        for recipe, required_ingredients in zip(recipes, ingredients):
+            ingredient_count[recipe] = len(required_ingredients)
+            for ingredient in required_ingredients:
+                dependency_graph[ingredient].append(recipe)
+        
+        available_items = deque(supplies)
+        available_recipes = set(recipes)
+        prepared_recipes = []
+        
+        while available_items:
+            item = available_items.popleft()
+            
+            if item in available_recipes:  
+                prepared_recipes.append(item)
+            
+            for dependent_recipe in dependency_graph[item]:
+                ingredient_count[dependent_recipe] -= 1
+                if ingredient_count[dependent_recipe] == 0:
+                    available_items.append(dependent_recipe)
+        
+        return prepared_recipes

@@ -45,7 +45,7 @@ print(count_connected_components(graph, all_nodes))
 def countComponent(graph, all_nodes):
 
     # everyone iteself is a parent
-    parent = {i: [] for i in all_nodes}
+    parent = [i for i in all_nodes]
 
     def find(node):
         if node != parent[node]:
@@ -53,11 +53,14 @@ def countComponent(graph, all_nodes):
         return parent[node]
 
     def union(node1, node2):
+
         p1, p2 = find(node1), find(node2)
+
         if p1 != p2:
             # if both have different parent then node1 parent will be node2 parent
             parent[node2] = parent[node1]
             return 1
+
         return 0
 
     res = len(all_nodes)
@@ -65,19 +68,5 @@ def countComponent(graph, all_nodes):
         res -= union(n1, n2)
     return res
 
-
-graph = [
-    ["A", "B"],
-    ["A", "C"],
-    ["A", "D"],
-    ["D", "E"],
-    ["B", "E"],
-    ["F", "H"],
-    ["F", "G"],
-    ["I", "J"],
-]
-
-all_nodes = ["A", "B", "C", "D", "E", "F", "G", "I", "J", "H"]
-# n = 5
-# edges = [[0, 1], [1, 2], [3, 4]]
-print(countComponent(graph, all_nodes))
+print(countComponent([[0, 1], [1, 2], [3, 4]], list(range(5))))
+print(countComponent([[0, 1], [1, 2], [2, 3], [3, 4]], list(range(5))))
