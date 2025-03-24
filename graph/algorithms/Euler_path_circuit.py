@@ -42,8 +42,8 @@ def is_connected(graph, start):
 def is_eulerian(graph):
     # Count vertices with odd degree
     odd_degree_count = 0
-    for node in graph:
-        if len(graph[node]) % 2 != 0:
+    for node, edges in graph.items():
+        if len(edges) % 2 != 0:
             odd_degree_count += 1
 
     # Check connectivity and degree conditions

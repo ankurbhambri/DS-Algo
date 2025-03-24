@@ -241,6 +241,33 @@ result = find_k_shortest_paths(n, m, k, edges)
 # Output the result
 print(" ".join(map(str, result)))
 
+# https://leetcode.com/problems/path-with-maximum-probability/
+
+def maxProbability(n: int, edges, succProb, start_node: int, end_node: int) -> float:
+
+    adj = defaultdict(list)
+
+    for (u, v), p in zip(edges, succProb):
+        adj[u].append((v, p))
+        adj[v].append((u, p))
+    
+    dist = [0] * n
+    q = [(start_node, 1)]
+
+    while q:
+        node, prob = q.pop(0)
+
+        if prob < dist[node]:
+            continue
+
+        for nei, p in adj[node]:
+            new_prob = prob * p
+            if new_prob > dist[nei]:
+                dist[nei] = new_prob
+                q.append((nei, new_prob))
+
+    return dist[end_node]
+
 
 # https://cses.fi/problemset/task/1195/
 def find_min_cost_with_coupon(n, m, edges):
