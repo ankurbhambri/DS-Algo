@@ -2,6 +2,7 @@
 
 from collections import deque
 
+# Monotonic decreasing deque (double-ended queue, deque)
 
 def maxSlidingWindow(arr, k):
 
@@ -21,7 +22,7 @@ def maxSlidingWindow(arr, k):
         # Add the current element's index
         dq.append(i)
 
-        # Add the minimum of the current window to the result
+        # Add the max of the current window to the result
         if i >= k - 1:
             result.append(arr[dq[0]])
 
