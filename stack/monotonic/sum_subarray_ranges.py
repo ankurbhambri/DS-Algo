@@ -1,6 +1,5 @@
 # https://leetcode.com/problems/sum-of-subarray-ranges/description/
 
-
 def subArrayRanges(nums):
 
     n, answer = len(nums), 0
