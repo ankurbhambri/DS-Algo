@@ -14,6 +14,7 @@ def count_pairs_with_diff_leq(arr, value):
 
 
 def find_median_difference(arr):
+    
     n = len(arr)
     arr.sort()
 

@@ -23,18 +23,22 @@ def solution(A, B):
         if i == len(A):
             curr = B[j]
             j += 1
+
         elif j == len(B):
             curr = A[i]
             i += 1
+
         elif A[i][0] < B[j][0]:
             curr = A[i]
             i += 1
+
         else:
             curr = B[j]
             j += 1
 
         if res and res[-1][1] >= curr[0]:
             res[-1][1] = max(res[-1][1], curr[1])
+
         else:
             res.append(curr)
 
