@@ -2,39 +2,32 @@
 
 
 def findTriplets(arr):
-    arr.sort()
-    n = len(arr)
-    triplets = []
 
-    for i in range(n - 2):
-        # To avoid duplicates
-        if i > 0 and arr[i] == arr[i - 1]:
-            continue
+    n = len(arr)
+    result = []
+    arr.sort()
+    
+    for i in range(n-2):
 
         left = i + 1
         right = n - 1
-
+        
         while left < right:
-            current_sum = arr[i] + arr[left] + arr[right]
 
-            if current_sum == 0:
-                triplets.append([arr[i], arr[left], arr[right]])
+            curr_sum = arr[i] + arr[left] + arr[right]
 
-                # Move the left and right pointers to the next different numbers
-                while left < right and arr[left] == arr[left + 1]:
-                    left += 1
-                while left < right and arr[right] == arr[right - 1]:
-                    right -= 1
-
+            if curr_sum == 0:
+                result.append([arr[i], arr[left], arr[right]])
                 left += 1
                 right -= 1
 
-            elif current_sum < 0:
+            elif curr_sum < 0:
                 left += 1
+
             else:
                 right -= 1
-
-    return triplets
+    
+    return result
 
 
 # Test cases
