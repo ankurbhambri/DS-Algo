@@ -4,7 +4,7 @@
 
 def power_set(elements):
     n = len(elements)
-    power_set_size = 2**n
+    power_set_size = 2 ** n
     power_set_result = []
 
     # seen = set()
