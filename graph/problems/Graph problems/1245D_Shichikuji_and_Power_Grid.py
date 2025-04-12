@@ -5,8 +5,6 @@
 import heapq
 
 # Prim’s Algorithm
-
-
 def prim_algorithm(n, coordinates, power_costs, connection_costs):
 
     visited = [False] * (n + 1)  # Visited nodes

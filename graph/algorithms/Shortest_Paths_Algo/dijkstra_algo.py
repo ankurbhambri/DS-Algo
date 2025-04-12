@@ -9,8 +9,8 @@ TC:
 
 TC worst case is O(n^2) in case of n vertices processed and n vertex relaxed
 
-# For Unweighted Graphs - BFS
-# For Weighted Graphs - Dijkstra's Algorithm
+# To find the shortest path in unweighted graphs - BFS
+# To find the shortest path in Weighted Graphs - Dijkstra's
 
 """
 
