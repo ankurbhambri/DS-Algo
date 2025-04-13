@@ -2,8 +2,6 @@
 
 
 # Using Trie
-
-
 def longestCommonPrefix(strs):
     trie = {}
 
