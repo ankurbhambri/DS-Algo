@@ -1,0 +1,91 @@
+Absolutely, Ankur! Here’s a **handy list of formulas** that are especially useful in **competitive programming** — they come up in problems involving combinatorics, number theory, and arrays.
+
+---
+
+### ✅ 1. **Sum of First _n_ Natural Numbers**
+\[
+\sum_{i=1}^{n} i = \frac{n(n + 1)}{2}
+\]
+
+---
+
+### ✅ 2. **Sum of Squares of First _n_ Natural Numbers**
+\[
+\sum_{i=1}^{n} i^2 = \frac{n(n + 1)(2n + 1)}{6}
+\]
+
+---
+
+### ✅ 3. **Sum of Cubes of First _n_ Natural Numbers**
+\[
+\sum_{i=1}^{n} i^3 = \left( \frac{n(n + 1)}{2} \right)^2
+\]
+> It's the **square** of the sum of the first _n_ natural numbers.
+
+---
+
+### ✅ 4. **Number of Pairs (i < j) in Array of Size n**
+\[
+\binom{n}{2} = \frac{n(n - 1)}{2}
+\]
+
+---
+
+### ✅ 5. **Number of Subarrays in an Array of Length _n_**
+\[
+\text{Total subarrays} = \frac{n(n + 1)}{2}
+\]
+> Because for each start index, you can have multiple end indices.
+
+---
+
+### ✅ 6. **Number of Substrings in a String of Length _n_**
+\[
+\frac{n(n + 1)}{2}
+\]
+> Same logic as subarrays. Very handy in string problems.
+
+---
+
+### ✅ 7. **Power of 2 (for fast bit operations)**
+\[
+2^k = 1 \ll k
+\]
+> Use this to check bits, subsets, or for fast bitmasking tricks.
+
+---
+
+### ✅ 8. **Modular Arithmetic Tricks**
+For prime modulus `p`:
+
+- **Fermat’s Little Theorem**:  
+  \[
+  a^{p-1} \equiv 1 \ (\text{mod} \ p)
+  \Rightarrow a^{-1} \equiv a^{p-2} \ (\text{mod} \ p)
+  \]
+
+- **Modular Inverse** (when p is prime):  
+  \[
+  \text{inv}(a) = a^{p - 2} \ \% \ p
+  \]
+
+---
+
+### ✅ 9. **Sum of GP (Geometric Progression)**
+If:
+\[
+a + ar + ar^2 + \dots + ar^{n-1}
+\Rightarrow \text{Sum} = a \cdot \frac{r^n - 1}{r - 1} \quad \text{(for } r \ne 1\text{)}
+\]
+
+---
+
+### ✅ 10. **Number of Digits in a Number**
+To find the number of digits in base `b` of a number `n`:
+\[
+\text{digits} = \lfloor \log_b(n) \rfloor + 1
+\]
+
+---
+
+Would you like a **printable cheatsheet** version of this or examples of how these are used in real problems?
