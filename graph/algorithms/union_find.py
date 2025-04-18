@@ -55,3 +55,37 @@ if __name__ == "__main__":
     print(uf.find(4) == uf.find(9))  # False because their parents are different
 
     print(uf.parent, uf.rank)
+
+
+# https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/description/
+
+class DisjointSet:
+    def __init__(self):
+        self.parent = {}
+
+    def find(self, x):
+
+        if x not in self.parent:
+            self.parent[x] = x
+
+        if x != self.parent[x]:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, x, y):
+        self.parent[self.find(x)] = self.find(y)
+
+class Solution:
+    def removeStones(self, stones):
+        uf = DisjointSet()
+
+        max_row = max(x for x, y in stones) + 1
+
+        for x, y in stones:
+            uf.union(x, y + max_row + 1)
+        
+        res = set()
+        for x, y in stones:
+            res.add(uf.find(x))
+        
+        return len(stones) - len(res)
