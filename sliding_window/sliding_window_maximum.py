@@ -21,7 +21,7 @@ def maxSlidingWindow(arr, k):
         # Add the current element's index
         dq.append(i)
 
-        # Add the minimum of the current window to the result
+        # Start adding max elements to the result after we've processed first k elements
         if i >= k - 1:
             result.append(arr[dq[0]])
 
