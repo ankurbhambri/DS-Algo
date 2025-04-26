@@ -31,6 +31,7 @@ def minWindow(s, t):
 
         # Try and contract the window till then our condition is true for need == required.
         while formed == required:
+
             character = s[l]
 
             # Save the smallest window until now comparing with curr window size and previous window size.

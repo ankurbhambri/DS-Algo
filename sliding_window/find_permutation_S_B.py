@@ -102,15 +102,9 @@ def find_permutations_in_string_space(txt, pat):
 
         # If we have all needed characters with the required frequency, it's a valid permutation
         if have == need:
-            if i - wn < 0:
-                res.append(0)
-            else:
-                res.append(i - wn)
+            res.append(i - wn if i - wn > 0 else 0)
 
     return res
-
-
-# https://leetcode.com/problems/minimum-window-substring/description/
 
 
 S = "abc"
