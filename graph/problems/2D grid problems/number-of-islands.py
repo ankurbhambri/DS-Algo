@@ -37,3 +37,45 @@ grid = [
   ["0","0","0","0","0"]
 ]
 print(numIslands(grid))  # Output: 1
+
+
+# https://leetcode.com/problems/max-area-of-island/description/
+
+def maxAreaOfIsland(grid):
+
+    if not grid:
+        return 0
+
+    m, n = len(grid), len(grid[0])
+
+    def dfs(i: int, j: int) -> None:
+
+        if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] == 0:
+            return 0
+
+        # visited
+        grid[i][j] = 0
+
+        sm = 0
+        sm += dfs(i-1, j) + dfs(i+1, j) + dfs(i, j-1) + dfs(i, j+1)
+        return sm + 1
+
+    max_size = 0
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == 1:
+                max_size = max(max_size, dfs(i, j))
+    
+    return max_size
+
+grid = [
+    [0,0,1,0,0,0,0,1,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,1,1,0,1,0,0,0,0,0,0,0,0],
+    [0,1,0,0,1,1,0,0,1,0,1,0,0],
+    [0,1,0,0,1,1,0,0,1,1,1,0,0],
+    [0,0,0,0,0,0,0,0,0,0,1,0,0],
+    [0,0,0,0,0,0,0,1,1,1,0,0,0],
+    [0,0,0,0,0,0,0,1,1,0,0,0,0]
+]
+print(maxAreaOfIsland(grid))  # Output: 6
