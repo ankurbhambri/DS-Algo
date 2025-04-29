@@ -114,3 +114,43 @@ def findMaxFish(grid):
 
 grid = [[0,2,1,0],[4,0,0,3],[1,0,0,4],[0,3,2,0]]
 print(findMaxFish(grid))  # Output: 7
+
+
+# https://leetcode.com/problems/count-sub-islands/description/
+
+
+def countSubIslands(grid1, grid2):
+
+    if not grid1 or not grid2:
+        return 0
+    
+    m, n = len(grid1), len(grid1[0])
+    count = 0
+    
+    def dfs(i: int, j: int) -> bool:
+
+        # out of bounds
+        if i < 0 or i >= m or j < 0 or j >= n or grid2[i][j] == 0:
+            return True
+        
+        # Mark current cell as visited
+        grid2[i][j] = 0
+        # Check if current cell is valid for sub-island
+        is_valid = grid1[i][j] == 1
+        
+        # Check all 4 directions
+        is_valid &= dfs(i-1, j)  # Up
+        is_valid &= dfs(i+1, j)  # Down
+        is_valid &= dfs(i, j-1)  # Left
+        is_valid &= dfs(i, j+1)  # Right
+        
+        return is_valid
+    
+    # Traverse grid2
+    for i in range(m):
+        for j in range(n):
+            if grid2[i][j] == 1:
+                if dfs(i, j):  # if island have sub-island, then count
+                    count += 1
+    
+    return count
