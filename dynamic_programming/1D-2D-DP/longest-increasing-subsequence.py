@@ -52,3 +52,5 @@ print(printLengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]))  # Output: [2, 3, 7, 101]
 print(printLengthOfLIS([0, 1, 0, 3, 2, 3]))  # Output: [0, 1, 2, 3]
 print(printLengthOfLIS([7, 7, 7, 7, 7, 7]))  # Output: [7]
 print(printLengthOfLIS([]))  # Output: []
+
+# Similar question - https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-ii
