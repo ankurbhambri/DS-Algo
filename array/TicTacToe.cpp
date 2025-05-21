@@ -1,3 +1,6 @@
+#include <vector>
+using namespace std; // Allow usage of std types without prefixing with std::
+
 class TicTacToe {
 private:
     vector<int> rows; // Tracks sum of moves for each row
@@ -8,11 +11,13 @@ private:
 
 public:
     TicTacToe(int n) {
+
         this->n = n;
         rows.resize(n, 0);
         cols.resize(n, 0);
         diagonal = 0;
         antiDiagonal = 0;
+
     }
     
     int move(int row, int col, int player) {

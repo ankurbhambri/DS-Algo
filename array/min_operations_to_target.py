@@ -37,5 +37,5 @@ def min_operations_to_target(digits, target):
 
 # Examples
 print(min_operations_to_target(["1"], 1))  # Output: 0
-print(min_operations_to_target(["1"], 11))  # Output: 0
-print(min_operations_to_target(["1"], 21))  # Output: 2
+print(min_operations_to_target(["1"], 11))  # Output: 10
+print(min_operations_to_target(["1"], 21))  # Output: 20
