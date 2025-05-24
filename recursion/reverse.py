@@ -1,8 +1,13 @@
-def reverse(strng):
-    if len(strng) <= 1:
-        return strng
-    return strng[len(strng) - 1] + reverse(strng[0 : len(strng) - 1])
+def reverse_string(s):
+    if len(s) == 0:
+        return s
+    return reverse_string(s[1:]) + s[0]
 
 
-print(reverse("python"))  # 'nohtyp'
-print(reverse("appmillers"))  # 'srellimppa'
+def reverse_stack(st):
+    if len(st) == 0:
+        return st
+    return reverse_stack(st[1:]) + [st[0]]
+
+print(reverse_string("hello"))  # Output: "olleh"
+print(reverse_stack([1,2,3,4])) # Output: [4, 3, 2, 1]

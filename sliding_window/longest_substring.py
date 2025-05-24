@@ -9,9 +9,9 @@ Note: r - l + 1 is used to get the window size
 
 def lengthOfLongestSubstring(s):
 
-    charSet = set()
     l = 0
     res = 0
+    charSet = set()
     for r in range(len(s)):
         while s[r] in charSet:
             charSet.remove(s[l])

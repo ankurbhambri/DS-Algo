@@ -1,7 +1,8 @@
 # using iteration
 def is_palindrome(string):
-    for i in range(len(string) // 2):
-        if string[i] != string[-(i + 1)]:
+    n = len(string)
+    for i in range(n // 2):
+        if string[i] != string[n - i - 1]:
             return False
     return True
 

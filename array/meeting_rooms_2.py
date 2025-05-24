@@ -5,25 +5,25 @@ Given an array of meeting time intervals intervals where intervals[i] = [starti,
 
 """
 
+def solution(intervals):
 
-def solution(arr):
+    events = []
 
-    arr.sort()
+    for start, end in intervals:
+        events.append((start, 1))   # meeting starts
+        events.append((end, -1))    # meeting ends
 
-    processes = [0] * (max(arr, key=lambda x: x[1])[1] + 1)
+    # Sort events: by time, then by type (-1 before +1 if times are equal)
+    events.sort()
 
-    for s, e in arr:
-        processes[s] += 1
-        processes[e] = -1
+    max_rooms = 0
+    ongoing = 0
 
-    vm = 0
-    res = 0
+    for time, change in events:
+        ongoing += change
+        max_rooms = max(max_rooms, ongoing)
 
-    for p in processes:
-        vm += p
-        res = max(res, vm)
-
-    return res
+    return max_rooms
 
 
 print(solution([[0, 30], [5, 10], [15, 20]]))

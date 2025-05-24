@@ -6,7 +6,8 @@ def merge(intervals):
         end = m[-1]
         if end[1] >= i[0]:
             end[1] = max(end[1], i[1])
-        else: m.append(i)
+        else:
+            m.append(i)
     return m
 
 print(merge([[1, 3],[2, 6],[8,10],[15, 18]]))

@@ -23,4 +23,6 @@ obj = {
     },
 }
 
+# TC: O(n)
+# SC: O(n)
 print(collectStrings(obj))  # ['foo', 'bar', 'baz'])

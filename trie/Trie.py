@@ -27,7 +27,9 @@ class Trie:
 
 obj = Trie()
 obj.add("Hi")
+obj.add("Hii")
 obj.add("Hello")
 
 print(obj.search("Hi"))
+print(obj.search("Hii"))
 print(obj.search("Hey"))

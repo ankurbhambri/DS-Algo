@@ -6,7 +6,7 @@ def groupAnagrams(words):
     for i in words:
         temp = [0] * 26
         for c in i:
-            temp[ord("a") - ord(c)] += 1
+            temp[ord(c) - ord("a")] += 1
         temp = tuple(temp)
         if temp in res:
             res[temp].append(i)
