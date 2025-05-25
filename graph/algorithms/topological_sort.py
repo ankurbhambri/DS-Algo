@@ -95,19 +95,16 @@ In summary, Kahn's algorithm is one specific implementation of the topological
 sort algorithm.
 """
 
-# Q1 - https://leetcode.com/problems/course-schedule/
-# Q2 - https://leetcode.com/problems/course-schedule-ii/
 
 
-# Q1 solution
+# https://leetcode.com/problems/course-schedule/
 
-
-def canFinish(n, preq):
+def canFinish(n, prerequisites):
 
     indegree = {i: 0 for i in range(n)}
     adj = {i: [] for i in range(n)}
 
-    for crs, pre in preq:
+    for crs, pre in prerequisites:
         # [1, 0] 0 must be completed before 1 so this way we can make adj
         adj[pre].append(crs)
         indegree[crs] += 1  # no
@@ -129,19 +126,18 @@ def canFinish(n, preq):
     return len(res) == n
 
 
-# Q2 Solution
+# https://leetcode.com/problems/course-schedule-ii/
 
+def findOrder(numCourses, prerequisites):
 
-def findOrder(n, preq):
+    indegree = {i: 0 for i in range(numCourses)}
+    adj = {i: [] for i in range(numCourses)}
 
-    indegree = {i: 0 for i in range(n)}
-    adj = {i: [] for i in range(n)}
-
-    for u, v in preq:
+    for u, v in prerequisites:
         adj[u].append(v)
         indegree[v] += 1
 
-    q = [i for i in range(n) if indegree[i] == 0]
+    q = [i for i in range(numCourses) if indegree[i] == 0]
 
     res = []
     while q:
@@ -155,7 +151,7 @@ def findOrder(n, preq):
             if indegree[nei] == 0:
                 q.append(nei)
 
-    return res[::-1] if len(res) == n else []  # reverse to get the last from first
+    return res[::-1] if len(res) == numCourses else []  # reverse to get the last from first
 
 
 # https://leetcode.com/problems/find-all-possible-recipes-from-given-supplies/description/

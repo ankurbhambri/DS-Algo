@@ -6,6 +6,7 @@ from collections import defaultdict
 
 
 def utils(graph, n):
+
     disc = [-1] * n
     low = [-1] * n
     parent = [-1] * n
@@ -14,6 +15,7 @@ def utils(graph, n):
     time = 0
 
     def dfs(u):
+
         nonlocal time
 
         disc[u] = low[u] = time
@@ -22,6 +24,7 @@ def utils(graph, n):
 
         for v in graph[u]:
             if disc[v] == -1:
+
                 parent[v] = u
 
                 dfs(v)
