@@ -56,9 +56,9 @@ def maxAreaOfIsland(grid):
         # visited
         grid[i][j] = 0
 
-        sm = 0
-        sm += dfs(i-1, j) + dfs(i+1, j) + dfs(i, j-1) + dfs(i, j+1)
-        return sm + 1
+        area = 0
+        area += dfs(i-1, j) + dfs(i+1, j) + dfs(i, j-1) + dfs(i, j+1)
+        return area + 1
 
     max_size = 0
     for i in range(m):
@@ -79,6 +79,53 @@ grid = [
     [0,0,0,0,0,0,0,1,1,0,0,0,0]
 ]
 print(maxAreaOfIsland(grid))  # Output: 6
+
+
+# https://leetcode.com/problems/making-a-large-island/
+
+# Hard
+def largestIsland(grid):
+    island_sizes = {}
+    island_id = 2
+    rows, cols = len(grid), len(grid[0])
+
+    def explore_island(grid, r, c, island_id):
+        if r < 0 or r >= len(grid) or c < 0 or c >= len(grid[0]) or grid[r][c] != 1:
+            return 0
+        grid[r][c] = island_id
+        return (1 +
+                explore_island(grid, r + 1, c, island_id) +
+                explore_island(grid, r - 1, c, island_id) +
+                explore_island(grid, r, c + 1, island_id) +
+                explore_island(grid, r, c - 1, island_id))    
+
+    # Step 1: Mark all islands and calculate their sizes
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == 1:
+                size = explore_island(grid, r, c, island_id)
+                island_sizes[island_id] = size
+                island_id += 1
+
+    max_island_size = max(island_sizes.values(), default=0)
+
+    # Step 2: Try converting every 0 to 1
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == 0:
+                seen = set()
+                for dr, dc in [(-1,0), (1,0), (0,-1), (0,1)]:
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] > 1:
+                        seen.add(grid[nr][nc])
+                new_area = 1 + sum(island_sizes[iid] for iid in seen)
+                max_island_size = max(max_island_size, new_area)
+
+    return max_island_size if max_island_size > 0 else 1
+
+
+print(largestIsland([[1,0],[0,1]]))  # Output: 3
+print(largestIsland([[1,1],[1,0]]))  # Output: 4
 
 
 # https://leetcode.com/problems/maximum-number-of-fish-in-a-grid/description/
@@ -112,7 +159,12 @@ def findMaxFish(grid):
     return max_fish
 
 
-grid = [[0,2,1,0],[4,0,0,3],[1,0,0,4],[0,3,2,0]]
+grid = [
+    [0,2,1,0],
+    [4,0,0,3],
+    [1,0,0,4],
+    [0,3,2,0]
+]
 print(findMaxFish(grid))  # Output: 7
 
 
@@ -154,3 +206,19 @@ def countSubIslands(grid1, grid2):
                     count += 1
     
     return count
+
+grid1 = [
+    [1,1,1,0,0],
+    [0,1,1,1,1],
+    [0,0,0,0,0],
+    [1,0,0,0,0],
+    [1,1,0,1,1]
+]
+grid2 = [
+    [1,1,1,0,0],
+    [0,0,1,1,1],
+    [0,1,0,0,0],
+    [1,0,1,1,0],
+    [0,1,0,1,0]
+]
+print(countSubIslands(grid1, grid2))  # Output: 3

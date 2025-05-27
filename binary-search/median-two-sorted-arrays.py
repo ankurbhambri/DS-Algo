@@ -57,7 +57,6 @@ def findMedianSortedArrays(nums1, nums2):
 # Time complexity: O(log(min(n, m)))
 # Space complexity: O(1)
 
-
 def findMedianSortedArrays(nums1, nums2):
 
     if len(nums1) > len(nums2):
