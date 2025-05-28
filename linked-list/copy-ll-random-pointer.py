@@ -49,11 +49,4 @@ node1.random = node3   # 1 → 3
 node2.random = node1   # 2 → 1
 node3.random = node3   # 3 → 3
 
-print("Original list:")
-print_list(node1)
-
-# Clone
 cloned_head = copyRandomList(node1)
-
-print("\nCloned list:")
-print_list(cloned_head)

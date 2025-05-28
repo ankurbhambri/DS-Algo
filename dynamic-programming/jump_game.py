@@ -1,43 +1,48 @@
 # https://leetcode.com/problems/jump-game/
 # TC: O(n)
 
-def canJump(nums):
-    
-    goals = len(nums) - 1
-    
-    for i in range(len(nums) - 1, -1, -1):
-        
-        if i + nums[i] >=  goals:
-            
-            goals = i
-            
-    return goals == 0
+# Greedy + DP
 
-print(canJump([2, 3, 1, 1, 4]))  # True
-print(canJump([3, 2, 1, 0, 4]))  # False
+from collections import deque
+
+class Solution:
+    def canJump(self, nums):
+        max_reach = 0
+        for i in range(len(nums)):
+            if i > max_reach:  # Agar current index max_reach se aage hai, stuck!
+                return False
+            max_reach = max(max_reach, i + nums[i])  # Update max reachable index
+            if max_reach >= len(nums) - 1:  # Agar last index tak pahunch gaye
+                return True
+        return True
+
+
+print(Solution().canJump([2, 3, 1, 1, 4]))  # True
+print(Solution().canJump([3, 2, 1, 0, 4]))  # False
 
 # https://leetcode.com/problems/jump-game-ii/
 # TC: O(n)
 
-def jump(nums):
-    res = 0
-    l = r = 0
+class Solution:
+    def jump(self, nums):
 
-    while r < len(nums) - 1:
+        jumps = 0
+        curr_end = 0
+        next_end = 0
 
-        far = 0
+        for i in range(len(nums) - 1):  # stop before the last index
+            next_end = max(next_end, i + nums[i])
 
-        for i in range(l, r + 1):
-            far = max(far, i + nums[i])
+            if i == curr_end:
+                jumps += 1
+                curr_end = next_end
+                if curr_end >= len(nums) - 1:  # Last, reached
+                    break
 
-        l = r + 1
-        r = far
-        res += 1
+        return jumps
 
-    return res
-
-print(jump([2, 3, 1, 1, 4]))  # 2
-print(jump([2, 3, 0, 1, 4]))  # 2
+print(Solution().jump([2, 3, 1, 1, 4]))  # 2
+print(Solution().jump([2, 3, 0, 1, 4]))  # 2
 
 
 # https://leetcode.com/problems/jump-game-iii/description/

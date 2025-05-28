@@ -21,7 +21,7 @@ def ladderLength(beginWord, endWord, wordList):
         for word in wordList:
             for i in range(len(word)):
                 pattern = word[:i] + "*" + word[i+1:]
-                pattern_dict[pattern].append(word)   
+                pattern_dict[pattern].append(word)
 
         def getNei(word):
             nei = []

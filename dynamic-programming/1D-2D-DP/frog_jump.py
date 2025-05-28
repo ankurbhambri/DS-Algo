@@ -48,3 +48,42 @@ def frogJump(n: int, heights) -> int:
         right = a + abs(heights[i] - heights[i - 2]) if i > 1 else float("inf")
         a, b = b, min(left, right)
     return b
+
+
+
+# https://leetcode.com/problems/frog-jump/description/
+
+from collections import deque
+
+class Solution:
+    def canCross(self, stones):
+
+        n = len(stones)
+        if stones[1] != 1:  # Pehla jump 1 unit ka hona chahiye
+            return False
+        
+        # Set to quickly check if a position is a stone
+        stone_set = set(stones)
+        
+        # BFS: (current position, previous jump size)
+        queue = deque([(1, 1)])  # Start at stones[1] with jump size 1
+        visited = {(1, 1)}  # (position, jump_size)
+        
+        while queue:
+            curr_pos, prev_jump = queue.popleft()
+            
+            if curr_pos == stones[-1]:  # Last stone reached
+                return True
+            
+            # Try jumps: k-1, k, k+1
+            for jump in [prev_jump - 1, prev_jump, prev_jump + 1]:
+                if jump > 0:  # Jump size should be positive
+                    next_pos = curr_pos + jump
+                    if next_pos in stone_set and (next_pos, jump) not in visited:
+                        queue.append((next_pos, jump))
+                        visited.add((next_pos, jump))
+        
+        return False
+
+print(Solution().canCross([0,1,3,5,6,8,12,17]))  # Output: True
+print(Solution().canCross([0,1,2,3,4,8,9,11]))  # Output: False
