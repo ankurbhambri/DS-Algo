@@ -23,6 +23,7 @@ print(Solution().canJump([3, 2, 1, 0, 4]))  # False
 # https://leetcode.com/problems/jump-game-ii/
 # TC: O(n)
 
+# Idea here is to keep track of the farthest we can reach at each step.
 class Solution:
     def jump(self, nums):
 

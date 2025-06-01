@@ -1,6 +1,10 @@
 
 ---
 
+**0. Modulus Formula
+- (a % b) = a - (b * math.floor(a / b))
+
+
 **1. Sum of First n Natural Numbers**  
 [ sum(i=1 to n) = n(n + 1) / 2 ]
 
@@ -61,4 +65,3 @@
 
 **Note**:  
 Formulas with `n(n + 1)/2` are triangular by nature. Useful in combinations, subarrays, and pairing logic.
-

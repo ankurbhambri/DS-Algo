@@ -5,7 +5,6 @@ def generate_palindromes(n):
     
     start = 10 ** (half - 1)
     end = 10 ** half
-    print(half, start, end)
     
     for i in range(start, end):
         s = str(i)

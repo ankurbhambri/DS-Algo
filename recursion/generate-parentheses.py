@@ -4,12 +4,14 @@ def generateParenthesis(n):
 
     res = []
     def helper(s, open, close):
+
         if len(s) == 2 * n:
             res.append(s)
             return
 
         if open < n:
             helper(s + '(', open + 1, close)
+
         if close < open:
             helper(s + ')', open, close + 1)
     
