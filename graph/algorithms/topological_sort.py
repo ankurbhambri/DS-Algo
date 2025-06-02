@@ -74,7 +74,7 @@ def khan_algo(graph):
             if indegree[nei] == 0:
                 q.append(nei)
 
-    return res
+    return [] if len(res) != len(graph) else res # in case if result length is not equal to graph length, it means there is a cycle
 
 
 adj = {0: [], 1: [], 2: [3], 3: [1], 4: [0, 1], 5: [0, 2]}

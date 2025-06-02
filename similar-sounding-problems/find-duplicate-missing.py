@@ -1,18 +1,34 @@
 '''
-    There are three similar sounding problems on internet, based on find duplicates, missing number.
+    There are five similar sounding problems on the internet, based on finding duplicates or missing numbers:
 
-    1. 442. Find All Duplicates in an Array (https://leetcode.com/problems/find-all-duplicates-in-an-array/)
-    2. 41. First Missing Positive (https://leetcode.com/problems/first-missing-positive/)
-    3. 287. Find the Duplicate Number (https://leetcode.com/problems/find-the-duplicate-number/)
+    1. 268. Missing Number (https://leetcode.com/problems/missing-number/)
+    2. 442. Find All Duplicates in an Array (https://leetcode.com/problems/find-all-duplicates-in-an-array/)
+    3. 41. First Missing Positive (https://leetcode.com/problems/first-missing-positive/)
+    4. 448. Find All Numbers Disappeared in an Array (https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/)
+    5. 287. Find the Duplicate Number (https://leetcode.com/problems/find-the-duplicate-number/)
 
-    But they are different problems and there way of solving them is also different.
+    Although they sound similar, they are distinct problems with different approaches to solving them.
 
-    Such as:
-    - The first problem is solved using the negative marking technique,
-    - Second problem is based on swaping the numbers to correct positions and then find if the number at index i is not i+1, that means missing number.
-    - Third problem is solved using the slow and fast pointer technique, Floyd's Tortoise and Hare (Cycle Detection) algorithm. Which is also used to find the cycle in a linked list.
-
+    For example:
+    - The first problem is solved using Gauss' formula to calculate the expected sum and subtracting the actual sum.
+    - The second problem uses the negative marking technique to identify duplicates.
+    - The third problem involves swapping numbers to their correct positions and then checking for the first missing positive integer.
+    - The fourth problem uses negative marking to identify missing numbers.
+    - The fifth problem is solved using Floyd's Tortoise and Hare (Cycle Detection) algorithm, which is also used to detect cycles in linked lists.
 '''
+
+# https://leetcode.com/problems/missing-number/
+
+# Gauss' Formula
+class Solution:
+    def missingNumber(self, nums):
+        n = len(nums)
+        sm = sum(nums)
+        t = (n * (n + 1 ) ) // 2
+        return t - sm
+
+print(Solution().missingNumber([3, 0, 1]))  # Output: 2
+
 
 # https://leetcode.com/problems/find-all-duplicates-in-an-array/
 
@@ -54,6 +70,26 @@ class Solution:
         return n + 1
 
 print(Solution().firstMissingPositive([3, 4, -1, 1]))  # Output: 2
+
+
+# https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/description/
+
+class Solution:
+    def findDisappearedNumbers(self, nums):
+
+        for num in nums:
+            idx = abs(num) - 1
+            if nums[idx] > 0:
+                nums[idx] = -nums[idx]
+
+        res = []
+        for i in range(len(nums)):
+            if nums[i] > 0:
+                res.append(i + 1)
+        return res
+    
+print(Solution().findDisappearedNumbers([4, 3, 2, 7, 8, 2, 3, 1]))  # Output: [5, 6]
+
 
 # https://leetcode.com/problems/find-the-duplicate-number/
 

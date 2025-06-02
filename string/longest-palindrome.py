@@ -28,3 +28,8 @@ def longestPalindrome(s):
 
 print(longestPalindrome("abccccdd"))
 print(longestPalindrome("racecar"))
+
+
+# Variation of the problem: Largest Palindromic Number
+
+# https://leetcode.com/problems/largest-palindromic-number/

@@ -1,17 +1,18 @@
-# https://www.geeksforgeeks.org/find-the-longest-substring-with-k-unique-characters-in-a-given-string/
+"""
+    https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/
 
-# Given a string you need to print longest possible substring that has exactly M unique characters.
-# If there is more than one substring of longest possible length, then print any one of them.
+    Given a string S, find the length of the longest substring T that contains at most k distinct characters.
+
+    Note - same as above replace static value 2 with k only
+
+    Similar question - https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/ replace k with 2
+
+"""
 
 
 class Solution:
-    """
-    @param s: A string
-    @param k: An integer
-    @return: An integer
-    """
-
     def length_of_longest_substring_k_distinct(self, s: str, k: int) -> int:
+
         if k == 0:
             return 0
 
@@ -38,7 +39,6 @@ class Solution:
         return res
 
 
-# Test Cases
 obj = Solution()
 print(obj.length_of_longest_substring_k_distinct("eceba", 2))  # 3
 print(obj.length_of_longest_substring_k_distinct("aa", 1))  # 2

@@ -92,12 +92,14 @@ def largestIsland(grid):
     def explore_island(grid, r, c, island_id):
         if r < 0 or r >= len(grid) or c < 0 or c >= len(grid[0]) or grid[r][c] != 1:
             return 0
+
         grid[r][c] = island_id
+
         return (1 +
                 explore_island(grid, r + 1, c, island_id) +
                 explore_island(grid, r - 1, c, island_id) +
                 explore_island(grid, r, c + 1, island_id) +
-                explore_island(grid, r, c - 1, island_id))    
+                explore_island(grid, r, c - 1, island_id))
 
     # Step 1: Mark all islands and calculate their sizes
     for r in range(rows):
@@ -222,3 +224,8 @@ grid2 = [
     [0,1,0,1,0]
 ]
 print(countSubIslands(grid1, grid2))  # Output: 3
+
+
+# https://leetcode.com/problems/number-of-distinct-islands/
+
+
