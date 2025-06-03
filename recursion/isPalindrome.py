@@ -1,4 +1,6 @@
 # using iteration
+# https://leetcode.com/problems/valid-palindrome/description/
+
 def is_palindrome(string):
     n = len(string)
     for i in range(n // 2):
