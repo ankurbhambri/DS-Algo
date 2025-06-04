@@ -1,3 +1,5 @@
+# https://stackoverflow.com/questions/78364596/find-length-of-shortest-substr-that-can-be-removed-from-a-string-resulting-in-a
+
 """
     Determine the length of the shortest substring to delete from a string of length n, 
     so that the resulting string contains only distinct characters.
