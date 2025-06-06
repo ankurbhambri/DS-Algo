@@ -57,3 +57,48 @@ print(obj.getMin())  # Returns -2
 obj.pop()          # Removes -1
 print(obj.top())     # Returns 0
 print(obj.getMin())  # Returns -2
+
+
+# Using List
+class MinStack:
+
+    def __init__(self):
+        self.st = []
+        self.min = []
+
+    def push(self, val: int) -> None:
+        self.st.append(val)
+        if not self.min or self.min[-1] >= val:
+            self.min.append(val)
+
+    def pop(self) -> None:
+        if self.st:
+            val = self.st[-1]
+            self.st.pop(-1)
+            if self.min[-1] == val:
+                self.min.pop(-1)
+
+    def top(self) -> int:
+        if self.st:
+            return self.st[-1]
+        else:
+            return -1
+
+    def getMin(self) -> int:
+        if self.min:
+            return self.min[-1]
+
+
+obj = MinStack()
+obj.push(-2)
+obj.push(0)
+obj.push(-3)
+print(obj.getMin())  # Returns -3
+obj.pop()          # Removes -3
+print(obj.top())     # Returns 0
+print(obj.getMin())  # Returns -2
+obj.push(-1)
+print(obj.getMin())  # Returns -2
+obj.pop()          # Removes -1
+print(obj.top())     # Returns 0
+print(obj.getMin())  # Returns -2

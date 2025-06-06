@@ -10,6 +10,6 @@ def maxHeight(root):
         r = helper(node.right)
 
         # formula for height only max of left and right height and +1 for the current node
-        return max(l, r) + 1
+        return 1 + max(l, r)
 
     return helper(root)
