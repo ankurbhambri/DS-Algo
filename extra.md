@@ -1,0 +1,44 @@
+- Find the missing number in the array
+- Determine if the sum of two integers is equal to the given value
+- Merge two sorted linked lists
+- Copy linked list with arbitrary pointer
+- Level order traversal of binary tree
+- Determine if a binary tree is a binary search tree
+- String segmentation
+- Reverse words in a sentence
+- How many ways can you make change with coins and a total amount
+- Find Kth permutation
+- Find all subsets of a given set of integers
+- Print balanced brace combinations
+- Clone a directed graph
+- Find low/high index
+- Search rotated array
+- K largest elements from an array
+- Convert a Binary tree to DLL
+- Given a binary tree T, find the maximum path sum. The path may start and end at any node in the tree.
+- Rotate a matrix by 90 degrees
+- Assembly line scheduling with dynamic programming
+- Implement a stack with push(), min(), and pop() in 
+- How do you rotate an array by K?
+- Design Snake Game using Object Oriented Programming analysis and design technique.
+- Print all permutations of a given string using recursion
+- Implement a queue using a linked list
+- Find the longest increasing subsequence of an array
+- Lowest common ancestor in a Binary Search Tree and Binary Tree
+- Rotate a given list to the right by k places, which is non-negative.
+- Write a function that counts the total of set bits in a 32-bit integer.
+- How do you detect a loop in a singly linked list?
+- Reverse an array in groups
+- Given a binary tree, check if it’s a mirror of itself
+- Josephus problem for recursion
+- Zero Sum Subarrays
+- Huffman Decoding for greedy algorithms
+- Egg Dropping Puzzle for dynamic programming
+- N-Queen Problem
+- Check if strings are rotations of each other
+- 0-1 Knapsack Problem
+- Unbounded knapsack problem
+- Longest palindromic subsequence
+- Print nth number in the Fibonacci series
+- Longest common substring
+- Longest common subsequence
