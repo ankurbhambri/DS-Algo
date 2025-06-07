@@ -3,7 +3,7 @@ in which each pair of adjacent elements is compared and the elements are swapped
 are not in order."""
 
 
-def recursive_bubble_sort(arr, n):  # O(n)
+def recursive_bubble_sort(arr, n):  # O(n^2) -> (n-1) + (n-2) + ... + 1 = n(n-1)/2 = O(n^2)
 
     if n == 1:
         return arr

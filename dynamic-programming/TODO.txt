@@ -2,5 +2,4 @@
 2. https://leetcode.com/discuss/interview-question/1481915/amazon-oa-count-distinct-characters-in-all-substrings
 3. https://leetcode.com/problems/total-appeal-of-a-string/
 4. https://leetcode.com/problems/count-palindromic-subsequences/
-5. https://leetcode.com/problems/2-keys-keyboard/?envType=daily-question&envId=2024-08-19
 6. https://leetcode.com/problems/strange-printer/?envType=daily-question&envId=2024-08-21

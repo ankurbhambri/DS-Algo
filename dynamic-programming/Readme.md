@@ -2,7 +2,7 @@
 
 1. Top Down Approach (``Memoization`` is based on recursion) - Breaking big problem into small problems and simultaneously lookup into dp.
 2. Bottom-up Approach (``Tabulation`` is based on iterative) -  Moving from small to large value.
-3. ``Optimization`` Approach where we optimize the space complexity taking idea from Tabulation approach.
+3. ``Optimization`` Approach where we optimize the space complexity, while utilizing the Tabulation approach.
 
 ## Important Points:
 

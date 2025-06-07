@@ -20,7 +20,6 @@ class Solution:
         start = 0
         for end in range(str_len + 1):
             if end == str_len or sentence[end] == ' ':
-                print(start, end - 1, str_len, sentence, sentence[end])
                 helper(sentence, start, end - 1)
                 start = end + 1
 

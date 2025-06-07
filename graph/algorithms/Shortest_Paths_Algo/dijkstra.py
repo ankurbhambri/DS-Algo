@@ -15,7 +15,6 @@ TC worst case is O(n^2) in case of n vertices processed and n vertex relaxed
 """
 
 import heapq
-import math
 from collections import defaultdict, deque
 
 # For Unweighted Graphs (BFS)
@@ -55,6 +54,7 @@ print(bfs_shortest_path(graph, "A"))
 
 # For Weighted Graphs (Dijkstra's)
 def dijkstra(graph, N, start):
+
     adj = defaultdict(list)
 
     for u, v, w in graph:
@@ -94,7 +94,6 @@ print(
     https://leetcode.com/problems/network-delay-time/
     Used Dijkstra's algorithm here - TC - O(E log N), SC - O(E + N) 
 """
-
 
 def networkDelayTime(times, n: int, k: int) -> int:
 
@@ -164,6 +163,7 @@ def maxProbability(n: int, edges, succProb, start_node: int, end_node: int) -> f
 
 
 # https://leetcode.com/problems/minimum-cost-to-reach-destination-in-time/
+
 def minCost(maxTime, edges, passingFees):
 
     n = len(passingFees)
@@ -198,6 +198,7 @@ def minCost(maxTime, edges, passingFees):
 
 
 # https://cses.fi/problemset/task/1196
+
 def find_k_shortest_paths(n, m, k, edges):
     # Build the graph
     graph = defaultdict(list)
@@ -248,6 +249,7 @@ print(" ".join(map(str, result)))
 
 
 # https://cses.fi/problemset/task/1195/
+
 def find_min_cost_with_coupon(n, m, edges):
 
     graph = [[] for _ in range(n + 1)]
@@ -289,4 +291,3 @@ def find_min_cost_with_coupon(n, m, edges):
 # https://leetcode.com/problems/the-maze-ii/
 # https://leetcode.com/problems/the-maze-iii/
 # https://leetcode.com/problems/modify-graph-edge-weights/
-# https://leetcode.com/problems/minimum-cost-to-convert-string-i/
