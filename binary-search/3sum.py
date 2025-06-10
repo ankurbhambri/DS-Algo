@@ -16,6 +16,7 @@ def threeSum(nums):
     for i in range(n):
 
         l, r = i + 1, n - 1
+
         remain = 0 - nums[i]
 
         while l < r:
@@ -27,7 +28,7 @@ def threeSum(nums):
                 l += 1
                 r -= 1
 
-            elif nums[l] + nums[r] > remain:
+            elif sum_val > remain:
                 r -= 1
 
             else:

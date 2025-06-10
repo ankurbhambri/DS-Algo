@@ -111,6 +111,7 @@ class Solution:
 
             if rootX == rootY:
                 return
+
             if rootX < rootY:
                 parent[rootY] = rootX
             else:

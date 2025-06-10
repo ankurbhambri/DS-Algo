@@ -17,12 +17,16 @@
 - Convert a Binary tree to DLL
 - Given a binary tree T, find the maximum path sum. The path may start and end at any node in the tree.
 - Rotate a matrix by 90 degrees
-- Assembly line scheduling with dynamic programming
+- Longest common substring
+- Longest common subsequence
 - Implement a stack with push(), min(), and pop() in 
+- Implement a queue using a linked list
+- N-Queen Problem
+
+- Assembly line scheduling with dynamic programming
 - How do you rotate an array by K?
 - Design Snake Game using Object Oriented Programming analysis and design technique.
 - Print all permutations of a given string using recursion
-- Implement a queue using a linked list
 - Find the longest increasing subsequence of an array
 - Lowest common ancestor in a Binary Search Tree and Binary Tree
 - Rotate a given list to the right by k places, which is non-negative.
@@ -34,11 +38,8 @@
 - Zero Sum Subarrays
 - Huffman Decoding for greedy algorithms
 - Egg Dropping Puzzle for dynamic programming
-- N-Queen Problem
 - Check if strings are rotations of each other
 - 0-1 Knapsack Problem
 - Unbounded knapsack problem
 - Longest palindromic subsequence
 - Print nth number in the Fibonacci series
-- Longest common substring
-- Longest common subsequence

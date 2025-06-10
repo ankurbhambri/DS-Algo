@@ -16,6 +16,6 @@ def countPairs(nums, target):
     return res
 
 print(countPairs([1, 2, 3, 4], 5)) # Output: 4
-print(countPairs([1, 2, 3, 4], 10))
-print(countPairs([1, 2, 3, 4], 0))
-print(countPairs([1, 2, 3, 4], 1))
+print(countPairs([1, 2, 3, 4], 10)) # Output: 6
+print(countPairs([1, 2, 3, 4], 0)) # Output: 0
+print(countPairs([1, 2, 3, 4], 1)) # Output: 0

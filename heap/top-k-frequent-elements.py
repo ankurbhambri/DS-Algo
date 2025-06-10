@@ -1,8 +1,11 @@
+# https://leetcode.com/problems/top-k-frequent-elements/description/
+
 import heapq
 from collections import Counter
 
-# https://leetcode.com/problems/top-k-frequent-elements/description/
 
+# TC: O(N log k)
+# SC: O(k)
 class Solution:
     def topKFrequent(self, nums, k):
 

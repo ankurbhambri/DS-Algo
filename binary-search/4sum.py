@@ -27,12 +27,14 @@ def fourSum(nums, target):
 
             while l < r:
 
-                if nums[l] + nums[r] == remain:
+                sum_val = nums[l] + nums[r]
+
+                if sum_val == remain:
                     ans.add((nums[i], nums[j], nums[l], nums[r]))
                     l += 1
                     r -= 1
 
-                elif nums[l] + nums[r] > remain:
+                elif sum_val > remain:
                     r -= 1
 
                 else:
