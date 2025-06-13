@@ -40,7 +40,7 @@ print(obj.move(2, 1, 1))  # Player 1 moves at (1, 2) - Player 1 wins
 # https://leetcode.com/problems/find-winner-on-a-tic-tac-toe-game/
 
 class Solution:
-    def tictactoe(self, moves: List[List[int]]) -> str:
+    def tictactoe(self, moves):
 
         row = [0] * 3
         cols = [0] * 3
