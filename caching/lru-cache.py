@@ -45,7 +45,6 @@ class LRUCache:
             del self.cache[lru.key]
 
 
-# Example usage
 obj = LRUCache(2)
 obj.put(1, 1)
 obj.put(2, 2)
