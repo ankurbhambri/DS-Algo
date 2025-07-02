@@ -110,10 +110,96 @@ def solve_labyrinth(n, m, grid):
 
 
 # Input reading
-n, m = map(int, input().split())
-grid = [input().strip() for _ in range(n)]
+# n, m = map(int, input().split())
+# grid = [input().strip() for _ in range(n)]
 
-solve_labyrinth(n, m, grid)
+# solve_labyrinth(n, m, grid)
 
 
 # https://leetcode.com/problems/escape-the-spreading-fire/description/
+
+
+
+"""
+Problem: Best Place to Install a Well
+
+You are given a grid representing a village. Each cell in the grid can be:
+- '_' : empty land (can place a well here)
+- 'H' : a house
+- 'T' : a tree (cannot be passed through or built on)
+
+People can move up, down, left, or right, but cannot walk through trees or houses.
+Your task is to find the empty cell where placing a well minimizes the total sum of distances from all houses to the well.
+Return the minimum total distance, or -1 if no such cell exists.
+
+Example:
+Input grid:
+_ _ H T
+_ _ T _
+_ _ H _
+
+Output: 3
+"""
+
+from collections import deque
+from typing import List
+
+class Solution:
+    def findBestWellPosition(self, grid: List[List[str]]) -> int:
+        if not grid or not grid[0]:
+            return -1
+        
+        m, n = len(grid), len(grid[0])
+        total_distance = [[0] * n for _ in range(m)]
+        reachable_count = [[0] * n for _ in range(m)]
+        house_count = 0
+        
+        # Directions: up, down, left, right
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        # Start BFS from each house
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 'H':
+                    house_count += 1
+                    visited = [[False]*n for _ in range(m)]
+                    queue = deque()
+                    queue.append((i, j, 0))
+                    visited[i][j] = True
+
+                    while queue:
+                        x, y, dist = queue.popleft()
+
+
+                        for dx, dy in directions:
+
+                            nx, ny = x + dx, y + dy
+
+                            if 0 <= nx < m and 0 <= ny < n and not visited[nx][ny]:
+
+                                if grid[nx][ny] == '_':
+
+                                    total_distance[nx][ny] += dist + 1
+
+                                    reachable_count[nx][ny] += 1
+
+                                    queue.append((nx, ny, dist + 1))
+
+                                # Visitable only if empty land; skip trees or houses
+                                visited[nx][ny] = True
+
+        # Find the minimum distance where all houses can reach
+        min_dist = float('inf')
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '_' and reachable_count[i][j] == house_count:
+                    min_dist = min(min_dist, total_distance[i][j])
+
+        return min_dist if min_dist != float('inf') else -1
+
+
+print(Solution().findBestWellPosition([
+    ['_', '_', 'H', 'T'],
+    ['_', '_', 'T', '_'],
+    ['_', '_', 'H', '_']
+]))  # Output: 3
