@@ -1,3 +1,5 @@
+# similar question - https://leetcode.com/problems/k-closest-points-to-origin/description/
+
 '''
 QuickSelect (Hoare's Selection Algorithm) is an efficient algorithm used to find the k-th smallest (or largest) element in an unsorted list. 
 It's closely related to QuickSort, but instead of sorting the entire list, it focuses on partitioning to find the desired element, giving it better average performance for selection.
