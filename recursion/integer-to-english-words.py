@@ -33,8 +33,9 @@ class Solution:
         
         return result.strip()
 
+print(Solution().numberToWords(23)) # Output: "Twenty Three"
 print(Solution().numberToWords(1234567891))  # Output: "One Billion Two Hundred Thirty Four Million Five Hundred Sixty Seven Thousand Eight Hundred Ninety One"
 print(Solution().numberToWords(0))  # Output: "Zero"
 print(Solution().numberToWords(1001))  # Output: "One Thousand One"
 print(Solution().numberToWords(1000000))  # Output: "One Million"
-print(Solution().numberToWords(123))  # Output: "One Hundred
+print(Solution().numberToWords(123))  # Output: "One Hundred Twenty Three"

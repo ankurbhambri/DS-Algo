@@ -8,9 +8,9 @@ implement a structure which can be invoked to pick a random index within that ar
 array [1, 7, 2]
 
 With N 10 times called:
-- O index retuned 1 time
-- 1 index retuned 7 times
-- 2 index retuned 2 times
+- 0 index returned 1 time
+- 1 index returned 7 times
+- 2 index returned 2 times
 
 """
 
