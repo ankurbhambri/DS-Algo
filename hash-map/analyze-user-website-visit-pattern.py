@@ -1,5 +1,7 @@
 """
-You are given two string arrays, username and website, and an integer array, timestamp. 
+# https://leetcode.com/problems/analyze-user-website-visit-pattern/
+
+You are given two string arrays, username and website, and an integer array, timestamp.
 All the given arrays are of the same length, and the tuple [username[i], website[i], timestamp[i]] 
 indicates that the user username[i] visited the website website[i] at time timestamp[i].
 
@@ -103,7 +105,7 @@ class Solution:
         # Instead of using itertools.combinations or nested loops, we can define a recursive helper function to generate combinations.
         # And this can be extended for any k-sequence pattern generation.
         '''
-        Input: sites = ["a", "b", "c", "d"], k = 2
+        Input: sites = ["a", "b", "c", "d"] and k = 2
 
         dfs(0, []) # start = 0
         ├─ dfs(1, ["a"])      
@@ -130,7 +132,9 @@ class Solution:
                     return
 
                 for i in range(start, len(sites)):
-                    dfs(i + 1, path + [sites[i]])
+                    path.append(sites[i])
+                    dfs(i + 1, path)
+                    path.pop() # backtrack to try next site
 
             dfs(0, [])
             return res
@@ -197,9 +201,6 @@ If there is a tie (multiple sequences with the same highest frequency), return t
 Example:
 Consider the following log entries:
 
-mathematica
-Copy code
-
 T0,C1,A
 T0,C2,E
 T1,C1,B
@@ -225,3 +226,65 @@ This problem requires parsing the data, analyzing patterns of page visits, and a
 link - https://leetcode.com/discuss/interview-question/5165222/Amazon-or-SDE-II-or-Help-me-solve-this-Amazon-Onsite-Interview-Question
 
 '''
+
+from collections import defaultdict, Counter
+
+class Solution2:
+    def mostVisitedPattern(self, data: str, k: int):
+        timestamp, username, website = [], [], []
+
+        for line in data.strip().split('\n'):
+            t, u, w = line.strip().split(',')
+            timestamp.append(int(t[1:]))  # convert "T0" → 0
+            username.append(u.strip())
+            website.append(w.strip())
+
+        # Step 1: Combine and sort the visit records by timestamp
+        records = sorted(zip(timestamp, username, website))
+
+        # Step 2: Group website visits per user in timestamp order
+        user_webs = defaultdict(list)
+        for _, user, site in records:
+            user_webs[user].append(site)
+
+        # Step 3: Count all k-length consecutive patterns per user
+        pattern_counter = Counter()
+
+        for user, sites in user_webs.items():
+            if len(sites) < k:
+                continue
+            seen = set()
+            for i in range(len(sites) - k + 1):
+                pattern = tuple(sites[i: i + k])
+                if pattern not in seen:  # avoid duplicate patterns for same user
+                    pattern_counter[pattern] += 1
+                    seen.add(pattern)
+
+        # Step 4: Get the most frequent pattern (lex smallest on tie)
+        max_count = 0
+        result = tuple()
+        for pattern, count in pattern_counter.items():
+            if count > max_count or (count == max_count and pattern < result):
+                max_count = count
+                result = pattern
+
+        return list(result)
+
+# Test
+input_data = '''
+    T0,C1,A
+    T0,C2,E
+    T1,C1,B
+    T1,C2,B
+    T2,C1,C
+    T2,C2,C
+    T3,C1,D
+    T3,C2,D
+    T4,C1,E
+    T5,C2,A
+'''
+
+print(Solution2().mostVisitedPattern(input_data, 3))  # Expected: ['B', 'C', 'D']
+
+
+# Note: Difference in above code is that it asks for combinations and in second one it uses consecutive k-length patterns.
