@@ -1,5 +1,9 @@
 # https://leetcode.com/problems/subarray-sum-equals-k
 
+# Number of subarrays that sum to equals to k.
+
+# TC: O(N)
+# SC: O(N)
 
 def subarraySum(nums, k):
 
@@ -21,6 +25,25 @@ def subarraySum(nums, k):
 print(subarraySum([1, 1, 1], 2))  # Output: 2 -> [1, 1] and [1, 1]
 print(subarraySum([1, 2, 3], 3))  # Output: 2 -> [1, 2] and [3]
 print(subarraySum([1, 2, 1, 2, 1], 3))  # Output: 4 -> [1, 2], [2, 1], [1, 2], [1, 2]
+
+# Longest Subarray With Sum K
+def longestSubarrayWithSumK(nums, k):
+
+    sum_val = 0
+    max_len = 0
+    prefixSum = {0: -1}  # To handle the case when subarray starts from index 0
+
+    for i, num in enumerate(nums):
+
+        sum_val += num
+
+        if sum_val - k in prefixSum:
+            max_len = max(max_len, i - prefixSum[sum_val - k])
+
+        if sum_val not in prefixSum:
+            prefixSum[sum_val] = i  # Store the first occurrence of this sum
+
+    return max_len
 
 
 # Variant: Return True if there exists a subarray with sum equal to k, otherwise return False.

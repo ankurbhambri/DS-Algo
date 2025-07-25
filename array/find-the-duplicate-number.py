@@ -30,6 +30,38 @@ print(findDuplicate([2, 5, 9, 6, 9, 3, 8, 9, 7])) # Output: 9
 print(findDuplicate([1, 1]))  # Output: 1
 
 
+# https://leetcode.com/problems/find-all-duplicates-in-an-array/
+
+# Question is to find all duplicates in an array where each element is in the range from 1 to n (n is the length of the array).
+# The approach is similar to the one used for finding a single duplicate, but we will collect all duplicates in a list.
+# We will iterate through the array, and for each number, we will check if the value at the index corresponding to that number is negative.
+# If it is negative, we have already seen this number, so we add it to the result list. If it is positive, we negate the value at that index to mark it as seen.
+# Time Complexity: O(n) where n is the length of the array.
+# Space Complexity: O(1) since we are modifying the input array in place and using a constant amount of extra space.
+
+def findDuplicates(nums):
+
+    res = []
+    for num in nums:
+
+        num = abs(num)
+
+        if nums[num - 1] < 0:
+            res.append(num)
+
+        else:
+            nums[num - 1] = -nums[num - 1]
+
+    return res
+
+
+print(findDuplicates([4, 3, 2, 7, 8, 2, 3, 1])) # [2, 3]
+print(findDuplicates([1, 1, 2])) # [1]
+print(findDuplicates([1, 2, 3, 4, 5])) # []
+print(findDuplicates([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])) # []
+
+
+
 # Another approach using Floyd's Tortoise and Hare (Cycle Detection)
 # Idea: The idea is to treat the array as a linked list where each value points to the index of the next value.
 # We can use two pointers, one moving at normal speed (tortoise) and the other moving at double speed (hare).
@@ -44,7 +76,7 @@ print(findDuplicate([1, 1]))  # Output: 1
 def findDuplicate(nums):
 
     # Step 1: Detect cycle
-    tortoise = hare = nums[0]
+    tortoise = hare = nums[0] # fast and slow pointers
     while True:
         tortoise = nums[tortoise]
         hare = nums[nums[hare]]
