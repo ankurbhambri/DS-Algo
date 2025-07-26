@@ -33,7 +33,7 @@ print("Zero sum subarray exists:", has_zero_sum_subarray([1, 2, -2, 3, 4]))
 # All subarrays with 0 sum, return their start and end indices.
 # If there are multiple subarrays with 0 sum, return all of them.
 
-def zero_sum_subarrays(arr):
+def all_zero_sum_subarrays(arr):
 
     result = []
     prefix_sum = 0
@@ -55,15 +55,16 @@ def zero_sum_subarrays(arr):
     return result
 
 
-print(zero_sum_subarrays([1, 2, 3, 4, 5]))
-print(zero_sum_subarrays([1, 2, 3, -3, 4]))
-print(zero_sum_subarrays([1, 2, -2, 3, 4]))
-print(zero_sum_subarrays([0, -1, 8, -5, -3, -7, 4, 2, 1]))
+print(all_zero_sum_subarrays([1, 2, 3, 4, 5]))
+print(all_zero_sum_subarrays([1, 2, 3, -3, 4]))
+print(all_zero_sum_subarrays([1, 2, -2, 3, 4]))
+print(all_zero_sum_subarrays([0, -1, 8, -5, -3, -7, 4, 2, 1]))
 
 
 # Longest Subarray with 0 Sum
 
 def longest_zero_sum_subarray(arr):
+
     n = len(arr)
 
     maxLen = 0
