@@ -9,33 +9,39 @@
     1 <= k <= 50
 """
 
-
-def solution(arr, k):
+def splitArray(arr, k):
 
     n = len(arr)
-
-    parts = n // k  # number of elements in each subarray
-    rem = n % k  # number of subarrays with one more element
-
-    res = []
-    l = 0
-
+    result = []
+    
+    # Edge case: agar array empty hai ya k invalid hai
+    if n == 0 or k <= 0:
+        return [[] for _ in range(k)]
+    
+    # Base size aur extra elements calculate karo
+    base_size = n // k
+    extra = n % k
+    
+    start = 0
     for i in range(k):
+        # Agar elements khatam ho gaye, toh empty subarray
+        if start >= n:
+            result.append([])
+            continue
+        
+        # Size decide karo
+        size = base_size + 1 if i < extra else base_size
+        
+        # Extra safety: ensure size doesn't overshoot
+        if start + size > n:
+            size = n - start  # Adjust size to remaining elements
+            
+        # Subarray banao
+        result.append(arr[start: start + size])
+        start += size
+    
+    return result
 
-        # custom_parts is the number of elements in the subarray
-        custom_parts = parts + (1 if i < rem else 0)
-        tmp = []
 
-        if l <= n - 1:
-            for _ in range(custom_parts):
-                tmp.append(arr[l])
-                l += 1
-        res.append(tmp)
-
-    return res
-
-
-print(solution([1, 2, 3], 5))  # [[1], [2], [3], [], []]
-print(
-    solution([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3)
-)  # [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]
+print(splitArray([1, 2, 3], 5))  # [[1], [2], [3], [], []]
+print(splitArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3))  # [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10]]

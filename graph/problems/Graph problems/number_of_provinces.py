@@ -1,5 +1,7 @@
 # https://leetcode.com/problems/number-of-provinces/
 
+# TC: O(n^2)
+# SC: O(n)
 
 def solve(graph):
     n = len(graph)
@@ -8,8 +10,8 @@ def solve(graph):
     def dfs(node):
         visit.add(node)
         for i in range(n):
-            if graph[node][i] == 1 and node not in visit:
-                dfs(graph[node][i])
+            if graph[node][i] == 1 and i not in visit:
+                dfs(i)
 
     res = 0
     for i in range(n):

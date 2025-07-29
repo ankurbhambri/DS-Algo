@@ -2,6 +2,7 @@
 # https://www.naukri.com/code360/problems/painter-s-partition-problem_1089557
 # https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/description/
 
+# Given the 
 
 def splitArray(nums, k):
 

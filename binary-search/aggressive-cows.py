@@ -59,7 +59,7 @@ def aggressiveCows(stalls, k):
     while l <= r:
         m = l + (r - l) // 2
         if isPossible(m):
-            res = m     # m is a valid answer, try for a larger one
+            res = m     # m is a valid answer, then try for a larger one, this is asked in the question
             l = m + 1
         else:
             r = m - 1

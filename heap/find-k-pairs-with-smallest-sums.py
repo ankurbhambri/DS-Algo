@@ -19,7 +19,9 @@ class Solution:
             heappush(min_heap, (nums1[i] + nums2[0], i, 0))
 
         while min_heap and len(result) < k:
-            total, i, j = heappop(min_heap)
+
+            _, i, j = heappop(min_heap)
+
             result.append((nums1[i], nums2[j]))
 
             if j + 1 < len(nums2):

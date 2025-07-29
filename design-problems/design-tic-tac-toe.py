@@ -49,7 +49,7 @@ class Solution:
 
         for i, (r, c) in enumerate(moves):
 
-            player = 1 if i % 2 == 0 else -1
+            player = 1 if i % 2 == 0 else -1 # even index for player 1, odd index for player 2
 
             row[r] += player
             cols[c] += player
@@ -64,6 +64,7 @@ class Solution:
                 return "A" if player == 1 else "B"
 
         return "Draw" if len(moves) == 9 else "Pending"
-    
+
+
 print(Solution().tictactoe([[0,0],[1,1],[0,1],[1,2],[0,2]]))  # "A"
 print(Solution().tictactoe([[0,0],[1,1],[2,2],[0,1],[1,0],[2,1],[0,2]]))  # "B"
