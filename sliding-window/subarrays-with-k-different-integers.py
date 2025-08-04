@@ -1,36 +1,36 @@
 # https://leetcode.com/problems/subarrays-with-k-different-integers/
 
+# This problem is a variation of the sliding window problem where we need to count the number of subarrays that contain exactly K distinct integers.
 
-def subarraysWithKDistinct(nums, k):
-    freq = {}
+'''
+Sometimes the problem says “EXACTLY K distinct” (e.g., “Count subarrays with exactly K distinct numbers”).
 
-    l, r = 0, 0
+We do this: exactlyK = atMostK(K) - atMostK(K-1)
 
-    res = 0
-
-    for n in nums:
-
-        freq[n] = freq.get(n, 0) + 1
-
-        if len(freq) > k:
-            # remove distinct value from r index and increment r, l
-            del freq[nums[r]]
-
-            r += 1
-
-            l = r
-
-        if len(freq) == k:
-            # update r and res (Notice: K >= 1)
-            while freq[nums[r]] > 1:
-                freq[nums[r]] -= 1
-
-                r += 1
-
-            # size of window
-            res += r - l + 1
-
-    return res
+Because: All subarrays with at most K distinct - All subarrays with at most (K-1) distinct = Subarrays with exactly K distinct.
+'''
 
 
-print(subarraysWithKDistinct(nums=[1, 2, 1, 2, 3], k=2))
+class Solution:
+    def subarraysWithKDistinct(self, nums, K: int) -> int:
+        def atMost(k):
+            l = 0
+            res = 0
+            count = {}
+            for r in range(len(nums)):
+                count[nums[r]] = count.get(nums[r], 0) + 1
+                while len(count) > k:
+                    count[nums[l]] -= 1
+                    if count[nums[l]] == 0:
+                        del count[nums[l]]
+                    l += 1
+                res += (r - l + 1)
+            return res
+
+        return atMost(K) - atMost(K-1)
+
+
+print(Solution().subarraysWithKDistinct([1, 2, 1, 2, 3], 2))  # 7
+print(Solution().subarraysWithKDistinct([1, 2, 1, 3, 4], 3))  # 3
+print(Solution().subarraysWithKDistinct([1, 2, 1, 2, 3], 1))  # 5
+print(Solution().subarraysWithKDistinct([1, 2, 1, 2, 3], 4))  # 0

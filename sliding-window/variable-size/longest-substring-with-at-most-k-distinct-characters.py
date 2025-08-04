@@ -3,9 +3,9 @@
 
     Given a string S, find the length of the longest substring T that contains at most k distinct characters.
 
-    Note - same as above replace static value 2 with k only
+    Note: Here, at most means that the substring can have k or fewer distinct characters.
 
-    Similar question - https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/ replace k with 2
+    same as above replace static value 2 with k only - https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
 
 """
 
@@ -27,7 +27,7 @@ class Solution:
 
             hm[s[r]] = 1 + hm.get(s[r], 0)
 
-            if len(hm) > k:
+            while len(hm) > k:
 
                 hm[s[l]] -= 1
                 if hm[s[l]] == 0:

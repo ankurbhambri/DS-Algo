@@ -1,3 +1,18 @@
+# Simple approach to find the subsequences in a string
+
+# TC: O(len(A) * len(B)), where A is the string and B is the subsequence
+def is_subsequence(A, B):
+    i, j = 0, 0
+    while i < len(A) and j < len(B):
+        if A[i] == B[j]:
+            j += 1
+        i += 1
+    return j == len(B)
+
+print(is_subsequence("abcde", "ace"))  # True
+print(is_subsequence("abcde", "aec"))  # False
+
+
 # https://leetcode.com/problems/number-of-matching-subsequences/
 
 
@@ -20,11 +35,14 @@ def solution(s, words):
 
     return res
 
-print(solution("abcde", ["a", "bb", "acd", "ace"]))  # True
-print(solution("dsahjpjauf", ["ahjpjau", "ja", "ahbwzgqnuk", "tnmlanowax"]))  # True
+print(solution("abcde", ["a", "bb", "acd", "ace"]))  # 3
+print(solution("dsahjpjauf", ["ahjpjau", "ja", "ahbwzgqnuk", "tnmlanowax"]))  # 2
 
 
 import bisect
+
+# TC: O(len(s) * log(len(s))) for each word, where s is the string and words is the list of subsequences
+# SC: O(len(s)) for storing positions of characters
 
 class Solution:
     def numMatchingSubseq(self, s: str, words):
@@ -32,8 +50,11 @@ class Solution:
         # Preprocess s: store all positions for each character
         positions = {}
         for i, ch in enumerate(s):
-            positions.setdefault(ch, []).append(i)
-        
+            if ch not in positions:
+                positions[ch] = [i]
+            else:
+                positions[ch].append(i)
+
         def is_subsequence(word):
             prev_pos = -1
             for ch in word:

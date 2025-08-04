@@ -34,7 +34,8 @@ class Solution:
 
         return res
 
-print(Solution().characterReplacement("AABABBA", 1))  # Output: 4
+
 print(Solution().characterReplacement("ABAB", 2))  # Output: 4
+print(Solution().characterReplacement("AABABBA", 1))  # Output: 4
 print(Solution().characterReplacement("AABABBA", 2))  # Output: 5
 print(Solution().characterReplacement("AABABBA", 0))  # Output: 2

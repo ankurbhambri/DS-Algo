@@ -3,22 +3,24 @@
 from collections import deque
 
 '''
-    Idea, we can use a deque to keep track of the indices of the maximum elements in the current window.
+    Idea, we can use a deque to keep track of the indices of the maximum elements in the current/each window.
+
     The deque will store indices in such a way that the values they point to are in decreasing order.
-    When we slide the window, we remove indices that are out of the current window and also remove elements
-    from the back of the deque that are smaller than the current element, ensuring that the front of the deque
-    always contains the index of the maximum element for the current window.
+
+    When we slide the window, we remove indices that are out of the current/each window and also remove elements
+    from the back of the deque that are smaller than the current/each element, ensuring that the front of the deque
+    always contains the index of the maximum element for the current/each window.
 
     In the last will add the front of the deque to the result list, which will always be the maximum for that window.
+
 '''
 
 def maxSlidingWindow(nums, k):
 
-    n = len(nums)
     result = []
     dq = deque()
 
-    for r in range(n):
+    for r in range(len(nums)):
 
         # Remove indices outside the window
         if dq and dq[0] < r - k + 1:

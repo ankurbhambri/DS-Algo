@@ -13,22 +13,22 @@ def has_subarray_with_sum(arr, k, target_sum):
     
     # If K is larger than array size, no such subarray can exist
     if k > n:
-        return "NO"
+        return False
     
     # Compute the sum of the first window of size K
     window_sum = sum(arr[:k])
     
     # Check if the first window matches the target
     if window_sum == target_sum:
-        return "YES"
-    
+        return True
+
     # Slide the window across the array
     for i in range(k, n):
-        window_sum = window_sum - arr[i - k] + arr[i]
+        window_sum += arr[i] - arr[i - k]
         if window_sum == target_sum:
-            return "YES"
+            return True
     
-    return "NO"
+    return False
 
 
 print(has_subarray_with_sum([1, 2, 3, 4, 5], 3, 6))  # YES
