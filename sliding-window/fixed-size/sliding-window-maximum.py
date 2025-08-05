@@ -1,5 +1,8 @@
 # https://leetcode.com/problems/sliding-window-maximum/description/
 
+# Question: Given an integer array nums and an integer k, return the maximum sliding window for each subarray of size k.
+
+
 from collections import deque
 
 '''
@@ -15,32 +18,33 @@ from collections import deque
 
 '''
 
-def maxSlidingWindow(nums, k):
+class Solution:
+    def maxSlidingWindow(self, nums, k):
 
-    result = []
-    dq = deque()
+        result = []
+        dq = deque()
 
-    for r in range(len(nums)):
+        for r in range(len(nums)):
 
-        # Remove indices outside the window
-        if dq and dq[0] < r - k + 1:
-            dq.popleft()
+            # Remove elements from back of deque if they are less than current nums[r].
+            while dq and nums[dq[-1]] < nums[r]:
+                dq.pop()
 
-        # Remove elements from back of deque if they are less than current nums[r].
-        while dq and nums[dq[-1]] < nums[r]:
-            dq.pop()
+            # Remove indices outside the window
+            if dq and dq[0] < r - k + 1:
+                dq.popleft()
 
-        # Add the current element's index
-        dq.append(r)
+            # Add the current element's index
+            dq.append(r)
 
-        # Start adding max elements to the result after we've processed first k elements
-        if r >= k - 1:
-            result.append(nums[dq[0]])
+            # Start adding max elements to the result after we've processed first k elements
+            if r >= k - 1:
+                result.append(nums[dq[0]])
 
-    return result
+        return result
 
 
-print(maxSlidingWindow([1], 1))  # Output: [1]
-print(maxSlidingWindow([1, 3, 1, 2, 0, 5], 6))  # Output: [5]
-print(maxSlidingWindow([1, 3, 1, 2, 0, 5], 1))  # Output: [1,3,1,2,0,5]
-print(maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3))  # Output: [3,3,5,5,6,7]
+print(Solution().maxSlidingWindow([1], 1))  # Output: [1]
+print(Solution().maxSlidingWindow([1, 3, 1, 2, 0, 5], 6))  # Output: [5]
+print(Solution().maxSlidingWindow([1, 3, 1, 2, 0, 5], 1))  # Output: [1,3,1,2,0,5]
+print(Solution().maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3))  # Output: [3,3,5,5,6,7]

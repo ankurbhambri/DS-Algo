@@ -1,7 +1,14 @@
 # https://www.geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1
 
+# Question: Given an array of integers and a number k, find the first negative integer for each and every window (subarray) of size k.
+# If a window does not contain a negative integer, then return 0 for that window.
+
+
 from collections import deque
 
+
+# Time Complexity: O(n)
+# Space Complexity: O(k) for the deque
 class Solution:
     def firstNegInt(self, nums, k):
 

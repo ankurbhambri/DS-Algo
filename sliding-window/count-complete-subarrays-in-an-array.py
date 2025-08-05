@@ -22,6 +22,7 @@ def countCompleteSubarrays(nums):
     k = len(set(nums))
 
     for r in range(n):
+
         freq[nums[r]] = 1 + freq.get(nums[r], 0)
 
         while len(freq) == k:
@@ -40,11 +41,14 @@ def countCompleteSubarrays(nums):
 
     return res
 
+
 print(countCompleteSubarrays([1,3,1,2,2]))  # Output: 4
 print(countCompleteSubarrays([5,5,5,5]))  # Output: 10
 
 
 # https://leetcode.com/problems/count-subarrays-where-max-element-appears-at-least-k-times/description
+
+# Question: Given an array of integers nums and an integer k, return the number of subarrays where the maximum element appears at least k times.
 
 def countSubarrays(nums, k):
 
@@ -60,7 +64,7 @@ def countSubarrays(nums, k):
 
         while max_ele in freq and freq[max_ele] >= k:
 
-            res += n - r
+            res += (n - r)  # Count all valid subarrays starting from l to r
 
             freq[nums[l]] -= 1
 

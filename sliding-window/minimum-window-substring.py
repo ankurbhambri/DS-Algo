@@ -2,6 +2,9 @@ from collections import Counter
 
 # https://leetcode.com/problems/minimum-window-substring/
 
+# Question: Given two strings s and t, return the minimum window substring of s such that every character in t (including duplicates) is included in the window.
+# If there is no such substring, return the empty string "".
+
 class Solution:
     def minWindow(self, s, t):
         

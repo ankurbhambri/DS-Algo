@@ -1,3 +1,9 @@
+# Question: Given an array of integers and a number k, find the number of contiguous subarrays of size k that contain exactly x odd numbers.
+
+
+# Time Complexity: O(n)
+# Space Complexity: O(1) for the variables
+
 def count_subarrays_with_x_odds(nums, k, x):
 
     count = 0
@@ -26,20 +32,41 @@ print(count_subarrays_with_x_odds([1, 2, 3, 4, 5], 1, 1))  # Output: 3
 
 # similar, but no size constraint
 
+# Question: Given an array of integers and a number x, find the number of contiguous subarrays that contain exactly x odd numbers.
+
 # https://leetcode.com/problems/count-number-of-nice-subarrays/
 
+
+# Note: nums[r] & 1, this checks the parity of the number, where 1 means odd and 0 means even.
+
+'''
+In A[i] & 1:
+
+    A[i] is an integer (an element of the array).
+    1 has a binary representation of 000...0001 (the last bit is 1, all others are 0 in a 32-bit integer).
+
+    This operation checks the last bit of A[i]:
+
+        If the last bit of A[i] is 1 (which is true for odd numbers), then A[i] & 1 = 1.
+        If the last bit of A[i] is 0 (which is true for even numbers), then A[i] & 1 = 0.
+
+'''
 class Solution:
     def numberOfSubarrays(self, nums, k):
 
-        cur = 0
-        res = 0
-        freq = {0: 1}
+        l = count = res = 0
 
-        for i in nums:
+        for r in range(len(nums)):
+            if nums[r] & 1:
+                k -= 1
+                count = 0
 
-            cur += i % 2
-            res += freq.get(cur - k, 0)
-            freq[cur] = 1 + freq.get(cur, 0)
+            while k == 0: # here, we are counting the number of subarrays with exactly k odd numbers, while shrinking the left pointer and counting valid subarrays.
+                k += nums[l] & 1
+                l += 1
+                count += 1
+
+            res += count
 
         return res
 

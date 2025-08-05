@@ -1,6 +1,10 @@
 # https://leetcode.com/problems/longest-repeating-character-replacement
 
 
+# Question: Given a string s and an integer k, return the length of the longest substring that can be obtained by replacing at most k characters in s.
+# The substring must consist of the same character after replacements.
+
+
 # TC: O(26 * n) -> O(n)
 # SC: O(26) -> O(1)
 

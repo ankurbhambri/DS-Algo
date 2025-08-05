@@ -1,6 +1,15 @@
 # https://leetcode.com/problems/maximum-sum-of-distinct-subarrays-with-length-k/
 
+# Question: Given an integer array nums and an integer k, return the maximum sum of any subarray of length k
+# that contains all distinct elements. If no such subarray exists, return 0.
 
+# Note: The sliding window technique is used to maintain the sum of the current window of size k.
+# The sum is updated by adding the next element and removing the first element of the previous window.
+# A set is used to track the distinct elements in the current window.
+
+
+# Time Complexity: O(n)
+# Space Complexity: O(k) for the set
 class Solution:
     def maximumSubarraySum(self, nums, k: int) -> int:
 
