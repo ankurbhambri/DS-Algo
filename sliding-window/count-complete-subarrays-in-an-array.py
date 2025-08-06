@@ -16,7 +16,7 @@ def countCompleteSubarrays(nums):
 
     l = 0
     res = 0
-    freq = {} 
+    freq = {}
 
     n = len(nums)
     k = len(set(nums))

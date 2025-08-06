@@ -1,5 +1,9 @@
 # https://leetcode.com/problems/longest-harmonious-subsequence
 
+# Question: Given an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.
+# A harmonious subsequence is a subsequence where the difference between its maximum and minimum element is exactly 1.
+
+
 from collections import Counter
 
 class Solution:

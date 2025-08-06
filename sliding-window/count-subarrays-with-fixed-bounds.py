@@ -18,7 +18,7 @@ def countSubarrays(nums, minK: int, maxK: int):
     bad_idx = -1  # Last invalid element index
     min_idx = -1  # Last minK index
     max_idx = -1  # Last maxK index
-    
+
     # Iterate over nums, for each number at index i:
     for i in range(len(nums)):
 
@@ -33,7 +33,7 @@ def countSubarrays(nums, minK: int, maxK: int):
         # if element is maxK
         if nums[i] == maxK:
             max_idx = i
-            
+
         # The number of valid subarrays equals the number of elements between left_bound and 
         # the smaller of the two most recent positions.
         start = min(min_idx, max_idx)
