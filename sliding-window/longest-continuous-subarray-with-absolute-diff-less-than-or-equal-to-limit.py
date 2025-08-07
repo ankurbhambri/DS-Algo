@@ -53,7 +53,15 @@ print(func([1, 3, 6, 7, 8, 9], 3))  # Output: 4
 print(func([10, 1, 2, 3, 4, 5], 5))  # Output: 6
 
 
-# similar
+# Variation
+
+# Question: Given a string word and an integer numFriends, return the lexicographically largest string that can be formed by distributing the characters of word among numFriends friends,
+# such that each friend gets at least one character.
+
+
+# This is a variation of the sliding window problem where we need to find the longest substring that can be assigned to the last friend after distributing at least one character to each friend.
+# The maximum length of the substring for the last friend can be calculated as max_len = total_number_of_characters - (number_of_friends - 1).
+# We then iterate through the string to find the lexicographically largest substring of this maximum length.
 
 # https://leetcode.com/problems/max-value-of-equation/description/
 
@@ -61,6 +69,7 @@ from collections import deque
 
 class Solution:
     def findMaxValueOfEquation(self, points, k: int) -> int:
+
         q = deque()
         res = float("-inf")
         
@@ -85,3 +94,9 @@ class Solution:
             q.append(j)
         
         return res
+
+
+print(Solution().findMaxValueOfEquation([[1,3],[2,0],[3,10],[4,5]], 1))  # Output: 4
+print(Solution().findMaxValueOfEquation([[1,1],[2,2],[3,3],[4,4]], 1))  # Output: 7
+print(Solution().findMaxValueOfEquation([[1,2],[2,3],[3,4],[4,5]], 1))  # Output: 6
+print(Solution().findMaxValueOfEquation([[0,0],[3,0],[9,2]], 3))  # Output: 3

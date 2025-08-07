@@ -26,24 +26,32 @@ print(subarraySum([1, 1, 1], 2))  # Output: 2 -> [1, 1] and [1, 1]
 print(subarraySum([1, 2, 3], 3))  # Output: 2 -> [1, 2] and [3]
 print(subarraySum([1, 2, 1, 2, 1], 3))  # Output: 4 -> [1, 2], [2, 1], [1, 2], [1, 2]
 
-# Longest Subarray With Sum K
-def longestSubarrayWithSumK(nums, k):
 
-    sum_val = 0
+# https://leetcode.com/problems/maximum-size-subarray-sum-equals-k/description/
+
+# Longest Subarray With Sum K
+def maxSubArrayLen(nums, k):
+
     max_len = 0
-    prefixSum = {0: -1}  # To handle the case when subarray starts from index 0
+    seen = {0: -1}  # prefix_sum 0 at index -1 for edge case
+    prefix_sum = 0
 
     for i, num in enumerate(nums):
+        prefix_sum += num
 
-        sum_val += num
+        if prefix_sum - k in seen:
+            max_len = max(max_len, i - seen[prefix_sum - k])
 
-        if sum_val - k in prefixSum:
-            max_len = max(max_len, i - prefixSum[sum_val - k])
-
-        if sum_val not in prefixSum:
-            prefixSum[sum_val] = i  # Store the first occurrence of this sum
+        # Only store first occurrence of a prefix_sum
+        if prefix_sum not in seen:
+            seen[prefix_sum] = i
 
     return max_len
+
+print(maxSubArrayLen([1, -1, 5, -2, 3], 3))  # Output: 4
+print(maxSubArrayLen([-2, -1, 2, 1], 1))  # Output: 2
+print(maxSubArrayLen([1, 2, 3], 3))  # Output: 2
+print(maxSubArrayLen([1, 2, 3], 6))  # Output: 3
 
 
 # Variant: Return True if there exists a subarray with sum equal to k, otherwise return False.

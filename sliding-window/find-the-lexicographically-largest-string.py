@@ -1,6 +1,11 @@
 # https://leetcode.com/problems/find-the-lexicographically-largest-string-from-the-box-i/description/
 
 '''
+
+Question: Given a string word and an integer numFriends, return the lexicographically largest string that can be formed by distributing the characters of word among numFriends friends, 
+such that each friend gets at least one character.
+
+
 Idea: here we have to find the largest lexicographically string that can be formed for number of friends.
 
 So, we have to find the longest string that we can assign to last friend after distributing atleast 1 character to each friend.

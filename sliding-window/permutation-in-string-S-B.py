@@ -67,8 +67,7 @@ def find_permutations_in_string(S, B):
     return res
 
 
-# space efficinet
-
+# space efficient approach using sliding window technique
 
 def find_permutations_in_string_space(txt, pat):
 
@@ -82,9 +81,9 @@ def find_permutations_in_string_space(txt, pat):
 
     res = []
 
-    for i in range(len(txt)):
+    for r in range(len(txt)):
 
-        char = txt[i]
+        char = txt[r]
         freq_t[char] = 1 + freq_t.get(char, 0)
 
         # Check if we have the required frequency for this character
@@ -92,17 +91,21 @@ def find_permutations_in_string_space(txt, pat):
             have += 1
 
         # Remove leftmost character from the window when window size exceeds the pattern length
-        if i >= wn:
-            left_char = txt[i - wn]
+        if r >= wn:
+
+            left_char = txt[r - wn]
+
             if left_char in freq_p and freq_t[left_char] == freq_p[left_char]:
                 have -= 1
+
             freq_t[left_char] -= 1
+
             if freq_t[left_char] == 0:
                 del freq_t[left_char]
 
         # If we have all needed characters with the required frequency, it's a valid permutation
         if have == need:
-            res.append(i - wn if i - wn > 0 else 0)
+            res.append(r - wn if r - wn > 0 else 0)
 
     return res
 

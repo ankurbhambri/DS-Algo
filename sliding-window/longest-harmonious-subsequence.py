@@ -8,13 +8,13 @@ from collections import Counter
 
 class Solution:
     def findLHS(self, nums):
-        count = Counter(nums)  # Count frequencies
+
         res = 0
+        count = Counter(nums)  # Count frequencies
         
         for num in count:
             if num + 1 in count:
-                res = max(res, count[num] + count[num + 1])
-        
+                res = max(res, count[num] + count[num + 1]) # Subsequence, order should be same but can delete/skip elements in between
         return res
 
 

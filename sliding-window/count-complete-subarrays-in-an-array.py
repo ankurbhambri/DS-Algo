@@ -10,6 +10,14 @@
 
     A subarray is a contiguous non-empty part of an array.
 
+    res += (n - r) .... intuition
+
+        1. Ask yourself: “If I fix l, can I stretch r from here to the end and still keep the window valid?”
+
+        If yes, use res += (n - r)
+
+        If no, just do res += 1
+
 '''
 
 def countCompleteSubarrays(nums):
