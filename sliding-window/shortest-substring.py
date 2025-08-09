@@ -1,8 +1,9 @@
 # https://stackoverflow.com/questions/78364596/find-length-of-shortest-substr-that-can-be-removed-from-a-string-resulting-in-a
+# https://www.reddit.com/r/AskProgramming/comments/1ca4gcn/shortest_removed_substring_that_results_in_unique/
 
 """
-    Determine the length of the shortest substring to delete from a string of length n, 
-    so that the resulting string contains only distinct characters.
+    Given a string s of length n, the task is to find the length of the shortest substring, 
+    which, upon deletion, makes the resultant string consist only of distinct characters.
 
     A substring is a sequence of characters that appear consecutively within a string. 
     If a substring is deleted, the remaining parts of the string are joined together. 
@@ -87,37 +88,62 @@
     
 #     return min_length
 
+
+    # s = "abcbbck"
+    # There are three optimal choices: "bcb", "bbc", and "bbck". 
 def findShortestSubstring(s):
 
     n = len(s)
     
-    # Quick check: if already all unique characters
-    if len(set(s)) == n:
+    # Count frequency of each character
+    char_count = {}
+    for char in s:
+        char_count[char] = char_count.get(char, 0) + 1
+    
+    # If all characters are already distinct, no deletion needed
+    if all(count <= 1 for count in char_count.values()):
         return 0
-
-    l = 0
-    res = n  # Start with max possible length
-
-    # Use right pointer for sliding window
-    for r in range(n):
-        # Check if prefix and suffix are disjoint
-        combined = s[:l] + s[r+1:]
-        if len(set(combined)) == len(combined):
-            # All unique after removing s[l:r+1]
-            res = min(res, r - l + 1)
-            # Try to shrink from l
-            while l <= r:
-                combined = s[:l+1] + s[r+1:]
-                if len(set(combined)) == len(combined):
-                    res = min(res, r - l)
-                    l += 1
-                else:
+    
+    # Find characters that appear more than once
+    duplicates = {char for char, count in char_count.items() if count > 1}
+    
+    min_length = n
+    left = 0
+    freq = {}
+    
+    for right in range(n):
+        # Expand window by including s[right]
+        if s[right] in duplicates:
+            freq[s[right]] = freq.get(s[right], 0) + 1
+        
+        # Try to contract window from left
+        while left <= right:
+            # Check if current window contains enough duplicates to remove
+            # We need (char_count[char] - 1) occurrences of each duplicate char
+            can_contract = True
+            for char in duplicates:
+                if freq.get(char, 0) < char_count[char] - 1:
+                    can_contract = False
                     break
-    return res
+            
+            if can_contract:
+                # Current window is valid, update minimum length
+                min_length = min(min_length, right - left + 1)
+                
+                # Try to contract from left
+                if s[left] in freq:
+                    freq[s[left]] -= 1
+                    if freq[s[left]] == 0:
+                        del freq[s[left]]
+                left += 1
+            else:
+                break
+    
+    return min_length
 
 print(findShortestSubstring("a"))  # Output: 0
 print(findShortestSubstring("aa"))  # Output: 1
 print(findShortestSubstring("abc"))  # Output: 0
 print(findShortestSubstring("abcbbck"))  # Output: 3
 print(findShortestSubstring("xabbcacpqr"))  # Output: 3
-print(findShortestSubstring("fjyoeekveqsxmjhsftrbzuxmsnnciiyijrtuqqhyphskktvboatbnrmayturngrvgqyclfxfaflccwmgmciacieineaiqxwoiuerfsqcuvggsmaclcokeuyjeegmndpsomtjxumkxwthlludskjxjdjnuhqnxkrjnoarnzgajlhajyynuikajoixwvkxbhcxebujyrxoeqffijyefwlbeeiusyjaubvgxthgllmbkkskqxicaqbpinugldsrzzjemdqiafdynwunouistwinveyylqparpedxixcygdtirxdqqubptimwlxraktkmyrvucvzkiuffshmncmbipzqxrmovyucnnbvdxagzzzxzmzmydkoonojlcgwltnfyocpvbpnvqeouadcdnwvtdehftjsiohxkahwhvncqmzorkponzawkumfxkwaqwtcpksmqggqtsueqxklaqruhkaatxvqftzezocjuvubrdgcehzqtaeftoneapzglcmgbrjlttmephovhxmvbwwmlggmmvjzgpclczmecggpirrgyatowsczrpsvimthwmauzotziixapyoqppjpckxqyzlzlkfcdmvohcioiffcmmaznehmgrghcfpkpmibtinycunxfkygrglxdsyfxwpxcftmnrypzmtrruxyrjcadeocpwfqnsrmlcybqvlpuwaplqufucytooscmtarzxultowpknhgy"))
+print(findShortestSubstring("fjyoeekveqsxmjhsftrbzuxmsnnciiyijrtuqqhyphskktvboatbnrmayturngrvgqyclfxfaflccwmgmciacieineaiqxwoiuerfsqcuvggsmaclcokeuyjeegmndpsomtjxumkxwthlludskjxjdjnuhqnxkrjnoarnzgajlhajyynuikajoixwvkxbhcxebujyrxoeqffijyefwlbeeiusyjaubvgxthgllmbkkskqxicaqbpinugldsrzzjemdqiafdynwunouistwinveyylqparpedxixcygdtirxdqqubptimwlxraktkmyrvucvzkiuffshmncmbipzqxrmovyucnnbvdxagzzzxzmzmydkoonojlcgwltnfyocpvbpnvqeouadcdnwvtdehftjsiohxkahwhvncqmzorkponzawkumfxkwaqwtcpksmqggqtsueqxklaqruhkaatxvqftzezocjuvubrdgcehzqtaeftoneapzglcmgbrjlttmephovhxmvbwwmlggmmvjzgpclczmecggpirrgyatowsczrpsvimthwmauzotziixapyoqppjpckxqyzlzlkfcdmvohcioiffcmmaznehmgrghcfpkpmibtinycunxfkygrglxdsyfxwpxcftmnrypzmtrruxyrjcadeocpwfqnsrmlcybqvlpuwaplqufucytooscmtarzxultowpknhgy")) # 712
