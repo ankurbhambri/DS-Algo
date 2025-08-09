@@ -80,10 +80,10 @@ def shortest_substring(sentence, words):
     if not sentence or not words:
         return ""
 
+    formed = 0
+    required = len(target_count)
     target_count = Counter(words)  # required word frequencies
     window_count = defaultdict(int)
-    required = len(target_count)
-    formed = 0
 
     left = 0
     min_len = float("inf")

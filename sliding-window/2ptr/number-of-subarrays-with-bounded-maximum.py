@@ -1,7 +1,11 @@
 # https://leetcode.com/problems/number-of-subarrays-with-bounded-maximum/
 
+# Question: Given an integer array nums and two integers left and right, return the number of contiguous subarrays where the maximum element is between left and right (inclusive).
+
 class Solution:
     def numSubarrayBoundedMax(self, nums, left: int, right: int) -> int:
+
+        # will count the number of subarrays with maximum element <= bound
         def countBounded(bound):
             curr = 0
             count = 0

@@ -50,47 +50,6 @@
     The string s = "abc" already contains distinct characters only.
 """
 
-# def findShortestSubstring(s):
-#     n = len(s)
-    
-#     # Check if string already has all distinct characters
-#     if len(set(s)) == n:
-#         return 0
-    
-#     # Count frequency of each character
-#     char_count = {}
-#     for c in s:
-#         char_count[c] = char_count.get(c, 0) + 1
-    
-#     # Find characters that appear more than once
-#     duplicates = set()
-#     for char, count in char_count.items():
-#         if count > 1:
-#             duplicates.add(char)
-    
-#     min_length = n
-    
-#     # Use sliding window to find shortest substring containing all duplicates
-#     for left in range(n):
-#         seen_duplicates = set()
-        
-#         for right in range(left, n):
-#             if s[right] in duplicates:
-#                 seen_duplicates.add(s[right])
-            
-#             # If current window contains all duplicate characters
-#             if seen_duplicates == duplicates:
-#                 # Check if removing this window results in distinct characters
-#                 remaining = s[:left] + s[right+1:]
-#                 if len(set(remaining)) == len(remaining):
-#                     min_length = min(min_length, right - left + 1)
-#                 break
-    
-#     return min_length
-
-
-    # s = "abcbbck"
-    # There are three optimal choices: "bcb", "bbc", and "bbck". 
 def findShortestSubstring(s):
 
     n = len(s)
@@ -145,5 +104,7 @@ print(findShortestSubstring("a"))  # Output: 0
 print(findShortestSubstring("aa"))  # Output: 1
 print(findShortestSubstring("abc"))  # Output: 0
 print(findShortestSubstring("abcbbck"))  # Output: 3
+print(findShortestSubstring("selection"))  # Output: 1
+print(findShortestSubstring("racingcar"))  # Output: 3
 print(findShortestSubstring("xabbcacpqr"))  # Output: 3
 print(findShortestSubstring("fjyoeekveqsxmjhsftrbzuxmsnnciiyijrtuqqhyphskktvboatbnrmayturngrvgqyclfxfaflccwmgmciacieineaiqxwoiuerfsqcuvggsmaclcokeuyjeegmndpsomtjxumkxwthlludskjxjdjnuhqnxkrjnoarnzgajlhajyynuikajoixwvkxbhcxebujyrxoeqffijyefwlbeeiusyjaubvgxthgllmbkkskqxicaqbpinugldsrzzjemdqiafdynwunouistwinveyylqparpedxixcygdtirxdqqubptimwlxraktkmyrvucvzkiuffshmncmbipzqxrmovyucnnbvdxagzzzxzmzmydkoonojlcgwltnfyocpvbpnvqeouadcdnwvtdehftjsiohxkahwhvncqmzorkponzawkumfxkwaqwtcpksmqggqtsueqxklaqruhkaatxvqftzezocjuvubrdgcehzqtaeftoneapzglcmgbrjlttmephovhxmvbwwmlggmmvjzgpclczmecggpirrgyatowsczrpsvimthwmauzotziixapyoqppjpckxqyzlzlkfcdmvohcioiffcmmaznehmgrghcfpkpmibtinycunxfkygrglxdsyfxwpxcftmnrypzmtrruxyrjcadeocpwfqnsrmlcybqvlpuwaplqufucytooscmtarzxultowpknhgy")) # 712
