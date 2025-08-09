@@ -8,15 +8,13 @@ A subarray arr is good if there are at least k pairs of indices (i, j) such that
 A subarray is a contiguous non-empty sequence of elements within an array.
 '''
 
-from collections import defaultdict
-
 def countGood(nums, k):    
 
-    freq = {}
     l = 0
-    pair_count = 0
+    freq = {}
     result = 0
     n = len(nums)
+    pair_count = 0
 
     for r in range(n):
 

@@ -10,7 +10,7 @@ Idea: here we have to find the largest lexicographically string that can be form
 
 So, we have to find the longest string that we can assign to last friend after distributing atleast 1 character to each friend.
 
-In this case, we can use max length formule  -> max_len = total_number_of_characters - (number_of_friends - 1)
+In this case, we can use max length formula  -> max_len = total_number_of_characters - (number_of_friends - 1)
 
 Example:
 word = "abcdefg"
@@ -34,6 +34,7 @@ This max_length we need to check from index 0 to n and which ever is lexicograph
 
 class Solution:
     def answerString(self, word: str, numFriends: int) -> str:
+
         # If only one friend, return the word itself
         if numFriends == 1:
             return word
@@ -46,8 +47,7 @@ class Solution:
 
         # Iterate through the word to find the lexicographically largest substring
         for i in range(n):
-            current_substring = word[i:i + max_len]
-            print(current_substring, max_len)
+            current_substring = word[i: i + max_len]
             if current_substring > max_substring:
                 max_substring = current_substring
 
