@@ -1,5 +1,8 @@
 # https://leetcode.com/problems/lexicographical-numbers
 
+# Question: Given an integer n, return all the numbers in the range [1, n] sorted in lexicographical order.
+
+
 # TC: O(n)
 # SC: O(log n)
 

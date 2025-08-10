@@ -1,6 +1,6 @@
-# https://leetcode.com/problems/palindrome-partitioning/
+ # https://leetcode.com/problems/palindrome-partitioning/
 
-# Partition a string so every substring is a palindrome.
+# Question: Given a string s, partition s such that every substring of the partition is a palindrome.
 
 # Tc: O(n * 2^n)
 # SC:  O(n) (stack) + O(2^n * n) (output)
@@ -27,6 +27,7 @@ class Solution:
 
         backtrack(0, [])
         return res
+
 
 print(Solution().partition("aab"))  # [['a', 'a', 'b'], ['aa', 'b']]
 print(Solution().partition("a"))  # [['a']]

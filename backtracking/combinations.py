@@ -1,5 +1,9 @@
 # https://leetcode.com/problems/combinations/
 
+# Question:
+# Given two integers n and k, return all possible combinations of k numbers chosen from the range [1, n].
+# You may return the combinations in any order.
+
 class Solution:
     def combine(self, n: int, k: int):
         res = []

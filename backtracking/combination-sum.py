@@ -1,5 +1,10 @@
 # https://leetcode.com/problems/combination-sum/
 
+# Question:
+# Given an array of distinct integers `candidates` and a target integer `target`, 
+# return all unique combinations of `candidates` where the chosen numbers sum to `target`.
+# You may return the combinations in any order.
+
 class Solution:
     def combinationSum(self, candidates, target: int):
 
