@@ -39,3 +39,9 @@ print(Solution().numberToWords(0))  # Output: "Zero"
 print(Solution().numberToWords(1001))  # Output: "One Thousand One"
 print(Solution().numberToWords(1000000))  # Output: "One Million"
 print(Solution().numberToWords(123))  # Output: "One Hundred Twenty Three"
+
+# (a % b) = a - (b * math.floor(a / b))
+
+# print(1234567891 % 1000) 891
+# print(1234567891 // 1000) 1234567
+# print(1000000 % 1000) 0

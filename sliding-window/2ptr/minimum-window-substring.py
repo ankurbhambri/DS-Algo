@@ -115,7 +115,7 @@ def shortest_substring(sentence, words):
         return ""
 
     # Return the result as a string (joined by space)
-    return ' '.join(sentence[res[0]:res[1]+1])
+    return ' '.join(sentence[res[0] : res[1] + 1])
 
 
 print(shortest_substring(['is', 'one', 'ok', 'you', 'the', 'frog', 'ok', 'one', 'the', 'you', 'is', "not", 'frog'], ['is', 'you', 'frog']))  # Output: "you is not frog"

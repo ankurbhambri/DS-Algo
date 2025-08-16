@@ -50,33 +50,31 @@
     The string s = "abc" already contains distinct characters only.
 """
 
+from collections import Counter
+
 def findShortestSubstring(s):
 
     n = len(s)
-    
-    # Count frequency of each character
-    char_count = {}
-    for char in s:
-        char_count[char] = char_count.get(char, 0) + 1
-    
-    # If all characters are already distinct, no deletion needed
-    if all(count <= 1 for count in char_count.values()):
-        return 0
-    
-    # Find characters that appear more than once
+
+    char_count = Counter(s)
+
+    # characters appear more than once
     duplicates = {char for char, count in char_count.items() if count > 1}
-    
-    min_length = n
-    left = 0
+
+    if len(duplicates) == 0:
+        return 0
+
+    l = 0
     freq = {}
-    
-    for right in range(n):
-        # Expand window by including s[right]
-        if s[right] in duplicates:
-            freq[s[right]] = freq.get(s[right], 0) + 1
-        
+    min_length = n
+
+    for r in range(n):
+
+        if s[r] in duplicates:
+            freq[s[r]] = freq.get(s[r], 0) + 1
+
         # Try to contract window from left
-        while left <= right:
+        while l <= r:
             # Check if current window contains enough duplicates to remove
             # We need (char_count[char] - 1) occurrences of each duplicate char
             can_contract = True
@@ -84,20 +82,21 @@ def findShortestSubstring(s):
                 if freq.get(char, 0) < char_count[char] - 1:
                     can_contract = False
                     break
-            
+
             if can_contract:
+
                 # Current window is valid, update minimum length
-                min_length = min(min_length, right - left + 1)
-                
+                min_length = min(min_length, r - l + 1)
+
                 # Try to contract from left
-                if s[left] in freq:
-                    freq[s[left]] -= 1
-                    if freq[s[left]] == 0:
-                        del freq[s[left]]
-                left += 1
+                if s[l] in freq:
+                    freq[s[l]] -= 1
+                    if freq[s[l]] == 0:
+                        del freq[s[l]]
+                l += 1
             else:
                 break
-    
+
     return min_length
 
 print(findShortestSubstring("a"))  # Output: 0
