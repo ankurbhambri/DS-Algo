@@ -9,11 +9,14 @@ class TreeNode:
 
 class Solution:
     def rightSideView(self, root):
+
         if not root:
             return []
-        q = [root]
+
         level = []
+        q = [root]
         res = [root.val]
+
         while q:
             for node in q:
                 if node.left:
@@ -26,6 +29,7 @@ class Solution:
             level = []
 
         return res
+
 
 print(Solution().rightSideView(TreeNode(1, TreeNode(2, None, TreeNode(5)), TreeNode(3, None, TreeNode(4)))))  # Output: [1, 3, 4]
 print(Solution().rightSideView(TreeNode(1, TreeNode(2, TreeNode(4)), TreeNode(3, None, TreeNode(5)))))  # Output: [1, 3, 5]
@@ -64,27 +68,71 @@ class TreeNode:
         self.left = left
         self.right = right
 
+
+
+# TC: O(N Log N), bcoz of sorting
+# SC: O(N)
+
 def topView(root):
+
     if not root:
         return []
 
+    col_map = {}  # col -> node.val
     q = deque([(root, 0)])  # (node, horizontal distance)
-    hd_map = {}  # hd -> node.val
 
     while q:
-        node, hd = q.popleft()
+        node, col = q.popleft()
 
-        if hd not in hd_map:
-            hd_map[hd] = node.val  # first time seeing this hd
+        if col not in col_map:
+            col_map[col] = node.val  # first time seeing this col
 
         if node.left:
-            q.append((node.left, hd - 1))
+            q.append((node.left, col - 1))
         if node.right:
-            q.append((node.right, hd + 1))
+            q.append((node.right, col + 1))
 
     # Sort by horizontal distance
-    return [hd_map[hd] for hd in sorted(hd_map.keys())]
+    return [col_map[col] for col in sorted(col_map.keys())]
 
 
+print(topView(TreeNode(42, TreeNode(66, None, TreeNode(98)), TreeNode(10, None, None))))  # Output: [66, 42, 10]
+print(topView(TreeNode(1, TreeNode(2, TreeNode(4)), TreeNode(3, None, TreeNode(5)))))  # Output: [4, 2, 1, 3, 5]
+print(topView(TreeNode(1, TreeNode(2, None, TreeNode(5)), TreeNode(3, None, TreeNode(4)))))  # Output: [5, 4, 2, 1, 3]
+
+
+# Optimised approach - TC: O(N), using min and max variables
+
+def topView(root):
+
+    if not root:
+        return []
+
+    col_map = {}  # col -> node.val
+
+    q = deque([(root, 0)])  # (node, horizontal distance)
+
+    min_col, max_col = 0, 0 # keeping track of min and max horizontal distance, this will allow us to loop through left to right node, instead sorting in the end based on keys.
+
+    while q:
+
+        node, col = q.popleft()
+
+        min_col = min(min_col, col)
+        max_col = max(max_col, col)
+
+        if col not in col_map:
+            col_map[col] = node.val  # first time seeing this col
+
+        if node.left:
+            q.append((node.left, col - 1))
+        if node.right:
+            q.append((node.right, col + 1))
+
+    # Sort by horizontal distance
+    return [col_map[col] for col in range(min_col, max_col + 1) if col in col_map]
+
+
+print(topView(TreeNode(42, TreeNode(66, None, TreeNode(98)), TreeNode(10, None, None))))  # Output: [66, 42, 10]
 print(topView(TreeNode(1, TreeNode(2, TreeNode(4)), TreeNode(3, None, TreeNode(5)))))  # Output: [4, 2, 1, 3, 5]
 print(topView(TreeNode(1, TreeNode(2, None, TreeNode(5)), TreeNode(3, None, TreeNode(4)))))  # Output: [5, 4, 2, 1, 3]
