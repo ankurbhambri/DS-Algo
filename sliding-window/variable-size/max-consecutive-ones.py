@@ -36,6 +36,8 @@ print(Solution().longestOnes([0,0,1,1,0,0,1,1], 1))  # Output: 4
 print(Solution().longestOnes([1,0,1,0,1,0], 3))  # Output: 6
 print(Solution().longestOnes([1,1,1,1,1], 0))  # Output: 5
 
+# Variant:
+
 
 # Variant
 
@@ -102,7 +104,7 @@ print(solution([['W', 'H', 'W'], ['H', 'W', 'H'], ['W', 'H', 'W']], 3))  # Outpu
 print(solution([['W', 'H', 'H', 'W', 'W'], ['H', 'W', 'W', 'W', 'W']], 2))  # Output: 5
 
 
-# What if PTO is decimal? like: 2.5, or 3.2, In that case we can simply find the max window and a check from left or right side is 'W' day then add that decimal extension as well.
+# Variant: What if PTO is decimal? like: 2.5, or 3.2, In that case we can simply find the max window and a check from left or right side is 'W' day then add that decimal extension as well.
 
 def solution(days, pto):
 
