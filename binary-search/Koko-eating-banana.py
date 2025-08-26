@@ -1,5 +1,12 @@
 # https://leetcode.com/problems/koko-eating-bananas/
 
+'''
+Given a pile of bananas, Koko can eat at most k bananas per hour.
+Koko loves to eat bananas, but there is a strict limit on how many she can eat in an hour.
+Given an array of piles where piles[i] is the number of bananas in the ith pile,
+and an integer h representing the number of hours Koko has to eat,
+return the minimum integer k such that Koko can eat all the bananas within h hours.
+'''
 import math
 
 
@@ -23,6 +30,10 @@ def minEatingSpeed(piles, h):
 
     return l
 
+print(minEatingSpeed([3, 6, 7, 11], 8))
+print(minEatingSpeed([30, 11, 23, 4, 20], 5))
+print(minEatingSpeed([30, 11, 23, 4, 20], 6))
+print(minEatingSpeed([312884470], 968709470))
 
 """ 
 Similar problem
@@ -61,19 +72,19 @@ Explanation: We can cut it into 7 pieces if any piece is 114 long, however we ca
 """
 
 
-def cutWood(wood, k):
+def cutWood(woods, k):
 
-    def countPieces(wood, length):
+    def countPieces(length):
         count = 0
-        for piece in wood:
+        for piece in woods:
             count += piece // length
         return count
 
-    left, right = 1, max(wood)
+    left, right = 1, max(woods)
     while left <= right:
 
         mid = left + (right - left) // 2
-        pieces = countPieces(wood, mid)
+        pieces = countPieces(mid)
 
         if pieces >= k:
             left = mid + 1
@@ -81,6 +92,11 @@ def cutWood(wood, k):
             right = mid - 1
 
     return right
+
+print(cutWood([5, 9, 7], 3))
+print(cutWood([5, 9, 7], 4))
+print(cutWood([1, 2, 3], 7))
+print(cutWood([232, 124, 456], 7))
 
 """
 A student is preparing for a test from Amazon Academy for a scholarship.
@@ -154,7 +170,7 @@ Sample Output: 4
 from math import ceil
 
 
-def minimumNumberOfPages(n, pages, days):
+def minimumNumberOfPages(pages, days):
 
     l, r = 1, len(pages)
 
@@ -177,3 +193,4 @@ def minimumNumberOfPages(n, pages, days):
 
 
 print(minimumNumberOfPages(4, [2, 3, 4, 5], 5))
+print(minimumNumberOfPages(3, [2, 4, 3], 4))

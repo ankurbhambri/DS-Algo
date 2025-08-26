@@ -1,9 +1,6 @@
 # https://leetcode.com/problems/diagonal-traverse/
 
 
-# https://leetcode.com/problems/diagonal-traverse/solutions/7118941/simple-short-clean-diagonal-grouping-with-parity-based-reversal-python/
-
-
 class Solution:
     def findDiagonalOrder(self, mat):
 
