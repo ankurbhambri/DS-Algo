@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/diameter-of-binary-tree/description/
 class TreeNode:
     def __init__(self, value=0, left=None, right=None):
         self.value = value
@@ -7,6 +8,7 @@ class TreeNode:
 
 # The diameter of a binary tree is the length of the longest path between any two nodes in a tree.
 def diameter_of_binary_tree(root):
+
     diameter = 0
 
     def height_and_diameter(node):
