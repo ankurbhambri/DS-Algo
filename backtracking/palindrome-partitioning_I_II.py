@@ -6,7 +6,7 @@
 # SC:  O(n) (stack) + O(2^n * n) (output)
 class Solution:
     def partition(self, s):
-        
+
         res = []
 
         def is_palindrome(sub):
@@ -33,3 +33,42 @@ print(Solution().partition("aab"))  # [['a', 'a', 'b'], ['aa', 'b']]
 print(Solution().partition("a"))  # [['a']]
 print(Solution().partition("racecar"))  # [['r', 'a', 'c', 'e', 'c', 'a', 'r'], ['r', 'a', 'c', 'e', 'c', 'a', 'r']]
 print(Solution().partition("ab"))  # [['a', 'b']]
+
+
+# https://leetcode.com/problems/palindrome-partitioning-ii
+
+class Solution:
+    def minCut(self, s):
+
+        dp = [[-1] * len(s) for _ in range(len(s))]
+
+        def ispal(s):
+            return s == s[::-1]
+
+        def solve(i, j):
+
+            if i >= j:
+                return 0
+
+            if ispal(s[i : j + 1]): # like a and aaa cases
+                return 0
+
+            if dp[i][j] != -1:
+                return dp[i][j]
+
+            min_step = float("inf")
+            for k in range(i, j):
+                if ispal(s[i : k + 1]):
+                    temp = 1 + solve(k + 1, j)
+                    min_step = min(min_step, temp)
+
+            dp[i][j] = min_step
+            return dp[i][j]
+
+        return solve(0, len(s) - 1)
+
+
+print(Solution().minCut("aab"))  # 1
+print(Solution().minCut("a"))  # 0
+print(Solution().minCut("ab"))  # 1
+print(Solution().minCut("racecar"))  # 0
