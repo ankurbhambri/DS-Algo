@@ -1,8 +1,8 @@
 # https://leetcode.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/
 
 '''
-    Given an array of integers, and an integer N, find the length of the longest “N-stable” continuous subarray.
-    An array is defined to be “N-stable” when the pair-wise difference between any two elements in the array is smaller or equal to N.
+    Given an array of integers, and an integer N, find the length of the longest "N-stable" continuous subarray.
+    An array is defined to be "N-stable" when the pair-wise difference between any two elements in the array is smaller or equal to N.
     A subarray of a 0-indexed integer array is a contiguous non-empty sequence of elements within an array.
 
     For instance, for array [ 4, 2, 3, 6, 2, 2, 3, 2, 7 ], and N = 1
@@ -26,10 +26,11 @@ def func(arr, N):
 
         while min_deque and arr[min_deque[-1]] > arr[r]:
             min_deque.pop()
-        min_deque.append(r)
 
         while max_deque and arr[max_deque[-1]] < arr[r]:
             max_deque.pop()
+
+        min_deque.append(r)
         max_deque.append(r)
 
         # processing

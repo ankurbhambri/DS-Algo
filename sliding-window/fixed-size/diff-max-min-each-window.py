@@ -1,4 +1,4 @@
-# Maximum Difference Between Max and Min in Each Window
+# Given an array nums and an integer k, find the maximum difference between the maximum and minimum values in each sliding window of size k.
 
 from collections import deque
 
