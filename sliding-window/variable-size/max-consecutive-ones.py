@@ -7,12 +7,12 @@
     If nums[l] == 0, decrement zeros (since we're removing a zero from the window).
     Increment l to shrink the window.
 
-
     This ensures the window always has at most k zeros.
 '''
 
 class Solution:
     def longestOnes(self, nums, k: int) -> int:
+
         l = 0
         zeros = 0
         max_len = 0
@@ -35,8 +35,6 @@ print(Solution().longestOnes([1,1,0,0,1,1,0,1], 2))  # Output: 6
 print(Solution().longestOnes([0,0,1,1,0,0,1,1], 1))  # Output: 4
 print(Solution().longestOnes([1,0,1,0,1,0], 3))  # Output: 6
 print(Solution().longestOnes([1,1,1,1,1], 0))  # Output: 5
-
-# Variant:
 
 
 # Variant

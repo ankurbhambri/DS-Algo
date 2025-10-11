@@ -14,7 +14,7 @@ print(find_palindromic_substring("abaccdbbd", 3))   # Output: "aba"
 
 
 # instead of slicing, we can use two pointers to check for palindrome
-
+# TC: O(n * k), SC: O(1)
 def find_palindromic_substring(s, k):
 
     n = len(s)

@@ -1,8 +1,6 @@
 """
     https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/
 
-    Given a string s, find the length of the longest substring T that contains at most k distinct characters.
-
     Note - same as above replace static value 2 with k only
 
     Similar question - https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/ replace k with 2

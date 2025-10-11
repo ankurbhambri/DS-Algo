@@ -109,7 +109,7 @@ def at_least_k_unique(s, k):
                 del char_freq[s[l]]
 
             l += 1
-    
+
     return count
 
 print(at_least_k_unique("abaaca", 2)) # Output: 15
@@ -127,6 +127,7 @@ def count_exactly_k_unique(s, k):
         char_freq = {}
         
         for r in range(len(s)):
+
             char_freq[s[r]] = char_freq.get(s[r], 0) + 1
             
             while len(char_freq) >= k:

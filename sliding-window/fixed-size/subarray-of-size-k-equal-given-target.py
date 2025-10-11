@@ -1,8 +1,6 @@
 '''
-
     Given an array arr[], an integer K and a Sum. The task is to check if there exists any subarray with K elements whose sum is equal to the given sum. 
     If any of the subarray with size K has the sum equal to the given sum then print YES otherwise print NO.
-
 '''
 
 # TC: O(N)

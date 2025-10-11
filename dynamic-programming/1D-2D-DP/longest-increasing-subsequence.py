@@ -1,5 +1,7 @@
 # https://leetcode.com/problems/longest-increasing-subsequence/
 
+# TC: O(n^2)
+# SC: O(n)
 def length_of_lis(nums):
     if not nums:
         return 0
@@ -54,3 +56,20 @@ print(printLengthOfLIS([7, 7, 7, 7, 7, 7]))  # Output: [7]
 print(printLengthOfLIS([]))  # Output: []
 
 # Similar question - https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-ii
+
+# Approach 2: Binary Search (O(n log n))
+
+import bisect
+
+def LIS(arr):
+    sub = []
+    for x in arr:
+        # binary search position
+        pos = bisect.bisect_left(sub, x)
+        if pos == len(sub):
+            sub.append(x)
+        else:
+            sub[pos] = x
+    return len(sub)
+
+print(LIS([10,9,2,5,3,7,101,18]))  # Output: 4

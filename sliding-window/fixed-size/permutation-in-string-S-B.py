@@ -1,11 +1,9 @@
+# Same Question permutations of string A in string B or Find All Anagrams of A in String B,
+# only difference is that we need to return the starting index of the anagram.
+
 from collections import Counter
 
-# Same Question permutations of string A in string B or Find All Anagrams of A in String B, only difference is that we need to return the starting index of the anagram.
-
-
 # https://leetcode.com/problems/permutation-in-string/
-
-
 def checkInclusion(p, s):
 
     cs = Counter(s[: len(p)])
@@ -32,7 +30,7 @@ def checkInclusion(p, s):
     return False
 
 
-# Same as Above only storing in array the starting index
+# Same as above only storing starting index in array
 # https://leetcode.com/problems/find-all-anagrams-in-a-string/submissions/
 
 
@@ -67,7 +65,7 @@ def find_permutations_in_string(S, B):
     return res
 
 
-# space efficient approach using sliding window technique
+# Space efficient approach using sliding window technique
 
 def find_permutations_in_string_space(txt, pat):
 

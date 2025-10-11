@@ -17,7 +17,7 @@ class Solution:
 
         formed = 0
         window_counts = {}
-        
+
         # windows size, left pointer, right pointer
         ans = [float("inf"), None, None]
 
@@ -66,14 +66,13 @@ Given two lists of strings - "sentence" and "words".- find the shortest substrin
 
 Example:
 
-    sentence = l'is', 'one', 'ok', 'you', 'the', 'frog', 'ok', 'one', 'the', ' 'you', 'is', "not',. 'frog']
-    words = ['is', 'you',. 'frog']
+    sentence = ['is', 'one', 'ok', 'you', 'the', 'frog', 'ok', 'one', 'the', 'you', 'is', "not", 'frog']
+    words = ['is', 'you', 'frog']
 
 Output: = "you is not frog"
 
 '''
 
-from collections import Counter, defaultdict
 
 def shortest_substring(sentence, words):
 
@@ -81,24 +80,28 @@ def shortest_substring(sentence, words):
         return ""
 
     formed = 0
-    required = len(target_count)
-    target_count = Counter(words)  # required word frequencies
-    window_count = defaultdict(int)
+
+    dict_t = Counter(words)
+    required = len(dict_t)
+
+    window_count = {}
 
     left = 0
     min_len = float("inf")
     res = (0, 0)  # stores indices of the shortest valid window
 
     for right in range(len(sentence)):
+
         word = sentence[right]
-        window_count[word] += 1
+        window_count[word] = window_count.get(word, 0) + 1
 
         # Check if word frequency matches the target requirement
-        if word in target_count and window_count[word] == target_count[word]:
+        if word in dict_t and window_count[word] == dict_t[word]:
             formed += 1
 
         # Try shrinking the window from the left
-        while formed == required:
+        while left <= right and formed == required:
+
             if right - left + 1 < min_len:
                 min_len = right - left + 1
                 res = (left, right)
@@ -106,7 +109,8 @@ def shortest_substring(sentence, words):
             # Remove the leftmost word
             left_word = sentence[left]
             window_count[left_word] -= 1
-            if left_word in target_count and window_count[left_word] < target_count[left_word]:
+
+            if left_word in dict_t and window_count[left_word] < dict_t[left_word]:
                 formed -= 1
 
             left += 1
@@ -119,4 +123,3 @@ def shortest_substring(sentence, words):
 
 
 print(shortest_substring(['is', 'one', 'ok', 'you', 'the', 'frog', 'ok', 'one', 'the', 'you', 'is', "not", 'frog'], ['is', 'you', 'frog']))  # Output: "you is not frog"
-

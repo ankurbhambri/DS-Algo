@@ -1,5 +1,5 @@
 '''
-    There are five similar sounding problems on the internet, based on finding duplicates or missing numbers:
+    There are five similar sounding problems on the internet, based on finding the duplicates or missing numbers:
 
     1. 268. Missing Number (https://leetcode.com/problems/missing-number/)
     2. 442. Find All Duplicates in an Array (https://leetcode.com/problems/find-all-duplicates-in-an-array/)
@@ -24,7 +24,7 @@ class Solution:
     def missingNumber(self, nums):
         n = len(nums)
         sm = sum(nums)
-        t = (n * (n + 1 ) ) // 2
+        t = (n * (n + 1 )) // 2
         return t - sm
 
 print(Solution().missingNumber([3, 0, 1]))  # Output: 2

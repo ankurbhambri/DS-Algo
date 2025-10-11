@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/longest-continuous-increasing-subsequence/description/
+
 '''
 Given an array of integers, find the first longest continuously ascending subsequence.
 
