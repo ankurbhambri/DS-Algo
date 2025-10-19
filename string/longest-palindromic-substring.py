@@ -2,6 +2,9 @@
 
 # Given a string s, return the longest palindromic substring in s.
 
+# Similar to palindromic substrings problem - https://leetcode.com/problems/palindromic-substrings/description/
+
+
 def longestPalindrome(s):
 
     def helper(l, r):
@@ -30,40 +33,33 @@ print(longestPalindrome("babad"))
 print(longestPalindrome("racecar"))
 
 
+# DP Approach
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
 
-# https://leetcode.com/problems/palindromic-substrings/description/
+        if len(s) <= 1:
+            return s
 
-'''
-Given a string s, return the number of palindromic substrings in it.
+        max_len = 1
+        res = s[0]
 
-A string is a palindrome when it reads the same backward as forward.
+        dp = [[False for _ in range(len(s))] for _ in range(len(s))]
 
-A substring is a contiguous sequence of characters within the string.
-'''
+        for i in range(len(s)):
 
-def countSubstrings(s):
-    res = 0
+            dp[i][i] = True
 
-    def compare(l, r):
+            for j in range(i):
 
-        cnt = 0
+                if s[j] == s[i] and (i - j <= 2 or dp[j + 1][i - 1]):
 
-        while l >= 0 and r < len(s) and s[l] == s[r]:
+                    dp[j][i] = True
 
-            cnt += 1
-            l -= 1
-            r += 1
+                    if i - j + 1 > max_len:
+                        max_len = i - j + 1
+                        res = s[j:i + 1]
 
-        return cnt
+        return res
 
-    for i in range(len(s)):
-
-        res += compare(i, i)
-
-        res += compare(i, i + 1)
-
-    return res
-
-
-print(countSubstrings("abc"))
-print(countSubstrings("aaa"))
+print(Solution().longestPalindrome("babad"))
+print(Solution().longestPalindrome("racecar"))

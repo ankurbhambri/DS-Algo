@@ -1,6 +1,6 @@
 # https://leetcode.com/problems/create-maximum-number/
 
-
+# Similar to Count Inversion problem
 class Solution:
     def maxNumber(self, nums1, nums2, k):
 
