@@ -1,36 +1,40 @@
-  def canBeValid(s, locked):
-      length = len(s)
+# https://leetcode.com/problems/check-if-a-parentheses-string-can-be-valid/
 
-      # If length of string is odd, return false.
-      if length % 2 == 1:
-          return False
+class Solution:
+    def canBeValid(self, s, locked):
+        length = len(s)
 
-      open_brackets = []
-      unlocked = []
+        # If length of string is odd, return false.
+        if length % 2 == 1:
+            return False
 
-      # Iterate through the string to handle '(' and ')'
-      for i in range(length):
-          if locked[i] == "0":
-              unlocked.append(i)
-          elif s[i] == "(":
-              open_brackets.append(i)
-          elif s[i] == ")":
-              if open_brackets:
-                  open_brackets.pop()
-              elif unlocked:
-                  unlocked.pop()
-              else:
-                  return False
+        open_brackets = []
+        unlocked = []
 
-      # Match remaining open brackets and the unlocked characters
-      while open_brackets and unlocked and open_brackets[-1] < unlocked[-1]:
-          open_brackets.pop()
-          unlocked.pop()
+        # Iterate through the string to handle '(' and ')'
+        for i in range(length):
+            if locked[i] == "0":
+                unlocked.append(i)
+            elif s[i] == "(":
+                open_brackets.append(i)
+            elif s[i] == ")":
+                if open_brackets:
+                    open_brackets.pop()
+                elif unlocked:
+                    unlocked.pop()
+                else:
+                    return False
 
-      if open_brackets:
-          return False
+        # Match remaining open brackets and the unlocked characters
+        while open_brackets and unlocked and open_brackets[-1] < unlocked[-1]:
+            open_brackets.pop()
+            unlocked.pop()
 
-      return True
+        if open_brackets:
+            return False
 
-s = "))()))", locked = "010100"
-print(canBeValid(s, locked))
+        return True
+
+s = "))()))"
+locked = "010100"
+print(Solution().canBeValid(s, locked))
