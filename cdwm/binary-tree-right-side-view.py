@@ -19,13 +19,18 @@ class Solution:
 
         while q:
             for node in q:
+
                 if node.left:
                     level.append(node.left)
+
                 if node.right:
                     level.append(node.right)
+
             q = level
+
             if level:
                 res.append(level[-1].val)
+
             level = []
 
         return res
@@ -38,8 +43,7 @@ print(Solution().rightSideView(TreeNode(1, TreeNode(2, TreeNode(4)), TreeNode(3,
 # Variant : Top View
 
 '''
-
-Given the root of a binary tree, imagine yourself standing on the top of it, return the values of the nodes you can see ordered from left to right.
+Given the root of a binary tree, return the top view of the binary tree.
 
 Example 1:
 Input: root = [1,2,3, null,5, null, 4]
@@ -82,6 +86,7 @@ def topView(root):
     q = deque([(root, 0)])  # (node, horizontal distance)
 
     while q:
+
         node, col = q.popleft()
 
         if col not in col_map:
@@ -89,6 +94,7 @@ def topView(root):
 
         if node.left:
             q.append((node.left, col - 1))
+
         if node.right:
             q.append((node.right, col + 1))
 

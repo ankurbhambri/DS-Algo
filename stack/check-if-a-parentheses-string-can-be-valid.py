@@ -26,15 +26,66 @@ class Solution:
                     return False
 
         # Match remaining open brackets and the unlocked characters
-        while open_brackets and unlocked and open_brackets[-1] < unlocked[-1]:
+        while open_brackets and unlocked:
+
+            # open brackets '(' must be on the left hand side of 'unlocked brackets'
+            if open_brackets[-1] > unlocked[-1]:
+                return False
+
             open_brackets.pop()
             unlocked.pop()
 
-        if open_brackets:
-            return False
+        return len(open_brackets) == 0
 
-        return True
 
-s = "))()))"
-locked = "010100"
-print(Solution().canBeValid(s, locked))
+print(Solution().canBeValid("()()", "0000"))
+print(Solution().canBeValid("))()))", "010100"))
+
+
+# Variant
+# https://leetcode.com/problems/valid-parenthesis-string/description/
+
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+
+        # store the indices of '('
+        stk = []
+
+        # store the indices of '*'
+        star = []
+
+        for idx, char in enumerate(s):
+
+            if char == '(':
+                stk.append( idx )
+
+            elif char == ')':
+
+                if stk:
+                    stk.pop()
+
+                elif star:
+                    star.pop()
+
+                else:
+                    return False
+
+            else:
+                star.append( idx )
+
+        # cancel ( and * with valid positions, i.e., '(' must be on the left hand side of '*'
+        while stk and star:
+
+            if stk[-1] > star[-1]:
+                return False
+
+            stk.pop()
+            star.pop()
+
+        # Accept when stack is empty, which means all braces are paired
+        # Reject, otherwise.
+        return len(stk) == 0
+
+
+print(Solution().checkValidString("(*)")) # True
+print(Solution().checkValidString("(*))")) # True

@@ -8,7 +8,7 @@ Space Complexity: O(1) (excluding result list)
 
 '''
 def max_sum_subarray(arr, k):
-    
+
     max_sum = window_sum = sum(arr[:k])
 
     for i in range(k, len(arr)):
@@ -29,16 +29,16 @@ Time Complexity: O(n)
 Space Complexity: O(1) (excluding result list)
 
 '''
-def max_sum_subarray(arr, k):
+def min_sum_subarray(arr, k):
     
-    max_sum = window_sum = sum(arr[:k])
+    min_sum = window_sum = sum(arr[:k])
 
     for i in range(k, len(arr)):
 
         window_sum += arr[i] - arr[i-k]   # slide the window
-        max_sum = min(max_sum, window_sum)
+        min_sum = min(min_sum, window_sum)
 
-    return max_sum
+    return min_sum
 
-print(max_sum_subarray([1, 2, 3, 4, 5], 3))  # Output: 6
-print(max_sum_subarray([1, 2, 3, 4, 5, 6], 4))  # Output: 10
+print(min_sum_subarray([1, 2, 3, 4, 5], 3))  # Output: 6
+print(min_sum_subarray([1, 2, 3, 4, 5, 6], 4))  # Output: 10
