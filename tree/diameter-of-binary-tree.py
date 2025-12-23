@@ -9,24 +9,25 @@ class TreeNode:
 # The diameter of a binary tree is the length of the longest path between any two nodes in a tree.
 def diameter_of_binary_tree(root):
 
-    diameter = 0
+    d = 0
 
-    def height_and_diameter(node):
+    def helper(node):
 
-        nonlocal diameter
+        nonlocal d
 
         if not node:
             return 0
 
-        left_height = height_and_diameter(node.left)
-        right_height = height_and_diameter(node.right)
+        l = helper(node.left)
+        r = helper(node.right)
 
-        diameter = max(diameter, left_height + right_height)
+        d = max(d, l + r)
 
-        return max(left_height, right_height) + 1
+        return max(l, r) + 1
 
-    height_and_diameter(root)
-    return diameter
+    helper(root)
+
+    return d
 
 
 # Constructing the example tree
