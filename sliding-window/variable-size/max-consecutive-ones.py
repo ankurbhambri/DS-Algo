@@ -18,6 +18,7 @@ class Solution:
         max_len = 0
 
         for r in range(len(nums)):
+
             if nums[r] == 0:
                 zeros += 1
 
@@ -81,9 +82,9 @@ def solution(days, pto):
 
     n = rows * cols # flatten the matrix
 
-    for i in range(n):
+    for r in range(n):
 
-        if getIndex(i) == 'W':
+        if getIndex(r) == 'W':
             w += 1
 
         while w > pto:
@@ -93,7 +94,7 @@ def solution(days, pto):
 
             l += 1
 
-        res = max(res, i - l + 1)
+        res = max(res, r - l + 1)
 
     return res
 
@@ -112,7 +113,7 @@ def solution(days, pto):
 
     pto_ext = pto - int(pto)  # integer part of PTO
     pto = int(pto)  # integer part of PTO
-
+    
     rows, cols = len(days), len(days[0])
 
     n = rows * cols
@@ -120,9 +121,9 @@ def solution(days, pto):
     def getIndex(idx):
         return days[idx // cols][idx % cols]
 
-    for i in range(n):
+    for r in range(n):
 
-        if getIndex(i) == 'W':
+        if getIndex(r) == 'W':
             w += 1
 
         while w > pto:
@@ -133,10 +134,15 @@ def solution(days, pto):
             l += 1
 
         ext = 0.0
-        if l > 0 and getIndex(l - 1) == 'W' or i < n - 1 and getIndex(i + 1) == 'W':
+        # In case, left of window or right of window is 'W' then we can add the decimal pto extension
+        if (
+            l > 0 and getIndex(l - 1) == 'W'
+            or
+            r < n - 1 and getIndex(r + 1) == 'W'
+        ):
             ext = pto_ext
 
-        res = max(res, i - l + 1 + ext)
+        res = max(res, r - l + 1 + ext)
 
     return res
 
