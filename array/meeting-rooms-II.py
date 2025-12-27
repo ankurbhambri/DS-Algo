@@ -5,6 +5,8 @@ Given an array of meeting time intervals intervals where intervals[i] = [starti,
 
 """
 
+# Line Sweep approach
+
 def solution(intervals):
 
     events = []
@@ -31,8 +33,7 @@ print(solution([[7, 10], [2, 4]]))
 print(solution([[6, 15], [13, 20], [6, 17]]))
 
 
-# another approach is two pointer
-
+# Another approach is two pointer
 
 def solution2(arr):
 
@@ -70,10 +71,17 @@ def minGroups(intervals):
         arr.append([s, 1])
         arr.append([e + 1, -1])
 
+    arr.sort()
+
     req = 0
     res = 0
-    for a, diff in sorted(arr):
+
+    for a, diff in arr:
         req += diff
         res = max(req, res)
 
     return res
+
+
+print(minGroups([[1,3],[5,6],[8,10],[11,13]]))  # Output: 1
+print(minGroups([[5,10],[6,8],[1,5],[2,3],[1,10]]))  # Output: 3
