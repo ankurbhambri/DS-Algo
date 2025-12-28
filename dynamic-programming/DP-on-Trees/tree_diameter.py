@@ -1,6 +1,5 @@
 # https://cses.fi/problemset/view/1131/
 
-
 def solution(edges, n):
 
     if n == 1:
@@ -10,7 +9,7 @@ def solution(edges, n):
     for u, v in edges:
         adj[u].append(v)
         adj[v].append(u)
-    
+
     diameter = 0
 
     def dfs(u, p):
@@ -23,7 +22,7 @@ def solution(edges, n):
             if child != p:
 
                 height = dfs(child, u)
-                
+
                 if height > max1:
 
                     max2 = max1
@@ -35,12 +34,12 @@ def solution(edges, n):
         diameter = max(diameter, max1 + max2)
 
         return max1 + 1
-    
+
     dfs(1, -1)
     return diameter
 
-print(solution([(1, 2), (1, 3), (3, 4), (3, 5)], 5)) # 3
 print(solution([(1, 2)], 2)) # 1
+print(solution([(1, 2), (1, 3), (3, 4), (3, 5)], 5)) # 3
 
 
 # Alternative simpler 2 DFS approach, but hard to proove correctness

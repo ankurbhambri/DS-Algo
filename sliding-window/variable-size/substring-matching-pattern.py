@@ -79,3 +79,8 @@ class Solution:
         # Find b after a ends
         j = kmp_search(s, b, i + len(a))
         return j != -1
+
+print(Solution().hasMatch("abdefg", "a*g"))  # Output: True
+print(Solution().hasMatch("xyz", "x*z"))      # Output: True
+print(Solution().hasMatch("hello", "h*v"))    # Output: False
+print(Solution().hasMatch("abcdef", "a*d"))   # Output: True

@@ -33,6 +33,7 @@ class Solution:
         for i in range(2 ** n):
             tmp = []
             for j in range(n):
+                print(1 << j, i & (1 << j))
                 if i & (1 << j):
                     tmp.append(nums[j])
             res.append(tmp)
