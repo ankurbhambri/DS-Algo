@@ -66,6 +66,7 @@ def khan_algo(graph):
 
     res = []
     while q:
+
         node = q.pop(0)
         res.append(node)
 

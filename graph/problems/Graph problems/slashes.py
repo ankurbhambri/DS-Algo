@@ -1,7 +1,9 @@
+# https://leetcode.com/problems/regions-cut-by-slashes/description/
+
+
 # Similar to https://leetcode.com/problems/number-of-islands/submissions/
 
 from typing import List
-
 
 class Solution:
     def regionsBySlashes(self, grid: List[str]) -> int:

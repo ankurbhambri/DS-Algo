@@ -6,7 +6,6 @@
 
 from collections import defaultdict
 
-
 class Solution(object):
     def sumOfDistancesInTree(self, N, edges):
 

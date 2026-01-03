@@ -1,6 +1,5 @@
 # https://cses.fi/problemset/task/1688
 
-
 import sys
 input = sys.stdin.readline
 
@@ -24,11 +23,16 @@ for j in range(1, LOG):
             up[i][j] = up[ up[i][j-1] ][j-1]
 
 def lca(a, b):
-    # 1️⃣ same depth
+
+    # same depth
     if depth[a] < depth[b]:
         a, b = b, a
 
     diff = depth[a] - depth[b]
+
+    if a == b:
+        return a
+
     for j in range(LOG):
         if diff & (1 << j):
             a = up[a][j]
@@ -36,13 +40,13 @@ def lca(a, b):
     if a == b:
         return a
 
-    # 2️⃣ jump both up
+    # jump both up
     for j in range(LOG-1, -1, -1):
         if up[a][j] != -1 and up[a][j] != up[b][j]:
             a = up[a][j]
             b = up[b][j]
 
-    # 3️⃣ parent is answer
+    # parent is answer
     return up[a][0]
 
 # process queries
