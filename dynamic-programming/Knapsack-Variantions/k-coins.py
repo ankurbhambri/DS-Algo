@@ -1,14 +1,14 @@
 '''
-There are N coins valued (0 to N - 1).
-Calculate no. of ways to select K coins such that their sum is divisible by M.
+    There are N coins valued (0 to N - 1).
+    Calculate no. of ways to select K coins such that their sum is divisible by M.
 
-Return answer modulo 1e9 + 7.
+    Return answer modulo 1e9 + 7.
 
-    int solve(int N, int M, int K)
+        int solve(int N, int M, int K)
 
-Input:
-4 2 2
-Output: 2
+    Input:
+    4 2 2
+    Output: 2
 
 '''
 
@@ -21,13 +21,18 @@ def solve(N, M, K):
 
     # dp[j][r] = number of ways to choose j coins
     # such that sum % M == r
+    # dp[coins_selected][current_remainder]
     dp = [[0] * M for _ in range(K + 1)]
+
+    # Base case: 0 coins select kiye, sum 0 hai, remainder 0
     dp[0][0] = 1
 
-    for val in range(N):          # coin values: 0 to N-1
-        for j in range(K, 0, -1): # reverse to avoid reuse
+    # coin values: 0 to N-1
+    for coin_val in range(N):
+        # K se niche ki taraf loop (kyunki har coin ek hi baar use ho sakta hai)
+        for j in range(K, 0, -1):
             for r in range(M):
-                new_r = (r + val) % M
+                new_r = (r + coin_val) % M
                 dp[j][new_r] = (dp[j][new_r] + dp[j - 1][r]) % MOD
 
     return dp[K][0]
