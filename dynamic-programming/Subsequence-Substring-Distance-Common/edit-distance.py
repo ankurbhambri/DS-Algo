@@ -75,10 +75,10 @@ class Solution:
                         dp[i][j - 1],    # insert
                         dp[i - 1][j - 1] # replace
                     )
-        
+        print(dp)
         return dp[M][N]
 
-
+print(Solution().minDistance("abcdef", "azcde"))  # Output: 3
 print(Solution().minDistance("horse", "ros"))  # Output: 3
 print(Solution().minDistance("intention", "execution"))  # Output: 5
 print(Solution().minDistance("kitten", "sitting"))  # Output: 3

@@ -15,6 +15,21 @@ def length_of_lis(nums):
 
     return max(dp)
 
+from bisect import bisect_left
+
+# TC: O(n log n)
+# SC: O(n)
+
+def lengthOfLIS(nums):
+    lis = []
+    for n in nums:
+        idx = bisect_left(lis, n)
+        if idx == len(lis):
+            lis.append(n)
+        else:
+            lis[idx] = n
+    return len(lis)
+
 print(length_of_lis([10, 9, 2, 5, 3, 7, 101, 18]))  # Output: 4
 print(length_of_lis([0, 1, 0, 3, 2, 3]))  # Output: 4
 print(length_of_lis([7, 7, 7, 7, 7, 7]))  # Output: 1
