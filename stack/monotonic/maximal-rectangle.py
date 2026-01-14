@@ -41,7 +41,6 @@ def maximalRectangle(matrix):
             else:
                 heights[j] = 0  # Reset height
 
-        print(heights)
         # Apply largest rectangle in histogram on current row
         max_area = max(max_area, largestRectangleArea(heights))
 
