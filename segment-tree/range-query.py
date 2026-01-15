@@ -5,6 +5,12 @@
     Creating the tree takes O(n) time. Query and updates are both O(log n).
 """
 
+# Operation 	                    Time Complexity
+# Building the Segment Tree	            O(n)
+# Query (Range Min/Max/Sum)	          O(log n)
+# Update (Point or Range)             O(log n)
+
+# Segment Tree Space Complexity: O(n)
 
 class Node(object):
     def __init__(self, start, end):
