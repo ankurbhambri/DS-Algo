@@ -5,9 +5,9 @@ def numIslands(grid):
         return 0
     
     m, n = len(grid), len(grid[0])
-    islands = 0
     
     def dfs(i: int, j: int) -> None:
+
         # Base case: out of bounds or cell is water/visited
         if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] != "1":
             return
@@ -22,6 +22,7 @@ def numIslands(grid):
         dfs(i, j+1)  # right
     
     # Step 1: Iterate through each cell
+    islands = 0
     for i in range(m):
         for j in range(n):
             if grid[i][j] == "1":
@@ -39,34 +40,96 @@ grid = [
 print(numIslands(grid))  # Output: 1
 
 
-# https://leetcode.com/problems/max-area-of-island/description/
+# VARIANT
 
-def maxAreaOfIsland(grid):
+'''
 
-    if not grid:
-        return 0
+Given an m x n 2D binary grid grid which represents a map of '1's (land) and 'O's (water), 
+return the area of each island. The output can be in any order.
 
-    m, n = len(grid), len(grid[0])
+An island is surrounded by water and is formed by connecting adjacent lands horizontally, vertically or diagonally. 
 
-    def dfs(i: int, j: int) -> None:
+You may assume all eight edges of the grid are all surrounded by water.
 
-        if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] == 0:
+'''
+
+class Solution:
+    def islandAreas(self, grid):
+        if not grid:
+            return []
+        
+        m, n = len(grid), len(grid[0])
+        areas = []
+        
+        def dfs(i: int, j: int) -> int:
+
+            # Base case: out of bounds or cell is water/visited
+            if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] != "1":
+                return 0
+            
+            # Mark as visited by changing to '0'
+            grid[i][j] = "0"
+            
+            area = 1  # Current cell
+            
+            # Recursively explore all 8 directions
+            for di in [-1, 0, 1]:
+                for dj in [-1, 0, 1]:
+                    if di != 0 or dj != 0:
+                        area += dfs(i + di, j + dj)
+            
+            return area
+        
+        # Step 1: Iterate through each cell
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == "1":
+                    area = dfs(i, j)  # Explore and calculate the area of the island
+                    areas.append(area)
+
+        return areas
+
+
+print(Solution().islandAreas([
+  ["1","1","0","0","0"],
+  ["1","0","0","1","1"],
+  ["0","0","0","0","0"],
+  ["0","1","0","0","1"],
+  ["1","1","0","1","1"]
+]))  # Output: [3, 4, 1, 3]
+
+
+# Similar problems below:
+
+# https://leetcode.com/problems/max-area-of-island/
+
+class Solution:
+    def maxAreaOfIsland(self, grid):
+
+        if not grid:
             return 0
 
-        # visited
-        grid[i][j] = 0
+        m, n = len(grid), len(grid[0])
 
-        area = 0
-        area += dfs(i-1, j) + dfs(i+1, j) + dfs(i, j-1) + dfs(i, j+1)
-        return area + 1
+        def dfs(i: int, j: int) -> None:
 
-    max_size = 0
-    for i in range(m):
-        for j in range(n):
-            if grid[i][j] == 1:
-                max_size = max(max_size, dfs(i, j))
-    
-    return max_size
+            if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] == 0:
+                return 0
+
+            # visited
+            grid[i][j] = 0
+
+            area = 1
+            area += dfs(i-1, j) + dfs(i+1, j) + dfs(i, j-1) + dfs(i, j+1)
+            return area
+
+        max_size = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    max_size = max(max_size, dfs(i, j))
+        
+        return max_size
 
 grid = [
     [0,0,1,0,0,0,0,1,0,0,0,0,0],
@@ -78,7 +141,7 @@ grid = [
     [0,0,0,0,0,0,0,1,1,1,0,0,0],
     [0,0,0,0,0,0,0,1,1,0,0,0,0]
 ]
-print(maxAreaOfIsland(grid))  # Output: 6
+print(Solution().maxAreaOfIsland(grid))  # Output: 6
 
 
 # https://leetcode.com/problems/making-a-large-island/
