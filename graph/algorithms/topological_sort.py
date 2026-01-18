@@ -186,3 +186,50 @@ class Solution:
                     available_items.append(dependent_recipe)
         
         return prepared_recipes
+
+
+'''
+You want to run two tests on a device. Each test has a series of setup tests that must be done in order.
+
+For example,
+you need to complete Step A, B, and C in that order to run test1.
+Then there is test2, which needs steps X, B, and Z to be setup in that order to run.
+
+You could setup the device by doing the steps like this A, B, C, X, B Z. But that would be inefficient because you are doing step B twice. 
+How would you make the list of steps such that there are no duplicate steps but the order of the steps is maintained. 
+
+For example, in this case, the optimized correct steps are A, X, B, C,Z.
+'''
+
+def optimize_steps(tests):
+    graph = defaultdict(set)
+    indegree = defaultdict(int)
+
+    # Build graph
+    for test in tests:
+        for i in range(len(test) - 1):
+            u, v = test[i], test[i + 1]
+            if v not in graph[u]:
+                graph[u].add(v)
+                indegree[v] += 1
+            indegree[u] += 0
+
+    # Topological sort
+    queue = deque([s for s in indegree if indegree[s] == 0])
+    result = []
+
+    while queue:
+        step = queue.popleft()
+        result.append(step)
+        for nxt in graph[step]:
+            indegree[nxt] -= 1
+            if indegree[nxt] == 0:
+                queue.append(nxt)
+
+    return result
+tests = [
+    ["A", "B", "C"],
+    ["X", "B", "Z"]
+]
+
+print(optimize_steps(tests))
