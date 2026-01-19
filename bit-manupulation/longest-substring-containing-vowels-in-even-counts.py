@@ -14,7 +14,6 @@ we toggle its state (from even to odd or vice versa). This can be done by perfor
 
 # Storing states in string format
 
-
 def solution(s):
 
     tmp = {"a": 0, "e": 0, "i": 0, "o": 0, "u": 0}
@@ -46,10 +45,8 @@ print(solution("leetcodeisgreat"))  # 5
 print(solution("bcbcbc"))  # 6
 
 
-# Using Bit Manupulation
-
-
-def solution_bit_maupulation(s):
+# Using Bit Manipulation
+def solution_bit_manipulation(s):
 
     hm = {}
     state = 0
@@ -80,3 +77,7 @@ def solution_bit_maupulation(s):
             hm[state] = i
 
     return res
+
+print(solution_bit_manipulation("eleetminicoworoep"))  # 13
+print(solution_bit_manipulation("leetcodeisgreat"))  # 5
+print(solution_bit_manipulation("bcbcbc"))  # 6

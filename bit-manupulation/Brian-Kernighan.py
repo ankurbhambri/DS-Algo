@@ -1,5 +1,4 @@
-# Brian Kernighan's Algorithm is used to count the number of set bits in a number.
-
+# Brian Kernighan's Algorithm is used to count the number of right most set bits in a number.
 
 def count_set_bits(n):
     count = 0
