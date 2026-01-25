@@ -57,19 +57,22 @@ class Object:
 
 class Solution:
     def depthSum(self, nestedList: List[Object]) -> int:
-        
-        def dfs(nlist, depth):
+
+        def dfs(nlist, depth = 1):
+
             total = 0
+
             for item in nlist:
+
                 if isinstance(item, int):
-                    # Integer value × its depth
                     total += item * depth
+
                 else:
-                    # Go deeper into the nested list
                     total += dfs(item.value, depth + 1)
+
             return total
-        
-        return dfs(nestedList, 1)
+
+        return dfs(nestedList)
 
 
 obj1 = Object()

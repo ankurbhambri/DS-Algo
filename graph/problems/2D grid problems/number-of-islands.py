@@ -99,9 +99,20 @@ print(Solution().islandAreas([
 ]))  # Output: [3, 4, 1, 3]
 
 
-# Similar problems below:
+############################################### Similar problems #######################################################
 
 # https://leetcode.com/problems/max-area-of-island/
+
+
+'''
+
+    You are given an n x n binary matrix grid. You are allowed to change at most one 0 to be 1.
+
+    Return the size of the largest island in grid after applying this operation.
+
+    An island is a 4-directionally connected group of 1s.
+
+'''
 
 class Solution:
     def maxAreaOfIsland(self, grid):
@@ -119,9 +130,9 @@ class Solution:
             # visited
             grid[i][j] = 0
 
-            area = 1
-            area += dfs(i-1, j) + dfs(i+1, j) + dfs(i, j-1) + dfs(i, j+1)
-            return area
+            sm = 1
+            sm += dfs(i-1, j) + dfs(i+1, j) + dfs(i, j-1) + dfs(i, j+1)
+            return sm
 
         max_size = 0
         for i in range(m):
@@ -146,51 +157,60 @@ print(Solution().maxAreaOfIsland(grid))  # Output: 6
 
 # https://leetcode.com/problems/making-a-large-island/
 
-# Hard
-def largestIsland(grid):
-    island_sizes = {}
-    island_id = 2
-    rows, cols = len(grid), len(grid[0])
+class Solution:
+    def largestIsland(self, grid):
 
-    def explore_island(grid, r, c, island_id):
-        if r < 0 or r >= len(grid) or c < 0 or c >= len(grid[0]) or grid[r][c] != 1:
-            return 0
+        n = len(grid)
+        island_sizes = {}
+        island_id = 2  # 0 aur 1 pehle se grid mein hain, isliye 2 se start karenge
+        
+        # Step 1: DFS function island identify karne aur size nikalne ke liye
+        def dfs(r, c, id):
 
-        grid[r][c] = island_id
+            if r < 0 or r >= n or c < 0 or c >= n or grid[r][c] != 1:
+                return 0
 
-        return (1 +
-                explore_island(grid, r + 1, c, island_id) +
-                explore_island(grid, r - 1, c, island_id) +
-                explore_island(grid, r, c + 1, island_id) +
-                explore_island(grid, r, c - 1, island_id))
+            grid[r][c] = id
+            size = 1
 
-    # Step 1: Mark all islands and calculate their sizes
-    for r in range(rows):
-        for c in range(cols):
-            if grid[r][c] == 1:
-                size = explore_island(grid, r, c, island_id)
-                island_sizes[island_id] = size
-                island_id += 1
+            for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                size += dfs(r + dr, c + dc, id)
 
-    max_island_size = max(island_sizes.values(), default=0)
+            return size
 
-    # Step 2: Try converting every 0 to 1
-    for r in range(rows):
-        for c in range(cols):
-            if grid[r][c] == 0:
-                seen = set()
-                for dr, dc in [(-1,0), (1,0), (0,-1), (0,1)]:
-                    nr, nc = r + dr, c + dc
-                    if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] > 1:
-                        seen.add(grid[nr][nc])
-                new_area = 1 + sum(island_sizes[iid] for iid in seen)
-                max_island_size = max(max_island_size, new_area)
+        # Step 1 continued: Saare islands ko ID dena
+        for r in range(n):
+            for c in range(n):
+                if grid[r][c] == 1:
+                    size = dfs(r, c, island_id)
+                    island_sizes[island_id] = size
+                    island_id += 1
+        
+        # Agar puri grid 1 thi, toh answer n*n hoga
+        max_area = max(island_sizes.values() or [0])
+        
+        # Step 2: Har '0' ko flip karke check karna
+        for r in range(n):
+            for c in range(n):
+                if grid[r][c] == 0:
 
-    return max_island_size if max_island_size > 0 else 1
+                    seen_islands = set()
 
+                    # Charo taraf ke neighbors check karo
+                    for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                        nr, nc = r + dr, c + dc
 
-print(largestIsland([[1,0],[0,1]]))  # Output: 3
-print(largestIsland([[1,1],[1,0]]))  # Output: 4
+                        if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] > 1:
+                            seen_islands.add(grid[nr][nc])
+
+                    # Current Area = 1 (flipped zero) + sum of unique neighbor islands
+                    current_area = 1 + sum(island_sizes[iid] for iid in seen_islands)
+                    max_area = max(max_area, current_area)
+                    
+        return max_area if max_area > 0 else n * n
+
+print(Solution().largestIsland([[1,0],[0,1]]))  # Output: 3
+print(Solution().largestIsland([[1,1],[1,0]]))  # Output: 4
 
 
 # https://leetcode.com/problems/maximum-number-of-fish-in-a-grid/description/

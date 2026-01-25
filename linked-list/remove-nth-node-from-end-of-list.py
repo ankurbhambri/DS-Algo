@@ -16,7 +16,7 @@ class Solution:
             r = r.next
             n -= 1
 
-        while r: # this will ho till last and 
+        while r: # this will go till last end
             l = l.next
             r = r.next
 
@@ -25,5 +25,4 @@ class Solution:
         return dummy.next
 
 
-obj = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
-print(Solution().removeNthFromEnd(obj, 2))  # Should remove the 4th node from the end, which is 4
+print(Solution().removeNthFromEnd(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 2))  # Should remove the 4th node from the end, which is 4

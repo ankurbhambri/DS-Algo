@@ -18,6 +18,7 @@ class Solution:
         while q:
 
             for _ in range(len(q)):
+
                 u, state = q.popleft()
 
                 if state == goal:

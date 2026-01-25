@@ -1,7 +1,6 @@
 # https://leetcode.com/problems/valid-word-abbreviation/description/
 # https://leetcode.ca/2017-01-11-408-Valid-Word-Abbreviation/
 
-
 """
 A string can be abbreviated by replacing any number of non-adjacent, non-empty substrings with their lengths. The lengths should not have leading zeros.
 
@@ -25,6 +24,7 @@ Not valid abbreviations:
 
 
 def solution(word, abbr):
+
     w, a = 0, 0
 
     while w < len(word) and a < len(abbr):
@@ -52,5 +52,5 @@ def solution(word, abbr):
     return w == len(word) and a == len(abbr)
 
 
-print(solution("internationalization", "i12iz4n"))
 print(solution("apple", "a2e"))
+print(solution("internationalization", "i12iz4n"))

@@ -5,8 +5,6 @@ class Node:
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
 
-
-
 class Solution:
     def cloneGraph(self, root):
 
@@ -32,7 +30,8 @@ class Solution:
             return clone
 
         return dfs(root)
-    
+
+
 obj = Node(1)
 obj.neighbors.append(Node(2))
 obj.neighbors.append(Node(3))

@@ -1,6 +1,7 @@
 # https://leetcode.com/problems/max-consecutive-ones-iii/
 
 '''
+
     If the number of zeros in the window (zeros) exceeds k, the window is invalid (we can't flip more than k zeros).
     Shrink the window from the left (l) until zeros <= k:
 
@@ -8,6 +9,7 @@
     Increment l to shrink the window.
 
     This ensures the window always has at most k zeros.
+
 '''
 
 class Solution:

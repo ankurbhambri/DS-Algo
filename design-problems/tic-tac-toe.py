@@ -1,9 +1,10 @@
 class TicTacToe:
     def __init__(self, n):
+
         self.n = n
+        self.diagonal = 0   # Tracks sum of moves on main diagonal (row == col)
         self.rows = [0] * n  # Tracks sum of moves for each row
         self.cols = [0] * n  # Tracks sum of moves for each column
-        self.diagonal = 0   # Tracks sum of moves on main diagonal (row == col)
         self.anti_diagonal = 0  # Tracks sum of moves on anti-diagonal (row + col == n-1)
 
     def move(self, row, col, player):
@@ -19,13 +20,14 @@ class TicTacToe:
         if row + col == self.n - 1:
             self.anti_diagonal += player
 
-        if (abs(self.rows[row]) == self.n or
-            abs(self.cols[col]) == self.n or
-            abs(self.diagonal) == self.n or
-            abs(self.anti_diagonal) == self.n):
+        if (
+            abs(self.rows[row]) == self.n or abs(self.cols[col]) == self.n or
+            abs(self.diagonal) == self.n or abs(self.anti_diagonal) == self.n
+        ):
             return player
 
         return 0  # No win
+
 
 obj = TicTacToe(3)
 print(obj.move(0, 0, 1))  # Player 1 moves at (0, 0)

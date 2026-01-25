@@ -4,17 +4,18 @@
 # TC: O(N)
 # SC: O(N)
 
-
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
 
-        chars = list(s)
         balance = 0
+        chars = list(s)
 
         # remove invalid ')'
         for i in range(len(chars)):
+
             if chars[i] == '(':
                 balance += 1
+
             elif chars[i] == ')':
                 if balance == 0:
                     chars[i] = ''
@@ -30,16 +31,19 @@ class Solution:
         return ''.join(chars)
 
 
+print(Solution().minRemoveToMakeValid("))(()))"))
+print(Solution().minRemoveToMakeValid("()))(()("))
+
+
 # Variant
 
 '''
-Given a string that consists of various types of parentheses and alphanumeric characters,
-delete the least number of parentheses (any of them) to make the string balanced and return any result.
+    Given a string that consists of various types of parentheses and alphanumeric characters,
+    delete the least number of parentheses (any of them) to make the string balanced and return any result.
 
-A balanced string is defined as a string where every type of opening parentheses has a matching closing parentheses.
+    A balanced string is defined as a string where every type of opening parentheses has a matching closing parentheses.
 
-For example, for "()())[]" return either "(())[]"  or "() () []"
-
+    For example, for "()())[]" return either "(())[]"  or "() () []"
 '''
 
 class Solution:
