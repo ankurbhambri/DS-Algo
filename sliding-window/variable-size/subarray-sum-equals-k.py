@@ -85,6 +85,7 @@ def maxSubArrayLen(nums, k):
     prefix_sum = 0
 
     for i, num in enumerate(nums):
+
         prefix_sum += num
 
         if prefix_sum - k in seen:

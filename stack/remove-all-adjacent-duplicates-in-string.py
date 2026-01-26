@@ -16,9 +16,10 @@ print(Solution().removeDuplicates("azxxzy"))
 print(Solution().removeDuplicates("aababaab"))
 
 
-# VARIANT: What if you had to remove all adjacent duplicates as you iterate left-to-right?
+# Variant: What if we have to remove all adjacent duplicates as we iterate left-to-right?
 
 def remove_all_adjacent_duplicates_variant(s: str) -> str:
+
     # stack elements: [char, freq]
     stack = []
 
@@ -40,6 +41,7 @@ def remove_all_adjacent_duplicates_variant(s: str) -> str:
         # now handle current character (possible chain reaction)
         if not stack or stack[-1][0] != ch:
             stack.append([ch, 1])
+
         else:
             stack[-1][1] += 1
 
@@ -51,5 +53,5 @@ def remove_all_adjacent_duplicates_variant(s: str) -> str:
     return "".join(ch for ch, _ in stack)
 
 
-print(remove_all_adjacent_duplicates_variant("azxxzy"))
-print(remove_all_adjacent_duplicates_variant("abbbacxdd"))
+print(remove_all_adjacent_duplicates_variant("azxxzy")) # Expected output: "ay"
+print(remove_all_adjacent_duplicates_variant("abbbacxdd")) # Expected output: "c"

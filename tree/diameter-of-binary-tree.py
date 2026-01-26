@@ -45,3 +45,8 @@ root.left.right = TreeNode(5)
 root.right.right = TreeNode(6)
 
 print(f"The diameter of the tree is: {diameter_of_binary_tree(root)}")
+
+
+# Variant: How do you find the diameter of an N-ary tree? It’s no longer a binary tree where you only have up to 2 children nodes.
+
+# Please see the file: tree/diameter-of-n-ary-tree.py + n-ary-tree-postorder-traversal.py

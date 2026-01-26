@@ -1,36 +1,31 @@
-"""
+# https://leetcode.com/problems/maximum-subarray/description/
 
-- https://leetcode.com/problems/maximum-subarray/description/
-- https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+class Solution:
+    def maxSubArray(self, nums):
 
-"""
+        n = len(nums)
+        current_sum = 0  # Current sum
+        max_sum = float("-inf")  # Initialize max to negative infinity
 
+        for i in range(n):
 
-def maxSubArray(nums):
+            current_sum += nums[i]  # Add the current element to the running sum
 
-    n = len(nums)
-    max_sum = float("-inf")  # Initialize max to negative infinity
-    current_sum = 0  # Current sum
+            # Update the global maximum if the current sum is greater
+            max_sum = max(max_sum, current_sum)
 
-    for i in range(n):
+            # If the running sum becomes negative, reset it to 0
+            if current_sum < 0:
+                current_sum = 0
 
-        current_sum += nums[i]  # Add the current element to the running sum
-
-        # Update the global maximum if the current sum is greater
-        max_sum = max(max_sum, current_sum)
-
-        # If the running sum becomes negative, reset it to 0
-        if current_sum < 0:
-            current_sum = 0
-
-    return max_sum
+        return max_sum
 
 
-print(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))  # 6
-print(maxSubArray([5, 4, -1, 7, 8]))  # 23
+print(Solution().maxSubArray([5, 4, -1, 7, 8]))  # 23
+print(Solution().maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))  # 6
 
 
-# Extension: Return the subarray with the maximum sum
+# Varinat: Return the subarray and the maximum sum
 
 """
 Given an array with at least one positive integer, find the contiguous sub-array 

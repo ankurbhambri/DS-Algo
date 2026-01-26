@@ -1,3 +1,4 @@
+# Problems
 - 207 Course Schedule
 - 708 Insert into Circular Sorted Linked List
 - 636 Exclusive Time of Functions
@@ -57,3 +58,17 @@
 - 199 Binary Right Side View
 - 283 Move Zeroes
 - 938 Range Sum of BST
+
+
+# System Design Questions
+- Ad Click Aggregator (More common for Infra)
+- Memcache (1% of the time, E4 will be asked this like an unfortunate candidate did a few days ago...)
+- Top K Heavy Hitters (More common for Infra)
+- Botnets (And 5% of the time, it's an actual webcrawler. More common for Infra)
+- Online Chess (Not frequently asked but yikes, it's a hard one)
+- Design Coding Contest Platform on Leetcode or something similar (This is an important distinction. It's ALWAYS asked in a contest setting, it's never just Leetcode. Plus, Meta will even say - it's Leetcode-esque, so it could be Hackerrank or OnlineJudge)
+- Design FB Privacy Settings (More common for Infra)
+- Design FB Live
+- Design DropBox
+- Design Newsfeed
+- Design Eventbrite, a ticket-selling platform.
