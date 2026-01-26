@@ -2,6 +2,8 @@
 
 from collections import defaultdict
 
+# TC: O(N K log (N K)) where N is number of accounts, K is max number of emails in an account
+# SC: O(N K) for union find and hashmap
 class Union:
     def __init__(self, n: int):
         self.p = list(range(n))
@@ -14,28 +16,28 @@ class Union:
     def union(self, x, y):
         self.p[self.find(x)] = self.find(y)
 
-def accountsMerge(accounts):
+class Solution:
+    def accountsMerge(self, accounts):
 
-    n = len(accounts)
-    uf = Union(n)
+        n = len(accounts)
+        uf = Union(n)
 
-    hm = {}
-    for i in range(n):
-        for email in accounts[i][1:]:
-            if email in hm:
-                uf.union(i, hm[email])
-            hm[email] = i
+        hm = {}
+        for i in range(n):
+            for email in accounts[i][1:]:
+                if email in hm:
+                    uf.union(i, hm[email])
+                hm[email] = i
 
-    ans = defaultdict(list)
-    for email, owner in hm.items():
-        ans[uf.find(owner)].append(email)
-    
+        ans = defaultdict(list)
+        for email, owner in hm.items():
+            ans[uf.find(owner)].append(email)
 
-    return [[accounts[i][0]] + sorted(emails) for i, emails in ans.items()]
+        return [[accounts[i][0]] + sorted(emails) for i, emails in ans.items()]
 
 
 accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]
-print(accountsMerge(accounts))
+print(Solution().accountsMerge(accounts))
 
 
 # Variant
@@ -59,3 +61,27 @@ Explanation:
     We could return these lists in any order, for example the answer [ [C2, C6], [C1, C3, C4, C7], [C5]] would still be accepted.
 
 '''
+
+def mergeAccounts(accounts):
+
+    n = len(accounts)
+    uf = Union(n)
+
+    hm = {}
+    for i in range(n):
+        for _, emails in accounts[i].items():
+            for email in emails:
+                if email in hm:
+                    uf.union(i, hm[email])
+                hm[email] = i
+
+    ans = defaultdict(set)
+    for i in range(n):
+        root = uf.find(i)
+        current_id = list(accounts[i].keys())[0]
+        ans[root].add(current_id)
+
+    return [sorted(list(group)) for group in ans.values()]
+
+
+print(mergeAccounts([{"C1": ["a", "b"]}, {"C2": ["c"]}, {"C3": ["b", "d"]}, {"C4": ["d"]}, {"C5": ["e"]}, {"C6": ["c"]}, {"C7": ["a"]}])) # Output: [[C1, C3, C4, C7], [C2, C6], [C5]]

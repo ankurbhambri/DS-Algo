@@ -51,7 +51,9 @@ def lowestCommonAncestor(p, q):
 
 # Same logic can be used for linkedlists : https://leetcode.com/problems/intersection-of-two-linked-lists/
 
-# without extra space
+# TC: O(H) where H is the height of the tree
+# SC: O(1)
+
 def lowestCommonAncestor(p_start, q_start):
 
     p, q = p_start, q_start
@@ -129,8 +131,10 @@ class Node {
 
 '''
 
+# TC - O(N)
+# SC - O(N)
 def lowestCommonAncestor(nodes, p_start, q_start):
-    
+
     parent_map = {}
 
     # Build parent map
@@ -187,5 +191,3 @@ nodes = [root, node5, node1, node6, node2, node0, node8, node7, node4]
 print(lowestCommonAncestor(nodes, node5, node4).val)  # Output: 5
 # 5, 1 -> 3
 print(lowestCommonAncestor(nodes, node5, node1).val)  # Output: 3
-# TC - O(N)
-# SC - O(N)

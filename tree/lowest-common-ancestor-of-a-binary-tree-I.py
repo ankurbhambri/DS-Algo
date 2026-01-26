@@ -19,15 +19,19 @@ class TreeNode:
 # SC - O(H) H - height of the tree
 def lowestCommonAncestor(root, p, q):
 
-    # Base case: empty node or found p or q
-    if not root or root == p or root == q:
+    # Base case
+    if not root:
+        return None
+
+    # if either p or q matches with root's key, report the presence by returning root, this means we found one of the nodes
+    if root == p or root == q:
         return root
 
     # Check left and right subtrees
     left = lowestCommonAncestor(root.left, p, q)
     right = lowestCommonAncestor(root.right, p, q)
 
-    # If both left and right are non-null, root is LCA
+    # If both left and right are non-null, that means our root is the LCA
     if left and right:
         return root
 
@@ -60,6 +64,8 @@ q = root.left.right.right  # Node with value 4
 print(lowestCommonAncestor(root, p, q).val)
 
 
+# VARIANT: What if you were given an N-ary Tree as the input, no longer a binary tree?
+
 class Node:
     def __init__(self, val=0, left=None, right=None, parent=None):
         self.val = val
@@ -68,7 +74,6 @@ class Node:
         self.parent = parent
         self.children = []
 
-# VARIANT: What if you were given an N-ary Tree as the input, no longer a binary tree?
 
 def lowestCommonAncestor(root, p, q):
     if not root:
@@ -86,6 +91,7 @@ def lowestCommonAncestor(root, p, q):
             matches += 1
             temp = res
 
+    # If two or more children return non-null, this root is LCA
     if matches >= 2:
         return root
 
