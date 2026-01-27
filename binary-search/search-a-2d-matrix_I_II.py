@@ -9,7 +9,7 @@ class Solution:
         col = len(matrix[0])
      
         l = 0
-        r = (row * col) - 1 # if we have 12 elements in entire matric then this will give the boundary 11, 0 based indexing.
+        r = (row * col) - 1 # 0 based indexing
 
         while l <= r:
 
@@ -36,7 +36,7 @@ print(Solution().searchMatrix([[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]]
 
 # https://leetcode.com/problems/search-a-2d-matrix-ii/description/
 
-# Idea: Start from the bottom-left corner of the matrix and move right when the value is smaller than the target or move up when the value is greater than the target.
+# Idea: Start from the bottom-left corner of the matrix, move right when the value is smaller than the target or move up when the value is greater than the target.
 
 class Solution:
     def searchMatrix(self, matrix, target: int) -> bool:

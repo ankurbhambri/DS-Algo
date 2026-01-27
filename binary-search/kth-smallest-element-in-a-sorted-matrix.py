@@ -4,11 +4,11 @@ from heapq import heappush, heappop
 
 # TC: O(M * N * logK)
 # Space: O(K)
-class Solution:  # 184 ms, faster than 69.45%
+class Solution:
     def kthSmallest(self, matrix, k):
 
-        m, n = len(matrix), len(matrix[0])  # For general, matrix doesn't need to be a square
         maxHeap = []
+        m, n = len(matrix), len(matrix[0])  # For general, matrix doesn't need to be a square
 
         for r in range(m):
             for c in range(n):
@@ -21,7 +21,7 @@ print(Solution().kthSmallest([[1, 2], [1, 3]], 3))  # Output: 2
 print(Solution().kthSmallest([[1, 5, 9], [10, 11, 13], [12, 13, 15]], 8))  # Output: 13
 
 
-# Time: O((M+N) * logD)
+# Time: O((M + N) * logD)
 # Space: O(1)
 class Solution:
     def kthSmallest(self, matrix, k):
@@ -55,14 +55,14 @@ class Solution:
             x = (l + r) // 2
 
             '''
-                We binary search to find the smallest ans in range [minOfMatrix ..... maxOfMatrix] such that countLessOrEqual(ans) >= k,
+                We do binary search to find the smallest ans in range [minOfMatrix ..... maxOfMatrix] such that countLessOrEqual(ans) >= k,
                 where countLessOrEqual(x) is the number of elements that are less than or equal to x.
             '''
             if countLessOrEqual(x) >= k:
-                r = x - 1  # try to looking for a smaller value in the l side
+                r = x - 1  # try to looking for a smaller value in the left side
 
             else:
-                l = x + 1  # try to looking for a bigger value in the r side
+                l = x + 1  # try to looking for a bigger value in the right side
 
         return l
 
