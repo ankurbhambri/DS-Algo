@@ -23,6 +23,8 @@ print(Solution().kthSmallest([[1, 5, 9], [10, 11, 13], [12, 13, 15]], 8))  # Out
 
 # Time: O((M + N) * logD)
 # Space: O(1)
+
+# Similar - https://leetcode.com/problems/median-of-a-row-wise-sorted-matrix/description/
 class Solution:
     def kthSmallest(self, matrix, k):
 
