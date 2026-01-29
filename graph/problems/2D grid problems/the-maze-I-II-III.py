@@ -196,4 +196,15 @@ The first way is left -> up -> left, represented by "lul".
 The second way is up -> left, represented by "ul".
 Both ways have shortest distance 6, but the first way is lexicographically smaller because 'l' < 'u'. So the output is "lul".
 
+Example 2:
+
+Input: maze = [[0,0,0,0,0],[1,1,0,0,1],[0,0,0,0,0],[0,1,0,0,1],[0,1,0,0,0]], ball = [4,3], hole = [3,0]
+Output: "impossible"
+Explanation: The ball cannot reach the hole.
+
+Example 3:
+
+Input: maze = [[0,0,0,0,0,0,0],[0,0,1,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,1]], ball = [0,4], hole = [3,5]
+Output: "dldr"
 '''
+

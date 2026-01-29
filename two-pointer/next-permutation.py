@@ -1,5 +1,6 @@
 # https://leetcode.com/problems/next-permutation/description/
 
+# Narayana Pandita Technique
 
 class Solution:
     def nextPermutation(self, nums):

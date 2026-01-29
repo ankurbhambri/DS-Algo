@@ -96,50 +96,6 @@ class Mouse {
 '''
 
 class Mouse:
-    def getCheese(self):
-        # Track visited cells using a set of (x, y) tuples
-        visited = set()
-        # Start DFS at origin (0, 0)
-        return self._dfs(0, 0, visited)
-
-    def _dfs(self, x, y, visited):
-
-        if self.hasCheese():
-            return True
-
-        visited.add((x, y))
-
-        directions = {
-            "up": (0, 1),
-            "down": (0, -1),
-            "left": (-1, 0),
-            "right": (1, 0)
-        }
-
-        opposites = {
-            "up": "down",
-            "down": "up",
-            "left": "right",
-            "right": "left"
-        }
-
-        for d_name, (dx, dy) in directions.items():
-
-            neighbor = (x + dx, y + dy)
-
-            if neighbor not in visited:
-
-                # 5. Try to move the physical mouse
-                if self.move(d_name):
-
-                    # Recursive call
-                    if self._dfs(neighbor[0], neighbor[1], visited):
-                        return True # Found cheese! Stay here.
-
-                    # 6. Backtrack: If no cheese found that way, move back
-                    self.move(opposites[d_name])
-
-        return False
 
     # --- Placeholder APIs provided by the problem ---
     def move(self, direction):
@@ -149,3 +105,50 @@ class Mouse:
     def hasCheese(self):
         # Implementation provided by the maze environment
         pass
+
+    def getCheese(self):
+
+        # Track visited cells using a set of (x, y) tuples
+        visited = set()
+
+        def dfs(x, y):
+
+            if self.hasCheese():
+                return True
+
+            visited.add((x, y))
+
+            directions = {
+                "up": (0, 1),
+                "down": (0, -1),
+                "left": (-1, 0),
+                "right": (1, 0)
+            }
+
+            opposites = {
+                "up": "down",
+                "down": "up",
+                "left": "right",
+                "right": "left"
+            }
+
+            for d_name, (dx, dy) in directions.items():
+
+                neighbor = (x + dx, y + dy)
+
+                if neighbor not in visited:
+
+                    # 5. Try to move the physical mouse
+                    if self.move(d_name):
+
+                        # Recursive call
+                        if dfs(neighbor[0], neighbor[1]):
+                            return True # Found cheese! Stay here.
+
+                        # 6. Backtrack: If no cheese found that way, move back
+                        self.move(opposites[d_name])
+
+            return False
+
+        # Start DFS at origin (0, 0)
+        return dfs(0, 0)

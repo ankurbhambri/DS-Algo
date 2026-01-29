@@ -58,7 +58,8 @@
 - 199 Binary Right Side View
 - 283 Move Zeroes
 - 938 Range Sum of BST
-
+- 426 Convert Binary Search Tree to Sorted Doubly Linked
+- 8 String to Integer (atoi)
 
 # System Design Questions
 - Ad Click Aggregator (More common for Infra)
@@ -71,4 +72,4 @@
 - Design FB Live
 - Design DropBox
 - Design Newsfeed
-- Design Eventbrite, a ticket-selling platform.
+- Design Eventbrite, Ticketmaster/a ticket-selling platform.

@@ -60,6 +60,7 @@ def lowestCommonAncestor(p_start, q_start):
 
     while p != q:
 
+        # state balancing trick
         p = p.parent if p else q_start
         q = q.parent if q else p_start
 

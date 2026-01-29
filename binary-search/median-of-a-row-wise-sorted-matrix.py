@@ -49,15 +49,17 @@ class Solution:
             for r in range(m):
                 cnt += upper_bound(grid[r], x)
             return cnt
-    
+
         l, r = 1, 10**6
         m, n = len(grid), len(grid[0])
+
+        med = (m * n) // 2 + 1  # since m * n is odd
 
         while l <= r:
 
             x = (l + r) // 2
 
-            if countLessOrEqual(x) >= (m * n) // 2 + 1:
+            if countLessOrEqual(x) >= med:
                 r = x - 1
             else:
                 l = x + 1
