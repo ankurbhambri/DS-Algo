@@ -34,7 +34,7 @@ class Solution:
 
         # Initialize DP table
         dp = [[0] * (N + 1) for _ in range(M + 1)]
-        
+
         # Base cases - To convert any non-empty string to an empty string: We must delete all characters or insert all characters.
 
         '''
@@ -42,7 +42,7 @@ class Solution:
             dp[2][0] = 2   # delete 2 chars
             .............. and so on
             dp[i][0] = i   # delete i chars
-            
+
             Either:
                 Case 1: dp[i][0] — Convert the first i characters of word1 to an empty string "" (word2). We must delete all characters. Here, we are deleting because we are converting word1 to word2, so if word2 is empty, we need to empty word1 as well.
                 OR
@@ -75,7 +75,6 @@ class Solution:
                         dp[i][j - 1],    # insert
                         dp[i - 1][j - 1] # replace
                     )
-        print(dp)
         return dp[M][N]
 
 print(Solution().minDistance("abcdef", "azcde"))  # Output: 3

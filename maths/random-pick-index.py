@@ -6,7 +6,6 @@
 import random
 from collections import defaultdict
 
-
 class Solution:
 
     def __init__(self, nums):
@@ -59,15 +58,16 @@ print(Solution([1, 2, 3, 3, 3]).pick(3))
 import random
 
 def getKRandom(nums, k):
+
     # 1. Pehle k elements ko reservoir mein bharo
     reservoir = nums[:k]
-    
+
     # 2. Baaki elements ke liye loop chalao
     for i in range(k, len(nums)):
         j = random.randint(0, i) # 0 se current index tak random
         if j < k:
             reservoir[j] = nums[i] # Replace purana with naya
-            
+
     return reservoir
 
 
