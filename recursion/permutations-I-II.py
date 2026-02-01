@@ -14,7 +14,6 @@ def permute(nums):
 
     # Step 2: Jab tak humein "Next Permutation" milti rahegi, loop chalega
     while True:
-        # Wahi Narayana Logic jo humne seekha tha:
 
         # 1. Pivot dhundo
         k = -1
