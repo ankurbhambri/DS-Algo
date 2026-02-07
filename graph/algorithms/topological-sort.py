@@ -12,7 +12,8 @@
 
 """
 
-
+# TC: O(V + E) where V is the number of vertices and E is the number of edges in the graph.
+# SC: O(V) for the recursion stack and the visited sets.
 def topologicalSort(n, graph):
     adj = {c: [] for c in range(n)}
 
@@ -54,6 +55,8 @@ print(topologicalSort(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
 
 
 # Cycle Detection in Directed Graph using BFS(Kahn's Algorithm) indegree method
+# TC: O(V + E) where V is the number of vertices and E is the number of edges in the graph.
+# SC: O(V) for the queue and the indegree dictionary.
 def khan_algo(graph):
 
     indegree = {i: 0 for i in graph}
