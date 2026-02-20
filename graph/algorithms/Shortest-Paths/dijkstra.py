@@ -89,14 +89,11 @@ def dijkstra(graph, N, start):
 
 
 # graph = [2 (U), 1 (V), 1 (Weight)]
-print(
-    dijkstra([[1, 2, 5], [1, 3, 2], [2, 4, 4], [3, 2, 1], [3, 4, 4]], N=5, start=1)
-)  # o/p {1: 0, 2: 3, 3: 2, 4: 6}
+print(dijkstra([[1, 2, 5], [1, 3, 2], [2, 4, 4], [3, 2, 1], [3, 4, 4]], N=5, start=1))  # o/p {1: 0, 2: 3, 3: 2, 4: 6}
 
-"""
-    https://leetcode.com/problems/network-delay-time/
-    Used Dijkstra's algorithm here - TC - O(E log N), SC - O(E + N) 
-"""
+
+# https://leetcode.com/problems/network-delay-time/
+# TC - O(E log N), SC - O(E + N) 
 
 def networkDelayTime(times, n: int, k: int) -> int:
 
@@ -112,9 +109,10 @@ def networkDelayTime(times, n: int, k: int) -> int:
     hm = [(0, k)]
 
     while hm:
+
         time, node = heapq.heappop(hm)
 
-        if time < dist[node]:
+        if time > dist[node]:
             continue
 
         for nei, t in adj[node]:
@@ -129,6 +127,122 @@ def networkDelayTime(times, n: int, k: int) -> int:
 
 
 print(networkDelayTime([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2))
+
+# https://leetcode.com/problems/path-with-minimum-effort/description/
+
+class Solution:
+    def minimumEffortPath(self, heights):
+        m, n = len(heights), len(heights[0])
+        
+        # dist[r][c] = minimum effort to reach (r, c)
+        dist = [[float('inf')] * n for _ in range(m)]
+        dist[0][0] = 0
+        
+        # min-heap: (effort_so_far, r, c)
+        heap = [(0, 0, 0)]
+        
+        directions = [(1,0), (-1,0), (0,1), (0,-1)]
+        
+        while heap:
+            effort, r, c = heapq.heappop(heap)
+            
+            # If we reached destination, this is the minimum possible effort
+            if r == m - 1 and c == n - 1:
+                return effort
+            
+            # Skip stale entries
+            if effort > dist[r][c]:
+                continue
+            
+            for dr, dc in directions:
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < m and 0 <= nc < n:
+                    step = abs(heights[r][c] - heights[nr][nc])
+                    new_effort = max(effort, step)
+                    
+                    if new_effort < dist[nr][nc]:
+                        dist[nr][nc] = new_effort
+                        heapq.heappush(heap, (new_effort, nr, nc))
+        
+        return 0
+
+print(Solution.minimumEffortPath([[1,2,2],[3,8,2],[5,3,5]]))
+
+# https://leetcode.com/problems/swim-in-rising-water/
+
+class Solution:
+    def swimInWater(self, grid):
+
+        n = len(grid)
+
+        # dist[r][c] = minimum time needed to reach (r, c)
+        dist = [[float('inf')] * n for _ in range(n)]
+        dist[0][0] = grid[0][0]
+
+        # min-heap: (time_so_far, r, c)
+        heap = [(grid[0][0], 0, 0)]
+
+        directions = [(1,0), (-1,0), (0,1), (0,-1)]
+
+        while heap:
+            time, r, c = heapq.heappop(heap)
+
+            # Once we reach destination, this is the minimum possible time
+            if r == n - 1 and c == n - 1:
+                return time
+
+            # Skip stale entries
+            if time > dist[r][c]:
+                continue
+
+            for dr, dc in directions:
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < n and 0 <= nc < n:
+                    new_time = max(time, grid[nr][nc])
+                    
+                    if new_time < dist[nr][nc]:
+                        dist[nr][nc] = new_time
+                        heapq.heappush(heap, (new_time, nr, nc))
+
+        return -1     
+
+# https://leetcode.com/problems/cheapest-flights-within-k-stops/description/
+
+# Time: O(n * len(flights) * log(n))
+# Space: O(n)
+
+class Solution:
+    def findCheapestPrice(self, n, flights, src, dst, k):
+
+        adj = {i: [] for i in range(n)}
+
+        for u, v, price in flights:
+            adj[u].append((v, price))
+
+        visit = [float("inf")] * n
+
+        q = [(0, -1, src)] # cost, steps, node
+
+        while q:
+            cost, steps, node = heapq.heappop(q)
+
+            # Have seen the node already, and the current steps are more than last time
+            if visit[node] <= steps:  
+                continue
+
+            if steps > k: # More than k stops, invalid
+                continue
+
+            if node == dst:
+                return cost
+
+            visit[node] = steps
+
+            for nei, weight in adj[node]: # weight means cost
+                heapq.heappush(q, (cost + weight, steps + 1, nei))
+
+        return -1
+
 
 # https://leetcode.com/problems/path-with-maximum-probability/
 
@@ -164,6 +278,57 @@ def maxProbability(n: int, edges, succProb, start_node: int, end_node: int) -> f
     return 0.0
 
 
+# https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/description/
+
+# TC: O(m * n * log(m * n)) - We process each cell at most once, and each cell has up to 4 neighbors. The priority queue operations take O(log(m * n)) time.
+# SC: O(m * n) - We maintain a cost array of size m * n and a priority queue that can hold up to m * n entries in the worst case.
+class Solution:
+    def minCost(self, grid):
+
+        m, n = len(grid), len(grid[0])
+
+        # Directions: Right, Left, Down, Up (matching 1,2,3,4)
+        directions = {
+            1: (0, 1),   # Right
+            2: (0, -1),  # Left
+            3: (1, 0),   # Down
+            4: (-1, 0)   # Up
+        }
+
+        # Cost array to track minimum cost to reach each cell
+        cost = [[float('inf')] * n for _ in range(m)]
+        cost[0][0] = 0
+
+        # Deque for 0-1 BFS: (row, col)
+        dq = deque([(0, 0)])
+
+        while dq:
+
+            r, c = dq.popleft()
+
+            # Try all 4 directions
+            for direction, (dr, dc) in directions.items():
+                nr, nc = r + dr, c + dc
+
+                # Check bounds
+                if 0 <= nr < m and 0 <= nc < n:
+                    # Calculate cost for this move
+                    # If current cell points to this direction → cost = 0
+                    # Otherwise → cost = 1 (need to change sign)
+                    move_cost = 0 if grid[r][c] == direction else 1
+                    new_cost = cost[r][c] + move_cost
+
+                    # If found cheaper path to (nr, nc)
+                    if new_cost < cost[nr][nc]:
+                        cost[nr][nc] = new_cost
+
+                        # 0-1 BFS trick:
+                        if move_cost == 0:
+                            dq.appendleft((nr, nc))  # Add to front
+                        else:
+                            dq.append((nr, nc))      # Add to back
+
+        return cost[m-1][n-1]
 
 # https://leetcode.com/problems/minimum-cost-to-reach-destination-in-time/
 

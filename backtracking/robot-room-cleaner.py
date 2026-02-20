@@ -34,37 +34,34 @@ class Solution:
     def cleanRoom(self, robot):
         visited = set()
 
-        # Directions: up, right, down, left
-        directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+        # directions: up, right, down, left
+        dirs = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
-        def backtrack(x, y, d):
+        def go_back():
+            robot.turnRight()
+            robot.turnRight()
+            robot.move()
+            robot.turnRight()
+            robot.turnRight()
 
-            robot.clean()
+        def dfs(x, y, d):
+
             visited.add((x, y))
+            robot.clean()
 
             for i in range(4):
+                nd = (d + i) % 4
+                nx, ny = x + dirs[nd][0], y + dirs[nd][1]
 
-                new_d = (d + i) % 4
+                if (nx, ny) not in visited:
+                    if robot.move():
+                        dfs(nx, ny, nd)
+                        go_back()
 
-                new_x = x + directions[new_d][0]
-                new_y = y + directions[new_d][1]
+                robot.turnRight() # what makes the robot face the next direction for the next iteration.
 
-                if (new_x, new_y) not in visited and robot.move():
+        dfs(0, 0, 0)
 
-                    backtrack(new_x, new_y, new_d)
-
-                    # Backtrack to the previous position and orientation
-                    robot.turnRight()
-                    robot.turnRight()
-
-                    robot.move()
-
-                    robot.turnRight()
-                    robot.turnRight()
-
-                robot.turnRight()
-
-        backtrack(0, 0, 0)
 
 
 # Variant
