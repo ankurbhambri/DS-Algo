@@ -161,6 +161,7 @@ Similar problems: Swim in Rising Water (LC 778)
 
 class Solution:
     def minimumEffortPath(self, heights):
+
         m, n = len(heights), len(heights[0])
         
         # dist[r][c] = minimum effort to reach (r, c)
@@ -196,58 +197,6 @@ class Solution:
         return 0
 
 print(Solution.minimumEffortPath([[1,2,2],[3,8,2],[5,3,5]]))
-
-'''
-
-Pattern: Minimizing maximum value on path
-
-Problem Link - https://leetcode.com/problems/swim-in-rising-water/description/
-
-Find path where the maximum elevation encountered is minimized. Similar to "Path with Minimum Effort" but simpler.
-
-Why this matters: Another example of modifying the cost metric. Instead of summing costs, track the maximum.
-
-Key insight: Use max(current_time, grid[next_cell]) as the cost. Can also be solved with binary search + BFS, but Dijkstra is more intuitive once you understand the pattern.
-
-Common mistake: We often try to use BFS without considering that different paths to same cell can have different maximum heights.
-
-'''
-
-class Solution:
-    def swimInWater(self, grid):
-
-        n = len(grid)
-
-        # dist[r][c] = minimum time needed to reach (r, c)
-        dist = [[float('inf')] * n for _ in range(n)]
-        dist[0][0] = grid[0][0]
-
-        # min-heap: (time_so_far, r, c)
-        heap = [(grid[0][0], 0, 0)]
-
-        directions = [(1,0), (-1,0), (0,1), (0,-1)]
-
-        while heap:
-            time, r, c = heapq.heappop(heap)
-
-            # Once we reach destination, this is the minimum possible time
-            if r == n - 1 and c == n - 1:
-                return time
-
-            # Skip stale entries
-            if time > dist[r][c]:
-                continue
-
-            for dr, dc in directions:
-                nr, nc = r + dr, c + dc
-                if 0 <= nr < n and 0 <= nc < n:
-                    new_time = max(time, grid[nr][nc])
-                    
-                    if new_time < dist[nr][nc]:
-                        dist[nr][nc] = new_time
-                        heapq.heappush(heap, (new_time, nr, nc))
-
-        return -1
 
 
 '''
@@ -344,6 +293,58 @@ def maxProbability(n: int, edges, succProb, start_node: int, end_node: int) -> f
 
     return 0.0
 
+
+'''
+
+Pattern: Minimizing maximum value on path
+
+Problem Link - https://leetcode.com/problems/swim-in-rising-water/description/
+
+Find path where the maximum elevation encountered is minimized. Similar to "Path with Minimum Effort" but simpler.
+
+Why this matters: Another example of modifying the cost metric. Instead of summing costs, track the maximum.
+
+Key insight: Use max(current_time, grid[next_cell]) as the cost. Can also be solved with binary search + BFS, but Dijkstra is more intuitive once you understand the pattern.
+
+Common mistake: We often try to use BFS without considering that different paths to same cell can have different maximum heights.
+
+'''
+
+class Solution:
+    def swimInWater(self, grid):
+
+        n = len(grid)
+
+        # dist[r][c] = minimum time needed to reach (r, c)
+        dist = [[float('inf')] * n for _ in range(n)]
+        dist[0][0] = grid[0][0]
+
+        # min-heap: (time_so_far, r, c)
+        heap = [(grid[0][0], 0, 0)]
+
+        directions = [(1,0), (-1,0), (0,1), (0,-1)]
+
+        while heap:
+            time, r, c = heapq.heappop(heap)
+
+            # Once we reach destination, this is the minimum possible time
+            if r == n - 1 and c == n - 1:
+                return time
+
+            # Skip stale entries
+            if time > dist[r][c]:
+                continue
+
+            for dr, dc in directions:
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < n and 0 <= nc < n:
+                    new_time = max(time, grid[nr][nc])
+                    
+                    if new_time < dist[nr][nc]:
+                        dist[nr][nc] = new_time
+                        heapq.heappush(heap, (new_time, nr, nc))
+
+        return -1
 
 '''
 Pattern: Dijkstra with time and cost constraints

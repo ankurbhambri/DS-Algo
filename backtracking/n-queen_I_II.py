@@ -26,12 +26,14 @@ class Solution:
         neg_diag = set()  # r - c
 
         def backtrack(r):
+
             # If we've placed queens in all rows
             if r == n:
                 res.append(["".join(row) for row in board])
                 return
 
             for c in range(n):
+
                 if c in cols or (r + c) in pos_diag or (r - c) in neg_diag:
                     continue
 
