@@ -40,7 +40,7 @@ print(Solution().partition("ab"))  # [['a', 'b']]
 class Solution:
     def minCut(self, s):
 
-        dp = [[-1] * len(s) for _ in range(len(s))]
+        memo = [[-1] * len(s) for _ in range(len(s))]
 
         def ispal(s):
             return s == s[::-1]
@@ -53,8 +53,8 @@ class Solution:
             if ispal(s[i : j + 1]): # like a and aaa cases
                 return 0
 
-            if dp[i][j] != -1:
-                return dp[i][j]
+            if memo[i][j] != -1:
+                return memo[i][j]
 
             min_step = float("inf")
             for k in range(i, j):
@@ -62,8 +62,8 @@ class Solution:
                     temp = 1 + solve(k + 1, j)
                     min_step = min(min_step, temp)
 
-            dp[i][j] = min_step
-            return dp[i][j]
+            memo[i][j] = min_step
+            return memo[i][j]
 
         return solve(0, len(s) - 1)
 

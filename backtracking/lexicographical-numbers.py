@@ -10,6 +10,7 @@
 
 class Solution:
     def lexicalOrder(self, n: int):
+
         res = []
 
         def helper(curr):

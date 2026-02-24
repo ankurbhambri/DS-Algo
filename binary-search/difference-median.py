@@ -3,13 +3,18 @@
 
 
 def count_pairs_with_diff_leq(arr, value):
+
+    j = 0
     count = 0
     n = len(arr)
-    j = 0
+
     for i in range(n):
+
         while j < n and arr[j] - arr[i] <= value:
             j += 1
+
         count += j - i - 1
+
     return count
 
 
@@ -19,13 +24,17 @@ def find_median_difference(arr):
     arr.sort()
 
     low = 0
-    high = arr[-1] - arr[0]
+    high = arr[-1] - arr[0] # aggressive cows approach, max distance between any two elements in the array
 
     while low <= high:
+
         mid = (low + high) // 2
+
         c = count_pairs_with_diff_leq(arr, mid)
+
         if c < n * (n - 1) // 2 // 2:
             low = mid + 1
+
         else:
             high = mid - 1
 

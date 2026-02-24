@@ -16,7 +16,7 @@ def func(arr):
         helper(i + 1, res)
 
         # not take (backtrack)
-        res.remove(arr[i])
+        res.pop()
         helper(i + 1, res)
 
     return helper(0, [])

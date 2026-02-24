@@ -6,7 +6,8 @@ Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]]
 Notice that the solution set must not contain duplicate triplets.
 '''
 
-
+# TC: Sorting: O(n log n) + O(n^2) = O(n^2)
+# SC: O(n) for sorting + O(n) for storing the answer = O(n)
 def threeSum(nums):
 
     nums.sort()

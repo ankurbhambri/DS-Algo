@@ -8,7 +8,7 @@ def countPairs(nums, target):
 
     while l <= r:
         if nums[l] + nums[r] < target:
-            res += r - l
+            res += r - l # All pairs (l, l+1), (l, l+2), ..., (l, r) are valid
             l += 1
         else:
             r -= 1

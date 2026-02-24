@@ -20,11 +20,11 @@ def minEatingSpeed(piles, h):
         hours = 0
 
         for p in piles:
-            hours += math.ceil(p / m)
+            hours += math.ceil(p / m) # ceil is used to round up to nearest higher integer like 3.2 to 4.
 
         if hours <= h:
-
             r = m - 1
+
         else:
             l = m + 1
 
@@ -35,68 +35,6 @@ print(minEatingSpeed([30, 11, 23, 4, 20], 5))
 print(minEatingSpeed([30, 11, 23, 4, 20], 6))
 print(minEatingSpeed([312884470], 968709470))
 
-""" 
-Similar problem
-
-Given an int array wood representing the length of n pieces of wood and an int k. 
-It is required to cut these pieces of wood such that more or equal to k pieces of the same length len are cut. What is the longest len you can get?
-
-Example 1:
-
-Input: wood = [5, 9, 7], k = 3
-Output: 5
-Explanation: 
-5 -> 5
-9 -> 5 + 4
-7 -> 5 + 2
-
-Example 2:
-
-Input: wood = [5, 9, 7], k = 4
-Output: 4
-Explanation: 
-5 -> 4 + 1
-9 -> 4 * 2 + 1
-7 -> 4 + 3
-Example 3:
-
-Input: wood = [1, 2, 3], k = 7
-Output: 0
-Explanation: We cannot make it.
-Example 4:
-
-Input: wood = [232, 124, 456], k = 7
-Output: 114
-Explanation: We can cut it into 7 pieces if any piece is 114 long, however we can't cut it into 7 pieces if any piece is 115 long.
-
-"""
-
-
-def cutWood(woods, k):
-
-    def countPieces(length):
-        count = 0
-        for piece in woods:
-            count += piece // length
-        return count
-
-    left, right = 1, max(woods)
-    while left <= right:
-
-        mid = left + (right - left) // 2
-        pieces = countPieces(mid)
-
-        if pieces >= k:
-            left = mid + 1
-        else:
-            right = mid - 1
-
-    return right
-
-print(cutWood([5, 9, 7], 3))
-print(cutWood([5, 9, 7], 4))
-print(cutWood([1, 2, 3], 7))
-print(cutWood([232, 124, 456], 7))
 
 """
 A student is preparing for a test from Amazon Academy for a scholarship.
@@ -194,3 +132,66 @@ def minimumNumberOfPages(pages, days):
 
 print(minimumNumberOfPages(4, [2, 3, 4, 5], 5))
 print(minimumNumberOfPages(3, [2, 4, 3], 4))
+
+""" 
+Similar problem
+
+Given an int array wood representing the length of n pieces of wood and an int k. 
+It is required to cut these pieces of wood such that more or equal to k pieces of the same length len are cut. What is the longest len you can get?
+
+Example 1:
+
+Input: wood = [5, 9, 7], k = 3
+Output: 5
+Explanation: 
+5 -> 5
+9 -> 5 + 4
+7 -> 5 + 2
+
+Example 2:
+
+Input: wood = [5, 9, 7], k = 4
+Output: 4
+Explanation: 
+5 -> 4 + 1
+9 -> 4 * 2 + 1
+7 -> 4 + 3
+Example 3:
+
+Input: wood = [1, 2, 3], k = 7
+Output: 0
+Explanation: We cannot make it.
+Example 4:
+
+Input: wood = [232, 124, 456], k = 7
+Output: 114
+Explanation: We can cut it into 7 pieces if any piece is 114 long, however we can't cut it into 7 pieces if any piece is 115 long.
+
+"""
+
+
+def cutWood(woods, k):
+
+    def countPieces(length):
+        count = 0
+        for piece in woods:
+            count += piece // length
+        return count
+
+    left, right = 1, max(woods)
+    while left <= right:
+
+        mid = left + (right - left) // 2
+        pieces = countPieces(mid)
+
+        if pieces >= k:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return right
+
+print(cutWood([5, 9, 7], 3))
+print(cutWood([5, 9, 7], 4))
+print(cutWood([1, 2, 3], 7))
+print(cutWood([232, 124, 456], 7))

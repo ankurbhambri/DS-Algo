@@ -12,7 +12,8 @@ nums[a] + nums[b] + nums[c] + nums[d] == target
 You may return the answer in any order.
 
 '''
-
+# TC: Sorting: O(n log n) + O(n^3) = O(n^3)
+# SC: O(n) for sorting + O(n) for storing the answer = O(n
 def fourSum(nums, target):
 
     nums.sort()

@@ -1,3 +1,5 @@
+# https://www.geeksforgeeks.org/problems/minimum-sum-partition3317/1
+
 def minDifferenceMemo(arr, n):
     sm = sum(arr)
     memo = {}

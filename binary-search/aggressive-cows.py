@@ -57,7 +57,7 @@ def aggressiveCows(stalls, k):
         return False
 
     while l <= r:
-        m = l + (r - l) // 2
+        m = (l + r) // 2 # l + (r - l) // 2 to avoid overflow
         if isPossible(m):
             res = m     # m is a valid answer, then try for a larger one, this is asked in the question
             l = m + 1

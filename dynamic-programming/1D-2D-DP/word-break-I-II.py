@@ -11,7 +11,7 @@ def wordBreakI(s, wordDict):
 
     for i in range(1, len(s) + 1):
         for j in range(i):
-            if dp[j] and s[j:i] in wordDict:
+            if dp[j] and s[j : i] in wordDict:
                 dp[i] = True
                 break
 
@@ -28,9 +28,9 @@ print(wordBreakI("catsanddog", ["cat", "cats", "and", "sand", "dog"]))
 # Backtracking approach to find all possible sentences
 def wordBreakII(s, wordDict):
 
-    wordDict = set(wordDict)
-    curr = []
     res = []
+    curr = []
+    wordDict = set(wordDict)
 
     def helper(i):
 

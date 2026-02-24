@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/sum-root-to-leaf-numbers/
+
 # Definition for a binary tree node.
 
 class TreeNode:
@@ -33,3 +35,26 @@ print(Solution().sumNumbers(TreeNode(4, TreeNode(9, TreeNode(5), TreeNode(1)), T
 print(Solution().sumNumbers(TreeNode(1, TreeNode(2, TreeNode(3)), TreeNode(4))))  # Output: 1234
 print(Solution().sumNumbers(TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4))), TreeNode(5))))  # Output: 12345
 print(Solution().sumNumbers(TreeNode(1, TreeNode(2, TreeNode(3)), TreeNode(4, TreeNode(5)))))  # Output: 12345
+
+# Variant - https://leetcode.com/problems/sum-of-root-to-leaf-binary-numbers
+
+class Solution:
+
+    def sumRootToLeaf(self, root):
+        
+        def helper(node, path):
+
+            if not node:
+                return 0
+
+            path = path * 2 + node.val
+            
+            if not node.left and not node.right:
+                return path
+
+            l = helper(node.left, path)
+            r = helper(node.right, path)
+            
+            return l + r
+        
+        return helper(root, 0)

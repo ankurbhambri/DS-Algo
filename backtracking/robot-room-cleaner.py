@@ -50,13 +50,16 @@ class Solution:
             robot.clean()
 
             for i in range(4):
+
                 nd = (d + i) % 4
                 nx, ny = x + dirs[nd][0], y + dirs[nd][1]
 
-                if (nx, ny) not in visited:
-                    if robot.move():
-                        dfs(nx, ny, nd)
-                        go_back()
+                if (nx, ny) in visited:
+                    continue
+
+                if robot.move():
+                    dfs(nx, ny, nd)
+                    go_back()
 
                 robot.turnRight() # what makes the robot face the next direction for the next iteration.
 
