@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/valid-sudoku/description/
 class Solution:
     def isValidSudoku(self, board):
 
