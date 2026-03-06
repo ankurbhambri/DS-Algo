@@ -19,6 +19,8 @@ Requirements
 '''
 
 from enum import Enum
+from collections import defaultdict
+from abc import ABC, abstractmethod
 
 
 class SplitType(Enum):
@@ -49,9 +51,6 @@ class Expense:
         self.amount = amount
         self.splits = splits
         self.split_type = split_type
-
-
-from abc import ABC, abstractmethod
 
 
 class SplitStrategy(ABC):
@@ -114,9 +113,6 @@ class SplitStrategyFactory:
             return PercentSplitStrategy()
 
         raise Exception("Invalid Split Type")
-
-
-from collections import defaultdict
 
 
 class BalanceSheet:
