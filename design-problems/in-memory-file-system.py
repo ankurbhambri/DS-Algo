@@ -62,14 +62,17 @@ class FileSystem:
         node.is_file = True
         node.content += content
 
+    # fetch content of file at filePath
     def readContentFromFile(self, filePath: str) -> str:
         node = self._traverse(filePath)
         return node.content
+
 
 fs = FileSystem()
 
 fs.mkdir("/a/b/c")
 fs.addContentToFile("/a/b/c/d", "hello")
 print(fs.ls("/"))           # ["a"]
-print(fs.ls("/a/b/c"))      # ["d"]
+fs.addContentToFile("/a/b/c/e", "gary")  # "gary"
+print(fs.ls("/a/b/c"))      # ["d", "e"]
 print(fs.readContentFromFile("/a/b/c/d"))  # "hello"
