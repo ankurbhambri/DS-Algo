@@ -130,34 +130,38 @@ from functools import lru_cache
 class Solution:
     def assignBikes(self, workers, bikes):
 
-        n = len(workers)
+        memo = {}
         m = len(bikes)
+        n = len(workers)
 
         def dist(w, b):
-            return abs(w[0]-b[0]) + abs(w[1]-b[1])
+            return abs(w[0] - b[0]) + abs(w[1] - b[1])
 
-        @lru_cache(None)
-        def dfs(mask):
+        def dfs(used):
 
-            worker = bin(mask).count("1")
+            worker = len(used)
 
             if worker == n:
                 return 0
 
-            ans = float('inf')
+            key = tuple(sorted(used))
+            if key in memo:
+                return memo[key]
+
+            ans = float("inf")
 
             for j in range(m):
+                if j not in used:
 
-                if mask & (1<<j) == 0:
+                    used.add(j)
 
                     cost = dist(workers[worker], bikes[j])
+                    ans = min(ans, cost + dfs(used))
 
-                    ans = min(ans,
-                              cost + dfs(mask | (1<<j)))
+                    used.remove(j)
 
+            memo[key] = ans
             return ans
-
-        return dfs(0)
 
 
 print(Solution().assignBikes([[0,0],[2,1]], [[1,2],[3,3]]))
@@ -168,9 +172,13 @@ print(Solution().assignBikes([[0,0],[1,0],[2,0],[3,0],[4,0]], [[0,999],[1,999],[
 '''
 Campus Bikes II
 
-Travelling Salesman
-
 Minimum XOR pairs
+
+Partition to K subsets
+
+Shortest Superstring
+
+Travelling Salesman
 
 Matchsticks to Square
 '''
