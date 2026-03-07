@@ -33,5 +33,11 @@ class Solution(object):
 
         return res
 
-print(Solution().findAllConcatenatedWordsInADict(["cat", "cats", "dog", "catsdog", "catdog", "dogcat"]))  # ['catsdog', 'catdog', 'dogcat']
-print(Solution().findAllConcatenatedWordsInADict(["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]))  # ["catsdogcats","dogcatsdog","ratcatdogcat"]
+
+print(Solution().findAllConcatenatedWordsInADict(
+    ["cat", "cats", "dog", "catsdog", "catdog", "dogcat"]
+))  # ['catsdog', 'catdog', 'dogcat']
+
+print(Solution().findAllConcatenatedWordsInADict(
+    ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
+))  # ["catsdogcats","dogcatsdog","ratcatdogcat"]

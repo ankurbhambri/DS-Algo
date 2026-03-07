@@ -1,9 +1,9 @@
 from typing import List
 
+# Word Break I
 # https://leetcode.com/problems/word-break/
 
 
-# Word Break I
 def wordBreakI(s, wordDict):
 
     wordDict = set(wordDict) # Convert to set for O(1) lookups
@@ -20,12 +20,12 @@ def wordBreakI(s, wordDict):
     return dp[len(s)]
 
 
-print(wordBreakI("catsanddog", ["cat", "cats", "and", "sand", "dog"]))
-
-# https://leetcode.com/problems/word-break-ii/
+print(wordBreakI("catsanddog", ["cat", "cats", "and", "sand", "dog"])) # True
 
 
 # Word Break II
+# https://leetcode.com/problems/word-break-ii/
+
 
 # Backtracking approach to find all possible sentences
 def wordBreakII(s, wordDict):
@@ -44,6 +44,7 @@ def wordBreakII(s, wordDict):
             a = s[i : j + 1]
 
             if a in wordDict:
+
                 curr.append(a)
 
                 helper(j + 1)
@@ -54,36 +55,44 @@ def wordBreakII(s, wordDict):
     return res
 
 
-print(wordBreakII("catsanddog", ["cat", "cats", "and", "sand", "dog"]))
+print(wordBreakII("catsanddog", ["cat", "cats", "and", "sand", "dog"])) # ["cat sand dog", "cats and dog"]
+print(wordBreakII("pineapplepenapple", ["apple", "pen", "applepen", "pine", "pineapple"])) # ["pine apple pen apple", "pineapple pen apple", "pine applepen apple"]
 
 # Memoisation
 class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
-        wordSet = set(wordDict)
-        memo = {}
+    def wordBreakII(self, s: str, wordDict: List[str]) -> List[str]:
 
-        def dfs(start):
-            if start in memo:
-                return memo[start]
-            
-            if start == len(s):
+        memo = {}
+        wordSet = set(wordDict)
+
+        def dfs(i):
+
+            if i in memo:
+                return memo[i]
+
+            if i == len(s):
                 return [""]   # base case
-            
+
             res = []
-            
-            for end in range(start + 1, len(s) + 1):
-                word = s[start:end]
-                
+
+            for j in range(i + 1, len(s) + 1):
+
+                word = s[i : j]
+
                 if word in wordSet:
-                    sub_sentences = dfs(end)
-                    
+
+                    sub_sentences = dfs(j)
+
                     for sub in sub_sentences:
                         if sub:
                             res.append(word + " " + sub)
                         else:
                             res.append(word)
-            
-            memo[start] = res
+
+            memo[i] = res
             return res
-        
+
         return dfs(0)
+
+print(Solution().wordBreakII("catsanddog", ["cat", "cats", "and", "sand", "dog"])) # ["cat sand dog", "cats and dog"]
+print(Solution().wordBreakII("pineapplepenapple", ["apple", "pen", "applepen", "pine", "pineapple"])) # ["pine apple pen apple", "pineapple pen apple", "pine applepen apple"]

@@ -2,6 +2,8 @@
 
 from typing import List
 
+# TC: O(R * C) where R is the number of rows and C is the number of columns in the input matrix.
+# SC: O(1) if we modify the input matrix in place.
 class Solution:
     def minFallingPathSum(self, matrix: List[List[int]]) -> int:
 
@@ -25,7 +27,7 @@ class Solution:
 
 
 # TC: O(R * C^2) where R is the number of rows and C is the number of columns in the input matrix.
-# SC: O(1) if we modify the input matrix in place, otherwise O(R * C) if we use a separate DP matrix.
+# SC: O(1) if we modify the input matrix in place.
 
 class Solution:
     def minFallingPathSum(self, A: List[List[int]]) -> int:
@@ -44,17 +46,19 @@ class Solution:
 
 
 # TC: O(R * C) where R is the number of rows and C is the number of columns in the input matrix.
-# SC: O(1) if we modify the input matrix in place, otherwise O(R) if we use a separate DP matrix.
-
+# SC: O(1) if we modify the input matrix in place.
+ 
 class Solution:
     def minFallingPathSum(self, A):
+
         n = len(A)
-        
+
         for i in range(1, n):
+
             # find min1 and min2 from previous row
-            min1 = min2 = float('inf')
             idx1 = -1
-            
+            min1 = min2 = float('inf')
+
             for j in range(n):
                 if A[i-1][j] < min1:
                     min2 = min1
@@ -62,12 +66,12 @@ class Solution:
                     idx1 = j
                 elif A[i-1][j] < min2:
                     min2 = A[i-1][j]
-            
+
             # update current row
             for j in range(n):
                 if j == idx1:
                     A[i][j] += min2
                 else:
                     A[i][j] += min1
-        
+
         return min(A[-1])
