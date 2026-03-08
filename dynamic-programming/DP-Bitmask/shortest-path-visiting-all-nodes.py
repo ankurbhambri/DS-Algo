@@ -2,39 +2,42 @@
 
 from collections import deque
 
+# TC: O(n * 2^n) where n is the number of nodes in the graph
+# SC: O(n * 2^n) for the seen set and the queue
 class Solution:
     def shortestPathLength(self, graph):
 
         n = len(graph)
-        goal = (1 << n) - 1
 
-        ans = 0
-        q = deque()  # (u, state)
-        seen = set()
+        final_mask = (1 << n) - 1
+
+        q = deque()
+        visited = set()
 
         for i in range(n):
-            q.append((i, 1 << i))
+
+            mask = 1 << i
+
+            q.append((i, mask, 0))
+            visited.add((i, mask))
 
         while q:
 
-            for _ in range(len(q)):
+            node, mask, dist = q.popleft()
 
-                u, state = q.popleft()
+            if mask == final_mask:
+                return dist
 
-                if state == goal:
-                    return ans
+            for nei in graph[node]:
 
-                if (u, state) in seen:
-                    continue
+                new_mask = mask | (1 << nei)
 
-                seen.add((u, state))
+                state = (nei, new_mask)
 
-                for v in graph[u]:
-                    q.append((v, state | (1 << v)))
+                if state not in visited:
 
-            ans += 1
-
-        return -1
+                    visited.add(state)
+                    q.append((nei, new_mask, dist + 1))
 
 
 print(Solution().shortestPathLength([[1, 2, 3], [0], [0], [0]]))  # Output: 4

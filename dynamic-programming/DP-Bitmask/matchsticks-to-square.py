@@ -1,8 +1,12 @@
 # https://leetcode.com/problems/matchsticks-to-square/description/
 
 
+# Tumhe matchsticks ko use karke square banana hai. Square ki 4 sides hoti hain aur sabka length equal hona chahiye.
+
 # backtracking
 
+# TC: O(4^n) where n is the number of matchsticks
+# SC: O(n) for the recursion stack
 class Solution:
     def makesquare(self, matchsticks):
 
@@ -28,7 +32,7 @@ class Solution:
 
                     sides[j] += matchsticks[i]
 
-                    if dfs(i+1):
+                    if dfs(i + 1):
                         return True
 
                     sides[j] -= matchsticks[i]
@@ -40,6 +44,8 @@ class Solution:
 
 # Bitmask DP
 
+# TC: O(n * 2^n) where n is the number of matchsticks
+# SC: O(2^n) for the dp array
 class Solution:
     def makesquare(self, matchsticks):
 
@@ -61,13 +67,13 @@ class Solution:
 
             for i in range(n):
 
-                if mask & (1<<i) == 0:
+                if mask & (1 << i) == 0:
 
                     new_len = dp[mask] + matchsticks[i]
 
                     if new_len <= side:
 
-                        new_mask = mask | (1<<i)
+                        new_mask = mask | (1 << i)
 
                         dp[new_mask] = new_len % side
 

@@ -96,7 +96,7 @@ class Solution:
         res = []
         seen = set()
 
-        for i in range(2 ** n):
+        for i in range(1 << n): # 1 << n is equal to 2 ** n
             tmp = []
             for j in range(n):
                 if i & (1 << j):
