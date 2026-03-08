@@ -1,5 +1,8 @@
 '''
-Design a search autoc   omplete system for a search engine. Users may input a sentence (at least one word and end with a special character '#').
+
+(Debouncing)
+
+Design a search autocomplete system for a search engine. Users may input a sentence (at least one word and end with a special character '#').
 
 You are given a string array sentences and an integer array times both of length n,
 where sentences[i] is a previously typed sentence and times[i] is the corresponding number of times the sentence was typed. 
@@ -22,7 +25,7 @@ Returns an empty array [] if c == '#' and stores the inputted sentence in the sy
 
 Returns the top 3 historical hot sentences that have the same prefix as the part of the sentence already typed. 
 If there are fewer than 3 matches, return them all.
- 
+
 
 Example 1:
 
@@ -55,71 +58,58 @@ At most 5000 calls will be made to input.
 
 '''
 
-import collections
-import heapq
+# TC:
+#   - Constructor: O(S * L) -> [S → number of sentences initially provided, L → average length of a sentence]
+#   - input: O(P + K log K) -> [P → current prefix length typed by the user, K → number of sentences matching the current prefix]
+# SC: O(S * L)
 
-class Sentence:
-    def __init__(self, sentence, count):
+from collections import defaultdict
 
-        self.count = count
-        self.sentence = sentence
-
-    def __lt__(self, other):
-        # Min-Heap Logic: 
-        # 1. If counts are different, the one with SMALLER count is "less" (gets popped)
-        # 2. If counts are same, the one with LARGER ASCII (alphabetically later) is "less"
-        if self.count == other.count:
-            return self.sentence > other.sentence
-        return self.count < other.count
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.sentences = set()
 
 class AutocompleteSystem:
+
     def __init__(self, sentences, times):
+        self.root = TrieNode()
+        self.freq = defaultdict(int)
+        self.prefix = ""
 
-        self.root = {}
-        self.current_sentence = ""
-        self.counts = collections.defaultdict(int)
         for s, t in zip(sentences, times):
-            self.counts[s] = t
-            self._insert(s, t)
+            self.freq[s] = t
+            self.insert(s)
 
-    def _insert(self, sentence, count):
-
+    def insert(self, sentence):
         node = self.root
-        for char in sentence:
-            if char not in node:
-                node[char] = {}
-            node = node[char]
-            if "data" not in node:
-                node["data"] = collections.defaultdict(int)
-            node["data"][sentence] = count
+        for c in sentence:
+            if c not in node.children:
+                node.children[c] = TrieNode()
+            node = node.children[c]
+            node.sentences.add(sentence)
 
-    def input(self, c: str):
+    def input(self, c):
 
-        if c == "#":
-            self.counts[self.current_sentence] += 1
-            self._insert(self.current_sentence, self.counts[self.current_sentence])
-            self.current_sentence = ""
+        if c == '#':
+            self.freq[self.prefix] += 1
+            self.insert(self.prefix)
+            self.prefix = ""
             return []
 
-        self.current_sentence += c
+        self.prefix += c
+
         node = self.root
-        for char in self.current_sentence:
-            if char not in node:
+        for ch in self.prefix:
+            if ch not in node.children:
                 return []
-            node = node[char]
+            node = node.children[ch]
 
-        # Use a Min-Heap to find top 3
-        heap = []
-        for sentence, count in node["data"].items():
-            heapq.heappush(heap, Sentence(sentence, count))
-            if len(heap) > 3:
-                heapq.heappop(heap)
+        res = list(node.sentences)
 
-        # Pop from heap and reverse to get top 3 in order
-        res = []
-        while heap:
-            res.append(heapq.heappop(heap).sentence)
-        return res[::-1]
+        res.sort(key=lambda x: (-self.freq[x], x))
+
+        return res[:3]
 
 print(
     AutocompleteSystem(

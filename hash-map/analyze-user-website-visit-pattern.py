@@ -125,15 +125,16 @@ class Solution:
 
             res = []
 
-            def dfs(start, path):
+            def dfs(i, path):
 
                 if len(path) == k:
                     res.append(tuple(path))
                     return
 
-                for i in range(start, len(sites)):
-                    path.append(sites[i])
-                    dfs(i + 1, path)
+                for j in range(i, len(sites)):
+
+                    path.append(sites[j])
+                    dfs(j + 1, path)
                     path.pop() # backtrack to try next site
 
             dfs(0, [])
@@ -188,53 +189,74 @@ Follow-up Questions You Might Get:
     What if websites can repeat, and we need consecutive 3 visits?
 
         Use a sliding window instead of combinations.
-'''
 
-'''
-Similar 
+You are given a log of website requests, where each log entry includes three pieces of information: 
+the time of the request, the customer ID, and the page visited. Each entry represents a page request 
+made by a customer at a given time.
 
-You are given a log of website requests, where each log entry includes three pieces of information: the time of the request,
-the customer ID, and the page visited. Each entry represents a page request made by a customer at a given time.
-Your task is to write an algorithm to identify the most frequently visited sequence of three consecutive pages by any customer.
-If there is a tie (multiple sequences with the same highest frequency), return the lexicographically smallest sequence.
+Your task is to write an algorithm to identify the most frequently visited sequence of three consecutive 
+pages by any customer. If there is a tie (multiple sequences with the same highest frequency), return 
+the lexicographically smallest sequence.
 
 Example:
+--------
 Consider the following log entries:
 
-T0,C1,A
-T0,C2,E
-T1,C1,B
-T1,C2,B
-T2,C1,C
-T2,C2,C
-T3,C1,D
-T3,C2,D
-T4,C1,E
-T5,C2,A
+    T0,C1,A
+    T0,C2,E
+    T1,C1,B
+    T1,C2,B
+    T2,C1,C
+    T2,C2,C
+    T3,C1,D
+    T3,C2,D
+    T4,C1,E
+    T5,C2,A
 
-From these entries, you can see there are two customers, C1 and C2. Customer C1 visited the pages in the order A -> B -> C -> D -> E, and customer C2 visited the pages in the order E -> B -> C -> D -> A.
+From these entries, you can see there are two customers, C1 and C2. 
+Customer C1 visited the pages in the order: A -> B -> C -> D -> E
+Customer C2 visited the pages in the order: E -> B -> C -> D -> A
 
 Output:
-Your algorithm should determine the most frequently visited three-page sequence across all customers. If there is more than one sequence with the highest frequency, return the lexicographically smallest sequence.
+-------
+Your algorithm should determine the most frequently visited three-page sequence across all customers. 
+If there is more than one sequence with the highest frequency, return the lexicographically smallest sequence.
+
 For the example above, the output should be the sequence (B, C, D), as it is visited by both customers.
 
 Constraints:
-The log file will have at least three entries.
-Each customer will visit at least three different pages.
-This problem requires parsing the data, analyzing patterns of page visits, and applying sorting and counting algorithms to identify the correct sequence.
+------------
+- The log file will have at least three entries.
+- Each customer will visit at least three different pages.
 
-link - https://leetcode.com/discuss/interview-question/5165222/Amazon-or-SDE-II-or-Help-me-solve-this-Amazon-Onsite-Interview-Question
+This problem requires parsing the data, analyzing patterns of page visits, and applying sorting and 
+counting algorithms to identify the correct sequence.
+
+Link:
+-----
+https://leetcode.com/discuss/interview-question/5165222/Amazon-or-SDE-II-or-Help-me-solve-this-Amazon-Onsite-Interview-Question
+
+
+Similar to - https://leetcode.com/problems/analyze-user-website-visit-pattern/description/
+
+# Note: Difference in above code is that it asks for combinations and in second one it uses consecutive k-length patterns.
 
 '''
 
-from collections import defaultdict, Counter
+# TC: O(N log N) - Because we are iterating sequence N time and using heap to sort in Log N time.
+# SC: O(N)
 
-class Solution2:
+from collections import defaultdict
+
+class Solution:
     def mostVisitedPattern(self, data: str, k: int):
+
         timestamp, username, website = [], [], []
 
         for line in data.strip().split('\n'):
+
             t, u, w = line.strip().split(',')
+
             timestamp.append(int(t[1:]))  # convert "T0" → 0
             username.append(u.strip())
             website.append(w.strip())
@@ -248,21 +270,25 @@ class Solution2:
             user_webs[user].append(site)
 
         # Step 3: Count all k-length consecutive patterns per user
-        pattern_counter = Counter()
+        pattern_counter = {}
 
         for user, sites in user_webs.items():
+
             if len(sites) < k:
                 continue
-            seen = set()
+
+            # seen = set()
             for i in range(len(sites) - k + 1):
                 pattern = tuple(sites[i: i + k])
-                if pattern not in seen:  # avoid duplicate patterns for same user
-                    pattern_counter[pattern] += 1
-                    seen.add(pattern)
+                pattern_counter[pattern] = 1 + pattern_counter.get(pattern, 0)
+                # if pattern not in seen:  # avoid duplicate patterns for same user
+                #     pattern_counter[pattern] += 1
+                #     seen.add(pattern)
 
         # Step 4: Get the most frequent pattern (lex smallest on tie)
         max_count = 0
         result = tuple()
+
         for pattern, count in pattern_counter.items():
             if count > max_count or (count == max_count and pattern < result):
                 max_count = count
@@ -270,7 +296,7 @@ class Solution2:
 
         return list(result)
 
-# Test
+
 input_data = '''
     T0,C1,A
     T0,C2,E
@@ -284,7 +310,6 @@ input_data = '''
     T5,C2,A
 '''
 
-print(Solution2().mostVisitedPattern(input_data, 3))  # Expected: ['B', 'C', 'D']
+print(Solution().mostVisitedPattern(input_data, 3))  # Expected: ['B', 'C', 'D']
 
-
-# Note: Difference in above code is that it asks for combinations and in second one it uses consecutive k-length patterns.
+# Note: Difference in the LeetCode question is that it asks for combinations and in this it has asks for consecutive k-length patterns.
