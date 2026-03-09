@@ -1,3 +1,42 @@
+# https://leetcode.com/problems/meeting-rooms/
+
+'''
+Given an array of meeting time intervals where intervals[i] = [starti, endi], determine if a person could attend all meetings.
+
+Example 1:
+
+Input: intervals = [[0,30],[5,10],[15,20]]
+Output: false
+
+Example 2:
+
+Input: intervals = [[7,10],[2,4]]
+Output: true
+
+Constraints:
+
+0 <= intervals.length <= 104
+intervals[i].length == 2
+0 <= starti < endi <= 106
+
+'''
+
+class Solution:
+    def canAttendMeetings(self, intervals):
+
+        intervals.sort(key=lambda x: x[0])
+
+        for i in range(1, len(intervals)):
+            if intervals[i][0] < intervals[i-1][1]:
+                return False
+
+        return True
+
+
+print(Solution().canAttendMeetings([[7,10],[2,4]]))  # Output: True
+print(Solution().canAttendMeetings([[0,30],[5,10],[15,20]]))  # Output: False
+
+
 # https://leetcode.com/problems/meeting-rooms-ii/
 
 """
@@ -21,16 +60,15 @@ def solution(intervals):
     max_rooms = 0
     ongoing = 0
 
-    for time, change in events:
+    for _, change in events:
         ongoing += change
         max_rooms = max(max_rooms, ongoing)
 
     return max_rooms
 
 
-print(solution([[0, 30], [5, 10], [15, 20]]))
 print(solution([[7, 10], [2, 4]]))
-print(solution([[6, 15], [13, 20], [6, 17]]))
+print(solution([[0, 30], [5, 10], [15, 20]]))
 
 
 # Another approach is two pointer
@@ -43,6 +81,7 @@ def solution2(arr):
     s, e = 0, 0
     res = 0
     vm = 0
+
     while s < len(arr):
         if start[s] < end[e]:
             s += 1
@@ -55,9 +94,8 @@ def solution2(arr):
     return res
 
 
-print(solution2([[0, 30], [5, 10], [15, 20]]))
 print(solution2([[7, 10], [2, 4]]))
-print(solution2([[6, 15], [13, 20], [6, 17]]))
+print(solution2([[0, 30], [5, 10], [15, 20]]))
 
 
 # similar problem -  https://leetcode.com/problems/divide-intervals-into-minimum-number-of-groups/
@@ -76,7 +114,7 @@ def minGroups(intervals):
     req = 0
     res = 0
 
-    for a, diff in arr:
+    for _, diff in arr:
         req += diff
         res = max(req, res)
 

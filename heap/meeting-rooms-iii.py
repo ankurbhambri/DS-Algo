@@ -19,6 +19,7 @@ class Solution:
         count = [0] * n
 
         for start, end in meetings:
+
             # Free up rooms that have ended before this meeting
             while busy_rooms and busy_rooms[0][0] <= start:
                 end_time, room_id = heapq.heappop(busy_rooms)
@@ -29,6 +30,7 @@ class Solution:
                 count[room_id] += 1
                 # Meeting runs normally
                 heapq.heappush(busy_rooms, (end, room_id))
+
             else:
                 # Must wait for earliest free room
                 earliest_end, room_id = heapq.heappop(busy_rooms)
@@ -45,6 +47,6 @@ class Solution:
                 ans = i
         return ans
 
+
 print(Solution().mostBooked(2, [[0,10],[1,5],[2,7],[3,4]]))  # Output: 0
 print(Solution().mostBooked(3, [[1,20],[2,10],[3,5],[4,9]]))  # Output: 2
-print(Solution().mostBooked(4, [[1,3],[2,4],[3,5],[4,6]]))  # Output: 0

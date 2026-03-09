@@ -1,6 +1,5 @@
 class TicTacToe:
     def __init__(self, n):
-
         self.n = n
         self.diagonal = 0   # Tracks sum of moves on main diagonal (row == col)
         self.rows = [0] * n  # Tracks sum of moves for each row

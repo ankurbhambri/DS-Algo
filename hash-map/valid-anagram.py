@@ -12,7 +12,7 @@ def isAnagram(s, t):
         a[ord(i) - ord("a")] += 1
 
     for j in t:
-        b[ord(j) - ord("a")] += 1
+        b[ord(j) - ord("a")] += 1 
 
     if a == b:
         return True
