@@ -1,3 +1,6 @@
+# https://leetcode.com/problems/design-tic-tac-toe/description/
+
+
 class TicTacToe:
     def __init__(self, n):
         self.n = n
@@ -25,7 +28,7 @@ class TicTacToe:
         ):
             return player
 
-        return 0  # No win
+        return 0 # No win
 
 
 obj = TicTacToe(3)
@@ -35,7 +38,8 @@ print(obj.move(2, 2, 1))  # Player 1 moves at (2, 2)
 print(obj.move(1, 1, 2))  # Player 2 moves at (1, 1)
 print(obj.move(2, 0, 1))  # Player 1 moves at (2, 0)
 print(obj.move(1, 0, 2))  # Player 2 moves at (1, 0)
-print(obj.move(2, 1, 1))  # Player 1 moves at (1, 2) - Player 1 wins
+print(obj.move(2, 1, 1))  # Player 1 moves at (2, 1) - Player 1 wins
+
 
 
 # https://leetcode.com/problems/find-winner-on-a-tic-tac-toe-game/
@@ -43,10 +47,10 @@ print(obj.move(2, 1, 1))  # Player 1 moves at (1, 2) - Player 1 wins
 class Solution:
     def tictactoe(self, moves):
 
+        diagonal = 0
         row = [0] * 3
         cols = [0] * 3
-        digonal = 0
-        anitdigonal = 0
+        anti_diagonal = 0
 
         for i, (r, c) in enumerate(moves):
 
@@ -56,12 +60,17 @@ class Solution:
             cols[c] += player
 
             if r == c:
-                digonal += player
+                diagonal += player
 
             if r + c == 2:
-                anitdigonal += player
+                anti_diagonal += player
 
-            if abs(row[r]) == 3 or abs(cols[c]) == 3 or abs(digonal) == 3 or abs(anitdigonal) == 3:
+            if (
+                abs(row[r]) == 3 or
+                abs(cols[c]) == 3 or
+                abs(diagonal) == 3 or
+                abs(anti_diagonal) == 3
+            ):
                 return "A" if player == 1 else "B"
 
         return "Draw" if len(moves) == 9 else "Pending"
