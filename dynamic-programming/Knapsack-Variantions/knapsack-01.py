@@ -1,4 +1,7 @@
 # Recursive approach of knap-sack 01
+
+# TC: O(2^N) where N is number of items
+# SC: O(N) for recursive stack space
 def knapSackRecursive(bag_cap, item_wt, item_val, N):
 
     def helper(N, cap):

@@ -120,3 +120,59 @@ def minCostConnectPoints(points):
 
 print(minCostConnectPoints([[0, 0], [2, 2], [3, 10], [5, 2], [7, 0]]))  # Output: 20
 print(minCostConnectPoints([[3, 12], [-2, 5], [-4, 1]]))  # Output: 18
+
+
+# https://leetcode.com/problems/maximize-spanning-tree-stability-with-upgrades
+
+class DSU:
+    def __init__(self, N):
+        self.par = list(range(N))
+        self.sz = [1] * N
+
+    def find(self, x):
+        if self.par[x] != x:
+            self.par[x] = self.find(self.par[x])
+        return self.par[x]
+
+    def union(self, x, y):
+        xr, yr = self.find(x), self.find(y)
+        if xr == yr:
+            return False
+        if self.sz[xr] < self.sz[yr]:
+            xr, yr = yr, xr
+        self.par[yr] = xr
+        self.sz[xr] += self.sz[yr]
+        return True
+
+
+class Solution:
+    def maxStability(self, N, edges, K):
+
+        used = 0
+        ans = float("inf")
+
+        dsu = DSU(N)
+
+        for u, v, s, m in edges:
+            if m:
+                if not dsu.union(u, v):
+                    return -1
+                used += 1
+                ans = min(ans, s)
+
+        weights = []
+        edges.sort(key=lambda e: -e[2])
+
+        for u, v, s, m in edges:
+            if m == 0:
+                if dsu.union(u, v):
+                    used += 1
+                    weights.append(s)
+
+        for i in range(min(K, len(weights))):
+            weights[~i] *= 2
+
+        if used != N - 1:
+            return -1
+
+        return min((ans, *weights))
