@@ -1,5 +1,5 @@
 **0. Modulus Formula**
-- (a % b) = a - (b * math.floor(a / b))
+- (a % b) = (a - (b * math.floor(a / b)))
 
 ---
 
