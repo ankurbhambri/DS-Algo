@@ -33,7 +33,7 @@ def knapSackRecursive(bag_cap, item_wt, item_val, N):
 
 # Bottom Up iterative or tabulation approach
 # TC: O(N * W)
-# Space: O(W)
+# SC: O(W)
 def knapSack(val, wt, W):
 
     n = len(val)
@@ -47,6 +47,8 @@ def knapSack(val, wt, W):
 
 
 # Memoization approach for knap-sack
+# TC: O(N * W)
+# SC: O(N * W)
 def knapSackCache(bag_cap, item_wt, item_val, N):
     memo = {}
 
