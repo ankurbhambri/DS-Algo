@@ -5,7 +5,6 @@ from collections import deque
 # Similar question - https://leetcode.com/discuss/interview-question/4370961/google-interview-question/2404127
 
 
-
 def alienOrder(words):
 
     adj = {c: set() for w in words for c in w}

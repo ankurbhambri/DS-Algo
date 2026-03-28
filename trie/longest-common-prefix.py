@@ -1,7 +1,9 @@
 # https://leetcode.com/problems/longest-common-prefix/
 
 
-# Using Trie
+# TC: O(S) where S is the sum of all characters in all strings
+# SC: O(S) where S is the sum of all characters in all strings
+
 def longestCommonPrefix(strs):
     trie = {}
 
@@ -24,4 +26,5 @@ def longestCommonPrefix(strs):
     return curPre
 
 
+print(longestCommonPrefix(["dog", "racecar", "car"]))
 print(longestCommonPrefix(["flower", "flow", "flight"]))
