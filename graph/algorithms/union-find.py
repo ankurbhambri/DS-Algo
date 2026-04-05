@@ -17,17 +17,22 @@ class DisjointSet:
         p1 = self.find(node1)
         p2 = self.find(node2)
 
-        # If both nodes parent are same then union is not possible
+        # Same parent, if both nodes parent are same then union is not possible
         if p1 == p2:
-            print("Same parent")
-            return
+            print("")
+            return False
 
         if self.rank[p1] < self.rank[p2]:
-            p1, p2 = p2, p1
+            self.parent[p1] = p2
+        
+        elif self.rank[p1] > self.rank[p2]:
+            self.parent[p2] = p1
+        
+        else:
+            self.parent[p1] = p2
+            self.rank[p2] += self.rank[p1]
 
-        self.parent[p2] = p1
-        self.rank[p1] += self.rank[p2]
-        return
+        return True
 
 
 if __name__ == "__main__":
