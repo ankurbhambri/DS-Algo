@@ -1,4 +1,4 @@
-# Recursive approach of knap-sack 01
+# Recursive approach of 01 knap-sack
 
 # TC: O(2^N) where N is number of items
 # SC: O(N) for recursive stack space
@@ -10,43 +10,30 @@ def knapSackRecursive(bag_cap, item_wt, item_val, N):
             return 0
 
         else:
-
             curr_wt = item_wt[N - 1]  # current item weight
             curr_val = item_val[N - 1]  # current item value
 
             if curr_wt <= cap:  # if current item weight is lte to bag capacity
 
-                # Now we have two choices 1 take it or 2 skip current item
+                # Now we have two choices take or skip current item
+
                 # 1. add current item with it's val
                 t1 = curr_val + helper(N - 1, cap - curr_wt)
-                # 2 or skip current item
+
+                # 2. skip current item
                 t2 = helper(N - 1, cap)
 
                 return max(t1, t2)
 
-            else:  # in case current item weight is more that bag capacity
-
+            # In case current item weight is more that bag capacity, move to next item.
+            else:
                 return helper(N - 1, cap)
 
     return helper(N, bag_cap)
 
 
-# Bottom Up iterative or tabulation approach
-# TC: O(N * W)
-# SC: O(W)
-def knapSack(val, wt, W):
 
-    n = len(val)
-    dp = [0] * (W + 1)
-    for i in range(n):
-        for w in range(W, 0, -1):
-            cv, cw = val[i], wt[i]
-            if cw <= w:
-                dp[w] = max(dp[w], dp[w - cw] + cv)
-    return dp[W]
-
-
-# Memoization approach for knap-sack
+# Memoization
 # TC: O(N * W)
 # SC: O(N * W)
 def knapSackCache(bag_cap, item_wt, item_val, N):
@@ -87,36 +74,69 @@ def knapSackCache(bag_cap, item_wt, item_val, N):
     return helper(N, bag_cap)
 
 
+# Tabulation approach
+# TC: O(N * W)
+# SC: O(N * W) because of 2D dp array
 def knapsackTabular(bag_cap, item_wt, item_val, N):
+
     dp = [[0] * (bag_cap + 1) for _ in range(N)]
+
     for i in range(N):
+
         for j in range(bag_cap + 1):  # j is cap
+
             curr_wt = item_wt[i]
             curr_val = item_val[i]
+
             if i == 0:
-                if curr_wt <= j:
-                    dp[i][j] = curr_val
-                else:
-                    dp[i][j] = 0
+                dp[i][j] = curr_val if curr_wt <= j else 0
 
             else:
+
                 if curr_wt <= j:
+
+                    # take
                     c1 = curr_val + dp[i - 1][j - curr_wt]  # i - 1 is N - 1
+                    # skip
                     c2 = dp[i - 1][j]
+
+                    # max (take, skip)
                     dp[i][j] = max(c1, c2)
+
+                # skip if current item weight is more than bag capacity
                 else:
                     dp[i][j] = dp[i - 1][j]
+
     return dp[N - 1][bag_cap]
 
 
-# Driver code
-if __name__ == "__main__":
-    N = 3  # weights and values of N items
-    item_val = [12, 10, 6]
-    item_wt = [2, 1, 4]
-    bag_cap = 5
 
-    print(knapSack(item_val, item_wt, bag_cap))
-    print(knapSackCache(bag_cap, item_wt, item_val, N))
-    print(knapsackTabular(bag_cap, item_wt, item_val, N))
-    print(knapSackRecursive(bag_cap, item_wt, item_val, N))
+# Space optimized
+# TC: O(N * W)
+# SC: O(W)
+def knapSack_optimised(val, wt, W):
+
+    n = len(val)
+    dp = [0] * (W + 1)
+
+    for i in range(n):
+        for w in range(W, 0, -1):
+
+            cv, cw = val[i], wt[i]
+
+            if cw <= w:
+                dp[w] = max(dp[w], dp[w - cw] + cv)
+
+    return dp[W]
+
+
+
+n = 3  # number of weights and values
+bag_cap = 5
+item_wt = [2, 1, 4]
+item_val = [12, 10, 6]
+
+print(knapSackRecursive(bag_cap, item_wt, item_val, n))
+print(knapSackCache(bag_cap, item_wt, item_val, n))
+print(knapsackTabular(bag_cap, item_wt, item_val, n))
+print(knapSack_optimised(item_val, item_wt, bag_cap))
