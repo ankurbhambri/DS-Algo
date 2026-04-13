@@ -111,6 +111,13 @@ def knapsackTabular(bag_cap, wt, val, N):
 # Space optimized
 # TC: O(N * W)
 # SC: O(W)
+
+
+'''
+- Forward loop me dp[w - wt] already current item se update ho jata hai, isliye same item multiple times use ho jata hai (Unbounded Knapsack behavior)
+
+- Reverse loop ensure karta hai ki dp[w - wt] previous row ka hi value ho, isliye har item sirf ek baar use hota hai (0/1 Knapsack)
+'''
 def knapSack_optimised(val, wt, W):
 
     n = len(val)
@@ -118,7 +125,7 @@ def knapSack_optimised(val, wt, W):
 
     for i in range(n):
 
-        for w in range(W, 0, -1):
+        for w in range(W, 0, -1): # reverse loop
 
             cv, cw = val[i], wt[i]
 
