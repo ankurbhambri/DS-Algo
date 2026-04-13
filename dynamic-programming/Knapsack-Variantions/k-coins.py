@@ -47,6 +47,7 @@ def countWays(n, k, m):
 
     return solve(0, k, 0)
 
+print(countWays(4, 2, 2))  # Output: 2
 
 # Iterative approach (Bottom-Up)
 # TC: O(N * K * M)
