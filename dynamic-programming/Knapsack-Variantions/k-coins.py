@@ -54,7 +54,7 @@ print(countWays(4, 2, 2))  # Output: 2
 # SC: O(K * M)
 def solve(N, M, K):
 
-    MOD = 10**9 + 7
+    MOD = 10 ** 9 + 7
 
     # dp[j][r] = number of ways to choose j coins
     # such that sum % M == r
