@@ -29,14 +29,6 @@ Example:
 
 def aggressiveCows(stalls, k):
 
-    stalls.sort()
-
-    n = len(stalls)
-
-    l, r = 1, stalls[-1] - stalls[0]
-
-    res = 0  # we store the best possible minimum distance
-
     def isPossible(mid):
         count = 1  # place the first cow at stalls[0]
         lastPos = stalls[0]
@@ -55,6 +47,11 @@ def aggressiveCows(stalls, k):
                     return True
 
         return False
+
+    res = 0  # we store the best possible minimum distance
+    stalls.sort()
+    n = len(stalls)
+    l, r = 1, stalls[-1] - stalls[0]
 
     while l <= r:
         m = (l + r) // 2 # l + (r - l) // 2 to avoid overflow
