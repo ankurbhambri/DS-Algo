@@ -2,292 +2,428 @@
 Our parking lot will have multiple floors and allow only 2 and 4-wheeler vehicles to be parked.
 On each floor, parking spots of either type 2 or 4 will be arranged in rows and columns.
 
-It will support the following features:
+Requirements
+- The parking lot should have multiple levels, each level with a certain number of parking spots.
+- The parking lot should support different types of vehicles, such as cars, motorcycles, and trucks.
+- Each parking spot should be able to accommodate a specific type of vehicle.
+- The system should assign a parking spot to a vehicle upon entry and release it when the vehicle exits.
+- The system should track the availability of parking spots and provide real-time information to customers.
+- The system should handle multiple entry and exit points and support concurrent access.
 
-- The parking lot should support multiple floors, parking spot types, and vehicle types.
-- There should be multiple entry and exit points.
-- Customers can pay via cash or card.
-- The parking system should show spot availability on display boards at the entrance.
-- The system should have a per-hour fee model based on the vehicle type.
-- Admins can add parking floors, spots, and display boards.
+####################
+Entities
+####################
+
+--------------------------------------------------------------------------------
+
+VehicleType
+- CAR
+- BIKE
+- TRUCK
+
+VehicleSize
+- SMALL
+- MEDIUM
+- LARGE
+
+--------------------------------------------------------------------------------
+
+Vehicle
+- license_number: str
+- size: VehicleSize
+
++ get_license_number() -> str
++ get_size() -> VehicleSize
+
+--------------------------------------------------------------------------------
+
+ParkingSpot
+- spot_id: str
+- spot_size: VehicleSize
+- is_occupied: bool
+- parked_vehicle: Optional[Vehicle]
+
++ park_vehicle(vehicle: Vehicle)
++ unpark_vehicle()
++ is_available() -> bool
++ can_fit_vehicle(vehicle: Vehicle) -> bool
+
+--------------------------------------------------------------------------------
+
+ParkingFloor
+- floor_number: int
+- spots: Dict[str, ParkingSpot]
+
++ add_spot(spot: ParkingSpot)
++ find_available_spot(vehicle: Vehicle) -> Optional[ParkingSpot]
++ display_availability()
+
+--------------------------------------------------------------------------------
+
+ParkingTicket
+- ticket_id: str
+- vehicle: Vehicle
+- spot: ParkingSpot
+- entry_timestamp: int
+- exit_timestamp: int
+
++ set_exit_timestamp()
++ get_ticket_id()
++ get_vehicle()
++ get_spot()
+
+--------------------------------------------------------------------------------
+
+ParkingStrategy (abstract)
++ find_spot(floors, vehicle) -> Optional[ParkingSpot]
+
+
+FeeStrategy (abstract)
++ calculate_fee(ticket: ParkingTicket) -> float
+
+--------------------------------------------------------------------------------
+
+ParkingLot
+- floors: List[ParkingFloor]
+- active_tickets: Dict[str, ParkingTicket]
+- fee_strategy: FeeStrategy
+- parking_strategy: ParkingStrategy
+
++ park_vehicle(vehicle: Vehicle) -> Optional[ParkingTicket]
++ unpark_vehicle(license_number: str) -> Optional[float]
++ add_floor(floor: ParkingFloor)
++ set_fee_strategy(strategy: FeeStrategy)
++ set_parking_strategy(strategy: ParkingStrategy)
 
 '''
 
-from datetime import datetime
-from typing import List, Dict
-
-from enum import Enum, auto
+import uuid
+import time
+import threading
+from enum import Enum
 from abc import ABC, abstractmethod
 
-# Note: ABC/abstractmethod still used by PaymentStrategy
+from collections import defaultdict
+from typing import Dict, Optional, List
 
+class VehicleSize(Enum):
+    SMALL = "SMALL"
+    MEDIUM = "MEDIUM"
+    LARGE = "LARGE"
 
-# -------------------------
-# Enum Types
-# -------------------------
-class ParkingSpotType(Enum):
-    COMPACT = auto()
-    LARGE = auto()
-    HANDICAPPED = auto()
-    MOTORCYCLE = auto()
-
-
-class VehicleType(Enum):
-    CAR = auto()
-    BIKE = auto()
-    TRUCK = auto()
-
-
-class PaymentStatus(Enum):
-    UNPAID = auto()
-    COMPLETED = auto()
-    CANCELLED = auto()
-
-
-class PaymentType(Enum):
-    CASH = auto()
-    CARD = auto()
-
-
-# -------------------------
-# Vehicle Class
-# -------------------------
-class Vehicle:
-    def __init__(self, license_number: str, vehicle_type: VehicleType):
+class Vehicle(ABC):
+    def __init__(self, license_number: str, size: VehicleSize):
         self.license_number = license_number
-        self.vehicle_type = vehicle_type
+        self.size = size
+
+    def get_license_number(self) -> str:
+        return self.license_number
+
+    def get_size(self) -> VehicleSize:
+        return self.size
+
+class Truck(Vehicle):
+    def __init__(self, license_number: str):
+        super().__init__(license_number, VehicleSize.LARGE)
+
+class Car(Vehicle):
+    def __init__(self, license_number: str):
+        super().__init__(license_number, VehicleSize.MEDIUM)
+
+class Bike(Vehicle):
+    def __init__(self, license_number: str):
+        super().__init__(license_number, VehicleSize.SMALL)
 
 
-# -------------------------
-# Parking Spot
-# -------------------------
 class ParkingSpot:
-    def __init__(self, spot_id: int, spot_type: ParkingSpotType, floor_id: int = None):
+    def __init__(self, spot_id: str, spot_size: VehicleSize):
         self.spot_id = spot_id
-        self.spot_type = spot_type
-        self.floor_id = floor_id
-        self.is_available = True
-        self.vehicle = None
+        self.spot_size = spot_size
+        self.is_occupied = False
+        self.parked_vehicle = None
+        self._lock = threading.Lock()
+
+    def get_spot_id(self) -> str:
+        return self.spot_id
+
+    def get_spot_size(self) -> VehicleSize:
+        return self.spot_size
+
+    def is_available(self) -> bool:
+        with self._lock:
+            return not self.is_occupied
+
+    def is_occupied_spot(self) -> bool:
+        return self.is_occupied
 
     def park_vehicle(self, vehicle: Vehicle):
-        self.vehicle = vehicle
-        self.is_available = False
+        with self._lock:
+            self.parked_vehicle = vehicle
+            self.is_occupied = True
 
-    def free_spot(self):
-        self.vehicle = None
-        self.is_available = True
+    def unpark_vehicle(self):
+        with self._lock:
+            self.parked_vehicle = None
+            self.is_occupied = False
 
+    def can_fit_vehicle(self, vehicle: Vehicle) -> bool:
+        if self.is_occupied:
+            return False
 
-# -------------------------
-# Entry / Exit Points
-# -------------------------
-class EntryPoint:
-    def __init__(self, entry_id: int, lot: 'ParkingLot'):
-        self.entry_id = entry_id
-        self.lot = lot
+        if vehicle.get_size() == VehicleSize.SMALL:
+            return self.spot_size == VehicleSize.SMALL
+        elif vehicle.get_size() == VehicleSize.MEDIUM:
+            return self.spot_size == VehicleSize.MEDIUM or self.spot_size == VehicleSize.LARGE
+        elif vehicle.get_size() == VehicleSize.LARGE:
+            return self.spot_size == VehicleSize.LARGE
+        else:
+            return False
 
-    def get_ticket(self, vehicle: Vehicle) -> 'Ticket':
-        return self.lot.park_vehicle(vehicle)
-
-
-class ExitPoint:
-    def __init__(self, exit_id: int, lot: 'ParkingLot'):
-        self.exit_id = exit_id
-        self.lot = lot
-
-    def process_exit(self, ticket_id: int, payment_type: PaymentType) -> 'PaymentInfo':
-        return self.lot.exit_vehicle(ticket_id, payment_type)
-
-
-# -------------------------
-# Display Board
-# -------------------------
-class DisplayBoard:
-    def __init__(self, floor_id: int):
-        self.floor_id = floor_id
-        self.free_spots: Dict[ParkingSpotType, int] = {}
-
-    def update_free_spots(self, spot_type: ParkingSpotType, count: int):
-        self.free_spots[spot_type] = count
-
-    def show(self):
-        print(f"Floor {self.floor_id} - Spot availability: {self.free_spots}")
-
-
-# -------------------------
-# Parking Floor
-# -------------------------
 class ParkingFloor:
-
-    VEHICLE_SPOT_MAP: Dict[VehicleType, List[ParkingSpotType]] = {
-        VehicleType.BIKE: [ParkingSpotType.MOTORCYCLE],
-        VehicleType.CAR: [ParkingSpotType.COMPACT, ParkingSpotType.HANDICAPPED],
-        VehicleType.TRUCK: [ParkingSpotType.LARGE],
-    }
-
-    def __init__(self, floor_id: int):
-        self.floor_id = floor_id
-        self.spots: Dict[ParkingSpotType, List[ParkingSpot]] = {}
-        self.display_board = DisplayBoard(floor_id)
+    def __init__(self, floor_number: int):
+        self.floor_number = floor_number
+        self.spots: Dict[str, ParkingSpot] = {}
+        self._lock = threading.Lock()
 
     def add_spot(self, spot: ParkingSpot):
-        spot.floor_id = self.floor_id
-        self.spots.setdefault(spot.spot_type, []).append(spot)
-        self._update_display_board()
+        self.spots[spot.get_spot_id()] = spot
 
-    def _update_display_board(self):
-        for spot_type, spots in self.spots.items():
-            free_count = sum(1 for s in spots if s.is_available)
-            self.display_board.update_free_spots(spot_type, free_count)
+    def find_available_spot(self, vehicle: Vehicle) -> Optional[ParkingSpot]:
+        with self._lock:
+            available_spots = [
+                spot for spot in self.spots.values()
+                if not spot.is_occupied_spot() and spot.can_fit_vehicle(vehicle)
+            ]
+            if available_spots:
+                # Sort by spot size (smallest first)
+                available_spots.sort(key=lambda x: x.get_spot_size().value)
+                return available_spots[0]
+            return None
 
-    def find_available_spot(self, vehicle: Vehicle):
-        allowed_types = self.VEHICLE_SPOT_MAP.get(vehicle.vehicle_type, [])
-        for spot_type, spots in self.spots.items():
-            if spot_type not in allowed_types:
-                continue
-            for s in spots:
-                if s.is_available:
-                    return s
-        return None
+    def display_availability(self):
+        print(f"--- Floor {self.floor_number} Availability ---")
+        available_counts = defaultdict(int)
+        
+        for spot in self.spots.values():
+            if not spot.is_occupied_spot():
+                available_counts[spot.get_spot_size()] += 1
 
-
-# -------------------------
-# Ticket & Payment
-# -------------------------
-class Ticket:
-    def __init__(self, ticket_id: int, spot: ParkingSpot, vehicle: Vehicle):
-        self.ticket_id = ticket_id
-        self.spot = spot
-        self.vehicle = vehicle
-        self.start_time = datetime.now()
-        self.end_time = None
-        self.amount = 0
-        self.status = PaymentStatus.UNPAID
+        for size in VehicleSize:
+            print(f"  {size.value} spots: {available_counts[size]}")
 
 
-class PaymentInfo:
-    def __init__(self, amount: float, status: PaymentStatus):
-        self.amount = amount
-        self.status = status
-
-
-class PaymentStrategy(ABC):
+# Strategy Pattern for Parking Spot Assignment
+class ParkingStrategy(ABC):
     @abstractmethod
-    def pay(self, ticket: Ticket) -> PaymentInfo:
+    def find_spot(self, floors: List[ParkingFloor], vehicle: Vehicle) -> Optional[ParkingSpot]:
         pass
 
+class NearestFirstStrategy(ParkingStrategy):
+    def find_spot(self, floors: List[ParkingFloor], vehicle: Vehicle) -> Optional[ParkingSpot]:
+        for floor in floors:
+            spot = floor.find_available_spot(vehicle)
+            if spot is not None:
+                return spot
+        return None
 
-# -------------------------
-# Per-Hour Rate Model
-# -------------------------
-HOURLY_RATES: Dict[VehicleType, float] = {
-    VehicleType.BIKE: 10.0,
-    VehicleType.CAR: 20.0,
-    VehicleType.TRUCK: 30.0,
-}
+class FarthestFirstStrategy(ParkingStrategy):
+    def find_spot(self, floors: List[ParkingFloor], vehicle: Vehicle) -> Optional[ParkingSpot]:
+        reversed_floors = list(reversed(floors))
+        for floor in reversed_floors:
+            spot = floor.find_available_spot(vehicle)
+            if spot is not None:
+                return spot
+        return None
 
+class BestFitStrategy(ParkingStrategy):
+    def find_spot(self, floors: List[ParkingFloor], vehicle: Vehicle) -> Optional[ParkingSpot]:
+        best_spot = None
 
-def calculate_fee(ticket: Ticket) -> float:
-    if ticket.end_time is None:
-        ticket.end_time = datetime.now()
-    duration = (ticket.end_time - ticket.start_time).total_seconds() / 3600
-    hours = max(1, round(duration))  # minimum 1 hour charge
-    rate = HOURLY_RATES.get(ticket.vehicle.vehicle_type, 20.0)
-    return hours * rate
+        for floor in floors:
+            spot_on_this_floor = floor.find_available_spot(vehicle)
 
+            if spot_on_this_floor is not None:
+                if best_spot is None:
+                    best_spot = spot_on_this_floor
+                else:
+                    # A smaller spot size enum ordinal means a tighter fit
+                    if list(VehicleSize).index(spot_on_this_floor.get_spot_size()) < list(VehicleSize).index(best_spot.get_spot_size()):
+                        best_spot = spot_on_this_floor
 
-class CashPayment(PaymentStrategy):
-    def pay(self, ticket: Ticket) -> PaymentInfo:
-        amount = calculate_fee(ticket)
-        ticket.amount = amount
-        ticket.status = PaymentStatus.COMPLETED
-        return PaymentInfo(amount=amount, status=ticket.status)
-
-
-class CardPayment(PaymentStrategy):
-    def pay(self, ticket: Ticket) -> PaymentInfo:
-        amount = calculate_fee(ticket)
-        ticket.amount = amount
-        ticket.status = PaymentStatus.COMPLETED
-        return PaymentInfo(amount=amount, status=ticket.status)
-
-
-# -------------------------
-# Parking Attendant/Admin
-# -------------------------
-class ParkingAttendant:
-    def create_ticket(self, vehicle: Vehicle, spot: ParkingSpot, ticket_id: int):
-        return Ticket(ticket_id, spot, vehicle)
+        return best_spot
 
 
-class Admin:
-    def add_floor(self, lot, floor: ParkingFloor):
-        lot.add_floor(floor)
+class ParkingTicket:
+    def __init__(self, vehicle: Vehicle, spot: ParkingSpot):
+        self.ticket_id = str(uuid.uuid4())
+        self.vehicle = vehicle
+        self.spot = spot
+        self.entry_timestamp = int(time.time() * 1000)
+        self.exit_timestamp = 0
+
+    def get_ticket_id(self) -> str:
+        return self.ticket_id
+
+    def get_vehicle(self) -> Vehicle:
+        return self.vehicle
+
+    def get_spot(self) -> ParkingSpot:
+        return self.spot
+
+    def get_entry_timestamp(self) -> int:
+        return self.entry_timestamp
+
+    def get_exit_timestamp(self) -> int:
+        return self.exit_timestamp
+
+    def set_exit_timestamp(self):
+        self.exit_timestamp = int(time.time() * 1000)
+
+class FeeStrategy(ABC):
+    @abstractmethod
+    def calculate_fee(self, parking_ticket: ParkingTicket) -> float:
+        pass
+
+class FlatRateFeeStrategy(FeeStrategy):
+    RATE_PER_HOUR = 10.0
+
+    def calculate_fee(self, parking_ticket: ParkingTicket) -> float:
+        duration = parking_ticket.get_exit_timestamp() - parking_ticket.get_entry_timestamp()
+        hours = (duration // (1000 * 60 * 60)) + 1
+        return hours * self.RATE_PER_HOUR
+
+class VehicleBasedFeeStrategy(FeeStrategy):
+    HOURLY_RATES = {
+        VehicleSize.SMALL: 10.0,
+        VehicleSize.MEDIUM: 20.0,
+        VehicleSize.LARGE: 30.0
+    }
+
+    def calculate_fee(self, parking_ticket: ParkingTicket) -> float:
+        duration = parking_ticket.get_exit_timestamp() - parking_ticket.get_entry_timestamp()
+        hours = (duration // (1000 * 60 * 60)) + 1
+        return hours * self.HOURLY_RATES[parking_ticket.get_vehicle().get_size()]
 
 
-# -------------------------
-# Parking Lot
-# -------------------------
 class ParkingLot:
+    _instance = None
+    _lock = threading.Lock()
+    
+    def __new__(cls):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+                    cls._instance._initialized = False
+        return cls._instance
+
     def __init__(self):
+        if self._initialized:
+            return        
+
         self.floors: List[ParkingFloor] = []
-        self.entry_points: List[EntryPoint] = []
-        self.exit_points: List[ExitPoint] = []
-        self.tickets: Dict[int, Ticket] = {}
-        self._ticket_counter = 0
+        self.active_tickets: Dict[str, ParkingTicket] = {}
+        self.fee_strategy = FlatRateFeeStrategy()
+        self.parking_strategy = NearestFirstStrategy()
+        self._main_lock = threading.Lock()
+        self._initialized = True
+
+    @classmethod
+    def get_instance(cls):
+        return cls()
 
     def add_floor(self, floor: ParkingFloor):
         self.floors.append(floor)
 
-    def add_entry_point(self, entry_id: int) -> EntryPoint:
-        entry = EntryPoint(entry_id, self)
-        self.entry_points.append(entry)
-        return entry
+    def set_fee_strategy(self, fee_strategy: FeeStrategy):
+        self.fee_strategy = fee_strategy
 
-    def add_exit_point(self, exit_id: int) -> ExitPoint:
-        exit_point = ExitPoint(exit_id, self)
-        self.exit_points.append(exit_point)
-        return exit_point
+    def set_parking_strategy(self, parking_strategy: ParkingStrategy):
+        self.parking_strategy = parking_strategy
 
-    def show_availability(self):
-        for floor in self.floors:
-            floor.display_board.show()
-
-    def is_spot_available(self, vehicle: Vehicle) -> bool:
-        return any(floor.find_available_spot(vehicle) for floor in self.floors)
-
-    def park_vehicle(self, vehicle: Vehicle):
-        for floor in self.floors:
-            spot = floor.find_available_spot(vehicle)
-            if spot:
+    def park_vehicle(self, vehicle: Vehicle) -> Optional[ParkingTicket]:
+        with self._main_lock:
+            spot = self.parking_strategy.find_spot(self.floors, vehicle)
+            if spot is not None:
                 spot.park_vehicle(vehicle)
-                floor._update_display_board()
-                self._ticket_counter += 1
-                ticket = Ticket(self._ticket_counter, spot, vehicle)
-                self.tickets[self._ticket_counter] = ticket
+                ticket = ParkingTicket(vehicle, spot)
+                self.active_tickets[vehicle.get_license_number()] = ticket
+                print(f"Vehicle {vehicle.get_license_number()} parked at spot {spot.get_spot_id()}")
                 return ticket
-        raise Exception("Parking full")
+            else:
+                print(f"No available spot for vehicle {vehicle.get_license_number()}")
+                return None
 
-    def exit_vehicle(self, ticket_id: int, payment_type: PaymentType):
-        ticket = self.tickets.get(ticket_id)
-        if not ticket:
-            raise Exception("Invalid ticket")
+    def unpark_vehicle(self, license_number: str) -> Optional[float]:
+        with self._main_lock:
+            ticket = self.active_tickets.pop(license_number, None)
+            if ticket is None:
+                print(f"Ticket not found for vehicle {license_number}")
+                return None
 
-        ticket.end_time = datetime.now()
+            ticket.get_spot().unpark_vehicle()
+            ticket.set_exit_timestamp()
+            fee = self.fee_strategy.calculate_fee(ticket)
+            print(f"Vehicle {license_number} unparked from spot {ticket.get_spot().get_spot_id()}")
+            return fee
 
-        # Free the spot and update display board
-        ticket.spot.free_spot()
-        for floor in self.floors:
-            for spots in floor.spots.values():
-                if ticket.spot in spots:
-                    floor._update_display_board()
-                    break
+class ParkingLotDemo:
+    @staticmethod
+    def main():
+        parking_lot = ParkingLot.get_instance()
 
-        if payment_type == PaymentType.CASH:
-            pay_strategy = CashPayment()
-        else:
-            pay_strategy = CardPayment()
+        # 1. Initialize the parking lot with floors and spots
+        floor1 = ParkingFloor(1)
+        floor1.add_spot(ParkingSpot("F1-S1", VehicleSize.SMALL))
+        floor1.add_spot(ParkingSpot("F1-M1", VehicleSize.MEDIUM))
+        floor1.add_spot(ParkingSpot("F1-L1", VehicleSize.LARGE))
 
-        payment = pay_strategy.pay(ticket)
-        del self.tickets[ticket_id]
-        return payment
+        floor2 = ParkingFloor(2)
+        floor2.add_spot(ParkingSpot("F2-M1", VehicleSize.MEDIUM))
+        floor2.add_spot(ParkingSpot("F2-M2", VehicleSize.MEDIUM))
+
+        parking_lot.add_floor(floor1)
+        parking_lot.add_floor(floor2)
+
+        parking_lot.set_fee_strategy(VehicleBasedFeeStrategy())
+
+        # 2. Simulate vehicle entries
+        print("\n--- Vehicle Entries ---")
+        floor1.display_availability()
+        floor2.display_availability()
+
+        bike = Bike("B-123")
+        car = Car("C-456")
+        truck = Truck("T-789")
+
+        bike_ticket = parking_lot.park_vehicle(bike)
+        car_ticket = parking_lot.park_vehicle(car)
+        truck_ticket = parking_lot.park_vehicle(truck)
+
+        print("\n--- Availability after parking ---")
+        floor1.display_availability()
+        floor2.display_availability()
+
+        # 3. Simulate another car entry (should go to floor 2)
+        car2 = Car("C-999")
+        car2_ticket = parking_lot.park_vehicle(car2)
+
+        # 4. Simulate a vehicle entry that fails (no available spots)
+        bike2 = Bike("B-000")
+        failed_bike_ticket = parking_lot.park_vehicle(bike2)
+
+        # 5. Simulate vehicle exits and fee calculation
+        print("\n--- Vehicle Exits ---")
+
+        if car_ticket is not None:
+            fee = parking_lot.unpark_vehicle(car.get_license_number())
+            if fee is not None:
+                print(f"Car C-456 unparked. Fee: ${fee:.2f}")
+
+        print("\n--- Availability after one car leaves ---")
+        floor1.display_availability()
+        floor2.display_availability()
+
+
+if __name__ == "__main__":
+    ParkingLotDemo.main()

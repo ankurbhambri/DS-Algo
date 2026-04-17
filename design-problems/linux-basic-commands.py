@@ -51,6 +51,7 @@ class FileSystem:
         return f"Directory {path} created/exists."
 
     def write(self, path: str, content: str):
+
         parts = self._get_path_list(path)
         curr = self.root
         # Navigate to the parent directory
@@ -67,35 +68,162 @@ class FileSystem:
         node = curr.children[file_name]
         node.content += content
         node.size = len(node.content)
+
         return f"Written to {path}. New size: {node.size}"
 
     def read(self, path: str):
+
         curr = self.root
+
         for part in self._get_path_list(path):
+
             if part not in curr.children:
                 return "Error: Path not found"
+
             curr = curr.children[part]
+
         return curr.content if not curr.is_dir else f"Error: {path} is a directory"
 
     def ls(self, path: str):
+
         curr = self.root
+
         if path != "/":
             for part in self._get_path_list(path):
-                if part not in curr.children: return []
+                if part not in curr.children:
+                    return []
                 curr = curr.children[part]
-        
+
         return sorted(list(curr.children.keys()))
 
 
+    def rm(self, path: str):
+
+        parts = self._get_path_list(path)
+        curr = self.root
+
+        for part in parts[:-1]:
+            if part not in curr.children:
+                return f"Error: Path {path} not found"
+            curr = curr.children[part]
+        
+        file_name = parts[-1]
+
+        if file_name in curr.children:
+            del curr.children[file_name]
+            return f"{path} removed."
+
+        else:
+            return f"Error: Path {path} not found"
+    
+
+    def mv(self, src_path: str, dest_path: str):
+
+        src_parts = self._get_path_list(src_path)
+        dest_parts = self._get_path_list(dest_path)
+
+        # Find source node
+        curr = self.root
+        for part in src_parts[:-1]:
+            if part not in curr.children:
+                return f"Error: Source path {src_path} not found"
+            curr = curr.children[part]
+        
+        file_name = src_parts[-1]
+        if file_name not in curr.children:
+            return f"Error: Source path {src_path} not found"
+        
+        node_to_move = curr.children[file_name]
+
+        # Remove from source
+        del curr.children[file_name]
+
+        # Navigate to destination parent
+        curr = self.root
+        for part in dest_parts[:-1]:
+            if part not in curr.children:
+                curr.children[part] = FileNode(part, is_dir=True)
+            curr = curr.children[part]
+
+        # Move to destination
+        dest_file_name = dest_parts[-1]
+        curr.children[dest_file_name] = node_to_move
+
+        return f"{src_path} moved to {dest_path}."
+
+
+    def wildcard_match(self, name: str, pattern: str) -> bool:
+
+        m, n = len(name), len(pattern)
+
+        dp = [[False] * (n + 1) for _ in range(m + 1)]
+
+        dp[0][0] = True
+
+        for j in range(1, n + 1):
+
+            if pattern[j-1] == '*':
+                dp[0][j] = dp[0][j-1]
+            else:
+                break
+
+        for i in range(1, m + 1):
+
+            for j in range(1, n + 1):
+
+                if pattern[j-1] == name[i-1] or pattern[j-1] == '?':
+                    dp[i][j] = dp[i-1][j-1]
+
+                elif pattern[j-1] == '*':
+                    dp[i][j] = dp[i][j-1] or dp[i-1][j]
+
+        return dp[m][n]
+
+
+    def cd(self, path: str):
+
+        curr = self.root
+
+        for part in self._get_path_list(path):
+
+            if "*" in part or "?" in part:
+
+                # Glob: find matching directory children
+                matches = [
+                    name for name, node in curr.children.items()
+                    if node.is_dir and self.wildcard_match(name, part)
+                ]
+
+                if not matches:
+                    return f"Error: Directory {path} not found"
+
+                if len(matches) > 1:
+                    return "cd: too many arguments"
+
+                curr = curr.children[matches[0]]
+
+            else:
+                if part not in curr.children or not curr.children[part].is_dir:
+                    return f"Error: Directory {path} not found"
+
+                curr = curr.children[part]
+
+        return f"Changed directory to {curr.name}"
+
+
     def search(self, strategy_id: int, start_path: str, criteria: str):
+
         strategy = self.strategies.get(strategy_id)
-        if not strategy: return []
+
+        if not strategy:
+            return []
 
         # Find starting node
         curr = self.root
         if start_path != "/":
             for part in self._get_path_list(start_path):
-                if part not in curr.children: return []
+                if part not in curr.children:
+                    return []
                 curr = curr.children[part]
 
         results = []
@@ -103,6 +231,7 @@ class FileSystem:
         return sorted(results)
 
     def _dfs_search(self, node, current_path, strategy, criteria, results):
+
         # If it's a file, check matches
         if not node.is_dir:
             if strategy.matches(node.name, node.size, node.content, criteria):
@@ -135,3 +264,7 @@ print("Size > 10 in /home:", fs.search(1, "/home", "10"))
 print("Extension .pdf:", fs.search(2, "/", ".pdf"))
 # Search for content containing 'Python'
 print("Content 'Python':", fs.search(3, "/home", "Python"))
+
+print("\n--- Wildcard Search ---")
+print("cd /home/ubuntu/*:", fs.cd("/home/ubuntu/*"))  # Should match 'docs' and 'image.jpg' but error due to multiple matches
+print("cd /home/ubuntu/d*:", fs.cd("/home/ubuntu/d*"))  # Should match 'docs' and change directory successfully
