@@ -41,14 +41,12 @@ Constraints
 
 '''
 
-# Approach 1: Circular Array — O(1) record, O(300) get — fixed memory
-# Approach 2: Deque — O(1) amortized record, O(n) worst-case get
-
 from collections import deque
 
 
 # ======================== Approach 1: Circular Array (Optimal) ========================
 
+# Approach 1: Circular Array — O(1) record, O(300) get — fixed memory
 class ClickCounter:
     """
     Uses two fixed-size arrays of length 300 (window_size).
@@ -82,6 +80,7 @@ class ClickCounter:
 
 # ======================== Approach 2: Deque ========================
 
+# Approach 2: Deque — O(1) amortized record, O(n) worst-case get
 class ClickCounterDeque:
     """
     Stores each click as a timestamp in a deque.
@@ -98,6 +97,8 @@ class ClickCounterDeque:
         self.queue.append(timestamp)
 
     def get_recent_clicks(self, timestamp: int) -> int:
+        # here, we pop all expired timestamps from the front of the queue,
+        # expired timestamps are those that are older than 300 seconds from the current timestamp
         while self.queue and timestamp - self.queue[0] >= self.window_size:
             self.queue.popleft()
         return len(self.queue)
@@ -105,26 +106,24 @@ class ClickCounterDeque:
 
 # ======================== Tests ========================
 
-if __name__ == "__main__":
+for name, cls in [("Circular Array", ClickCounter), ("Deque", ClickCounterDeque)]:
+    t = cls()
+    t.record_click(1)
+    t.record_click(2)
+    t.record_click(3)
+    assert t.get_recent_clicks(4) == 3
 
-    for name, cls in [("Circular Array", ClickCounter), ("Deque", ClickCounterDeque)]:
-        t = cls()
-        t.record_click(1)
-        t.record_click(2)
-        t.record_click(3)
-        assert t.get_recent_clicks(4) == 3
+    t.record_click(300)
+    assert t.get_recent_clicks(300) == 4
+    assert t.get_recent_clicks(301) == 3
 
-        t.record_click(300)
-        assert t.get_recent_clicks(300) == 4
-        assert t.get_recent_clicks(301) == 3
+    # Multiple clicks at same timestamp
+    t2 = cls()
+    t2.record_click(1)
+    t2.record_click(1)
+    t2.record_click(1)
+    assert t2.get_recent_clicks(1) == 3
+    assert t2.get_recent_clicks(300) == 3
+    assert t2.get_recent_clicks(301) == 0
 
-        # Multiple clicks at same timestamp
-        t2 = cls()
-        t2.record_click(1)
-        t2.record_click(1)
-        t2.record_click(1)
-        assert t2.get_recent_clicks(1) == 3
-        assert t2.get_recent_clicks(300) == 3
-        assert t2.get_recent_clicks(301) == 0
-
-        print(f"{name}: All tests passed!")
+    print(f"{name}: All tests passed!")

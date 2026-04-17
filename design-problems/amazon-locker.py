@@ -1,10 +1,3 @@
-import random
-from enum import Enum
-from typing import Optional
-from abc import ABC, abstractmethod
-from datetime import datetime, timedelta
-
-
 '''
 
 Design a locker system like Amazon Locker where delivery drivers can deposit packages and customers can pick them up using a code.
@@ -43,6 +36,12 @@ Out of scope:
 
 '''
 
+
+import random
+from enum import Enum
+from typing import Optional
+from abc import ABC, abstractmethod
+from datetime import datetime, timedelta
 
 class Size(Enum):
     SMALL = "SMALL"
@@ -179,3 +178,23 @@ class Locker:
         self.access_token_mapping.pop(code, None)
         if isinstance(self.token_generator, RandomTokenGenerator):
             self.token_generator.release_code(code)
+
+
+if __name__ == "__main__":
+
+    compartments = [Compartment(Size.SMALL), Compartment(Size.MEDIUM), Compartment(Size.LARGE)]
+    locker = Locker(compartments)
+
+    # Carrier deposits a medium package
+    token_code = locker.deposit_package(Size.MEDIUM)
+    print(f"Package deposited. Access token: {token_code}")
+
+    # User picks up the package using the access token
+    locker.pickup(token_code)
+    print("Package picked up successfully.")
+
+    # Attempting to pick up with the same token again should fail
+    try:
+        locker.pickup(token_code)
+    except Exception as e:
+        print(f"Expected error on second pickup attempt: {e}")

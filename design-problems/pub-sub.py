@@ -9,6 +9,7 @@ Requirements
 - The system should handle concurrent access and ensure thread safety.
 - The Pub-Sub system should be scalable and efficient in terms of message delivery.
 
+
 ####################
 Entities
 ####################
@@ -27,18 +28,18 @@ Subscriber (abstract)
 + get_id() -> str
 + on_message(message: Message)
 
-AlertSubscriber extends Subscriber
-- id: str
+    AlertSubscriber extends Subscriber
+    - id: str
 
-+ get_id() -> str
-+ on_message(message: Message)
+    + get_id() -> str
+    + on_message(message: Message)
 
 
-NewsSubscriber extends Subscriber
-- id: str
+    NewsSubscriber extends Subscriber
+    - id: str
 
-+ get_id() -> str
-+ on_message(message: Message)
+    + get_id() -> str
+    + on_message(message: Message)
 
 
 --------------------------------------------------------------------------------
@@ -53,14 +54,6 @@ Topic
 + remove_subscriber(subscriber: Subscriber)
 + broadcast(message: Message)
 + _deliver_message(subscriber: Subscriber, message: Message)
-
-
---------------------------------------------------------------------------------
-
-Publisher
-- id: str
-
-+ publish(topic_name: str, message: Message, service: PubSubService)
 
 
 --------------------------------------------------------------------------------
@@ -211,7 +204,7 @@ class PubSubService:
 
 
 class PubSubDemo:
-    @staticmethod  
+    @staticmethod
     def main():
         pub_sub_service = PubSubService.get_instance()
 
