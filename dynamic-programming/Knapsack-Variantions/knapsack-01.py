@@ -80,30 +80,30 @@ def knapsackTabular(bag_cap, wt, val, N):
 
     for i in range(N):
 
-        for j in range(bag_cap + 1):  # j is cap
+        for wt in range(bag_cap + 1):  # wt is cap
 
             item_wt = wt[i]
             item_val = val[i]
 
             if i == 0:
-                dp[i][j] = item_val if item_wt <= j else 0
+                dp[i][wt] = item_val if item_wt <= wt else 0
 
             else:
 
-                if item_wt <= j:
+                if item_wt <= wt:
 
                     # take
-                    c1 = item_val + dp[i - 1][j - item_wt]  # i - 1 is N - 1
+                    c1 = item_val + dp[i - 1][wt - item_wt]  # i - 1 is N - 1
 
                     # skip
-                    c2 = dp[i - 1][j]
+                    c2 = dp[i - 1][wt]
 
                     # max (take, skip)
-                    dp[i][j] = max(c1, c2)
+                    dp[i][wt] = max(c1, c2)
 
                 # skip if current item weight is more than bag capacity
                 else:
-                    dp[i][j] = dp[i - 1][j]
+                    dp[i][wt] = dp[i - 1][wt]
 
     return dp[N - 1][bag_cap]
 
@@ -120,17 +120,14 @@ def knapsackTabular(bag_cap, wt, val, N):
 '''
 def knapSack_optimised(val, wt, W):
 
-    n = len(val)
     dp = [0] * (W + 1)
 
-    for i in range(n):
+    for cv, cw in zip(val, wt):
+        # We loop backwards from W to the current item's weight
+        # This ensures we don't use the same item multiple times for the same capacity
+        for w in range(W, cw - 1, -1):
 
-        for w in range(W, 0, -1): # reverse loop
-
-            cv, cw = val[i], wt[i]
-
-            if cw <= w:
-                dp[w] = max(dp[w], dp[w - cw] + cv)
+            dp[w] = max(dp[w], dp[w - cw] + cv)
 
     return dp[W]
 
