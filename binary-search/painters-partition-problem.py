@@ -3,6 +3,7 @@
 
 # Checks whether all boards can be painted within 'maxTime' by dividing the work among at most k painters
 def isPossible(maxTime, arr, k):
+
     painters = 1
     currSum = 0
 
@@ -60,6 +61,7 @@ print(minTime([10, 20, 30, 40], 2))
 # https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1
 
 def isPossible(maxPages, arr, k):
+
     students = 1
     currSum = 0
 

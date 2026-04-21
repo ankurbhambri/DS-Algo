@@ -1,34 +1,38 @@
 # https://leetcode.com/problems/split-array-largest-sum/
 
-
 class Solution:
-    def splitArray(self, nums, k):
-
-        l = max(nums)            # smallest possible max subarray sum
-        r = sum(nums)            # largest possible max subarray sum
+    def splitArray(self, nums, k: int) -> int:
 
         def helper(m):
-            s = 1                # at least 1 subarray
-            max_sm = 0           # running sum
+
+            partitions = 1
+            curr_sum = 0
 
             for n in nums:
 
-                if max_sm + n <= m:
-                    max_sm += n
+                if curr_sum + n <= m:
+                    curr_sum += n
 
                 else:
-                    max_sm = n   # start new subarray
-                    s += 1       # count the split
+                    curr_sum = n
+                    partitions += 1
 
-            return s             # total number of subarrays formed
+            return partitions
+
+        l = max(nums)
+        r = max(sum(nums), max(nums)) # Safety check for negative-heavy arrays
 
         while l < r:
-            m = (l + r) // 2     # mid is candidate for max subarray sum
-            s = helper(m)
+            m = (l + r) // 2
 
-            if s > k:
-                l = m + 1        # too many splits → increase max allowed sum
+            partitions = helper(m)
+
+            if partitions > k:
+                l = m + 1 # too many partitions
             else:
-                r = m            # try smaller max allowed sum
+                r = m # try smaller max_sum
+        return l
 
-        return l                 # minimum max subarray sum possible
+print(Solution().splitArray([1,4,4], 3)) # 4
+print(Solution().splitArray([1,2,3,4,5], 2)) # 9
+print(Solution().splitArray([7,2,5,10,8], 2)) # 18

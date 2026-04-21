@@ -26,6 +26,7 @@ def count_palindromes(s):
 print(count_palindromes("abac"))  # Output: 5 (a, b, a, c, aba)
 print(count_palindromes("aaa"))  # Output: 6 (a, a, a, aa, aa, aaa)
 
+
 # Manacher's Algorithm (O(N) time, O(N) space)
 def count_palindromes_manacher(s):
     # Transform the string to handle even-length palindromes
