@@ -1,36 +1,72 @@
 # https://leetcode.com/problems/remove-boxes/description
 
 
-def removeBoxes(boxes):
+# recursion + memoization
+# TC: O(n^4) - 4 nested loops, SC: O(n^3) - DP table
 
-    memo = {}
+'''
+Time Complexity: O(N^4)
 
-    def dp(l, r, k):
-        # Base case: no boxes left
-        if l > r:
-            return 0
+- Total States (N^3):
+  Three variables change — l (left), r (right), and k (count of similar boxes).
+  Each can go up to N, so total states = N x N x N = N^3.
 
-        if (l, r, k) in memo:
-            return memo[(l, r, k)]
+- Work per State (N):
+  Inside each state, a for loop runs over index m from l+1 to r,
+  which can iterate up to N times.
 
-        # Extend the group of the same color as boxes[r]
-        while l < r and boxes[r] == boxes[r - 1]:
-            r -= 1
-            k += 1
+- Total: States x Work per State = N^3 x N = O(N^4).
 
-        # Case 1: Remove all boxes[r] together
-        res = dp(l, r - 1, 0) + (k + 1) ** 2
+Note: Although the theoretical complexity is O(N^4), the while loop
+and the `if boxes[m] == boxes[l]` condition prune many branches,
+so it runs much faster in practice.
 
-        # Case 2: Merge boxes[r] with earlier groups of the same color
-        for m in range(l, r):
-            if boxes[m] == boxes[r]:
-                res = max(res, dp(l, m, k + 1) + dp(m + 1, r - 1, 0))
+Space Complexity: O(N^3)
 
-        memo[(l, r, k)] = res
+- Memoization Table (N^3):
+  Every unique state (l, r, k) is stored in the memo dictionary.
+  There can be at most N^3 entries.
 
-        return memo[(l, r, k)]
+- Recursion Stack (N):
+  The recursion depth can go up to N (length of the array).
 
-    return dp(0, len(boxes) - 1, 0)
+- Total: O(N^3) + O(N), dominated by O(N^3).
+'''
+class Solution:
+    def removeBoxes(self, boxes):
+
+        memo = {}
+
+        def solve(l, r, count):
+
+            if l > r:
+                return 0
+
+            # 1. Hamesha original parameters ko key banayein
+            state = (l, r, count)
+            if state in memo:
+                return memo[state]
+
+            # 2. Optimization: Saath wale same boxes ko count mein add karein
+            while l + 1 <= r and boxes[l] == boxes[l + 1]:
+                l += 1
+                count += 1
+
+            # Case 1: Is pure group (count+1 boxes) ko uda do
+            res = (count + 1) * (count + 1) + solve(l + 1, r, 0)
+
+            # Case 2: Kisi aage wale same color box 'm' ke saath merge karo
+            for m in range(l + 1, r + 1):
+                if boxes[m] == boxes[l]:
+                    # Beech ke boxes (l+1 to m-1) ko saaf karo
+                    # Aur m wale box ko count+1 boxes mil gaye (peeche wale)
+                    res = max(res, solve(m, r, count + 1) + solve(l + 1, m - 1, 0))
+
+            memo[state] = res # Original state store karein
+            return res
+
+        return solve(0, len(boxes) - 1, 0)
 
 
-print(removeBoxes([1, 3, 2, 2, 2, 3, 4, 3, 1]))  # Output: 23
+print(Solution().removeBoxes([1, 1, 1]))  # Output: 9
+print(Solution().removeBoxes([1, 3, 2, 2, 2, 3, 4, 3, 1]))  # Output: 23
