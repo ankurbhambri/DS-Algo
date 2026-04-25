@@ -54,6 +54,7 @@ class Solution:
 
                 # finding the max element in the current subarray of length j
                 curr_max = max(curr_max, arr[i - j])
+
                 # Here, curr_max of that subarray of length j and dp[i - j] is the max sum for the remaining array after that subarray
                 dp[i] = max(dp[i],  curr_max * j + dp[i - j])
 

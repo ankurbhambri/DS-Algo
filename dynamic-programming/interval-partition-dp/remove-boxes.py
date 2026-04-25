@@ -32,6 +32,7 @@ Space Complexity: O(N^3)
 
 - Total: O(N^3) + O(N), dominated by O(N^3).
 '''
+
 class Solution:
     def removeBoxes(self, boxes):
 
@@ -60,7 +61,7 @@ class Solution:
                 if boxes[m] == boxes[l]:
                     # Beech ke boxes (l+1 to m-1) ko saaf karo
                     # Aur m wale box ko count+1 boxes mil gaye (peeche wale)
-                    res = max(res, solve(m, r, count + 1) + solve(l + 1, m - 1, 0))
+                    res = max(res, solve(l + 1, m - 1, 0) + solve(m, r, count + 1))
 
             memo[state] = res # Original state store karein
             return res

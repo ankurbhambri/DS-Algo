@@ -5,86 +5,142 @@ Operands are only true and false.
 
 Return the number of ways to evaluate the expression modulo 103 + 3.
 
-Examples
+Examples:
 
-Example 1:
-Input: expression = “T|T&F”
-Output: 1
-Explanation: The only way to get the result as true is:
-(T) | (T&F) = T|F = T 
+    Example 1:
+    Input: expression = “T|T&F”
+    Output: 1
+    Explanation: The only way to get the result as true is:
+    (T) | (T&F) = T|F = T 
 
-Example 2:
-Input: expression = “F|T^F”
-Output: 2
-Explanation: There are 2 possible ways to get the result as true:
-        i. (F|T) ^ F = T ^ F = T
-        ii. F | (T^F) = F | T = T
+    Example 2:
+    Input: expression = “F|T^F”
+    Output: 2
+    Explanation: There are 2 possible ways to get the result as true:
+            i. (F|T) ^ F = T ^ F = T
+            ii. F | (T^F) = F | T = T
 
 '''
 
+from functools import lru_cache
+
+# Recursive + Memoization (Top-Down DP) approach
 # TC: O(n^3) and SC: O(n^2)
-def countWays(expr):
+class Solution:
+    def countWays(self, N, S):
+
+        # Modulo as per standard competitive programming questions
+        MOD = 1003
+
+        @lru_cache(None)
+        def solve(i, j, isTrue):
+
+            # Base Case 1: Empty string
+            if i > j:
+                return 0
+
+            # Base Case 2: Single character (T or F)
+            if i == j:
+                if isTrue:
+                    return 1 if S[i] == 'T' else 0
+                else:
+                    return 1 if S[i] == 'F' else 0
+
+            ways = 0
+
+            # Loop sirf operators par chalega (index 1, 3, 5...)
+            for k in range(i + 1, j, 2):
+
+                # Left part ke True aur False ways
+                LT = solve(i, k - 1, True)
+                LF = solve(i, k - 1, False)
+
+                # Right part ke True aur False ways
+                RT = solve(k + 1, j, True)
+                RF = solve(k + 1, j, False)
+
+                operator = S[k]
+
+                if operator == '&':
+                    if isTrue:
+                        ways += (LT * RT)
+                    else:
+                        ways += (LT * RF) + (LF * RT) + (LF * RF)
+
+                elif operator == '|':
+                    if isTrue:
+                        ways += (LT * RT) + (LT * RF) + (LF * RT)
+                    else:
+                        ways += (LF * RF)
+
+                elif operator == '^':
+                    if isTrue:
+                        ways += (LT * RF) + (LF * RT)
+                    else:
+                        ways += (LT * RT) + (LF * RF)
+                
+                # Har step par modulo lena zaroori hai
+                ways %= MOD
+                
+            return ways
+
+        # Pure expression (0 to N-1) ke liye True ways nikaalein
+        return solve(0, N - 1, True)
+
+
+# TC: O(n^3) and SC: O(n^2)
+def countWaysTabular(N, S):
 
     MOD = 1003
 
-    # Separate operands and operators
-    operands = []
-    operators = []
+    # Do 2D tables: T[i][j] aur F[i][j]
+    T = [[0] * N for _ in range(N)]
+    F = [[0] * N for _ in range(N)]
 
-    for i, ch in enumerate(expr):
-        if i % 2 == 0:
-            operands.append(ch)   # T or F
-        else:
-            operators.append(ch)  # |, &, ^
+    # Gap-based traversal (Interval DP)
+    # reason of 2 jump is because operands are at even indices (0,2,4...) and operators are at odd indices (1,3,5...),
+    # so we only want to consider subexpressions that start and end at operands, hence the step of 2 in the gap and i loops
+    for gap in range(0, N, 2):
 
-    n = len(operands)
+        # i loop bhi 2 step ka hai kyunki hum sirf operands ke indices par hi subexpressions consider karna chahte hain
+        for i in range(0, N - gap, 2):
 
-    # dp[i][j][0] = false ways, dp[i][j][1] = true ways
-    dp = [[[0, 0] for _ in range(n)] for _ in range(n)]
+            j = i + gap
 
-    # Base case: single operands
-    for i in range(n):
-        if operands[i] == 'T':
-            dp[i][i][1] = 1
-            dp[i][i][0] = 0
-        else:
-            dp[i][i][1] = 0
-            dp[i][i][0] = 1
+            # Base Case: Single Character
+            if gap == 0:
+                T[i][j] = 1 if S[i] == 'T' else 0
+                F[i][j] = 1 if S[i] == 'F' else 0
 
-    # Fill for lengths 2 to n
-    for length in range(2, n + 1):
-        for i in range(n - length + 1):
-            j = i + length - 1
+            else:
+                # but yha pe hum operator ke indices par hi split kar rahe hain, isliye k ko i+1 se j-1 tak 2 step ke saath loop kar rahe hain
+                for k in range(i + 1, j, 2):
 
-            # Split at each operator between i and j
-            for k in range(i, j):
-                op = operators[k]
+                    op = S[k]
 
-                lt = dp[i][k][1]  # left true
-                lf = dp[i][k][0]  # left false
-                rt = dp[k+1][j][1]  # right true
-                rf = dp[k+1][j][0]  # right false
+                    # k -1 tak ka left subexpression before operator
+                    LT, LF = T[i][k - 1], F[i][k - 1]
 
-                if op == '|':
-                    dp[i][j][1] += lt*rt + lt*rf + lf*rt
-                    dp[i][j][0] += lf*rf
+                    # k + 1 se j tak ka right subexpression after operator
+                    RT, RF = T[k + 1][j], F[k + 1][j]
 
-                elif op == '&':
-                    dp[i][j][1] += lt*rt
-                    dp[i][j][0] += lf*rf + lf*rt + lt*rf
+                    if op == '&':
+                        T[i][j] += (LT * RT)
+                        F[i][j] += (LT * RF) + (LF * RT) + (LF * RF)
 
-                elif op == '^':
-                    dp[i][j][1] += lt*rf + lf*rt
-                    dp[i][j][0] += lt*rt + lf*rf
+                    elif op == '|':
+                        T[i][j] += (LT * RT) + (LT * RF) + (LF * RT)
+                        F[i][j] += (LF * RF)
 
-                # Apply modulo
-                dp[i][j][1] %= MOD
-                dp[i][j][0] %= MOD
+                    elif op == '^':
+                        T[i][j] += (LT * RF) + (LF * RT)
+                        F[i][j] += (LT * RT) + (LF * RF)
 
-    return dp[0][n-1][1]
+                    T[i][j] %= MOD
+                    F[i][j] %= MOD
+
+    return T[0][N-1]
 
 
-print(countWays("T|T&F"))   # Output: 1
-print(countWays("T|T&F"))   # Output: 1
-print(countWays("F|T^F"))   # Output: 2
-print(countWays("T^F|F"))   # Output: 2
+print(countWaysTabular(5, "F|T^F")) # 2
+print(countWaysTabular(7, "T|T&F^T")) # 4

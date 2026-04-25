@@ -1,7 +1,11 @@
 # https://leetcode.com/problems/different-ways-to-add-parentheses/description/
 
+
+# TC - O(2 ^ N)
+# SC - O(2 ^ N)
 class Solution:
     def diffWaysToCompute(self, expression: str):
+
         res = []
 
         for i in range(len(expression)):
@@ -29,8 +33,5 @@ class Solution:
         return res
 
 
-
-# TC - O(2 ^ N)
-# SC - O(2 ^ N)
 print(Solution().diffWaysToCompute("2-1-1"))
 print(Solution().diffWaysToCompute("2*3-4*5"))

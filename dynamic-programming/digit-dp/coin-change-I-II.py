@@ -52,8 +52,8 @@ def minCoin_tabular(coins, amount):
     return dp[amount] if dp[amount] != float("inf") else -1
 
 
-print(Solution().coinChange([1, 2, 5], 11))
-print(minCoin_tabular([1, 2, 5], 11))
+print(Solution().coinChange([1, 2, 5], 11)) # 3
+print(minCoin_tabular([1, 2, 5], 11)) # 3
 
 
 # https://leetcode.com/problems/coin-change-ii/
@@ -74,4 +74,4 @@ class Solution:
 
         return dp[amount]
 
-print(Solution().change(5, [1, 2, 3]))
+print(Solution().change(11, [1, 2, 5])) # 11

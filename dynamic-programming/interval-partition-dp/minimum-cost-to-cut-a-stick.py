@@ -8,7 +8,7 @@ class Solution:
 
         memo = {}
         cuts = [0] + sorted(cuts) + [n]
-        
+
         def cost(left, right):
 
             if right - left == 1:
@@ -20,7 +20,9 @@ class Solution:
             ans = float("inf")
 
             for mid in range(left + 1, right):
-                ans = min(ans, cost(left, mid) + cost(mid, right) + cuts[right] - cuts[left])
+                ans = min(
+                    ans, cost(left, mid) + cost(mid, right) + cuts[right] - cuts[left]
+                )
 
             memo[(left, right)] = ans
 
