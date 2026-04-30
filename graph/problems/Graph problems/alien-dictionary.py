@@ -49,46 +49,46 @@ def alienOrder(words):
 
 
 print(alienOrder(["wrt", "wrf", "er", "ett", "rftt"]))
+print(alienOrder(["ac","ab","zc","zb"])) # wrong answer here
 
 
 # using Khan's algo
-def alienOrder(words):
+class Solution:
+    def alienOrder(self, words):
 
-    # Step 1: Create adjacency list and in-degree map
-    adj = {c: set() for w in words for c in w}
-    indegree = {c: 0 for w in words for c in w}
+        adj = {c: set() for w in words for c in w}
+        indegree = {c: 0 for w in words for c in w}
 
-    # Step 2: Build the graph
-    for i in range(len(words) - 1):
-        w1, w2 = words[i], words[i + 1]
-        min_length = min(len(w1), len(w2))
-        
-        # If word1 is a prefix of word2 but longer, it's an invalid order
-        if w1[:min_length] == w2[:min_length] and len(w1) > len(w2):
+        for i in range(len(words) - 1):
+            w1, w2 = words[i], words[i + 1]
+            min_length = min(len(w1), len(w2))
+
+            if w1[:min_length] == w2[:min_length] and len(w1) > len(w2):
+                return ""
+
+            for j in range(min_length):
+                if w1[j] != w2[j]:
+                    if w2[j] not in adj[w1[j]]:  # ✅ FIX
+                        adj[w1[j]].add(w2[j])
+                        indegree[w2[j]] += 1
+                    break
+
+        queue = deque([c for c in indegree if indegree[c] == 0])
+        result = []
+
+        while queue:
+            char = queue.popleft()
+            result.append(char)
+            for neighbor in adj[char]:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    queue.append(neighbor)
+
+        if len(result) < len(indegree):
             return ""
 
-        for j in range(min_length):
-            if w1[j] != w2[j]:
-                adj[w1[j]].add(w2[j])
-                indegree[w2[j]] += 1
-                break  # Stop after finding the first difference
+        return "".join(result)
 
-    # Step 3: Topological Sort using BFS (Kahn’s Algorithm)
-    queue = deque([c for c in indegree if indegree[c] == 0])  # Nodes with in-degree 0
-    result = []
 
-    while queue:
-        char = queue.popleft()
-        result.append(char)
-        for neighbor in adj[char]:
-            indegree[neighbor] -= 1
-            if indegree[neighbor] == 0:
-                queue.append(neighbor)
-
-    # Step 4: If cycle detected (not all nodes processed), return ""
-    if len(result) < len(indegree):
-        return ""
-
-    return "".join(result)
-
-print(alienOrder(["wrt", "wrf", "er", "ett", "rftt"]))
+print(Solution().alienOrder(["ac","ab","zc","zb"])) # "acbz" correct here
+print(Solution().alienOrder(["wrt", "wrf", "er", "ett", "rftt"])) # "wertf"

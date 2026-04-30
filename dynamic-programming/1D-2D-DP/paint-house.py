@@ -1,4 +1,4 @@
-# https://algo.monster/liteproblems/256
+# https://leetcode.com/problems/paint-house/
 
 '''
 There are a row of n houses, each house can be painted with one of the three colors: red, blue or green.
