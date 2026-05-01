@@ -1,34 +1,27 @@
 # https://leetcode.com/problems/paint-house/
 
 '''
-There are a row of n houses, each house can be painted with one of the three colors: red, blue or green.
-The cost of  painting each house with a certain color is different. You have to  paint all the houses such that no two adjacent houses have the same color.
+    We are given an array costs where costs[i][0] is the cost of painting house i with color red,
 
-The cost of painting each house with a certain color is represented by a n x 3 cost matrix.
-For example, costs[0][0] is the cost of painting house 0 with color red; costs[1][2] is the cost of painting house 1 with color green, and so on.
-
-Find the minimum cost to paint all houses.
-
-Input: [[17,2,17],[16,16,5],[14,3,19]]
-Output: 10
-Explanation: Paint house 0 into blue, paint house 1 into green, paint house 2 into blue.
-             Minimum cost: 2 + 5 + 3 = 10.
-
+    costs[i][1] is the cost of painting house i with color blue, and costs[i][2] is the cost of painting house i with color green.
 '''
 
-def solution(costs):
+# TC: O(n) where n is the number of houses
+# Space optimal solution, O(1) space complexity
+class Solution:
+    def minCost(self, costs):
 
-    n, m = len(costs), len(costs[0])
+        dp = [0, 0, 0]
 
-    for i in range(1, n):
+        for i in range(len(costs)):
 
-        for j in range(m):
+            dp0 = min(dp[1], dp[2]) + costs[i][0]
+            dp1 = min(dp[0], dp[2]) + costs[i][1]
+            dp2 = min(dp[1], dp[0]) + costs[i][2]
+            dp = [dp0, dp1, dp2]
 
-            a = costs[i - 1][j - 1] if j > 0 else float("inf")
-            b = costs[i - 1][j + 1] if j + 1 < m else float("inf")
+        return min(dp)
 
-            costs[i][j] = costs[i][j] + min(a, b)
 
-    return min(costs[-1])
-
-print(solution([[17, 2, 17],[16, 16, 5],[14, 3, 19]]))
+print(Solution().minCost([[7,6,2]])) # 2
+print(Solution().minCost([[17,2,17],[16,16,5],[14,3,19]])) # 10
