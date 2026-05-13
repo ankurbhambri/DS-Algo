@@ -32,6 +32,7 @@ class Type(Enum):
 # =========================
 
 class Pizza(ABC):
+
     @abstractmethod
     def get_cost(self):
         pass
@@ -89,15 +90,11 @@ class Mushroom(Topping):
         return super().get_cost() + 20
 
 class Pepperoni(Topping):
-    def __init__(self, pizza: Pizza):
-        super().__init__(pizza)
-
-        # validation
-        if not self.get_base().is_non_veg():
-            raise ValueError("Pepperoni allowed only on Non-Veg pizza")
-
     def get_cost(self):
-        return super().get_cost() + 50
+        base = self.get_base()
+        if base.is_non_veg():
+            return super().get_cost() + 50
+        raise ValueError("Pepperoni can only be added to non-veg pizzas")
 
 # =========================
 # COUPONS
@@ -174,32 +171,23 @@ class Cart:
     def checkout(self, billing_service: BillingService, coupon: Coupon = None):
         return billing_service.generate_bill(self.items, coupon)
 
-# =========================
-# DEMO
-# =========================
 
-def main():
+cart = Cart()
 
-    cart = Cart()
+pizza1 = BasePizza(Size.MEDIUM, Type.VEG)
+pizza1 = Cheese(pizza1)
+pizza1 = Mushroom(pizza1)
 
-    pizza1 = BasePizza(Size.MEDIUM, Type.VEG)
-    pizza1 = Cheese(pizza1)
-    pizza1 = Mushroom(pizza1)
+pizza2 = BasePizza(Size.LARGE, Type.NONVEG)
+pizza2 = Pepperoni(pizza2)
 
-    pizza2 = BasePizza(Size.LARGE, Type.NONVEG)
-    pizza2 = Pepperoni(pizza2)
+cart.add(pizza1)
+cart.add(pizza2)
 
-    cart.add(pizza1)
-    cart.add(pizza2)
+coupon = PercentageCoupon(10, min_amount=500)
 
-    coupon = PercentageCoupon(10, min_amount=500)
+billing_service = BillingService()
 
-    billing_service = BillingService()
+bill = cart.checkout(billing_service, coupon)
 
-    bill = cart.checkout(billing_service, coupon)
-
-    for k, v in bill.items():
-        print(f"{k}: {v:.2f}")
-
-if __name__ == "__main__":
-    main()
+print(*(f"{k}: {v:.2f}" for k, v in bill.items()), sep="\n")

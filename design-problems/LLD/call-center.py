@@ -14,10 +14,12 @@ Implement a method dispatchCall() which assigns a call to the first available em
 from enum import IntEnum
 from collections import deque
 
+
 class Rank(IntEnum):
     RESPONDENT = 0
     MANAGER = 1
     DIRECTOR = 2
+
 
 class Employee:
     def __init__(self, name, rank):
@@ -32,17 +34,22 @@ class Employee:
     def finish_call(self):
         self.is_free = True
 
+
+# super().__init__() is like a bridge that connects a "Child" class to its "Parent" class.
 class Respondent(Employee):
     def __init__(self, name):
         super().__init__(name, Rank.RESPONDENT)
+
 
 class Manager(Employee):
     def __init__(self, name):
         super().__init__(name, Rank.MANAGER)
 
+
 class Director(Employee):
     def __init__(self, name):
         super().__init__(name, Rank.DIRECTOR)
+
 
 class CallHandler:
     def __init__(self, respondents: list[Respondent], managers: list[Manager], directors: list[Director]):
