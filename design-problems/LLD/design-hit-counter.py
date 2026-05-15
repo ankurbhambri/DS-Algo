@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/design-hit-counter/
+
 '''
 Design a hit counter which counts the number of hits received in the past 5 minutes (i.e., the past 300 seconds).
 
@@ -47,6 +49,7 @@ Follow up: What if the number of hits per second could be huge? Does your design
 class HitCounter:
 
     def __init__(self):
+
         self.hits = []
 
     def hit(self, timestamp: int) -> None:
@@ -180,7 +183,6 @@ class ExpiringCounter:
         for i in range(self.t):
             # Only count elements within valid window and all keys count
             if timestamp - self.times[i] < self.t:
-                print(self.buckets[i].values())
                 total += sum(self.buckets[i].values())
 
         return total

@@ -20,7 +20,6 @@ class Rank(IntEnum):
     MANAGER = 1
     DIRECTOR = 2
 
-
 class Employee:
     def __init__(self, name, rank):
         self.name = name
@@ -34,22 +33,18 @@ class Employee:
     def finish_call(self):
         self.is_free = True
 
-
 # super().__init__() is like a bridge that connects a "Child" class to its "Parent" class.
 class Respondent(Employee):
     def __init__(self, name):
         super().__init__(name, Rank.RESPONDENT)
 
-
 class Manager(Employee):
     def __init__(self, name):
         super().__init__(name, Rank.MANAGER)
 
-
 class Director(Employee):
     def __init__(self, name):
         super().__init__(name, Rank.DIRECTOR)
-
 
 class CallHandler:
     def __init__(self, respondents: list[Respondent], managers: list[Manager], directors: list[Director]):

@@ -1,3 +1,5 @@
+# https://medium.com/python-interview-preparation/parking-lot-designing-a-management-system-b89fd2f382c8
+
 '''
 Our parking lot will have multiple floors and allow only 2 and 4-wheeler vehicles to be parked.
 On each floor, parking spots of either type 2 or 4 will be arranged in rows and columns.

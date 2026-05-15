@@ -22,7 +22,7 @@ Requirements:
 
 - For MARKET orders: execute immediately at current price.
 - For LIMIT orders: execute immediately if market conditions allow; otherwise keep it pending.
-- Update user’s cash balance and stock holdings after an order is executed.
+- Update user's cash balance and stock holdings after an order is executed.
 
 
 - Show current holdings with quantities and average prices.

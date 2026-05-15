@@ -137,10 +137,10 @@ class Split:
     def __init__(self, user: 'User', amount: float):
         self._user = user
         self._amount = amount
-    
+
     def get_user(self) -> 'User':
         return self._user
-    
+
     def get_amount(self) -> float:
         return self._amount
 
@@ -150,6 +150,7 @@ class SplitStrategy(ABC):
     def calculate_splits(self, total_amount: float, paid_by: 'User', participants: List['User'], split_values: Optional[List[float]]) -> List['Split']:
         pass
 
+
 class EqualSplitStrategy(SplitStrategy):
     def calculate_splits(self, total_amount: float, paid_by: 'User', participants: List['User'], split_values: Optional[List[float]]) -> List['Split']:
         splits = []
@@ -158,10 +159,13 @@ class EqualSplitStrategy(SplitStrategy):
             splits.append(Split(participant, amount_per_person))
         return splits
 
+
 class ExactSplitStrategy(SplitStrategy):
     def calculate_splits(self, total_amount: float, paid_by: 'User', participants: List['User'], split_values: Optional[List[float]]) -> List['Split']:
+
         if len(participants) != len(split_values):
             raise ValueError("Number of participants and split values must match.")
+
         if abs(sum(split_values) - total_amount) > 0.01:
             raise ValueError("Sum of exact amounts must equal the total expense amount.")
         
@@ -170,13 +174,16 @@ class ExactSplitStrategy(SplitStrategy):
             splits.append(Split(participants[i], split_values[i]))
         return splits
 
+
 class PercentageSplitStrategy(SplitStrategy):
     def calculate_splits(self, total_amount: float, paid_by: 'User', participants: List['User'], split_values: Optional[List[float]]) -> List['Split']:
+
         if len(participants) != len(split_values):
             raise ValueError("Number of participants and split values must match.")
+
         if abs(sum(split_values) - 100.0) > 0.01:
             raise ValueError("Sum of percentages must be 100.")
-        
+
         splits = []
         for i in range(len(participants)):
             amount = (total_amount * split_values[i]) / 100.0
@@ -204,7 +211,7 @@ class BalanceSheet:
                 self._balances[other_user] = amount
 
     def show_balances(self):
-        
+
         print(f"--- Balance Sheet for {self._owner.get_name()} ---")
         if not self._balances:
             print("All settled up!")

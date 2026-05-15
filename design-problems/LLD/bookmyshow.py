@@ -168,6 +168,7 @@ class User:
 
 
 # ======================== Abstractions (OCP + DIP + ISP) ========================
+# ======================== Strategy Implementations (LSP) ========================
 
 class SeatPricingStrategy(ABC):
     """Open/Closed: add new pricing tiers by subclassing."""
@@ -175,19 +176,6 @@ class SeatPricingStrategy(ABC):
     def get_price(self, seat_type: SeatType) -> float:
         pass
 
-
-class PaymentMethod(ABC):
-    """Interface Segregation: payment is its own focused abstraction."""
-    @abstractmethod
-    def pay(self, amount: float) -> PaymentStatus:
-        pass
-
-    @abstractmethod
-    def refund(self, amount: float) -> PaymentStatus:
-        pass
-
-
-# ======================== Strategy Implementations (LSP) ========================
 
 class StandardPricing(SeatPricingStrategy):
     def __init__(self, prices: Optional[Dict[SeatType, float]] = None):
@@ -212,6 +200,17 @@ class WeekendPricing(SeatPricingStrategy):
 
 
 # ======================== Payment Implementations (LSP) ========================
+
+
+class PaymentMethod(ABC):
+    """Interface Segregation: payment is its own focused abstraction."""
+    @abstractmethod
+    def pay(self, amount: float) -> PaymentStatus:
+        pass
+
+    @abstractmethod
+    def refund(self, amount: float) -> PaymentStatus:
+        pass
 
 class CreditCardPayment(PaymentMethod):
     def __init__(self, card_number: str):

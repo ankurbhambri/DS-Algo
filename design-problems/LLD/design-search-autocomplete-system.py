@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/design-search-autocomplete-system
+
 '''
 
 (Debouncing)
@@ -76,7 +78,7 @@ class AutocompleteSystem:
         self.root = TrieNode()
         self.freq = defaultdict(int)
         self.prefix = ""
-
+ 
         for s, t in zip(sentences, times):
             self.freq[s] = t
             self.insert(s)

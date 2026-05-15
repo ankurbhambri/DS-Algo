@@ -1,4 +1,9 @@
 # https://leetcode.com/problems/valid-sudoku/description/
+
+# "." means empty cell, only digits 1-9 are valid
+# Each row, column, and 3x3 box must contain the digits 1-9 without repetition.
+
+# we are here, checking for duplicates in rows, columns, and boxes.
 class Solution:
     def isValidSudoku(self, board):
 
@@ -9,6 +14,7 @@ class Solution:
 
         for r in range(9):
             for c in range(9):
+
                 val = board[r][c]
                 if val == '.':
                     continue
@@ -16,17 +22,20 @@ class Solution:
                 # Check row
                 if val in rows[r]:
                     return False
+
                 rows[r].add(val)
 
                 # Check column
                 if val in cols[c]:
                     return False
+
                 cols[c].add(val)
 
                 # Check box
                 box_index = (r // 3) * 3 + (c // 3)
                 if val in boxes[box_index]:
                     return False
+
                 boxes[box_index].add(val)
 
         return True
