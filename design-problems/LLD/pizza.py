@@ -159,9 +159,7 @@ class BillingService:
 # =========================
 # CART
 # =========================
-
 class Cart:
-
     def __init__(self):
         self.items = []
 

@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 
 '''
-The Dependency Inversion Principle states that high-level modules should not depend on low-level modules. Both should depend on abstractions. 
+The Dependency Inversion Principle states that high-level modules should not depend on low-level modules. Both should depend on abstractions.
+
 Abstractions should not depend on details. Details should depend on abstractions.
 
-InCorrect approach: Below approach violates the dependency inversion principle because PowerSwitch (high-level module) directly depends on LightBulb (low-level module).
+Incorrect approach ❌:
+Below approach violates the dependency inversion principle because PowerSwitch (high-level module) directly depends on LightBulb (low-level module).
 
 class LightBulb:
     def turn_on(self):
@@ -27,8 +29,9 @@ class PowerSwitch:
             self.on = True
 '''
 
-# Correct approach: Below approach adheres to the dependency inversion principle because PowerSwitch (high-level module) depends on the abstraction (Switch),
-# rather than the concrete implementation (LightBulb).
+# Correct approach ✅:
+# Below approach adheres to the dependency inversion principle because PowerSwitch (high-level module),
+# depends on the abstraction (Switch) rather than the concrete implementation (LightBulb).
 
 class Switch(ABC):
 

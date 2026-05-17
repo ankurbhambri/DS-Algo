@@ -1,5 +1,5 @@
 '''
-Designing Splitwise
+Design Splitwise
 
 Requirements
 - The system should allow users to create accounts and manage their profile information.
@@ -11,533 +11,186 @@ Requirements
 - Users should be able to view their transaction history and group expenses.
 - The system should handle concurrent transactions and ensure data consistency.
 
-
-#####################
-Entities
-#####################
-
---------------------------------------------------------------------------------
-User
-- id: str
-- name: str
-- email: str
-- balance_sheet: BalanceSheet
-
-+ get_id() -> str
-+ get_name() -> str
-+ get_balance_sheet() -> BalanceSheet
-
---------------------------------------------------------------------------------
-BalanceSheet
-- owner: User
-- balances: Dict[User, float]
-- lock: threading.Lock
-
-+ get_balances() -> Dict[User, float]
-+ adjust_balance(other_user: User, amount: float)
-+ show_balances()
-
---------------------------------------------------------------------------------
-Group
-- id: str
-- name: str
-- members: List[User]
-
-+ get_id() -> str
-+ get_name() -> str
-+ get_members() -> List[User]
-
---------------------------------------------------------------------------------
-Split
-- user: User
-- amount: float
-
-+ get_user() -> User
-+ get_amount() -> float
-
---------------------------------------------------------------------------------
-Expense
-- id: str
-- description: str
-- amount: float
-- paid_by: User
-- timestamp: datetime
-- splits: List[Split]
-
-+ get_id()
-+ get_description()
-+ get_amount()
-+ get_paid_by()
-+ get_splits()
-
---------------------------------------------------------------------------------
-ExpenseBuilder
-- id
-- description
-- amount
-- paid_by
-- participants
-- split_strategy
-- split_values
-
-+ set_id()
-+ set_description()
-+ set_amount()
-+ set_paid_by()
-+ set_participants()
-+ set_split_strategy()
-+ set_split_values()
-+ build() -> Expense
-
---------------------------------------------------------------------------------
-SplitStrategy (abstract)
-+ calculate_splits(total_amount, paid_by, participants, split_values) -> List[Split]
-
-EqualSplitStrategy
-ExactSplitStrategy
-PercentageSplitStrategy
-
---------------------------------------------------------------------------------
-Transaction
-- from_user: User
-- to_user: User
-- amount: float
-
-+ __str__()
-
---------------------------------------------------------------------------------
-SplitwiseService (Singleton)
-- users: Dict[str, User]
-- groups: Dict[str, Group]
-- lock: threading.Lock
-
-+ add_user(name, email) -> User
-+ add_group(name, members) -> Group
-
-+ create_expense(builder: ExpenseBuilder)
-+ settle_up(payer_id, payee_id, amount)
-
-+ show_balance_sheet(user_id)
-+ simplify_group_debts(group_id) -> List[Transaction]
-
-+ get_user(user_id)
-+ get_group(group_id)
-
 '''
 
-
-import uuid
-import datetime
-import threading
+from threading import Lock
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional
-
-
-class Split:
-    def __init__(self, user: 'User', amount: float):
-        self._user = user
-        self._amount = amount
-
-    def get_user(self) -> 'User':
-        return self._user
-
-    def get_amount(self) -> float:
-        return self._amount
-
-
-class SplitStrategy(ABC):
-    @abstractmethod
-    def calculate_splits(self, total_amount: float, paid_by: 'User', participants: List['User'], split_values: Optional[List[float]]) -> List['Split']:
-        pass
-
-
-class EqualSplitStrategy(SplitStrategy):
-    def calculate_splits(self, total_amount: float, paid_by: 'User', participants: List['User'], split_values: Optional[List[float]]) -> List['Split']:
-        splits = []
-        amount_per_person = total_amount / len(participants)
-        for participant in participants:
-            splits.append(Split(participant, amount_per_person))
-        return splits
-
-
-class ExactSplitStrategy(SplitStrategy):
-    def calculate_splits(self, total_amount: float, paid_by: 'User', participants: List['User'], split_values: Optional[List[float]]) -> List['Split']:
-
-        if len(participants) != len(split_values):
-            raise ValueError("Number of participants and split values must match.")
-
-        if abs(sum(split_values) - total_amount) > 0.01:
-            raise ValueError("Sum of exact amounts must equal the total expense amount.")
-        
-        splits = []
-        for i in range(len(participants)):
-            splits.append(Split(participants[i], split_values[i]))
-        return splits
-
-
-class PercentageSplitStrategy(SplitStrategy):
-    def calculate_splits(self, total_amount: float, paid_by: 'User', participants: List['User'], split_values: Optional[List[float]]) -> List['Split']:
-
-        if len(participants) != len(split_values):
-            raise ValueError("Number of participants and split values must match.")
-
-        if abs(sum(split_values) - 100.0) > 0.01:
-            raise ValueError("Sum of percentages must be 100.")
-
-        splits = []
-        for i in range(len(participants)):
-            amount = (total_amount * split_values[i]) / 100.0
-            splits.append(Split(participants[i], amount))
-        return splits
-
-
-class BalanceSheet:
-    def __init__(self, owner: 'User'):
-        self._owner = owner
-        self._balances: Dict['User', float] = {}
-        self._lock = threading.Lock()
-
-    def get_balances(self) -> Dict['User', float]:
-        return self._balances
-
-    def adjust_balance(self, other_user: 'User', amount: float):
-        with self._lock:
-            if self._owner == other_user:
-                return  # Cannot owe yourself
-
-            if other_user in self._balances:
-                self._balances[other_user] += amount
-            else:
-                self._balances[other_user] = amount
-
-    def show_balances(self):
-
-        print(f"--- Balance Sheet for {self._owner.get_name()} ---")
-        if not self._balances:
-            print("All settled up!")
-            return
-
-        total_owed_to_me = 0
-        total_i_owe = 0
-
-        for other_user, amount in self._balances.items():
-
-            if amount > 0.01:
-                print(f"{other_user.get_name()} owes {self._owner.get_name()} ${amount:.2f}")
-                total_owed_to_me += amount
-
-            elif amount < -0.01:
-                print(f"{self._owner.get_name()} owes {other_user.get_name()} ${-amount:.2f}")
-                total_i_owe += (-amount)
-
-        print(f"Total Owed to {self._owner.get_name()}: ${total_owed_to_me:.2f}")
-        print(f"Total {self._owner.get_name()} Owes: ${total_i_owe:.2f}")
-        print("---------------------------------")
+from collections import defaultdict
 
 
 class User:
-    def __init__(self, name: str, email: str):
-        self._id = str(uuid.uuid4())
-        self._name = name
-        self._email = email
-        self._balance_sheet = BalanceSheet(self)
-
-    def get_id(self) -> str:
-        return self._id
-
-    def get_name(self) -> str:
-        return self._name
-
-    def get_balance_sheet(self) -> 'BalanceSheet':
-        return self._balance_sheet
-
+    def __init__(self, user_id, name, email):
+        self.id = user_id
+        self.name = name
+        self.email = email
 
 class Group:
-    def __init__(self, name: str, members: List['User']):
-        self._id = str(uuid.uuid4())
-        self._name = name
-        self._members = members
 
-    def get_id(self) -> str:
-        return self._id
+    def __init__(self, group_id, name):
+        self.id = group_id
+        self.name = name
+        self.members = []
 
-    def get_name(self) -> str:
-        return self._name
+    def add_member(self, user):
+        self.members.append(user)
 
-    def get_members(self) -> List['User']:
-        return self._members.copy()
+class Split:
+    def __init__(self, user, amount):
+        self.user = user
+        self.amount = amount
 
+
+# STRATEGY PATTERN
+class SplitStrategy(ABC):
+
+    @abstractmethod
+    def calculate(self, amount, users):
+        pass
+
+
+class EqualSplit(SplitStrategy):
+
+    def calculate(self, amount, users):
+        split_amount = amount / len(users)
+        return [Split(user, split_amount) for user in users]
+
+
+class ExactSplit(SplitStrategy):
+
+    def calculate(self, amount, users, amounts):
+        return [
+            Split(users[i], amounts[i])
+            for i in range(len(users))
+        ]
+
+
+class PercentageSplit(SplitStrategy):
+
+    def calculate(self, amount, users, percentages):
+
+        splits = []
+
+        for i in range(len(users)):
+            split_amount = amount * percentages[i] / 100
+            splits.append(Split(users[i], split_amount))
+
+        return splits
 
 class Expense:
-    def __init__(self, builder: 'ExpenseBuilder'):
-        self._id = builder._id
-        self._description = builder._description
-        self._amount = builder._amount
-        self._paid_by = builder._paid_by
-        self._timestamp = datetime.datetime.now()
 
-        # Use the strategy to calculate splits
-        self._splits = builder._split_strategy.calculate_splits(
-            builder._amount, builder._paid_by, builder._participants, builder._split_values
-        )
+    def __init__(self, description, amount, paid_by, group, splits):
+        self.description = description
+        self.amount = amount
+        self.paid_by = paid_by
+        self.group = group
+        self.splits = splits
 
-    def get_id(self) -> str:
-        return self._id
 
-    def get_description(self) -> str:
-        return self._description
+class ExpenseService:
 
-    def get_amount(self) -> float:
-        return self._amount
-
-    def get_paid_by(self) -> User:
-        return self._paid_by
-
-    def get_splits(self) -> List[Split]:
-        return self._splits
-
-    class ExpenseBuilder:
-        def __init__(self):
-            self._id: Optional[str] = None
-            self._description: Optional[str] = None
-            self._amount: Optional[float] = None
-            self._paid_by: Optional[User] = None
-            self._participants: Optional[List[User]] = None
-            self._split_strategy: Optional[SplitStrategy] = None
-            self._split_values: Optional[List[float]] = None
-        
-        def set_id(self, expense_id: str) -> 'Expense.ExpenseBuilder':
-            self._id = expense_id
-            return self
-        
-        def set_description(self, description: str) -> 'Expense.ExpenseBuilder':
-            self._description = description
-            return self
-        
-        def set_amount(self, amount: float) -> 'Expense.ExpenseBuilder':
-            self._amount = amount
-            return self
-        
-        def set_paid_by(self, paid_by: User) -> 'Expense.ExpenseBuilder':
-            self._paid_by = paid_by
-            return self
-        
-        def set_participants(self, participants: List[User]) -> 'Expense.ExpenseBuilder':
-            self._participants = participants
-            return self
-        
-        def set_split_strategy(self, split_strategy: SplitStrategy) -> 'Expense.ExpenseBuilder':
-            self._split_strategy = split_strategy
-            return self
-        
-        def set_split_values(self, split_values: List[float]) -> 'Expense.ExpenseBuilder':
-            self._split_values = split_values
-            return self
-        
-        def build(self) -> 'Expense':
-            if self._split_strategy is None:
-                raise ValueError("Split strategy is required.")
-            return Expense(self)
-
-class Transaction:
-    def __init__(self, from_user: 'User', to_user: 'User', amount: float):
-        self._from = from_user
-        self._to = to_user
-        self._amount = amount
-    
-    def __str__(self) -> str:
-        return f"{self._from.get_name()} should pay {self._to.get_name()} ${self._amount:.2f}"
-
-class SplitwiseService:
-    _instance = None
-    _lock = threading.Lock()
-    
-    def __new__(cls):
-        if cls._instance is None:
-            with cls._lock:
-                if cls._instance is None:
-                    cls._instance = super().__new__(cls)
-                    cls._instance._initialized = False
-        return cls._instance
-    
     def __init__(self):
-        if not self._initialized:
-            self._users: Dict[str, User] = {}
-            self._groups: Dict[str, Group] = {}
-            self._initialized = True
-    
-    @classmethod
-    def get_instance(cls):
-        return cls()
-    
-    def add_user(self, name: str, email: str) -> User:
-        user = User(name, email)
-        self._users[user.get_id()] = user
-        return user
-    
-    def add_group(self, name: str, members: List[User]) -> Group:
-        group = Group(name, members)
-        self._groups[group.get_id()] = group
-        return group
-    
-    def get_user(self, user_id: str) -> Optional[User]:
-        return self._users.get(user_id)
-    
-    def get_group(self, group_id: str) -> Optional[Group]:
-        return self._groups.get(group_id)
-    
-    def create_expense(self, builder: Expense.ExpenseBuilder):
-        with self._lock:
-            expense = builder.build()
-            paid_by = expense.get_paid_by()
-            
-            for split in expense.get_splits():
-                participant = split.get_user()
-                amount = split.get_amount()
-                
-                if paid_by != participant:
-                    paid_by.get_balance_sheet().adjust_balance(participant, amount)
-                    participant.get_balance_sheet().adjust_balance(paid_by, -amount)
-            
-            print(f"Expense '{expense.get_description()}' of amount {expense.get_amount()} created.")
-    
-    def settle_up(self, payer_id: str, payee_id: str, amount: float):
-        with self._lock:
-            payer = self._users[payer_id]
-            payee = self._users[payee_id]
-            print(f"{payer.get_name()} is settling up {amount} with {payee.get_name()}")
-            
-            # Settlement is like a reverse expense. payer owes less to payee.
-            payee.get_balance_sheet().adjust_balance(payer, -amount)
-            payer.get_balance_sheet().adjust_balance(payee, amount)
-    
-    def show_balance_sheet(self, user_id: str):
-        user = self._users[user_id]
-        user.get_balance_sheet().show_balances()
-    
-    def simplify_group_debts(self, group_id: str) -> List[Transaction]:
-        group = self._groups.get(group_id)
-        if group is None:
-            raise ValueError("Group not found")
-        
-        # Calculate net balance for each member within the group context
-        net_balances = {}
-        for member in group.get_members():
-            balance = 0
-            for other_user, amount in member.get_balance_sheet().get_balances().items():
-                # Consider only balances with other group members
-                if other_user in group.get_members():
-                    balance += amount
-            net_balances[member] = balance
-        
-        # Separate into creditors and debtors
-        creditors = [(user, balance) for user, balance in net_balances.items() if balance > 0]
-        debtors = [(user, balance) for user, balance in net_balances.items() if balance < 0]
-        
-        creditors.sort(key=lambda x: x[1], reverse=True)
-        debtors.sort(key=lambda x: x[1])
-        
-        transactions = []
-        i = j = 0
-        
-        while i < len(creditors) and j < len(debtors):
-            creditor_user, creditor_amount = creditors[i]
-            debtor_user, debtor_amount = debtors[j]
-            
-            amount_to_settle = min(creditor_amount, -debtor_amount)
-            transactions.append(Transaction(debtor_user, creditor_user, amount_to_settle))
-            
-            creditors[i] = (creditor_user, creditor_amount - amount_to_settle)
-            debtors[j] = (debtor_user, debtor_amount + amount_to_settle)
-            
-            if abs(creditors[i][1]) < 0.01:
-                i += 1
-            if abs(debtors[j][1]) < 0.01:
-                j += 1
-        
-        return transactions
+        self.lock = Lock()
 
+        # transaction history
+        self.expenses = []
 
-class SplitwiseDemo:
-    @staticmethod
-    def main():
-        # 1. Setup the service
-        service = SplitwiseService.get_instance()
-        
-        # 2. Create users and groups
-        alice = service.add_user("Alice", "alice@a.com")
-        bob = service.add_user("Bob", "bob@b.com")
-        charlie = service.add_user("Charlie", "charlie@c.com")
-        david = service.add_user("David", "david@d.com")
-        
-        friends_group = service.add_group("Friends Trip", [alice, bob, charlie, david])
-        
-        print("--- System Setup Complete ---\n")
-        
-        # 3. Use Case 1: Equal Split
-        print("--- Use Case 1: Equal Split ---")
-        service.create_expense(Expense.ExpenseBuilder()
-                              .set_description("Dinner")
-                              .set_amount(1000)
-                              .set_paid_by(alice)
-                              .set_participants([alice, bob, charlie, david])
-                              .set_split_strategy(EqualSplitStrategy()))
-        
-        service.show_balance_sheet(alice.get_id())
-        service.show_balance_sheet(bob.get_id())
-        print()
-        
-        # 4. Use Case 2: Exact Split
-        print("--- Use Case 2: Exact Split ---")
-        service.create_expense(Expense.ExpenseBuilder()
-                              .set_description("Movie Tickets")
-                              .set_amount(370)
-                              .set_paid_by(alice)
-                              .set_participants([bob, charlie])
-                              .set_split_strategy(ExactSplitStrategy())
-                              .set_split_values([120.0, 250.0]))
-        
-        service.show_balance_sheet(alice.get_id())
-        service.show_balance_sheet(bob.get_id())
-        print()
-        
-        # 5. Use Case 3: Percentage Split
-        print("--- Use Case 3: Percentage Split ---")
-        service.create_expense(Expense.ExpenseBuilder()
-                              .set_description("Groceries")
-                              .set_amount(500)
-                              .set_paid_by(david)
-                              .set_participants([alice, bob, charlie])
-                              .set_split_strategy(PercentageSplitStrategy())
-                              .set_split_values([40.0, 30.0, 30.0]))  # 40%, 30%, 30%
-        
-        print("--- Balances After All Expenses ---")
-        service.show_balance_sheet(alice.get_id())
-        service.show_balance_sheet(bob.get_id())
-        service.show_balance_sheet(charlie.get_id())
-        service.show_balance_sheet(david.get_id())
-        print()
-        
-        # 6. Use Case 4: Simplify Group Debts
-        print("--- Use Case 4: Simplify Group Debts for 'Friends Trip' ---")
-        simplified_debts = service.simplify_group_debts(friends_group.get_id())
-        if not simplified_debts:
-            print("All debts are settled within the group!")
-        else:
-            for debt in simplified_debts:
-                print(debt)
-        print()
-        
-        service.show_balance_sheet(bob.get_id())
-        
-        # 7. Use Case 5: Partial Settlement
-        print("--- Use Case 5: Partial Settlement ---")
-        # From the simplified debts, we see Bob should pay Alice. Let's say Bob pays 100.
-        service.settle_up(bob.get_id(), alice.get_id(), 100)
-        
-        print("--- Balances After Partial Settlement ---")
-        service.show_balance_sheet(alice.get_id())
-        service.show_balance_sheet(bob.get_id())
+        # balances[A][B]
+        # positive means A owes B
+        self.balances = defaultdict(lambda: defaultdict(float))
+
+    def add_expense(self, expense):
+
+        with self.lock:
+
+            # store history
+            self.expenses.append(expense)
+
+            payer = expense.paid_by
+
+            for split in expense.splits:
+
+                user = split.user
+                amount = split.amount
+
+                if user == payer:
+                    continue
+
+                # user owes payer
+                self.balances[user][payer] += amount
+                self.balances[payer][user] -= amount
+
+    def show_balances(self):
+
+        with self.lock:
+
+            visited = set()
+
+            for user in self.balances:
+
+                for other in self.balances[user]:
+
+                    if (other, user) in visited:
+                        continue
+
+                    amount = self.balances[user][other]
+
+                    if amount > 0.01:
+                        print(
+                            f"{user.name} owes "
+                            f"{other.name}: {amount:.2f}"
+                        )
+
+                    visited.add((user, other))
+
+    def show_expense_history(self):
+
+        for expense in self.expenses:
+
+            print(
+                f"{expense.paid_by.name} paid "
+                f"{expense.amount} "
+                f"for {expense.description}"
+            )
+
 
 if __name__ == "__main__":
-    SplitwiseDemo.main()
+
+    # create users
+    alice = User(1, "Alice", "alice@example.com")
+    bob = User(2, "Bob", "bobthebuilder@example.com")
+    charlie = User(3, "Charlie", "charlie@example.com")
+
+    # create group
+    group = Group(1, "Trip")
+    group.add_member(alice)
+    group.add_member(bob)
+    group.add_member(charlie)
+
+    # create expense service
+    expense_service = ExpenseService()
+
+    # add expenses
+    expense1 = Expense(
+        description="Hotel",
+        amount=300,
+        paid_by=alice,
+        group=group,
+        splits=EqualSplit().calculate(300, group.members)
+    )
+
+    expense_service.add_expense(expense1)
+    expense2 = Expense(
+        description="Dinner",
+        amount=150,
+        paid_by=bob,
+        group=group,
+        splits=PercentageSplit().calculate(150, group.members, [50, 30, 20])
+    )
+
+    expense_service.add_expense(expense2)
+
+    # show balances
+    expense_service.show_balances()
+
+    # show expense history
+    expense_service.show_expense_history()

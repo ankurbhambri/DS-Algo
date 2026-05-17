@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 # 1) Singleton Pattern
 # ------------------------------
 class AppConfig:
+
 	_instance: AppConfig | None = None
 
 	def __new__(cls):
@@ -15,8 +16,15 @@ class AppConfig:
 		return cls._instance
 
 
+'''
+Difference between factory and strategy:
+- Factory focuses on creating objects based on input parameters, while Strategy focuses on changing the behavior of an object at runtime.
+- Factory abstracts the instantiation process, while Strategy abstracts the algorithm/behavior itself.
+- Factory is about "what to create", while Strategy is about "how to do it".
+'''
+
 # ------------------------------
-# 2) Factory Pattern
+# 2) Factory Pattern: It is a creational design pattern that deals with HOW an object can be created at runtime.
 # ------------------------------
 class Notification(ABC):
 	@abstractmethod
@@ -46,7 +54,7 @@ class NotificationFactory:
 
 
 # ------------------------------
-# 3) Strategy Pattern
+# 3) Strategy Pattern: It is used to change the algo/behavior at runtime. It defines a family of algorithms, encapsulates each one, and makes them interchangeable.
 # ------------------------------
 class PaymentStrategy(ABC):
 	@abstractmethod
@@ -73,14 +81,6 @@ class Checkout:
 
 	def process(self, amount: float) -> str:
 		return self.strategy.pay(amount)
-
-
-'''
-Differece between factory and strategy:
-- Factory focuses on creating objects based on input parameters, while Strategy focuses on changing the behavior of an object at runtime.
-- Factory abstracts the instantiation process, while Strategy abstracts the algorithm/behavior itself.
-- Factory is about "what to create", while Strategy is about "how to do it".
-'''
 
 
 print("=== Singleton Demo ===")
