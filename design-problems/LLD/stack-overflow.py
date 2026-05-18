@@ -42,13 +42,11 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from threading import Lock
 from datetime import datetime
-from collections import defaultdict
 
 
 class VoteType(Enum):
     UPVOTE = 1
     DOWNVOTE = -1
-
 
 class EventType(Enum):
     UPVOTE_QUESTION = 1
@@ -56,12 +54,6 @@ class EventType(Enum):
     UPVOTE_ANSWER = 3
     DOWNVOTE_ANSWER = 4
     ACCEPT_ANSWER = 5
-    UPVOTE_QUESTION,
-    DOWNVOTE_QUESTION,
-    UPVOTE_ANSWER,
-    DOWNVOTE_ANSWER,
-    ACCEPT_ANSWER
-
 
 class User:
     def __init__(self, id, name):
@@ -90,7 +82,6 @@ class User:
     def get_reputation(self):
         return self.reputation
 
-
 # Content (Base Abstraction)
 class Content(ABC):
     def __init__(self, id, body, author):
@@ -108,6 +99,9 @@ class Content(ABC):
     def get_author(self):
         return self.author
 
+class Comment(Content):
+    def __init__(self, id, body, author):
+        super().__init__(id, body, author)
 
 class Post(Content):
     def __init__(self, id, body, author):
@@ -117,13 +111,17 @@ class Post(Content):
         self.vote_count = 0
         self.lock = Lock()
         self.observers = []
-    
+        self.comments = []
+
     def add_observer(self, observer):
         self.observers.append(observer)
 
     def notify_observers(self, event_type):
         for observer in self.observers:
             observer.update(event_type)
+
+    def add_comment(self, comment):
+        self.comments.append(comment)
 
     def vote(self, user, vote_type):
 
@@ -139,16 +137,25 @@ class Post(Content):
 
             if vote_type == VoteType.UPVOTE:
                 self.vote_count += 1
+                if isinstance(self, Question):
+                    event_type = EventType.UPVOTE_QUESTION
+                else:
+                    event_type = EventType.UPVOTE_ANSWER
             else:
                 self.vote_count -= 1
+                if isinstance(self, Question):
+                    event_type = EventType.DOWNVOTE_QUESTION
+                else:
+                    event_type = EventType.DOWNVOTE_ANSWER
+            
+            self.notify_observers(event_type)
 
 class Tag:
     def __init__(self, name):
         self.name = name
-    
+
     def get_name(self):
         return self.name
-
 
 class Question(Post):
     def __init__(self, id, title, body, author, tags):
@@ -172,13 +179,12 @@ class Question(Post):
 
     def get_title(self):
         return self.title
-    
+
     def get_tags(self):
         return self.tags
-    
+
     def get_answers(self):
         return self.answers
-
 
 class Answer(Post):
     def __init__(self, id, body, author):
@@ -188,31 +194,24 @@ class Answer(Post):
 
     def get_is_accepted(self):
         return self.is_accepted
-    
+
     def set_accepted(self, accepted):
         self.is_accepted = accepted
-
-
-class Comment(Content):
-    def __init__(self, id, body, author):
-        super().__init__(id, body, author)
-
 
 class Event:
     def __init__(self, event_type, post, user):
         self.event_type = event_type
         self.post = post
         self.user = user
-    
+
     def get_type(self):
         return self.event_type
-    
+
     def get_post(self):
         return self.post
 
     def get_user(self):
         return self.user
-
 
 class PostObserver(ABC):
 
@@ -220,14 +219,12 @@ class PostObserver(ABC):
     def update(self, event_type):
         pass
 
-
 class ReputationObserver(PostObserver):
     def __init__(self, user):
         self.user = user
 
     def update(self, event_type):
         self.user.update_reputation(event_type)
-
 
 class SearchStrategy(ABC):
     @abstractmethod
@@ -245,7 +242,6 @@ class KeywordSearchStrategy(SearchStrategy):
                 results.append(question)
         return results
 
-
 class TagSearchStrategy(SearchStrategy):
     def __init__(self, questions):
         self.questions = questions
@@ -256,7 +252,6 @@ class TagSearchStrategy(SearchStrategy):
             if tag in question.get_tags():
                 results.append(question)
         return results
-
 
 class StackOverflowService:
     def __init__(self):
@@ -273,6 +268,10 @@ class StackOverflowService:
             tags=tags
         )
 
+        # Add reputation observer for the question author
+        reputation_observer = ReputationObserver(user)
+        question.add_observer(reputation_observer)
+
         self.questions[question.id] = question
 
         return question
@@ -284,6 +283,10 @@ class StackOverflowService:
             body=body,
             author=user
         )
+
+        # Add reputation observer for the answer author
+        reputation_observer = ReputationObserver(user)
+        answer.add_observer(reputation_observer)
 
         question.add_answer(answer)
 
@@ -303,14 +306,12 @@ class StackOverflowService:
         post.vote(user, vote_type)
 
 
-# usage
-if __name__ == "__main__":
-    service = StackOverflowService()
+service = StackOverflowService()
 
-    user1 = User(1, "Alice")
-    user2 = User(2, "Bob")
+user1 = User(1, "Alice")
+user2 = User(2, "Bob")
 
-    question = service.ask_question(user1, "What is Python?", "I want to know what Python is.", [Tag("programming"), Tag("python")])
-    answer = service.post_answer(user2, question, "Python is a programming language.")
-    service.vote(user1, answer, VoteType.UPVOTE)
-    print(f"User {user2.get_name()} has reputation {user2.get_reputation()}")
+question = service.ask_question(user1, "What is Python?", "I want to know what Python is.", [Tag("programming"), Tag("python")])
+answer = service.post_answer(user2, question, "Python is a programming language.")
+service.vote(user1, answer, VoteType.UPVOTE)
+print(f"User {user2.get_name()} has reputation {user2.get_reputation()}")
