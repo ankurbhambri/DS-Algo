@@ -7,7 +7,6 @@ class Page:
         self.page_num = page_num
         self.text = text
 
-
 class Book:
     def __init__(self, book_id, title, author, pages):
         self.book_id = book_id
@@ -15,19 +14,16 @@ class Book:
         self.author = author
         self.pages = pages
 
-
-class UserProgress:
-    def __init__(self, book_id):
-        self.book_id = book_id
-        self.current_page = 0  # Starts at the beginning
-
-
 class User:
     def __init__(self, user_id, name):
         self.user_id = user_id
         self.name = name
         self.library = {}  # Stores {book_id: UserProgress}
 
+class UserProgress:
+    def __init__(self, book_id):
+        self.book_id = book_id
+        self.current_page = 0  # Starts at the beginning
 
 class OnlineReaderSystem:
     def __init__(self):
