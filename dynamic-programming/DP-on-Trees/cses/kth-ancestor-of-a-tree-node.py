@@ -1,12 +1,6 @@
-# https://leetcode.com/problems/kth-ancestor-of-a-tree-node/description/
+# https://leetcode.com/problems/kth-ancestor-of-a-tree-node/
 
-
-'''
-Question is asking for Kth ancestor of a node in a tree. We can use Binary Lifting technique to preprocess the tree and answer queries in O(log N) time.
-
-We are given number of nodes n and parent array, so here we dont have to do DFS to calculate this.
-
-'''
+# Simple Binary Lifting Implementation
 
 class TreeAncestor:
     def __init__(self, n: int, parent):
@@ -14,7 +8,7 @@ class TreeAncestor:
         self.LOG = 18 # enough for 2*10^5 nodes
         self.up = [[-1] * self.LOG for _ in range(n + 1)]
 
-        # Base case: 2^0-th ancestor (direct boss)
+        # base case: 2 ^ 0-th ancestor (direct boss)
         for i in range(n):
             self.up[i][0] = parent[i]
 
@@ -22,11 +16,11 @@ class TreeAncestor:
         for j in range(1, self.LOG):
             for i in range(1, n + 1):
                 if self.up[i][j - 1] != -1:
-                    self.up[i][j] = self.up[ self.up[i][j - 1] ][j - 1]
-        
+                    self.up[i][j] = self.up[ self.up[i][j - 1]][j - 1]
+
     def kth_boss(self, x, k):
         for j in range(self.LOG):
-            if k & (1 << j): # checking acive bits in k
+            if k & (1 << j):
                 x = self.up[x][j]
                 if x == -1:
                     return -1
@@ -34,7 +28,6 @@ class TreeAncestor:
 
     def getKthAncestor(self, node: int, k: int) -> int:
         return self.kth_boss(node, k)
-
 
 # Your TreeAncestor object will be instantiated and called as such:
 # obj = TreeAncestor(n, parent)

@@ -30,7 +30,7 @@ def k_distance_tree(edges, n, k):
                     # at ith distance from node and k-dist-1 from child subtree find those pairs
                     total_pairs += dp[node][dist] * dp[child][k - dist - 1]
                 
-                # updating it in the last to make sure we are not using it agin in the multiplicaton above for new child values
+                # updating it in the last to make sure we are not using it again in the multiplication above for new child values
                 for dist in range(k):
                     dp[node][dist + 1] += dp[child][dist]
 

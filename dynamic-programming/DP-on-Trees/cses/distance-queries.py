@@ -3,7 +3,7 @@
 import sys
 from collections import deque
 
-# Python mein fast I/O ke liye
+# For fast I/O
 input = sys.stdin.read
 
 def solve():

@@ -1,10 +1,12 @@
 from collections import deque
 
+# TC: O(N log N) for preprocessing, O(log N) for each query
+# SC: O(N log N) for the up table and O(N) for depth array
 class TreeAncestor:
     def __init__(self, n, edges, root=1):
 
-        self.LOG = 18
         self.n = n
+        self.LOG = 18 # 2^18 > 10^5, so we can cover all ancestors up to 10^5 nodes
 
         adj = [[] for _ in range(n + 1)]
         for u, v in edges:
@@ -12,13 +14,28 @@ class TreeAncestor:
             adj[v].append(u)
 
         # 1. Initialize Table and Depth
-        self.up = [[-1] * self.LOG for _ in range(n + 1)]
         self.depth = [0] * (n + 1)
+        self.up = [[-1] * self.LOG for _ in range(n + 1)]
 
         # 2. BFS: Fill direct parents (2^0) and depth
         visited = {root}
         queue = deque([root])
 
+        # we can also use dfs here
+        '''
+        def dfs(u, p):
+            self.up[u][0] = p
+
+            for i in range(1, self.LOG):
+                if (self.up[u][i - 1] != -1):
+                    self.up[u][i] = self.up[self.up[u][i - 1]][i - 1]
+                else:
+                    self.up[u][i] = -1
+            
+            for child in self.adj[u]:
+                dfs(child, u)
+
+        '''
         while queue:
             u = queue.popleft()
             for v in adj[u]:
@@ -35,6 +52,7 @@ class TreeAncestor:
                     # i ka 2^j ancestor = (i ke 2^j-1 ancestor) ka 2^j-1 ancestor
                     self.up[i][j] = self.up[self.up[i][j-1]][j-1]
 
+
     def kth_ancestor(self, u, k):
         for j in range(self.LOG):
             if k & (1 << j): # Bit Manipulation: check if j-th bit is active
@@ -42,6 +60,7 @@ class TreeAncestor:
                 if u == -1:
                     break
         return u
+
 
     def get_lca(self, u, v):
 
@@ -57,10 +76,20 @@ class TreeAncestor:
             return u
 
         # 3. Binary Jumps together
-        for j in range(self.LOG - 1, -1, -1):
-            if self.up[u][j] != self.up[v][j]:
-                u = self.up[u][j]
-                v = self.up[v][j]
+        l, r = 0, self.LOG - 1
+        while l <= r:
+             mid = (l + r) // 2
+             if self.up[u][mid] != self.up[v][mid]:
+                 u = self.up[u][mid]
+                 v = self.up[v][mid]
+             else:
+                 r = mid - 1
+        
+        # Iterative way
+        # for j in range(self.LOG - 1, -1, -1):
+        #     if self.up[u][j] != self.up[v][j]:
+        #         u = self.up[u][j]
+        #         v = self.up[v][j]
 
         # Final step: Dono ka parent hi LCA hai
         return self.up[u][0]
