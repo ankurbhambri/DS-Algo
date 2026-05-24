@@ -1,102 +1,86 @@
-# https://leetcode.com/problems/minimum-edge-weight-equilibrium-queries-in-a-tree/
-
 from collections import deque
 
+
 class Solution:
-    def minOperationsQueries(self, n: int, edges, queries):
+    def minOperationsQueries(self, n: int, edges: list[list[int]], queries: list[list[int]]) -> list[int]:
 
-        LOG = 15  # since n <= 1e4
-
-        graph = [[] for _ in range(n)]
-
+        # 1. Graph (Adjacency List) taiyar karein
+        adj = [[] for _ in range(n)]
         for u, v, w in edges:
-            graph[u].append((v, w))
-            graph[v].append((u, w))
+            adj[u].append((v, w))
+            adj[v].append((u, w))
 
-        # parent[k][x] = 2^k ancestor of x
-        parent = [[-1] * n for _ in range(LOG)]
+        LOG = 15  # Kyunki n <= 10^4 aur 2^14 = 16384 (> 10000)
 
+        # Binary lifting ke liye up table: up[node][j] stores 2^j-th ancestor
+        up = [[0] * LOG for _ in range(n)]
+        # Root se har node tak ke edge weights ki frequency (1 se 26 tak)
+        freq = [[0] * 27 for _ in range(n)]
         depth = [0] * n
 
-        # cnt[x][w] = frequency of weight w from root -> x
-        cnt = [[0] * 27 for _ in range(n)]
-
-        # BFS / DFS
-        q = deque([0])
+        # 2. Iterative BFS se depth aur frequency table fill karein
+        queue = deque([0])
         visited = [False] * n
         visited[0] = True
 
-        while q:
-            node = q.popleft()
+        while queue:
+            u = queue.popleft()
+            for v, w in adj[u]:
+                if not visited[v]:
+                    visited[v] = True
+                    depth[v] = depth[u] + 1
+                    up[v][0] = u
 
-            for nei, wt in graph[node]:
+                    # Parent ki frequencies copy karein aur current edge weight ko badhayein
+                    freq[v] = list(freq[u])
+                    freq[v][w] += 1
 
-                if visited[nei]:
-                    continue
+                    queue.append(v)
 
-                visited[nei] = True
+        # 3. Binary Lifting table (up) ko complete karein
+        for j in range(1, LOG):
+            for i in range(n):
+                up[i][j] = up[up[i][j - 1]][j - 1]
 
-                depth[nei] = depth[node] + 1
-                parent[0][nei] = node
-
-                cnt[nei] = cnt[node][:]   # copy frequencies
-                cnt[nei][wt] += 1
-
-                q.append(nei)
-
-        # binary lifting table
-        for k in range(1, LOG):
-            for node in range(n):
-
-                p = parent[k - 1][node]
-
-                if p != -1:
-                    parent[k][node] = parent[k - 1][p]
-
-        def lca(u, v):
-
+        # 4. LCA (Lowest Common Ancestor) nikalne ka function
+        def get_lca(u, v):
             if depth[u] < depth[v]:
                 u, v = v, u
 
-            # lift u
+            # Dono nodes ko pehle same depth par lekar aao
             diff = depth[u] - depth[v]
-
-            for k in range(LOG):
-                if diff & (1 << k):
-                    u = parent[k][u]
+            for j in range(LOG):
+                if (diff >> j) & 1:
+                    u = up[u][j]
 
             if u == v:
                 return u
 
-            # lift both
-            for k in range(LOG - 1, -1, -1):
+            # Dono ko ek saath upar le jao jab tak unka parent same na ho jaye
+            for j in range(LOG - 1, -1, -1):
+                if up[u][j] != up[v][j]:
+                    u = up[u][j]
+                    v = up[v][j]
 
-                if parent[k][u] != parent[k][v]:
-                    u = parent[k][u]
-                    v = parent[k][v]
+            return up[u][0]
 
-            return parent[0][u]
-
+        # 5. Har query ko solve karein
         ans = []
+        for a, b in queries:
 
-        for u, v in queries:
+            max_freq = 0
+            lca = get_lca(a, b)
 
-            l = lca(u, v)
+            # Total edges between a and b
+            total_edges = depth[a] + depth[b] - 2 * depth[lca]
 
-            path_len = depth[u] + depth[v] - 2 * depth[l]
-
-            mx = 0
-
+            # 1 se 26 tak loop chalakar check karein kis weight ki frequency sabse zyada hai
             for w in range(1, 27):
+                current_freq = freq[a][w] + freq[b][w] - 2 * freq[lca][w]
+                if current_freq > max_freq:
+                    max_freq = current_freq
 
-                freq = (
-                    cnt[u][w]
-                    + cnt[v][w]
-                    - 2 * cnt[l][w]
-                )
-
-                mx = max(mx, freq)
-
-            ans.append(path_len - mx)
+            # Operations = Total Edges - Max Frequency
+            ans.append(total_edges - max_freq)
 
         return ans
