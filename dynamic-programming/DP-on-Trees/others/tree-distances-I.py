@@ -3,12 +3,23 @@
 
 # Tree Distances I
 
-# Tree Diameter Technique (Two DFS / Two BFS method)
+# Tree Diameter Technique (Three DFS or Three BFS method)
+
+'''
+Time Complexity: O(N)
+
+DFS Visits: Humne poore code mein kul mila kar 3 baar DFS chalaya hai.
+Tree mein N nodes aur N-1 edges hote hain.
+Ek standard DFS poore tree ko visit karne mein O(V + E) = O(N + (N-1)) = O(N) time leta hai.
+Humne 3 baar DFS chalaya, toh total time hua: 3 × O(N) = O(N).
+Nodes ka maximum dhoondne ke liye humne O(N) ke loops chalaye hain.
+'''
 
 def tree_distances_example(edges, n):
 
     # Build adjacency list
     adj = [[] for _ in range(n + 1)]
+
     for a, b in edges:
         adj[a].append(b)
         adj[b].append(a)
@@ -23,17 +34,18 @@ def tree_distances_example(edges, n):
     # Distance arrays
     distA = [0] * (n + 1)
     distB = [0] * (n + 1)
+    dummyDist = [0] * (n + 1)  # Just to reuse the same array for DFS
 
     # 1 Find first endpoint A
-    dfs(1, -1, distA, 0)
+    dfs(1, -1, dummyDist, 0)
     A = 1
     for i in range(1, n + 1):
-        if distA[i] > distA[A]:
+        if dummyDist[i] > dummyDist[A]:
             A = i
 
     # 2 Find second endpoint B
     dfs(A, -1, distA, 0)
-    B = A
+    B = 1
     for i in range(1, n + 1):
         if distA[i] > distA[B]:
             B = i

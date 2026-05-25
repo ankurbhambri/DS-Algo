@@ -29,11 +29,11 @@ We cannot create objects directly from an abstract class. It only acts as a base
 - Also have concrete methods, which have a defined implementation in the abstract class and are inherited by any concrete subclass.
 
 
+
+############################################ INTERFACE ############################################
+
 On the other hand, An interface, is a collection of abstract methods that define a contract for a class to implement.
 
-'''
-
-'''
 Example
 
 interface Vehicle {

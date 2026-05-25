@@ -45,17 +45,26 @@ def solve():
             if up[i][j-1] != -1:
                 up[i][j] = up[up[i][j-1]][j-1]
     
+
+    def kth_ancestor(u, k):
+        for j in range(LOG):
+            if k & (1 << j):
+                u = up[u][j]
+                if u == -1:
+                    break
+        return u
+    
     # 3. LCA Function
     def get_lca(u, v):
         if depth[u] < depth[v]:
             u, v = v, u
         
         diff = depth[u] - depth[v]
-        for j in range(LOG):
-            if (diff >> j) & 1:
-                u = up[u][j]
+
+        u = kth_ancestor(u, diff)  # u ko v ke level par le aao
         
-        if u == v: return u
+        if u == v:
+            return u
         
         for j in range(LOG - 1, -1, -1):
             if up[u][j] != up[v][j]:
@@ -66,15 +75,17 @@ def solve():
     # 4. Process Queries
     output = []
     for _ in range(q):
+
         a = int(data[idx])
         b = int(data[idx+1])
+
         idx += 2
-        
+
         lca_node = get_lca(a, b)
         # Distance formula apply kiya
         dist = depth[a] + depth[b] - 2 * depth[lca_node]
         output.append(str(dist))
-    
+
     sys.stdout.write("\n".join(output) + "\n")
 
 solve()

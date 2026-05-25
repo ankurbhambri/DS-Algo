@@ -1,4 +1,4 @@
-# https://leetcode.com/problems/sum-of-distances-in-tree/submissions/1861529283/
+# https://leetcode.com/problems/sum-of-distances-in-tree/
 
 # Similar - https://cses.fi/problemset/task/1133/
 
