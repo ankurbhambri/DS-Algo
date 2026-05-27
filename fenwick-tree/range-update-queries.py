@@ -36,12 +36,12 @@ def solve():
             total += tree[i]
             i -= i & -i
         return total
- 
+
     # Build the initial Fenwick tree using the differences of the original array
     for i in range(1, n + 1):
         difference = arr[i] - arr[i - 1]
         add(i, difference)
-        
+
     # Process queries
     idx = 2 + n
     output = []
