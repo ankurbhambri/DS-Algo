@@ -4,19 +4,22 @@ import sys
  
 
 def solve():
+
     # Read all input from standard input at once
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     # Parse n (size of array) and q (number of queries)
     n = int(input_data[0])
     q = int(input_data[1])
-    
-    # Parse the initial array x (1-indexed for convenience)
+
+    # Parse the initial array arr (1-indexed for convenience)
     # We pad with a 0 at the beginning to match 1-based indexing
-    x = [0] + [int(i) for i in input_data[2 : 2 + n]]
-    
+    arr = [0] + [int(i) for i in input_data[2 : 2 + n]]
+
+    ######### Ignore: Above is the input parsing part, below is the Fenwick Tree implementation #########
+
     # The Fenwick Tree array (1-indexed, size n + 2 to handle b + 1 safely)
     tree = [0] * (n + 2)
     
@@ -36,7 +39,7 @@ def solve():
  
     # Build the initial Fenwick tree using the differences of the original array
     for i in range(1, n + 1):
-        difference = x[i] - x[i - 1]
+        difference = arr[i] - arr[i - 1]
         add(i, difference)
         
     # Process queries
