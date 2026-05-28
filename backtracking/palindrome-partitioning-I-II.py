@@ -37,6 +37,7 @@ print(Solution().partition("ab"))  # [['a', 'b']]
 
 # https://leetcode.com/problems/palindrome-partitioning-ii
 
+
 # TC: O(n^3) and SC: O(n^2)
 class Solution:
     def minCut(self, s):
@@ -60,8 +61,8 @@ class Solution:
             min_step = float("inf")
             for k in range(i, j):
                 if ispal(s[i : k + 1]):
-                    temp = 1 + solve(k + 1, j)
-                    min_step = min(min_step, temp)
+                    cut = 1 + solve(k + 1, j)
+                    min_step = min(min_step, cut)
 
             memo[i][j] = min_step
             return memo[i][j]
@@ -77,34 +78,42 @@ class Solution:
 
         n = len(s)
 
-        # Step 1: Precompute palindrome table
+        # palindrome table
         isPal = [[False] * n for _ in range(n)]
 
+        # every single char palindrome
         for i in range(n):
-            isPal[i][i] = True  # single char
+            isPal[i][i] = True
 
+        # fill table
         for length in range(2, n + 1):
             for i in range(n - length + 1):
+
                 j = i + length - 1
 
                 if s[i] == s[j]:
                     if length == 2 or isPal[i + 1][j - 1]:
                         isPal[i][j] = True
 
-        # Step 2: DP for min cuts
-        dp = [0] * (n + 1)
-        dp[n] = -1
+        dp = [0] * n
 
         for i in range(n - 1, -1, -1):
-            minCuts = float('inf')
+
+            # worst case
+            dp[i] = float('inf')
 
             for j in range(i, n):
-                if isPal[i][j]:
-                    minCuts = min(minCuts, 1 + dp[j + 1])
 
-            dp[i] = minCuts
+                if isPal[i][j]:
+
+                    # whole remaining string palindrome
+                    if j == n - 1:
+                        dp[i] = 0
+                    else:
+                        dp[i] = min(dp[i], 1 + dp[j + 1])
 
         return dp[0]
+
 
 print(Solution().minCut("aab"))  # 1
 print(Solution().minCut("a"))  # 0
