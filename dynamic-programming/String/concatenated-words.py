@@ -7,6 +7,7 @@ class Solution(object):
         memo = {}
 
         def dfs(word):
+
             for i in range(1, len(word)):
 
                 prefix = word[:i]

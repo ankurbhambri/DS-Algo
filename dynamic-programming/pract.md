@@ -129,6 +129,7 @@
 - https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/
 - https://leetcode.com/problems/numbers-at-most-n-given-digit-set/
 - https://leetcode.com/problems/numbers-with-repeated-digits/
+- https://leetcode.com/problems/find-all-good-strings/
 
 
 ## 7.DP on Trees
@@ -160,7 +161,6 @@
 - https://leetcode.com/problems/distinct-subsequences-ii/
 - https://leetcode.com/problems/longest-chunked-palindrome-decomposition/
 - https://leetcode.com/problems/palindrome-partitioning-iii/
-- https://leetcode.com/problems/find-all-good-strings/
 - https://leetcode.com/problems/string-compression-ii/
 - https://leetcode.com/problems/number-of-ways-to-form-a-target-string-given-a-dictionary/
 

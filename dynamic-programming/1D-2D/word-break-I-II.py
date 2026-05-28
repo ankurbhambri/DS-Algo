@@ -28,6 +28,9 @@ print(wordBreakI("catsanddog", ["cat", "cats", "and", "sand", "dog"])) # True
 
 
 # Backtracking approach to find all possible sentences
+
+# TC: O(n^3) - n for the length of the string and n for the number of recursive calls and n for joining the words
+# SC: O(n) - n for the recursion stack
 def wordBreakII(s, wordDict):
 
     res = []
@@ -59,6 +62,8 @@ print(wordBreakII("catsanddog", ["cat", "cats", "and", "sand", "dog"])) # ["cat 
 print(wordBreakII("pineapplepenapple", ["apple", "pen", "applepen", "pine", "pineapple"])) # ["pine apple pen apple", "pineapple pen apple", "pine applepen apple"]
 
 # Memoisation
+# TC: O(n^3) - n for the length of the string and n for the number of recursive calls and n for joining the words
+# SC: O(n^2) - n for the recursion stack and n for the memo
 class Solution:
     def wordBreakII(self, s: str, wordDict: List[str]) -> List[str]:
 
@@ -81,6 +86,7 @@ class Solution:
 
                 if word in wordSet:
 
+                    # this is to find the sentences formed by the remaining string after taking the current word
                     sub_sentences = dfs(j)
 
                     for sub in sub_sentences:

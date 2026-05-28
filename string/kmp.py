@@ -6,8 +6,10 @@ class Solution:
         j = 0
 
         for i in range(1, m):
+
             while j > 0 and pattern[i] != pattern[j]:
                 j = lps[j - 1]
+
             if pattern[i] == pattern[j]:
                 j += 1
                 lps[i] = j

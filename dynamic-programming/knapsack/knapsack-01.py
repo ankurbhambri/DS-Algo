@@ -123,6 +123,7 @@ def knapSack_optimised(val, wt, W):
     dp = [0] * (W + 1)
 
     for cv, cw in zip(val, wt):
+
         # We loop backwards from W to the current item's weight
         # This ensures we don't use the same item multiple times for the same capacity
         for w in range(W, cw - 1, -1):

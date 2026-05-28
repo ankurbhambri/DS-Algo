@@ -1,12 +1,15 @@
 # https://leetcode.com/problems/distinct-subsequences/
 
 # memo + recursion
+
+# TC: O(m*n)
+# SC: O(m*n) for memo + O(m) for recursion stack
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
 
-        m, n = len(s), len(t)
-
         memo = {}
+
+        m, n = len(s), len(t)
 
         def dfs(i, j):
 
@@ -21,14 +24,11 @@ class Solution:
             if (i, j) in memo:
                 return memo[(i, j)]
 
-            ans = 0
+            ans = dfs(i + 1, j)
 
             # take + skip
             if s[i] == t[j]:
                 ans += dfs(i + 1, j + 1)
-
-            # skip current char from s
-            ans += dfs(i + 1, j)
 
             memo[(i, j)] = ans
 
@@ -38,6 +38,8 @@ class Solution:
 
 
 # 2D DP
+# TC: O(m*n)
+# SC: O(m*n)
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
 
@@ -61,6 +63,8 @@ class Solution:
 
 
 # space optimised 1D DP
+# TC: O(m*n)
+# SC: O(n)
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
 
@@ -81,6 +85,28 @@ print(Solution().numDistinct("babgbag", "bag"))     # Output: 5
 print(Solution().numDistinct("rabbbit", "rabbit"))  # Output: 3
 
 
-# TODO
 # https://leetcode.com/problems/distinct-subsequences-ii/
 
+# TC: O(n)
+# SC: O(n)
+class Solution:
+    def distinctSubseqII(self, s: str) -> int:
+
+        last = {}
+        total = 1   # empty subsequence
+
+        MOD = 10**9 + 7
+
+        for ch in s:
+
+            new_total = (total * 2 - last.get(ch, 0)) % MOD
+
+            last[ch] = total
+
+            total = new_total
+
+        return (total - 1) % MOD
+
+
+print(Solution().distinctSubseqII("abc"))  # Output: 7
+print(Solution().distinctSubseqII("aba"))  # Output: 6
