@@ -19,5 +19,5 @@
 - Bit Manipulation
 - Binary Search
 - Greedy
-- Caching
+- Maths
 - Number theory
