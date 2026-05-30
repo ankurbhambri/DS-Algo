@@ -127,12 +127,84 @@ class Solution:
 
 # https://leetcode.com/problems/jump-game-v/
 
+# TC: O(n * d) in worst case, but often much better due to early breaks
+# SC: O(n) for the dp array and recursion stack
+class Solution:
+    def maxJumps(self, arr: list[int], d: int) -> int:
+
+        n = len(arr)
+
+        # dp array subproblems ka answer store karne ke liye
+        dp = [0] * n
+
+        def dfs(i):
+
+            # Agar pehle se answer pata hai, toh wahi se return kar do
+            if dp[i] != 0:
+                return dp[i]
+
+            max_visited = 1 # Khud us index ko count karke minimum 1 toh hoga hi
+
+            # 1. Right side mein jumps check karna
+            for j in range(i + 1, min(n, i + d + 1)):
+                if arr[j] >= arr[i]:
+                    break # Rasta block ho gaya, aage nahi ja sakte
+                max_visited = max(max_visited, 1 + dfs(j))
+
+            # 2. Left side mein jumps check karna
+            for j in range(i - 1, max(-1, i - d - 1), -1):
+                if arr[j] >= arr[i]:
+                    break # Rasta block ho gaya
+                max_visited = max(max_visited, 1 + dfs(j))
+
+            dp[i] = max_visited
+            return dp[i]
+
+        # Kyunki hum kisi bhi index se shuru kar sakte hain, 
+        # isliye sabhi index se check karke maximum nikalenge.
+        ans = 0
+        for i in range(n):
+            ans = max(ans, dfs(i))
+
+        return ans
 
 
 # https://leetcode.com/problems/jump-game-vi/description/
 
+from collections import deque
 
+# TC: O(n)
+# SC: O(n) for the dp array and deque
+class Solution:
+    def maxResult(self, nums: list[int], k: int) -> int:
 
+        n = len(nums)
+
+        # dp[i] store karega index i tak pahonchne ka max score
+        dp = [0] * n
+        dp[0] = nums[0]
+
+        # Deque mein hum indices store karenge
+        dq = deque([0])
+
+        for i in range(1, n):
+
+            # 1. Jo indices k step se zyada piche chhut gaye, unhe aage se nikal do
+            if dq[0] < i - k:
+                dq.popleft()
+
+            # 2. Deque ke aage hamesha max value hogi, toh dp[i] nikal lo
+            dp[i] = nums[i] + dp[dq[0]]
+
+            # 3. Monotonic property maintain karo: 
+            # Agar naya dp[i] piche wali chhoti values se bada hai, toh unhe hata do
+            while dq and dp[dq[-1]] <= dp[i]:
+                dq.pop()
+
+            # 4. Current index ko push karo
+            dq.append(i)
+
+        return dp[-1]
 
 
 # https://leetcode.com/problems/jump-game-vii/description/

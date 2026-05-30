@@ -123,6 +123,9 @@
 - https://leetcode.com/problems/distribute-repeating-integers/
 - https://leetcode.com/problems/maximize-grid-happiness/
 - https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs/
+- https://leetcode.com/problems/minimum-one-bit-operations-to-make-integers-zero/
+
+- https://leetcode.com/problems/find-the-shortest-superstring/
 
 
 ## 6.Digit DP
@@ -174,7 +177,7 @@
 
 
 ##  10.Classic DPs
-### A.Cadane's Algorithm
+### A.Kadane's Algorithm
 - https://leetcode.com/problems/maximum-subarray/
 - https://leetcode.com/problems/maximum-product-subarray/
 - https://leetcode.com/problems/bitwise-ors-of-subarrays/
@@ -260,13 +263,13 @@
 
 
 ## 13.Graph DP
+- https://leetcode.com/problems/minimum-jumps-to-reach-home/
 - https://leetcode.com/problems/cheapest-flights-within-k-stops/
-- https://leetcode.com/problems/find-the-shortest-superstring/
-
 
 ## 14.Memoization
-- https://leetcode.com/problems/minimum-jumps-to-reach-home/
+
 - https://leetcode.com/problems/scramble-string/
+
 - https://leetcode.com/problems/tiling-a-rectangle-with-the-fewest-squares/
 - https://leetcode.com/problems/number-of-ways-to-stay-in-the-same-place-after-some-steps/
 - https://leetcode.com/problems/jump-game-v/
@@ -277,11 +280,10 @@
 - https://leetcode.com/problems/kth-ancestor-of-a-tree-node/
 
 
-## 16.Math
+## 16.Math TODO
 - https://leetcode.com/problems/ugly-number-ii/
 - https://leetcode.com/problems/count-sorted-vowel-strings/
 - https://leetcode.com/problems/race-car/
 - https://leetcode.com/problems/super-egg-drop/
 - https://leetcode.com/problems/least-operators-to-express-number/
 - https://leetcode.com/problems/largest-multiple-of-three/
-- https://leetcode.com/problems/minimum-one-bit-operations-to-make-integers-zero/
