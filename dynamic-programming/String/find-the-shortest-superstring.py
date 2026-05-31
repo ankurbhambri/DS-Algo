@@ -48,27 +48,26 @@ class Solution:
                         dp[next_mask][next_bit] = new_len
                         parent[next_mask][next_bit] = bit
 
-        print("DP Table:", dp)
-
         # Step 3: Best ending word dhoondo jisse overall length sabse kam ho
         full_mask = (1 << n) - 1
         min_len = float('inf')
         last_word_idx = -1
 
+        # Full mask me sabhi words use ho chuke hain, toh aise ending word dhoondo jisse length minimum ho
         for i in range(n):
             if dp[full_mask][i] < min_len:
                 min_len = dp[full_mask][i]
                 last_word_idx = i
 
-        # Step 4: Backtrack karke correct path (order) nikalna
         path = []
         curr_mask = full_mask
         curr_word = last_word_idx
 
+        # Step 4: Backtrack karke path nikaalo jisme words ka sequence hai
         while curr_word != -1:
             path.append(curr_word)
             next_word = parent[curr_mask][curr_word]
-            curr_mask = curr_mask ^ (1 << curr_word)
+            curr_mask = curr_mask ^ (1 << curr_word) # reduce the mask by removing the current word
             curr_word = next_word
 
         path.reverse() # Taaki sahi sequence (start to end) mile
@@ -84,7 +83,7 @@ class Solution:
 
 
 print(Solution().shortestSuperstring(["abc", "cde", "def"])) # Output: "abcdef"
-# [[inf, inf, inf], [3, inf, inf], [inf, 3, inf], [6, 5, inf], [inf, inf, 3], [6, inf, 6], [inf, 6, 4], [7, 8, 6]]
+# dp: [[inf, inf, inf], [3, inf, inf], [inf, 3, inf], [6, 5, inf], [inf, inf, 3], [6, inf, 6], [inf, 6, 4], [7, 8, 6]]
 
-# print(Solution().shortestSuperstring(["catg","ctaagt","gcta","ttca","atgcatc"]))
-# print(Solution().shortestSuperstring(["alex","loves","leetcode"]))
+print(Solution().shortestSuperstring(["alex","loves","leetcode"]))
+print(Solution().shortestSuperstring(["catg","ctaagt","gcta","ttca","atgcatc"]))

@@ -260,14 +260,15 @@
 
 ## 12.Insertion DP
 - https://leetcode.com/problems/k-inverse-pairs-array/
+- https://leetcode.com/problems/count-the-number-of-inversions/
 
 
 ## 13.Graph DP
 - https://leetcode.com/problems/minimum-jumps-to-reach-home/
 - https://leetcode.com/problems/cheapest-flights-within-k-stops/
 
-## 14.Memoization
 
+## 14.Memoization
 - https://leetcode.com/problems/scramble-string/
 
 - https://leetcode.com/problems/tiling-a-rectangle-with-the-fewest-squares/
