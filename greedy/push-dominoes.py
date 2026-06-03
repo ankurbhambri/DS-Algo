@@ -2,32 +2,39 @@
 
 from collections import deque
 
-def pushDominoes(dominoes):
+# TC: O(n), where n is the length of the input string, as we process each domino at most once.
+# SC: O(n), where n is the length of the input string, due to the queue and the list representation of the dominoes.
 
-    dom = list(dominoes)
-    q = deque()
+class Solution(object):
+    def pushDominoes(self, s):
 
-    for i, d in enumerate(dom):
-        if d != '.':
-            q.append((i, d))
-    
-    while q:
-        i, d = q.popleft()
-        
-        if d == 'L' and i > 0 and dom[i - 1] == '.':
-            q.append((i - 1, 'L'))
-            dom[i - 1] = 'L'
-            
-        elif d == 'R':
-            if i + 1 < len(dom) and dom[i + 1] == '.':
-                # means next to next is L leaning we have to pop it
-                if i + 2 < len(dom) and dom[i  + 2] == 'L':
-                    q.popleft()
-                else:
-                    q.append((i + 1, 'R'))
-                    dom[i + 1] = 'R'
+        res = ''
+        prev = 0
+        s = 'L' + s + 'R'
 
-    return ''.join(dom)
+        for curr in range(1, len(s)):
 
-print(pushDominoes("RR.L"))  # Output: "RR.L"
-print(pushDominoes(".L.R...LR..L.."))  # Output: "LL.RR.LLRRLL.."
+            if s[curr] == '.':
+                continue
+
+            span = curr - prev - 1
+
+            if prev > 0:
+                res += s[prev]
+
+            if s[prev] == s[curr]:
+                res += s[prev] * span
+
+            elif s[prev] == 'L' and s[curr] == 'R':
+                res += '.' * span
+
+            else:
+                res += 'R' * (span // 2) + '.' * (span % 2) + 'L' * (span // 2)
+
+            prev = curr
+
+        return res
+
+print(Solution().pushDominoes("..R...L..R."))  # Output: "..RR.LL..RR."
+print(Solution().pushDominoes("RR.L"))  # Output: "RR.L"
+print(Solution().pushDominoes(".L.R...LR..L.."))  # Output: "LL.RR.LLRRLL.."

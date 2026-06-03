@@ -5,13 +5,14 @@
 # SC: O(m * n)
 
 class Solution:
-    def maximalSquare(self, matrix):
+    def maximalSquare(self, matrix: list[list[str]]) -> int:
 
         if not matrix or not matrix[0]:
             return 0
 
         res = 0
         r, c = len(matrix), len(matrix[0])
+
         dp = [[0] * c for _ in range(r)]
 
         # Fill the DP table from bottom-right to top-left

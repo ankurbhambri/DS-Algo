@@ -1,5 +1,7 @@
 # https://leetcode.com/problems/largest-plus-sign/
 
+# similar to largest 1-bordered square, but we need to consider all 4 directions (left, right, up, down) instead of just 2 (left and up)
+
 class Solution:
     def orderOfLargestPlusSign(self, n: int, mines):
 
@@ -30,7 +32,6 @@ class Solution:
         # Step 4: Fill right and down
         for i in range(n - 1, -1, -1):
             for j in range(n - 1, -1, -1):
-                print(i, j, n)
                 if grid[i][j] == 1:
                     # + 1 means we can extend the plus sign
                     right[i][j] = right[i][j + 1] + 1 if j < n - 1 else 1
