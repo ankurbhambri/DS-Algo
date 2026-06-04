@@ -1,48 +1,41 @@
-# https://leetcode.com/problems/minimum-time-to-finish-the-race/description/
+# https://leetcode.com/problems/minimum-time-to-finish-the-race
 
 
+# TC: O(N + L), N = number of tires aur L = numLaps
+# SC: O(L), L = numLaps
 class Solution:
     def minimumFinishTime(self, tires: list[list[int]], changeTime: int, numLaps: int) -> int:
 
-        n = len(tires)
+        MAX_LAPS = min(18, numLaps)
 
-        # Step 1: Precomputation (without_change)
-        # without_change[i][j] ka matlab: tire 'i' ko lagatar 'j' laps chalane ka total time
-        # Hum max 20 laps tak hi check karenge kyunki uske baad changeTime se bada ho jayega.
-        without_change = [[float('inf')] * 20 for _ in range(n)]
+        # Step 1: Bina tire badle x laps ka min time nikalna
+        min_time_for_laps = [float("inf")] * (MAX_LAPS + 1)
 
-        for i in range(n):
+        for f, r in tires:
+            current_lap_time = f
+            total_time = f
+            lap = 1
 
-            f_i, r_i = tires[i][0], tires[i][1]
-
-            # Pehle lap ka time
-            current_lap_time = f_i
-            total_time = f_i
-            without_change[i][1] = total_time
-
-            for j in range(2, 20):
-                current_lap_time *= r_i
-                # Agar ek hi lap ka time bohot bada ho jaye toh aage check karne ka faayda nahi
-                if current_lap_time >= 2e9: 
-                    break
+            # Jab tak time limit se bahar na jaye, check karo
+            while lap <= MAX_LAPS and current_lap_time < changeTime + f:
+                min_time_for_laps[lap] = min(min_time_for_laps[lap], total_time)
+                current_lap_time *= r
                 total_time += current_lap_time
-                without_change[i][j] = total_time
+                lap += 1
 
-        # Step 2: Dynamic Programming
-        # dp[x] = x laps khatam karne ka minimum time
-        dp = [float('inf')] * (numLaps + 1)
+        # Step 2: DP lagao pure laps ka answer nikalne ke liye
+        dp = [float("inf")] * (numLaps + 1)
+        dp[0] = 0 # 0 lap ke liye 0 time
 
-        for x in range(1, numLaps + 1):
-            # Case A: Agar x chota hai (< 20), toh ho sakta hai bina tyre badle hi chalaya ho
-            if x < 20:
-                for i in range(n):
-                    dp[x] = min(dp[x], without_change[i][x])
+        for i in range(1, numLaps + 1):
 
-            # Case B: Tyre change karne wala logic
-            # Hum pichle sirf 18 laps tak check karenge (j >= x - 18)
-            start_j = max(1, x - 18)
-            for j in range(start_j, x):
-                dp[x] = min(dp[x], dp[j] + changeTime + dp[x - j])
+            # Option A: Agar bina tire badle direct i laps ho sake (sirf chote laps ke liye)
+            if i <= MAX_LAPS:
+                dp[i] = min_time_for_laps[i]
+
+            # Option B: j laps pehle kiye, fir pit stop liya (tire badla), fir baaki laps kiye
+            for j in range(1, min(i, MAX_LAPS + 1)):
+                dp[i] = min(dp[i], dp[i - j] + changeTime + min_time_for_laps[j])
 
         return dp[numLaps]
 

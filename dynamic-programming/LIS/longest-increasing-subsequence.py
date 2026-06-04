@@ -15,11 +15,15 @@ def length_of_lis(nums):
 
     return max(dp)
 
+
+# Using binary search to optimize the time complexity to O(n log n)
+
 from bisect import bisect_left
+
+# Similar question - https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-ii
 
 # TC: O(n log n)
 # SC: O(n)
-
 def lengthOfLIS(nums):
     lis = []
     for n in nums:
@@ -30,10 +34,8 @@ def lengthOfLIS(nums):
             lis[idx] = n
     return len(lis)
 
-print(length_of_lis([10, 9, 2, 5, 3, 7, 101, 18]))  # Output: 4
-print(length_of_lis([0, 1, 0, 3, 2, 3]))  # Output: 4
-print(length_of_lis([7, 7, 7, 7, 7, 7]))  # Output: 1
-print(length_of_lis([]))  # Output: 0
+
+print(lengthOfLIS([10,9,2,5,3,7,101,18]))  # Output: 4
 
 
 # Print longest increasing subsequence
@@ -69,22 +71,3 @@ print(printLengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]))  # Output: [2, 3, 7, 101]
 print(printLengthOfLIS([0, 1, 0, 3, 2, 3]))  # Output: [0, 1, 2, 3]
 print(printLengthOfLIS([7, 7, 7, 7, 7, 7]))  # Output: [7]
 print(printLengthOfLIS([]))  # Output: []
-
-# Similar question - https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-ii
-
-# Approach 2: Binary Search (O(n log n))
-
-import bisect
-
-def LIS(arr):
-    sub = []
-    for x in arr:
-        # binary search position
-        pos = bisect.bisect_left(sub, x)
-        if pos == len(sub):
-            sub.append(x)
-        else:
-            sub[pos] = x
-    return len(sub)
-
-print(LIS([10,9,2,5,3,7,101,18]))  # Output: 4

@@ -1,9 +1,9 @@
 class Solution:
     def pieTable(self, pattern: str) -> list[int]:
 
+        j = 0
         m = len(pattern)
         lps = [0] * m
-        j = 0
 
         for i in range(1, m):
 
@@ -38,7 +38,5 @@ class Solution:
         return -1
 
 
-print(Solution().kmpSearch("abdefg", "a"))  # Output: 0
-print(Solution().kmpSearch("xyz", "z"))      # Output: 2
-print(Solution().kmpSearch("hello", "ll"))    # Output: 2
-print(Solution().kmpSearch("abcabcabcd", "abcd"))   # Output: 6
+print(Solution().kmpSearch("abababd", "ababd"))   # Output: 2
+print(Solution().kmpSearch("aaacaaaa", "aaacaaa"))   # Output: 1

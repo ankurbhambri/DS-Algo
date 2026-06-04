@@ -129,10 +129,12 @@
 
 
 ## 6.Digit DP
+- https://leetcode.com/problems/number-of-digit-one/
 - https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/
 - https://leetcode.com/problems/numbers-at-most-n-given-digit-set/
 - https://leetcode.com/problems/numbers-with-repeated-digits/
 - https://leetcode.com/problems/find-all-good-strings/
+- https://leetcode.com/problems/total-waviness-of-numbers-in-range-ii
 
 
 ## 7.DP on Trees
@@ -205,11 +207,11 @@
 ### C.LIS
 - https://leetcode.com/problems/longest-increasing-subsequence/
 - https://leetcode.com/problems/number-of-longest-increasing-subsequence/
+- https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-ii
 - https://leetcode.com/problems/russian-doll-envelopes/
 - https://leetcode.com/problems/delete-columns-to-make-sorted-iii/
 - https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/
 - https://leetcode.com/problems/maximum-height-by-stacking-cuboids/
-- https://leetcode.com/problems/make-array-strictly-increasing/
 
 
 ### D.2D Grid Traversal
@@ -253,12 +255,12 @@
 
 ## 11.DP + Alpha (Tricks/DS)
 - https://leetcode.com/problems/arithmetic-slices-ii-subsequence/
-
 - https://leetcode.com/problems/odd-even-jump/
-
 - https://leetcode.com/problems/constrained-subsequence-sum/
 - https://leetcode.com/problems/delivering-boxes-from-storage-to-ports/
 - https://leetcode.com/problems/filling-bookcase-shelves/description/
+- https://leetcode.com/problems/minimum-time-to-finish-the-race
+- https://leetcode.com/problems/make-array-strictly-increasing/
 
 
 ## 12.Insertion DP
@@ -273,7 +275,6 @@
 
 ## 14.Memoization
 - https://leetcode.com/problems/scramble-string/
-
 - https://leetcode.com/problems/tiling-a-rectangle-with-the-fewest-squares/
 - https://leetcode.com/problems/number-of-ways-to-stay-in-the-same-place-after-some-steps/
 - https://leetcode.com/problems/jump-game-v/
@@ -284,7 +285,7 @@
 - https://leetcode.com/problems/kth-ancestor-of-a-tree-node/
 
 
-## 16.Math TODO
+## 16.Math
 - https://leetcode.com/problems/ugly-number-ii/
 - https://leetcode.com/problems/count-sorted-vowel-strings/
 - https://leetcode.com/problems/race-car/
