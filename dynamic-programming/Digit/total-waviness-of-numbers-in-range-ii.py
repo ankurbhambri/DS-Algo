@@ -1,6 +1,7 @@
 # https://leetcode.com/problems/total-waviness-of-numbers-in-range-ii/
 
-
+# TC: O(log n)
+# SC: O(log n)
 class Solution:
     def totalWaviness(self, num1: int, num2: int) -> int:
 

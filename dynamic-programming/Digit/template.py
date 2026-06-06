@@ -51,6 +51,19 @@ Yaad rakhne ka shortcut:
   new_tight = tight and (d == limit)
   Read it as: "Tight tabhi rahega jab pehle bhi tight tha aur maine maximum allowed digit hi choose ki."
 
+
+Time Complexity Analysis:
+  For an integer with n digits (where n = log₁₀(R)):
+    Overall: O(n x Base x S)
+    - n: number of digits (up to 18 for 64-bit integers)
+    - Base: number system (typically 10 for decimal)
+    - S: additional DP states (tight constraint, remainder, seen digits)
+    - Result: ~10⁵ operations or less
+
+Space Complexity Analysis:
+  O(n x S) for memoization table and recursion stack
+  where n = number of digits and S = number of states
+
 '''
 
 # mostly we got the range problem template, like count '1' in digits or '3' in digits or sum of digits must be prime etc.
