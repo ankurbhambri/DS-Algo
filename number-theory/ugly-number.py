@@ -13,46 +13,33 @@ def isUgly(n):
 
 # https://leetcode.com/problems/ugly-number-ii/
 
-def nthUglyNumber(n):
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
 
-    dp = [1]
-    i2, i3, i5 = 0, 0, 0
+        # DP array jisme hum saare ugly numbers store karenge
+        dp = [0] * n
+        dp[0] = 1 # Pehla ugly number hamesha 1 hota hai
+        
+        # Pointers for 2, 3, and 5
+        p2 = p3 = p5 = 0
+        
+        for i in range(1, n):
+            # Agle teen candidate nikalte hain
+            next_2 = dp[p2] * 2
+            next_3 = dp[p3] * 3
+            next_5 = dp[p5] * 5
+            
+            # Jo sabse chota hai, wahi agla ugly number hoga
+            next_ugly = min(next_2, next_3, next_5)
+            dp[i] = next_ugly
+            
+            # Jis pointer ka candidate select hua, use aage badhao
+            # Alag-alag 'if' isliye hain taaki duplicates handle ho sakein (jaise 6 ke case mein)
+            if next_ugly == next_2:
+                p2 += 1
+            if next_ugly == next_3:
+                p3 += 1
+            if next_ugly == next_5:
+                p5 += 1
 
-    for _ in range(n):
-
-        next_num = min(dp[i2] * 2, dp[i3] * 3, dp[i5] * 5)
-        dp.append(next_num)
-
-        if next_num == dp[i2] * 2:
-            i2 += 1
-        if next_num == dp[i3] * 3:
-            i3 += 1
-        if next_num == dp[i5] * 5:
-            i5 += 1
-
-    return dp[n - 1]
-
-# https://leetcode.com/problems/ugly-number-iii/
-
-import math
-
-def nthUglyNumber(n, a, b, c):
-
-    def lcm(x, y):
-        return x * y // math.gcd(x, y)
-
-    def count(x):
-        ab = lcm(a, b)
-        ac = lcm(a, c)
-        bc = lcm(b, c)
-        abc = lcm(ab, c)
-        return (x // a) + (x // b) + (x // c) - (x // ab) - (x // ac) - (x // bc) + (x // abc)
-
-    low, high = 1, 2 * 10**9
-    while low < high:
-        mid = (low + high) // 2
-        if count(mid) < n:
-            low = mid + 1
-        else:
-            high = mid
-    return low
+        return dp[-1] # n-th ugly number return karo

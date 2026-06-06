@@ -1,6 +1,5 @@
 # https://leetcode.com/problems/numbers-with-repeated-digits/
 
-from functools import cache
 
 class Solution:
     def numDupDigitsAtMostN(self, n: int) -> int:
@@ -8,13 +7,14 @@ class Solution:
         s = str(n)
 
         memo = {}
-        def dp(pos, tight, started, mask):
+
+        def dp(pos, tight, mask):
 
             if pos == len(s):
-                return 1 if started else 0
-            
-            if (pos, tight, started, mask) in memo:
-                return memo[(pos, tight, started, mask)]
+                return 1 if mask else 0
+
+            if (pos, tight, mask) in memo:
+                return memo[(pos, tight, mask)]
 
             limit = int(s[pos]) if tight else 9
 
@@ -24,9 +24,9 @@ class Solution:
 
                 ntight = tight and (d == limit)
 
-                if not started and d == 0:
+                if mask == 0 and d == 0:
 
-                    cnt += dp(pos + 1, ntight, False, mask)
+                    cnt += dp(pos + 1, ntight, mask)
 
                 else:
 
@@ -34,13 +34,13 @@ class Solution:
                     if mask & (1 << d):
                         continue
 
-                    cnt += dp(pos + 1, ntight, True, mask | (1 << d))
+                    cnt += dp(pos + 1, ntight, mask | (1 << d))
 
-            memo[(pos, tight, started, mask)] = cnt
+            memo[(pos, tight, mask)] = cnt
 
             return cnt
 
-        unique = dp(0, True, False, 0)
+        unique = dp(0, True, 0)
 
         return n - unique
 

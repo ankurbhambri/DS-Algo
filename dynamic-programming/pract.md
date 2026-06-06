@@ -124,20 +124,10 @@
 - https://leetcode.com/problems/maximize-grid-happiness/
 - https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs/
 - https://leetcode.com/problems/minimum-one-bit-operations-to-make-integers-zero/
-
 - https://leetcode.com/problems/find-the-shortest-superstring/
 
 
-## 6.Digit DP
-- https://leetcode.com/problems/number-of-digit-one/
-- https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/
-- https://leetcode.com/problems/numbers-at-most-n-given-digit-set/
-- https://leetcode.com/problems/numbers-with-repeated-digits/
-- https://leetcode.com/problems/find-all-good-strings/
-- https://leetcode.com/problems/total-waviness-of-numbers-in-range-ii
-
-
-## 7.DP on Trees
+## 6.DP on Trees
 - https://leetcode.com/problems/unique-binary-search-trees-ii/
 - https://leetcode.com/problems/house-robber-iii/
 - https://leetcode.com/problems/maximum-product-of-splitted-binary-tree/
@@ -147,6 +137,14 @@
 - https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/
 - https://leetcode.com/problems/number-of-ways-to-reorder-array-to-get-same-bst/
 
+
+## 7.Probability DP
+- https://leetcode.com/problems/soup-servings/
+- https://leetcode.com/problems/new-21-game/
+- https://leetcode.com/problems/airplane-seat-assignment-probability/
+
+
+######################## Done Below ############################
 
 ## 8.String DP
 - https://leetcode.com/problems/is-subsequence/
@@ -172,10 +170,13 @@
 - https://leetcode.com/problems/number-of-ways-to-form-a-target-string-given-a-dictionary/
 
 
-## 9.Probability DP
-- https://leetcode.com/problems/soup-servings/
-- https://leetcode.com/problems/new-21-game/
-- https://leetcode.com/problems/airplane-seat-assignment-probability/
+## 9.Digit DP
+- https://leetcode.com/problems/number-of-digit-one/
+- https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/
+- https://leetcode.com/problems/numbers-at-most-n-given-digit-set/
+- https://leetcode.com/problems/numbers-with-repeated-digits/
+- https://leetcode.com/problems/find-all-good-strings/
+- https://leetcode.com/problems/total-waviness-of-numbers-in-range-ii
 
 
 ##  10.Classic DPs
@@ -190,7 +191,7 @@
 - https://leetcode.com/problems/length-of-longest-fibonacci-subsequence/
 
 
-### B.LCS
+### B.LCS TODO
 - https://leetcode.com/problems/longest-palindromic-substring/
 - https://leetcode.com/problems/longest-palindromic-subsequence/
 - https://leetcode.com/problems/maximum-length-of-repeated-subarray/
@@ -209,9 +210,9 @@
 - https://leetcode.com/problems/number-of-longest-increasing-subsequence/
 - https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-ii
 - https://leetcode.com/problems/russian-doll-envelopes/
+- https://leetcode.com/problems/maximum-height-by-stacking-cuboids/
 - https://leetcode.com/problems/delete-columns-to-make-sorted-iii/
 - https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/
-- https://leetcode.com/problems/maximum-height-by-stacking-cuboids/
 
 
 ### D.2D Grid Traversal

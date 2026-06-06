@@ -1,5 +1,8 @@
 # https://leetcode.com/problems/find-two-non-overlapping-sub-arrays-each-with-target-sum/
 
+
+# TC: O(n)
+# SC: O(n)
 class Solution:
     def minSumOfLengths(self, arr: list[int], target: int) -> int:
 
