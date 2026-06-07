@@ -12,13 +12,19 @@ class Solution:
         res = []
 
         def backtrack(start, path):
+
             res.append(path[:])  # add every path (even empty)
+
             for i in range(start, len(nums)):
+
                 path.append(nums[i])
+
                 backtrack(i + 1, path)
+
                 path.pop()
 
         backtrack(0, [])
+
         return res
 
 
