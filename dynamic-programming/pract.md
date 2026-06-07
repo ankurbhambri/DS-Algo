@@ -1,4 +1,4 @@
-## 1. Linear DP
+## 1. Linear DP TODO
 - https://leetcode.com/problems/climbing-stairs/
 - https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 - https://leetcode.com/problems/min-cost-climbing-stairs/
@@ -44,7 +44,7 @@
 - https://leetcode.com/problems/jump-game-ii/
 
 
-## 2.Knapsack
+## 2.Knapsack TODO
 - https://leetcode.com/problems/house-robber-ii/
 - https://leetcode.com/problems/ones-and-zeroes/
 - https://leetcode.com/problems/target-sum/
@@ -58,7 +58,7 @@
 - https://leetcode.com/problems/reducing-dishes/
 
 
-## 3.Multi Dimensions DP
+## 3.Multi Dimensions DP TODO
 - https://leetcode.com/problems/triangle/
 - https://leetcode.com/problems/combination-sum-iv/
 - https://leetcode.com/problems/out-of-boundary-paths/
@@ -90,7 +90,7 @@
 - https://leetcode.com/problems/count-all-possible-routes/
 
 
-## 4.Interval DP
+## 4.Interval DP TODO
 - https://leetcode.com/problems/guess-number-higher-or-lower-ii/
 - https://leetcode.com/problems/arithmetic-slices/
 - https://leetcode.com/problems/predict-the-winner/
@@ -110,7 +110,7 @@
 - https://leetcode.com/problems/stone-game-v/
 
 
-## 5.bit DP
+## 5.Bit TODO
 - https://leetcode.com/problems/can-i-win/
 - https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
 - https://leetcode.com/problems/stickers-to-spell-word/
@@ -121,7 +121,9 @@
 - https://leetcode.com/problems/minimum-cost-to-connect-two-groups-of-points/
 - https://leetcode.com/problems/maximum-number-of-achievable-transfer-requests/
 - https://leetcode.com/problems/distribute-repeating-integers/
+
 - https://leetcode.com/problems/maximize-grid-happiness/
+
 - https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs/
 - https://leetcode.com/problems/minimum-one-bit-operations-to-make-integers-zero/
 - https://leetcode.com/problems/find-the-shortest-superstring/
@@ -135,6 +137,9 @@
 - https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree/
 - https://leetcode.com/problems/binary-tree-cameras/
 - https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/
+
+- https://leetcode.com/problems/number-of-ways-to-reconstruct-a-tree/
+
 - https://leetcode.com/problems/number-of-ways-to-reorder-array-to-get-same-bst/
 
 
@@ -143,8 +148,6 @@
 - https://leetcode.com/problems/new-21-game/
 - https://leetcode.com/problems/airplane-seat-assignment-probability/
 
-
-######################## Done Below ############################
 
 ## 8.String DP
 - https://leetcode.com/problems/is-subsequence/
@@ -191,7 +194,7 @@
 - https://leetcode.com/problems/length-of-longest-fibonacci-subsequence/
 
 
-### B.LCS TODO
+### B.LCS
 - https://leetcode.com/problems/longest-palindromic-substring/
 - https://leetcode.com/problems/longest-palindromic-subsequence/
 - https://leetcode.com/problems/maximum-length-of-repeated-subarray/
