@@ -20,10 +20,6 @@ class Solution:
         @lru_cache(None)
         def solve(mask, current_total):
 
-            # Agar kisi tarah current_total target tak pahunch gaya, toh purana player jeet chuka hai
-            if current_total >= desiredTotal:
-                return False
-
             # Hum saare bache hue numbers try karenge (1 se lekar maxChoosableInteger tak)
             for i in range(1, maxChoosableInteger + 1):
                 # Check karo kya number 'i' abhi available hai? (bit 0 honi chahiye)
