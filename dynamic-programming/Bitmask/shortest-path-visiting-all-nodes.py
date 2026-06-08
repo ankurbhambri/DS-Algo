@@ -5,39 +5,50 @@ from collections import deque
 # TC: O(n * 2^n) where n is the number of nodes in the graph
 # SC: O(n * 2^n) for the seen set and the queue
 class Solution:
-    def shortestPathLength(self, graph):
+    def shortestPathLength(self, graph: list[list[int]]) -> int:
 
         n = len(graph)
 
-        final_mask = (1 << n) - 1
+        # Agar graph mein sirf 1 hi node hai, toh 0 steps lagenge
+        if n == 1:
+            return 0
 
-        q = deque()
+        # Target mask: agar n=4 hai, toh 1111 (binary) yani 15 (decimal)
+        target_mask = (1 << n) - 1
+
+        # Queue mein store karenge: (current_node, mask)
+        queue = deque()
+
+        # Visited set mein store karenge unique state: (current_node, mask)
         visited = set()
 
+        # Hum kisi bhi node se shuru kar sakte hain, toh sabko queue mein daal do 0 steps ke saath
         for i in range(n):
-
             mask = 1 << i
-
-            q.append((i, mask, 0))
+            queue.append((i, mask, 0)) # (node, mask, steps)
             visited.add((i, mask))
 
-        while q:
+        # Standard BFS
+        while queue:
 
-            node, mask, dist = q.popleft()
+            curr_node, curr_mask, steps = queue.popleft()
 
-            if mask == final_mask:
-                return dist
+            # Agar saare nodes visit ho gaye, toh yahi shortest path hai!
+            if curr_mask == target_mask:
+                return steps
 
-            for nei in graph[node]:
+            # Ab iske saare padosi (neighbors) par jao
+            for neighbor in graph[curr_node]:
 
-                new_mask = mask | (1 << nei)
+                # Naya mask banega padosi ko include karke
+                next_mask = curr_mask | (1 << neighbor)
 
-                state = (nei, new_mask)
+                # Agar yeh (neighbor, next_mask) wali state pehle nahi dekhi
+                if (neighbor, next_mask) not in visited:
+                    visited.add((neighbor, next_mask))
+                    queue.append((neighbor, next_mask, steps + 1))
 
-                if state not in visited:
-
-                    visited.add(state)
-                    q.append((nei, new_mask, dist + 1))
+        return -1
 
 
 print(Solution().shortestPathLength([[1, 2, 3], [0], [0], [0]]))  # Output: 4
