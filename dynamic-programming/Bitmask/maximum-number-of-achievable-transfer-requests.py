@@ -53,9 +53,10 @@ class Solution:
 class Solution:
     def maximumRequests(self, n: int, requests: list[list[int]]) -> int:
 
+        self.max_res = 0
+
         # Har building ka net balance track karne ke liye array (ya dict)
         self.indegree = [0] * n
-        self.max_res = 0
 
         def dfs(index, count):
 
@@ -68,10 +69,10 @@ class Solution:
 
                 return
 
-            # --- Option 1: Is request ko IGNORE kar do ---
+            # --- Skip: Is request ko IGNORE kar do ---
             dfs(index + 1, count)
 
-            # --- Option 2: Is request ko ACCEPT kar lo ---
+            # --- Take: Is request ko ACCEPT kar lo ---
             start, end = requests[index]
             self.indegree[start] -= 1
             self.indegree[end] += 1
