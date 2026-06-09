@@ -22,6 +22,7 @@ class Solution:
 
             # Hum saare bache hue numbers try karenge (1 se lekar maxChoosableInteger tak)
             for i in range(1, maxChoosableInteger + 1):
+
                 # Check karo kya number 'i' abhi available hai? (bit 0 honi chahiye)
                 if not (mask & (1 << i)):
 

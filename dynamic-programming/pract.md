@@ -110,9 +110,10 @@
 - https://leetcode.com/problems/stone-game-v/
 
 
-## 5.Bit TODO
+## 5.Bit
 - https://leetcode.com/problems/can-i-win/
 - https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
+- https://leetcode.com/problems/minimum-number-of-work-sessions-to-finish-the-tasks/description/
 - https://leetcode.com/problems/stickers-to-spell-word/
 - https://leetcode.com/problems/shortest-path-visiting-all-nodes/
 - https://leetcode.com/problems/smallest-sufficient-team/
