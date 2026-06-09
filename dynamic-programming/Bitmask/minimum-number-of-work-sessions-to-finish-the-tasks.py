@@ -1,7 +1,5 @@
 # https://leetcode.com/problems/minimum-number-of-work-sessions-to-finish-the-tasks/description/
 
-import functools
-
 
 class Solution:
     def minSessions(self, tasks: list[int], sessionTime: int) -> int:

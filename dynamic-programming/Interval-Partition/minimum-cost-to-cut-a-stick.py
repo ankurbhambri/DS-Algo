@@ -36,32 +36,29 @@ print(Solution().minCost(9, [5, 6, 1, 4, 2]))  # Output: 22
 
 
 # Bottom-up, O(n^3) Time Complexity and O(n^2) Space Complexity
-
 class Solution:
-    def minCost(self, n: int, cuts):
+    def minCost(self, n: int, cuts: list[int]) -> int:
 
-        c = len(cuts)
-        cuts = [0] + sorted(cuts) + [n]
+        cuts.sort()
+        cuts = [0] + cuts + [n]
 
-        dp = [[0] * c for _ in range(c)]
+        m = len(cuts)
 
-        for length in range(2, c):
-            
-            # here, c - length is the number of intervals of the given length
-            for l in range(c - length):
+        dp = [[0] * m for _ in range(m)]
 
-                r = l + length
+        for length in range(2, m):
 
-                dp[l][r] = float('inf')
+            for i in range(m - length):
 
-                for m in range(l + 1, r):
+                j = i + length
 
-                    cost = dp[l][m] + dp[m][r] + cuts[r] - cuts[l]
+                dp[i][j] = float('inf')
 
-                    dp[l][r] = min(dp[l][r], cost)
+                for k in range(i + 1, j):
 
-        return dp[0][c - 1]
+                    dp[i][j] = min(dp[i][j], cuts[j] - cuts[i] + dp[i][k] + dp[k][j])
 
+        return dp[0][m - 1]
 
 print(Solution().minCost(7, [1, 3, 4, 5]))  # Output: 16
 print(Solution().minCost(9, [5, 6, 1, 4, 2]))  # Output: 22
