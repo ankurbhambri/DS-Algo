@@ -102,9 +102,12 @@
 - https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/
 - https://leetcode.com/problems/stone-game-vii/
 - https://leetcode.com/problems/burst-balloons/
+
 - https://leetcode.com/problems/remove-boxes/
-- https://leetcode.com/problems/strange-printer/
+
 - https://leetcode.com/problems/valid-permutations-for-di-sequence/
+
+- https://leetcode.com/problems/strange-printer/
 - https://leetcode.com/problems/minimum-cost-to-merge-stones/
 - https://leetcode.com/problems/allocate-mailboxes/
 - https://leetcode.com/problems/minimum-cost-to-cut-a-stick/

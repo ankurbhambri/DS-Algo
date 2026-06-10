@@ -24,7 +24,7 @@ class Solution:
             # Option 2: s[i] ke jaisa koi aur s[k] dhundo
             for m in range(i + 1, r + 1):
                 if s[m] == s[i]:
-                    # Humne i aur m ko ek saath print kiya
+                    # Humne i aur m ko ek saath print kiya, ek lambi line banayi, jaha same element s[m] == s[i] use print kar diya
                     # m index nhi liya kyuki s[i] aur s[m] same hai, toh unko ek saath print kar sakte hai
                     # Isliye range (i, m-1) aur (m+1, r) mein divide kiya
                     res = min(res, solve(i, m - 1) + solve(m + 1, r))
@@ -45,27 +45,35 @@ class Solution:
         if n == 0:
             return 0
 
-        # DP Table: dp[i][j] stores min turns for substring s[i...j]
+        # DP Table: dp[i][j] batayega s[i...j] ko print karne ka min cost
         dp = [[0] * n for _ in range(n)]
 
-        for i in range(n - 1, -1, -1):
-
+        # Step 1: Base Case (Length = 1)
+        # Kisi bhi single character ko print karne mein 1 hi turn lagta hai
+        for i in range(n):
             dp[i][i] = 1 # Single character takes 1 turn
 
-            for j in range(i + 1, n):
+        # Step 2: Baki saari lengths ke liye loop chalayein (Length 2 se lekar n tak)
+        for length in range(2, n + 1):
 
-                # Default case: print s[i] separately
-                dp[i][j] = 1 + dp[i + 1][j]
+            for i in range(n - length + 1):
 
-                # Optimization: if s[k] is same as s[i], try to merge
+                j = i + length - 1
+
+                # Worst case scenario: Pehle character ko alag se print karein
+                # aur baki bache [i+1...j] ko alag se.
+                dp[i][j] = 1 + dp[i + 1][j] # Default case: print s[i] separately
+
+                # Smart Option: Ab beech mein check karein koi s[i] ke jaisa character hai kya
                 for k in range(i + 1, j + 1):
 
+                    # Agar s[k] == s[i] hai, toh s[k] ko print karne ka kharcha free!
                     if s[i] == s[k]:
 
-                        # dp[i][k-1] handles the first part including the merged char
-                        # dp[k+1][j] handles the remaining part
-                        res = dp[i][k-1] + (dp[k+1][j] if k+1 <= j else 0)
+                        # Isliye hum subproblems ko [i...k-1] aur [k+1...j] mein tod dete hain.
+                        res = dp[i][k - 1] + (dp[k + 1][j] if k + 1 <= j else 0)
 
+                        # Minimum turns ko update karein
                         dp[i][j] = min(dp[i][j], res)
 
         return dp[0][n-1]

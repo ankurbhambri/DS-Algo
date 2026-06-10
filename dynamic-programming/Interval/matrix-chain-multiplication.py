@@ -36,6 +36,7 @@ def matrix_chain_order(arr):
 
         # Try all possible positions to split the chain
         for k in range(i, j):
+
             cost = (
                 solve(i, k) +
                 solve(k + 1, j) +
@@ -49,6 +50,7 @@ def matrix_chain_order(arr):
 
     # Solve for full chain multiplication from matrix 1 to n-1
     return solve(1, n-1)
+
 
 # Here, matrix dimensions are given as an array where the ith matrix has dimensions arr[i-1] x arr[i].
 # print(matrix_chain_order([10, 15, 20, 30]))  # Output: 8000
@@ -94,7 +96,7 @@ def matrix_chain_order(arr):
 
                 '''
                 Dimensions Array (arr[]) kaise kaam karta hai?
-                
+
                 MCM problem mein humein matrices ki dimensions ek single array mein di jati hain.
                 Agar arr = [10, 20, 30, 40], iska matlab hamare paas 3 matrices hain:
                     - Matrix A1: 10 x 20 (i.e., arr[0] x arr[1])
@@ -106,11 +108,11 @@ def matrix_chain_order(arr):
                 Jab hum matrices ki chain ko k point par split karte hain:
                     - Left Side (Ai ... Ak): Isko multiply karke jo ek final matrix banega, uska size hoga arr[i-1] x arr[k].
                     - Right Side (Ak+1 ... Aj): Isko multiply karke jo ek final matrix banega, uska size hoga arr[k] x arr[j].
-                
+
                 Ab in dono final matrices ko aapas mein multiply karne ki cost kya hogi?
                 Cost = (Row of Left) x (Common Dimension) x (Col of Right)
                 Cost = arr[i-1] x arr[k] x arr[j]
-                
+
                 Example Dry Run:
                 Maan lijiye hum (A1 * A2) * A3 kar rahe hain:
                     - Chain range: i=1, j=3
@@ -175,6 +177,7 @@ def parenthesization_reconstruction(arr):
                     dp[i][j] = cost
                     s[i][j] = k
     return dp, s
+
 
 # TC: O(n^2) and SC: O(n)
 def build_parenthesis(s, i, j, result=[]):

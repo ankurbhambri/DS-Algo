@@ -1,10 +1,13 @@
 # https://leetcode.com/problems/allocate-mailboxes/
 
 
-from functools import cache
+# TC: O(n^2 * k)
+# SC: O(n^2 + n * k)
 
+# recusion + memoization
 class Solution:
     def minDistance(self, houses, k):
+
         houses.sort()
         n = len(houses)
 
