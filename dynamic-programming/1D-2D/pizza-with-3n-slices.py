@@ -1,5 +1,7 @@
 # https://leetcode.com/problems/pizza-with-3n-slices/
 
+# similar to House Robber II, but we need to handle the circular nature of the slices.
+
 
 class Solution:
     def maxSizeSlices(self, slices: list[int]) -> int:

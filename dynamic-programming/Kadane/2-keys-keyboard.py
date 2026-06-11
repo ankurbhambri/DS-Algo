@@ -2,49 +2,53 @@
 
 # Backtracking solution
 
+# TC: O(2^n) in worst case, but generally much less due to pruning
+# SC: O(n) for the recursion stack
 class Solution:
     def minSteps(self, n: int) -> int:
+
         if n == 1:
             return 0
 
+        # Memoization dictionary
         memo = {}
 
-        def helper(currA, clipA):
+        def solve(screen, clipboard):
 
-            if currA == n:
+            # Base Case 1: Agar hum exact target par pahunch gaye
+            if screen == n:
                 return 0
 
-            if currA > n:
-                # if excedded the number of operation limit
-                return float("inf")
+            # Base Case 2: Agar screen par target se zyada 'A' ho gaye, toh yeh invalid path hai
+            if screen > n:
+                return float('inf')
 
-            if (currA, clipA) in memo:
-                return memo[(currA, clipA)]
+            # Check if already calculated
+            if (screen, clipboard) in memo:
+                return memo[(screen, clipboard)]
 
-            # Two operations here, either copy all whatever is on the screen and copy again or paste whatever is copied previously.
-            
-            # Option - 1: Pasted already present value, copied value previously pasted again.
-            paste = 1 + helper(currA + clipA, clipA)
+            # Choice 1: Sirf Paste karo
+            op1 = 1 + solve(screen + clipboard, clipboard)
 
-            # Option - 2:  Copy all then paste two times same value on screen.
-            copyAllPaste = 2 + helper(currA + currA, currA)
+            # Choice 2: Copy All + Paste karo (Ek saath dono kaam) so two operations
+            op2 = 2 + solve(screen * 2, screen)
 
-            memo[(currA, clipA)] = min(paste, copyAllPaste)
+            # Dono choices mein se jo minimum steps de
+            memo[(screen, clipboard)] = min(op1, op2)
 
-            return memo[(currA, clipA)]
+            return memo[(screen, clipboard)]
 
-        return 1 + helper(1, 1)
-   
+        # Shuruat mein: Screen par 1 'A' hai, aur clipboard khali (1) hai
+        return 1 + solve(1, 1)
 
 
 print(Solution().minSteps(3))  # 3
 print(Solution().minSteps(1))  # 0
-print(Solution().minSteps(6))  # 5
-print(Solution().minSteps(18))  # 8
-print(Solution().minSteps(315))  # 17
 
 
 # We can solve this problem using prime factorization technique more optimimum way.
+# TC: O(sqrt(n)) in worst case, but generally much less due to prime factorization
+# SC: O(1)
 def minSteps_primeFactors(n):
 
     factors = 0
@@ -62,7 +66,3 @@ def minSteps_primeFactors(n):
 
 print(minSteps_primeFactors(3))  # 3
 print(minSteps_primeFactors(1))  # 0
-print(minSteps_primeFactors(6))  # 5
-print(minSteps_primeFactors(18))  # 8
-print(minSteps_primeFactors(27))  # 9
-print(minSteps_primeFactors(315))  # 17

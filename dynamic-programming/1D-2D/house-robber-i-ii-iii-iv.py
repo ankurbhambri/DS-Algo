@@ -55,6 +55,8 @@ print(Solution().rob([1, 2, 3, 1]))  # 4
 
 
 # https://leetcode.com/problems/house-robber-ii/
+
+# similar - https://leetcode.com/problems/pizza-with-3n-slices/
 class Solution:
 
     # similar to House Robber I, but we need to handle the circular nature of the houses.

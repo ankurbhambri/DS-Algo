@@ -1,19 +1,27 @@
 # https://leetcode.com/problems/powx-n/description/
 
-def myPow(x, n):
+# TC: O(log n)
+# SC: O(log n) - recursive stack space
+def power(base, exponent):
 
-    if n == 0:
+    if exponent == 0:
         return 1
-    
-    if n < 0:
-        return myPow(1 / x, -n)
 
-    if n % 2 == 0:
-        return myPow(x * x, n // 2)
-    
-    return x * myPow(x * x, (n - 1) // 2)
+    half = power(base, exponent // 2)
 
-x = 2.00000, n = 10
-print(myPow(x, n))  # Output: 1024.00000
-x = 2.10000, n = 3
-print(myPow(x, n))  # Output: 9.26100
+    res = (half * half)
+
+    # agar exponent odd hai to base ko bhi multiply karna padega
+    if exponent % 2 == 1:
+        res *= base
+
+    return res
+
+
+x = 2.00000
+n = 10
+print(power(x, n))  # Output: 1024.00000
+
+x = 2.00000
+n = 3
+print(power(x, n))  # Output: 8.00000

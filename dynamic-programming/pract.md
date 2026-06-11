@@ -59,9 +59,7 @@
 - https://leetcode.com/problems/shopping-offers/
 - https://leetcode.com/problems/2-keys-keyboard/
 - https://leetcode.com/problems/minimum-swaps-to-make-sequences-increasing/
-- https://leetcode.com/problems/best-team-with-no-conflicts/
 - https://leetcode.com/problems/profitable-schemes/
-- https://leetcode.com/problems/tallest-billboard/
 - https://leetcode.com/problems/reducing-dishes/
 
 
@@ -214,6 +212,7 @@
 
 
 ### C.LIS
+- https://leetcode.com/problems/best-team-with-no-conflicts/
 - https://leetcode.com/problems/longest-increasing-subsequence/
 - https://leetcode.com/problems/number-of-longest-increasing-subsequence/
 - https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-ii
@@ -302,3 +301,4 @@
 - https://leetcode.com/problems/least-operators-to-express-number/
 - https://leetcode.com/problems/largest-multiple-of-three/
 - https://leetcode.com/problems/find-the-closest-palindrome/
+- https://leetcode.com/problems/tallest-billboard/
