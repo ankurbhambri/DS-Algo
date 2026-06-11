@@ -3,22 +3,30 @@
 from collections import defaultdict
 
 
+# TC: O(n^2)
+# SC: O(n^2)
 class Solution:
     def numberOfArithmeticSlices(self, nums: list[int]) -> int:
 
-        res = 0
         n = len(nums)
 
         dp = [defaultdict(int) for _ in range(n)]
 
+        ans = 0
+
         for i in range(n):
+
             for j in range(i):
 
-                diff = nums[i] - nums[j]
-                dp[i][diff] += 1 + dp[j][diff]
-                res += dp[j][diff]
+                d = nums[i] - nums[j]
 
-        return res
+                cnt = dp[j][d]
+
+                ans += cnt
+
+                dp[i][d] += cnt + 1
+
+        return ans
 
 
 print(Solution().numberOfArithmeticSlices([2, 4, 6, 8, 10]))  # Output: 7

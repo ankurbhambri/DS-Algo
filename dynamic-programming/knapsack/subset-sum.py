@@ -1,25 +1,6 @@
 # 1 means possible to create subset whose sum ewauls to target and 0 means not possible
 
-
-def subsetSumRecursive(arr, t):
-
-    def helper(i, target):
-
-        if target == 0:
-            return 1
-
-        if i < 0 or target < 0:
-            return 0
-
-        take = helper(i - 1, target - arr[i - 1])
-
-        not_take = helper(i - 1, target)
-
-        return take or not_take
-
-    return helper(len(arr), t)
-
-
+# recursive + memoization
 def subsetSumMemo(arr, t):
 
     memo = {}
@@ -31,15 +12,19 @@ def subsetSumMemo(arr, t):
 
         if i < 0 or target < 0:
             return 0
-        
+
         state = (i, target)
+
         if state in memo:
             return memo[state]
         
         take = helper(i - 1, target - arr[i - 1])
+
         not_take = helper(i - 1, target)
 
         memo[state] = take or not_take
+
+        return memo[state]
 
     return helper(len(arr), t)
 
@@ -82,11 +67,6 @@ def subsetSum1DP(arr, target):
     return dp[target]
 
 
-print(subsetSumRecursive([3, 34, 4, 12, 5, 2], 9))
-print(subsetSumRecursive([3, 34, 4, 12, 5, 2], 9))
-print(subsetSumTabular([3, 34, 4, 12, 5, 2], 9))
-print(subsetSum1DP([3, 34, 4, 12, 5, 2], 9))
-
 # Variation: If asked to count number of subsets with given sum
 
 # Simple in place of (or) just (+)
@@ -103,4 +83,10 @@ def subsetSum1DPWays(arr, target):
 
     return dp[target]
 
+
+
+print(subsetSumMemo([3, 34, 4, 12, 5, 2], 9))
+print(subsetSumMemo([3, 34, 4, 12, 5, 2], 9))
+print(subsetSumTabular([3, 34, 4, 12, 5, 2], 9))
+print(subsetSum1DP([3, 34, 4, 12, 5, 2], 9))
 print(subsetSum1DPWays([1, 2, 1], 2))

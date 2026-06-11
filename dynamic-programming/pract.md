@@ -1,3 +1,9 @@
+
+# https://leetcode.com/tag/dynamic-programming/discuss/1000929/Solved-all-dynamic-programming-(dp)-problems-in-7-months
+
+## https://leetcode.com/discuss/post/458695/dynamic-programming-patterns-by-aatalyk-pmgr/
+
+
 ## 1. Linear DP TODO
 - https://leetcode.com/problems/climbing-stairs/
 - https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
@@ -42,10 +48,12 @@
 - https://leetcode.com/problems/maximum-alternating-subsequence-sum/
 - https://leetcode.com/problems/jump-game/
 - https://leetcode.com/problems/jump-game-ii/
+- https://leetcode.com/problems/pizza-with-3n-slices/
 
 
 ## 2.Knapsack TODO
 - https://leetcode.com/problems/house-robber-ii/
+- https://leetcode.com/problems/last-stone-weight-ii/
 - https://leetcode.com/problems/ones-and-zeroes/
 - https://leetcode.com/problems/target-sum/
 - https://leetcode.com/problems/shopping-offers/
@@ -54,7 +62,6 @@
 - https://leetcode.com/problems/best-team-with-no-conflicts/
 - https://leetcode.com/problems/profitable-schemes/
 - https://leetcode.com/problems/tallest-billboard/
-- https://leetcode.com/problems/pizza-with-3n-slices/
 - https://leetcode.com/problems/reducing-dishes/
 
 
@@ -90,19 +97,16 @@
 - https://leetcode.com/problems/count-all-possible-routes/
 
 
-## 4.Interval DP TODO
+## 4.Interval DP
 - https://leetcode.com/problems/unique-binary-search-trees
 - https://leetcode.com/problems/guess-number-higher-or-lower-ii/
 - https://leetcode.com/problems/arithmetic-slices/
 - https://leetcode.com/problems/predict-the-winner/
-- https://leetcode.com/problems/palindromic-substrings/
 - https://leetcode.com/problems/stone-game/
 - https://leetcode.com/problems/minimum-score-triangulation-of-polygon/
-- https://leetcode.com/problems/last-stone-weight-ii/
 - https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/
 - https://leetcode.com/problems/stone-game-vii/
 - https://leetcode.com/problems/burst-balloons/
-
 - https://leetcode.com/problems/remove-boxes/
 
 - https://leetcode.com/problems/valid-permutations-for-di-sequence/
@@ -297,3 +301,4 @@
 - https://leetcode.com/problems/super-egg-drop/
 - https://leetcode.com/problems/least-operators-to-express-number/
 - https://leetcode.com/problems/largest-multiple-of-three/
+- https://leetcode.com/problems/find-the-closest-palindrome/

@@ -1,3 +1,6 @@
+# https://leetcode.com/problems/range-sum-query-mutable/
+
+
 """
     The idea here is to build a segment tree. Each node stores the left and right
     endpoint of an interval and the sum of that interval and product of that interval. 

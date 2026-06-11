@@ -22,6 +22,3 @@ print(lastStoneWeight([1]))  # Output: 1
 print(lastStoneWeight([1,3]))  # Output: 2
 print(lastStoneWeight([3,7,2,4,1]))  # Output: 1
 print(lastStoneWeight([2,6,3,9,9,3,8]))  # Output: 0
-
-
-# https://leetcode.com/problems/last-stone-weight-ii/

@@ -1,33 +1,32 @@
 # https://leetcode.com/problems/longest-palindrome/
 
 
-def longestPalindrome(s):
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        character_set = set()
+        res = 0
 
-    frequency_map = {}
+        # Loop over characters in the string
+        for c in s:
+            # If set contains the character, match found
+            if c in character_set:
+                character_set.remove(c)
+                # Add the two occurrences to our palindrome
+                res += 2
+            else:
+                # Add the character to the set
+                character_set.add(c)
 
-    for c in s:
-        frequency_map[c] = frequency_map.get(c, 0) + 1
+        # If any character remains, we have at least one unmatched
+        # character to make the center of an odd length palindrome.
+        if character_set:
+            res += 1
 
-    res = 0
-    has_odd_frequency = False
-    for freq in frequency_map.values():
-        # Check if the frequency is even, add the whole frquency to the result
-        if (freq % 2) == 0:
-            res += freq
-        else:
-            # If the frequency is odd, one occurrence of the character will remain without a match
-            res += freq - 1
-            has_odd_frequency = True
-
-    # If has_odd_frequency is true, we have at least one unmatched, character to make the center of an odd length palindrome.
-    if has_odd_frequency:
-        return res + 1
-
-    return res
+        return res
 
 
-print(longestPalindrome("abccccdd"))
-print(longestPalindrome("racecar"))
+print(Solution().longestPalindrome("abccccdd"))
+print(Solution().longestPalindrome("racecar"))
 
 
 # Variation of the problem: Largest Palindromic Number

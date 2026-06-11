@@ -138,7 +138,7 @@ bag_cap = 5
 wt = [2, 1, 4]
 val = [12, 10, 6]
 
-print(knapSackRecursive(bag_cap, wt, val, n))
-print(knapSackCache(bag_cap, wt, val, n))
-print(knapsackTabular(bag_cap, wt, val, n))
-print(knapSack_optimised(val, wt, bag_cap))
+print(knapSackRecursive(bag_cap, wt, val, n)) # 22
+print(knapSackCache(bag_cap, wt, val, n)) # 22
+print(knapsackTabular(bag_cap, wt, val, n)) # 22
+print(knapSack_optimised(val, wt, bag_cap)) # 22

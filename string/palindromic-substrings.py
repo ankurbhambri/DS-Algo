@@ -12,6 +12,7 @@ A substring is a contiguous sequence of characters within the string.
 
 '''
 
+# TC: O(n^2), SC: O(1)
 def countSubstrings(s):
 
     res = 0
@@ -23,6 +24,7 @@ def countSubstrings(s):
         while l >= 0 and r < len(s) and s[l] == s[r]:
 
             cnt += 1
+            print(s[l:r + 1]) # O(n), Variant - To print we can do here, but it will increase the time complexity to O(n^3)
             l -= 1
             r += 1
 
@@ -43,55 +45,7 @@ print(countSubstrings("abc"))
 print(countSubstrings("aaa"))
 
 
-# DP Approach
-# TC: O(n^2), SC: O(n^2)
-def countSubstrings(s: str) -> int:
-
-    n = len(s)
-    count = 0
-    dp = [[False] * n for _ in range(n)]
-
-    # Traverse backwards for start index
-    for i in range(n - 1, -1, -1):
-        for j in range(i, n):
-            # Check palindrome condition
-            if s[i] == s[j] and (j - i < 3 or dp[i + 1][j - 1]):
-                dp[i][j] = True
-                count += 1
-
-    return count
-
-print(countSubstrings("abc"))
-print(countSubstrings("aaa"))
-
-
-# Variant - Print all palindromic substrings
-
-# TC: O(n^3)
-def printSubstrings(s):
-
-    def compare(l, r):
-
-        while l >= 0 and r < len(s) and s[l] == s[r]: # O(n)
-
-            print(s[l:r + 1]) # O(n)
-            l -= 1
-            r += 1
-
-    for i in range(len(s)): # O(n)
-
-        # odd length palindromes
-        compare(i, i)
-
-        # even length palindromes
-        compare(i, i + 1)
-
-
-printSubstrings("abc")
-printSubstrings("aaa")
-
-
-# To reduce it to = TC: O(n^2)
+# To reduce it to = TC: O(n^2) for print
 # We need to move the print statement out of the while loop, to avoid O(n) substring operation.
 def printSubstringsEfficient(s):
 
@@ -121,3 +75,36 @@ def printSubstringsEfficient(s):
 
 printSubstringsEfficient("abc")
 printSubstringsEfficient("aaa")
+
+
+# Optmized approach - Manacher's Algorithm - TC: O(n), SC: O(n)
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+
+        # Transform S into T.
+        # For example, S = "abba", T = "^#a#b#b#a#$".
+        # ^ and $ signs are sentinels appended to each end to avoid bounds checking
+
+        T = '@#' + '#'.join(s) + '#$'
+
+        n = len(T)
+
+        P = [0] * n
+
+        C = R = 0
+
+        for i in range(1, n - 1):
+
+            if i < R:
+                P[i] = min(R - i, P[2 * C - i])  # equals to min(R - i, P[i_mirror])
+
+            # Attempt to expand palindrome centered at i
+            while T[i + 1 + P[i]] == T[i - 1 - P[i]]:
+                P[i] += 1
+
+            # If palindrome centered at i expand past R,
+            # adjust center based on expanded palindrome.
+            if i + P[i] > R:
+                C, R = i, i + P[i]
+
+        return sum((v + 1) // 2 for v in P)

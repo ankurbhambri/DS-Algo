@@ -7,9 +7,13 @@ class Solution:
 
         for i in range(1, m):
 
+            # yha pe hum pattern ke prefix aur suffix ko compare kar rahe hai, agar match nahi karta to hum lps array ke last value pe jate hai, 
+            # aur waha se fir se compare karte hai, jab tak match nahi milta ya j 0 nahi ho jata.
             while j > 0 and pattern[i] != pattern[j]:
                 j = lps[j - 1]
 
+            # yha pe hum pattern ke current character ko prefix ke next character se compare kar rahe hai, 
+            # agar match karta hai to hum j ko increment kar dete hai, aur lps[i] me j ki value store kar dete hai.
             if pattern[i] == pattern[j]:
                 j += 1
                 lps[i] = j
