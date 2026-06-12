@@ -48,11 +48,11 @@
 - https://leetcode.com/problems/maximum-alternating-subsequence-sum/
 - https://leetcode.com/problems/jump-game/
 - https://leetcode.com/problems/jump-game-ii/
-- https://leetcode.com/problems/pizza-with-3n-slices/
 
 
 ## 2.Knapsack TODO
 - https://leetcode.com/problems/house-robber-ii/
+- https://leetcode.com/problems/pizza-with-3n-slices/
 - https://leetcode.com/problems/last-stone-weight-ii/
 - https://leetcode.com/problems/ones-and-zeroes/
 - https://leetcode.com/problems/target-sum/

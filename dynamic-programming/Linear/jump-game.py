@@ -6,19 +6,25 @@ from collections import deque, defaultdict
 # TC: O(n)
 # Greedy + DP
 class Solution:
-    def canJump(self, nums):
-        max_reach = 0
+    def canJump(self, nums: list[int]) -> bool:
+
+        max_reachable = 0
+
         for i in range(len(nums)):
-            if i > max_reach:  # Agar current index max_reach se aage hai, stuck!
+
+            # Agar current index tak hum pahunch hi nahi sakte
+            if i > max_reachable:
                 return False
-            max_reach = max(max_reach, i + nums[i])  # Update max reachable index
-            if max_reach >= len(nums) - 1:  # Agar last index tak pahunch gaye
-                return True
+
+            # Max reachable distance ko update karo
+            max_reachable = max(max_reachable, i + nums[i])
+
         return True
 
 
 print(Solution().canJump([2, 3, 1, 1, 4]))  # True
 print(Solution().canJump([3, 2, 1, 0, 4]))  # False
+
 
 # https://leetcode.com/problems/jump-game-ii/
 
@@ -28,20 +34,23 @@ print(Solution().canJump([3, 2, 1, 0, 4]))  # False
 # Idea here is to keep track of the farthest we can reach at each step.
 
 class Solution:
-    def jump(self, nums):
+    def jump(self, nums: list[int]) -> int:
 
         jumps = 0
-        curr_end = 0
-        next_end = 0
+        end = 0
+        farthest = 0
 
-        for i in range(len(nums) - 1):  # stop before the last index
-            next_end = max(next_end, i + nums[i])
+        for i in range(len(nums) - 1):
+            
+            # yha guranteed h ki n - 1 tak phuch jaoge, nhi yoh humme jump 1 ki tarah check karna padte i > farthest.
+            farthest = max(farthest, i + nums[i])
 
-            if i == curr_end:
+            # yha mein fathest end nikal ke check karta hu beech ke sabhi farthest, and jump += 1 karta rahega
+            # isse kya hoga ki end ko chase karte i new farthest nikal lega
+            # and ek time ayega ki hum end ka farthest nikal chukenge honge
+            if i == end:
                 jumps += 1
-                curr_end = next_end
-                if curr_end >= len(nums) - 1:  # Last, reached
-                    break
+                end = farthest
 
         return jumps
 
@@ -55,110 +64,118 @@ print(Solution().jump([2, 3, 0, 1, 4]))  # 2
 # SC: O(n)
 
 # Idea here is to use BFS to explore all reachable indices from the start index, till then the index wheere arr[idx] == 0.
+class Solution:
+    def canReach(self, arr: list[int], start: int) -> bool:
 
-def canReach(arr, start):
-    q = deque()
-    q.append(start)
-    visited = set()
-    
-    while q:
-        idx = q.popleft()
-        
-        if arr[idx] == 0:
-            return True
-        
-        for x in ((idx + arr[idx]), (idx - arr[idx])):
-            
-            if 0 <= x < len(arr) and x not in visited:
-                q.append(x)
-                visited.add(idx) 
-    return False
+        n = len(arr)
+        q = deque([start])
+        visited = {start}
+
+        while q:
+
+            i = q.popleft()
+
+            if arr[i] == 0:
+                return True
+
+            for nxt in (i + arr[i], i - arr[i]):
+                if 0 <= nxt < n and nxt not in visited:
+                    visited.add(nxt)
+                    q.append(nxt)
+
+        return False
 
 
-print(canReach([4,2,3,0,3,1,2], 5)) # True
-print(canReach([4,2,3,0,3,1,2], 0))  # True
+print(Solution().canReach([4,2,3,0,3,1,2], 5)) # True
+print(Solution().canReach([4,2,3,0,3,1,2], 0))  # True
 
 
 # https://leetcode.com/problems/jump-game-iv/description/
 
-
+# TC: O(n)
+# SC: O(n)
 class Solution:
-    def minJumps(self, arr):
+    def minJumps(self, arr: list[int]) -> int:
 
         n = len(arr)
 
         if n == 1:
-            return 0  # Already at the last index
+            return 0
 
-        # Build a map of value to indices
-        similarValueIndex = defaultdict(list)
+        graph = defaultdict(list)
 
-        for i in range(n):
-            similarValueIndex[arr[i]].append(i)
+        for i, val in enumerate(arr):
+            graph[val].append(i)
 
         q = deque([0])
-        visited = set([0])
-
+        visited = {0}
         steps = 0
 
         while q:
-
-            for _ in range(len(q)):  # Process all nodes in the current level
+            for _ in range(len(q)):
 
                 i = q.popleft()
 
-                if i == n - 1:  # If we reach the last index
+                if i == n - 1:
                     return steps
 
-                # Add neighbors: left, right, and same-value indices
-                for j in [i - 1, i + 1] + similarValueIndex[arr[i]]:
-                    if 0 <= j < n and j not in visited:
-                        q.append(j)
-                        visited.add(j)
+                neighbors = graph[arr[i]]
+                neighbors.append(i - 1)
+                neighbors.append(i + 1)
 
-                # Clear indices for the current value to prevent redundant processing
-                similarValueIndex[arr[i]] = []
+                for nxt in neighbors:
+                    if 0 <= nxt < n and nxt not in visited:
+                        visited.add(nxt)
+                        q.append(nxt)
+
+                # ek bar process kar liya toh future mein dobara kabhi bhi ye list use karne ki zarurat nahi.
+                graph[arr[i]].clear()
 
             steps += 1
 
-        return -1  # No path found (shouldn't happen with valid input)
+        return -1
 
+
+print(Solution().minJumps([7,7,2,1,7,7,7,3,4,1]))  # 3
 
 
 # https://leetcode.com/problems/jump-game-v/
 
+
 # TC: O(n * d) in worst case, but often much better due to early breaks
 # SC: O(n) for the dp array and recursion stack
+
+# yha d ka matlab h ki hum maximum d steps jump kar sakte hain ek building se dusri building pe.
 class Solution:
     def maxJumps(self, arr: list[int], d: int) -> int:
 
         n = len(arr)
 
-        # dp array subproblems ka answer store karne ke liye
-        dp = [0] * n
+        # memo array subproblems ka answer store karne ke liye
+        memo = {}
 
         def dfs(i):
 
-            # Agar pehle se answer pata hai, toh wahi se return kar do
-            if dp[i] != 0:
-                return dp[i]
+            if i in memo:
+                return memo[i]
 
-            max_visited = 1 # Khud us index ko count karke minimum 1 toh hoga hi
+            best = 1 # Khud us index ko count karke minimum 1 toh hoga hi
 
             # 1. Right side mein jumps check karna
             for j in range(i + 1, min(n, i + d + 1)):
                 if arr[j] >= arr[i]:
                     break # Rasta block ho gaya, aage nahi ja sakte
-                max_visited = max(max_visited, 1 + dfs(j))
+                best = max(best, 1 + dfs(j))
 
             # 2. Left side mein jumps check karna
             for j in range(i - 1, max(-1, i - d - 1), -1):
                 if arr[j] >= arr[i]:
                     break # Rasta block ho gaya
-                max_visited = max(max_visited, 1 + dfs(j))
+                best = max(best, 1 + dfs(j))
 
-            dp[i] = max_visited
-            return dp[i]
+            memo[i] = best
+
+            return best
 
         # Kyunki hum kisi bhi index se shuru kar sakte hain, 
         # isliye sabhi index se check karke maximum nikalenge.
@@ -174,7 +191,7 @@ class Solution:
 from collections import deque
 
 # TC: O(n)
-# SC: O(n) for the dp array and deque
+# SC: O(n) for the dp array and Monotonic decreasing deque
 class Solution:
     def maxResult(self, nums: list[int], k: int) -> int:
 
@@ -189,7 +206,7 @@ class Solution:
 
         for i in range(1, n):
 
-            # 1. Jo indices k step se zyada piche chhut gaye, unhe aage se nikal do
+            # 1. Jo indices k step se zyada piche chale gaye, unhe aage se nikal do
             if dq[0] < i - k:
                 dq.popleft()
 
@@ -211,9 +228,6 @@ class Solution:
 
 # TC: O(n)
 # SC: O(n)
-
-# Idea
-
 def canReach(s: str, minJump: int, maxJump: int) -> bool:
 
     n = len(s)
