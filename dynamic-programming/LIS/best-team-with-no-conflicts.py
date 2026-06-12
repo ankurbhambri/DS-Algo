@@ -70,8 +70,8 @@ class Solution:
                 idx -= idx & (-idx)
             return max_val
 
-        # Step 2: Har player ke liye $O(\log N)$ mein best sum dhoondho
-        for age, score in players:
+        # Step 2: Har player ke liye O(log N) mein best sum dhoondho
+        for _, score in players:
             # Pichle saare valid scores (jo <= current score hain) unka max nikalon
             current_best = query(score) + score
             # Is naye score aur sum ke saath tree ko update karo

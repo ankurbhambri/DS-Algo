@@ -1,54 +1,42 @@
 # https://leetcode.com/problems/target-sum/
 
 '''
+Maan lo humne kuch numbers ke aage '+' lagaya aur kuch ke aage '-'.
+    - Jo numbers plus wale hain, unke group ko bolte hain S1.
+    - Jo numbers minus wale hain, unke group ko bolte hain S2.
 
-p1 partition of +ve numbers
-p2 partition fd -ve numbers
+Toh hum equation likh sakte hain: 
+    - S1 - S2 = target, (Yeh hume chahiye)
+    - S1 + S2 = totalSum, (Yeh saare elements ka sum hai)
 
-conditions: 1) p1 - p2 = target
-            2) p1 + p2 = sum(arr)
+Ab dono equations ko plus (add) kar dete hain:
 
-equation:
+- (S1 - S2) + (S1 + S2) = target + totalSum, yahan S2 cancel ho jayega aur sirf 2 * S1 = target + totalSum bachega.
 
-    let p1 = X
-
-    p2 = sum(arr) - x -------------- wrt p1 + p2 = sum(arr)
-
-    put val in this eq
-
-    p1 - p2 = target
-
-    x - sum(arr) + x = target
-
-    x = (sum(arr) + target) // 2  ------------- final eq will use in problem
-
-x tends to p1 so we have to find number of x we can generate using p1 and 
-this problem converts into Subset Sum Problem bcoz p1 is whole array and x is sum which
-we have to find nos of times x can be genrated
-
+- 2 * S1 = target + totalSum => (target + totalSum) // 2
 '''
 
-
 class Solution:
-    def findTargetSumWays(self, nums, target):
+    def findTargetSumWays(self, nums: list[int], target: int) -> int:
 
-        sm = sum(nums)
-        mod = 10 ** 9 + 7
+        total_sum = sum(nums)
 
-        if (sm + target) % 2 != 0 or abs(target) > abs(sm):
+        # Edge cases check karo
+        if abs(target) > total_sum or (target + total_sum) % 2 != 0:
             return 0
 
-        t = (sm + target) // 2
+        # Humara naya target (S1)
+        S1 = (target + total_sum) // 2
 
-        dp = [0] * (t + 1)
-        dp[0] = 1
+        # dp array initialize karo, dp[0] = 1 kyunki 0 sum banane ka 1 tarika hai (kuch mat uthao)
+        dp = [1] + [0] * S1
 
-        for n in nums:
-            for j in range(t, n - 1, -1):
-                dp[j] = (dp[j] + dp[j - n]) % mod
+        for num in nums:
+            # 0-1 Knapsack ki tarah loop ulta chalega taaki same element baar-baar use na ho
+            for w in range(S1, num - 1, -1):
+                dp[w] += dp[w - num]
 
-        return dp[t] % mod
-
+        return dp[S1]
 
 print(Solution().findTargetSumWays([1, 1, 1, 1, 1], 3))  # 5
 print(Solution().findTargetSumWays([9, 7, 0, 3, 9, 8, 6, 5, 7, 6], 31))  # 8

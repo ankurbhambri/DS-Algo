@@ -57,21 +57,19 @@ print(Solution().rob([1, 2, 3, 1]))  # 4
 # https://leetcode.com/problems/house-robber-ii/
 
 # similar - https://leetcode.com/problems/pizza-with-3n-slices/
+
 class Solution:
-
-    # similar to House Robber I, but we need to handle the circular nature of the houses.
-    def rob(self, nums) -> int:
-        
-        def helper(nums):
-            rob1, rob2 = 0, 0
-            for n in nums:
-                rob1, rob2 = rob2, max(n + rob1, rob2)
-            return rob2
-
-        # skip the first or the last house
+    def rob(self, nums: list[int]) -> int:
+        # Again formula is same as (house robber-1) -> max(nums[i - 2] + nums[i], nums[i - 1])
+        def helper(arr):
+            a, b = 0, 0
+            for n in arr:
+                a, b = b, max(n + a, b)
+            return b
         return max(nums[0], helper(nums[1:]), helper(nums[:-1]))
 
 
+print(Solution().rob([2, 3, 2]))  # 3
 print(Solution().rob([1, 2, 3, 1]))  # 4
 
 
