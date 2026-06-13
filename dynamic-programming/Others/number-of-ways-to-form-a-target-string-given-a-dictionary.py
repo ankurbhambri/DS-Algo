@@ -2,7 +2,8 @@
 
 from collections import Counter
 
-
+# TC: O(m * n) - We fill a 2D DP table of size m x n.
+# SC: O(m * n) - The DP table takes O(m * n) space
 class Solution:
     def numWays(self, words: list[str], target: str) -> int:
 
@@ -39,6 +40,8 @@ class Solution:
         return dp[m][n] % mod
 
 
+# TC: O(m * n) - We fill a 1D DP table of size n.
+# SC: O(n) - The DP table takes O(n) space
 class Solution:
     def numWays(self, words: list[str], target: str):
 

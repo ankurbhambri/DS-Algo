@@ -1,6 +1,9 @@
 # https://leetcode.com/problems/number-of-ways-to-stay-in-the-same-place-after-some-steps/
 
 
+# TC: O(steps * min(arrLen, steps)) - We iterate through each step and for each step, we iterate through the possible indices up to min(arrLen, steps).
+# SC: O(min(arrLen, steps)) - We use a DP array of size min
+
 class Solution:
     def numWays(self, steps: int, arrLen: int) -> int:
         MOD = 10**9 + 7
@@ -38,3 +41,7 @@ class Solution:
             
         # End mein index 0 par stay karne ke total ways
         return dp[0]
+
+
+print(Solution().numWays(3, 2))  # Output: 4
+print(Solution().numWays(2, 4))  # Output: 2
