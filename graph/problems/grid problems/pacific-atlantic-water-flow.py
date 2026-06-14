@@ -2,8 +2,9 @@
 
 # Idea: Here the logic is to start from the boundaries of the Pacific and Atlantic oceans and perform a DFS to find all cells that can flow into these oceans.
 # The cells that can flow into both oceans will be the intersection of the visited cells from both DFS traversals.
-# Time Complexity: O(R * C) where R is the number of rows and C is the number of columns in the grid.
-# Space Complexity: O(R * C) for the visited sets.
+
+# TC: O(R * C) where R is the number of rows and C is the number of columns in the grid.
+# SC: O(R * C) for the visited sets.
 
 class Solution:
     def pacificAtlantic(self, heights):
@@ -25,10 +26,10 @@ class Solution:
         for c in range(C):
             pac.append((0, c))
             atl.append((R - 1, c))
-            
+
         # All four directions
         dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]
-        
+
         def dfs(r, c, visit):
 
             visit.add((r, c))
@@ -42,7 +43,7 @@ class Solution:
 
         for r, c in pac:
             dfs(r, c, visit_pac)
-            
+
         for r, c in atl:
             dfs(r, c, visit_atl)
 

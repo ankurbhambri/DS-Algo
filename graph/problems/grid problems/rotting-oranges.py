@@ -35,7 +35,9 @@ class Solution:
                     if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == 1:
 
                         grid[nr][nc] = 2
+
                         q.append([nr, nc])
+
                         fresh -= 1
 
             time += 1
@@ -62,6 +64,7 @@ def min_time_to_rot_all(grid):
 
     # Step 1: Add all rotten oranges
     for r in range(rows):
+
         for c in range(cols):
 
             if grid[r][c] == 2:
@@ -79,6 +82,7 @@ def min_time_to_rot_all(grid):
             continue
 
         for dr, dc in directions:
+
             nr, nc = r + dr, c + dc
 
             if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] != 0:
@@ -94,6 +98,7 @@ def min_time_to_rot_all(grid):
     max_time = 0
 
     for r in range(rows):
+
         for c in range(cols):
 
             if grid[r][c] == 1:
@@ -109,6 +114,7 @@ def min_time_to_rot_all(grid):
 # Simlar: https://www.codechef.com/SNCKPB17/problems/SNSOCIAL/
 
 def bfs_maximum_weath(n, m, a):
+
     # Directions for 8 neighbors (left, right, up, down, 4 diagonals)
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
 
@@ -129,6 +135,7 @@ def bfs_maximum_weath(n, m, a):
     # Perform BFS
     max_hours = 0
     while queue:
+
         i, j, hour = queue.popleft()
 
         # Explore all 8 neighbors
@@ -147,4 +154,3 @@ def bfs_maximum_weath(n, m, a):
 
 # Hard
 # https://cses.fi/problemset/task/1194
-

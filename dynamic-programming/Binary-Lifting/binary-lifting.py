@@ -36,11 +36,12 @@ class TreeAncestor:
                 dfs(child, u)
 
         '''
+
         while queue:
             u = queue.popleft()
             for v in adj[u]:
                 if v not in visited:
-                    self.up[v][0] = u
+                    self.up[v][0] = u # 2^0-th parent is immediate parent
                     self.depth[v] = self.depth[u] + 1
                     queue.append(v)
                     visited.add(v)
@@ -50,6 +51,7 @@ class TreeAncestor:
             for i in range(1, n + 1):
                 if self.up[i][j-1] != -1:
                     # i ka 2^j ancestor = (i ke 2^j-1 ancestor) ka 2^j-1 ancestor
+                    # Magic Formula: Halfway jump + Halfway jump
                     self.up[i][j] = self.up[self.up[i][j-1]][j-1]
 
 

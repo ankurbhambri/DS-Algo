@@ -9,7 +9,7 @@ class Solution:
         for u, v in edges:
             adj[u].append(v)
             adj[v].append(u)
-            
+
         queue = deque([(1, 0)]) 
         visited = {1}
 
@@ -21,7 +21,7 @@ class Solution:
 
             if d > max_depth:
                 max_depth = d
-            
+
             for v in adj[u]:
                 if v not in visited:
                     visited.add(v)
@@ -61,17 +61,16 @@ class Solution:
 
         # 3. BFS se depth aur immediate parent nikalyein (Starting from root 1)
         queue = deque([1])
-        visited = [False] * (n + 1)
-        visited[1] = True
+        visited = {1}
 
         while queue:
             u = queue.popleft()
             for v in adj[u]:
-                if not visited[v]:
-                    visited[v] = True
-                    depth[v] = depth[u] + 1
+                if v not in visited:
                     up[v][0] = u  # v ka immediate parent u hai
+                    depth[v] = depth[u] + 1
                     queue.append(v)
+                    visited.add(v)
 
         # 4. Binary Lifting table (up) ko fill karein
         for j in range(1, LOG):
@@ -107,11 +106,13 @@ class Solution:
         ans = []
 
         for u, v in queries:
+
             if u == v:
                 ans.append(0)  # Same node matlab 0 edges -> Cost = 0 (Even)
                 continue
 
             lca = get_lca(u, v)
+
             # Path Length (Total Edges)
             L = depth[u] + depth[v] - 2 * depth[lca]
 

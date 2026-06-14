@@ -3,8 +3,8 @@
 '''
 Feature              | CSES (Coin Combinations I)                  | LeetCode (Coin Change II)
 ---------------------|---------------------------------------------|-------------------------------------------
-Type                 | Permutations (क्रम महत्वपूर्ण है)              | Combinations (क्रम महत्वपूर्ण नहीं है)
-Example {1,2} for 3 | {1,1,1}, {1,2}, {2,1} (3 ways)              | {1,1,1}, {1,2} (2 ways)
+Type                 | Permutations (order is important)           | Combinations (order is not important)
+Example {1,2} for 3  | {1,1,1}, {1,2}, {2,1} (3 ways)              | {1,1,1}, {1,2} (2 ways)
 Loop Order           | Outer: Target, Inner: Coins                 | Outer: Coins, Inner: Target
 '''
 

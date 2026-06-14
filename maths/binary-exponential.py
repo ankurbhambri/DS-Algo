@@ -1,4 +1,5 @@
 # Calculate binary exponentiation
+
 # TC: O(log n)
 
 def binary_exponentiation(base: int, exponent: int) -> int:

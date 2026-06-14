@@ -1,20 +1,22 @@
 # https://leetcode.com/problems/longest-repeating-character-replacement
 
+'''
+Given a string s and an integer k, return the length of the longest substring that can be obtained by replacing at most k characters in s.
+The substring must consist of the same character after replacements.
 
-# Question: Given a string s and an integer k, return the length of the longest substring that can be obtained by replacing at most k characters in s.
-# The substring must consist of the same character after replacements.
 
+Here, the idea is will keep on expending the windows, util our condition is not met.
+
+The condition is: if the difference between the length of the window and the most frequent character in the window is less than or equal to k, 
+
+we keep expanding; otherwise, we start reducing from the left.
+
+Length of the window - max frequency of character in the window <= k -> expand the window else reduce from left.
+
+'''
 
 # TC: O(26 * n) -> O(n)
 # SC: O(26) -> O(1)
-
-
-# Here, the idea is will keep on expending the windows, util our condition is not met.
-
-# The condition is: if the difference between the length of the window and the most frequent character in the window is less than or equal to k, we keep expanding; otherwise, we start reducing from the left.
-
-# Length of the window - max frequency of character in the window <= k -> expand the window else reduce from left.
-
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
 

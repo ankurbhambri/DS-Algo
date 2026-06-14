@@ -1,7 +1,7 @@
 # https://stackoverflow.com/questions/78364596/find-length-of-shortest-substr-that-can-be-removed-from-a-string-resulting-in-a
 # https://www.reddit.com/r/AskProgramming/comments/1ca4gcn/shortest_removed_substring_that_results_in_unique/
 
-"""
+'''
     Given a string s of length n, the task is to find the length of the shortest substring, 
     which, upon deletion, makes the resultant string consist only of distinct characters.
 
@@ -11,11 +11,15 @@
 
     Example:
     s = "abcbbck"
-    There are three optimal choices: "bcb", "bbc", and "bbck". 
+
+    There are three optimal choices: "bcb", "bbc", and "bbck".
+
     The bold characters are the substrings to remove. All result in "abck", which has only distinct characters. 
+
     The removed substring must have at least 3 characters. Return 3.
 
     Function Description:
+
     Complete the function `findShortestSubstring` in the editor with the following parameter:
         - s: the string to analyze
 
@@ -26,84 +30,76 @@
         - 1 ≤ n ≤ 10^5
         - s consists of lowercase English letters only.
 
-    Input Format:
-    The first and only line contains the string `s`.
+    Input Format: The first and only line contains the string `s`.
 
     Sample Case 0:
-    Input:
-    s = "xabbcacpqr"
 
-    Output:
-    3
+    Input: s = "xabbcacpqr"
 
-    Explanation:
-    Given string s = "xabbcacpqr", remove 'bca' to get "xabcpqr".
+    Output: 3
+
+    Explanation: Given string s = "xabbcacpqr", remove 'bca' to get "xabcpqr".
 
     Sample Case 1:
-    Input:
-    s = "abc"
 
-    Output:
-    0
+    Input: s = "abc"
 
-    Explanation:
-    The string s = "abc" already contains distinct characters only.
-"""
+    Output: 0
 
-from collections import Counter
+    Explanation: The string s = "abc" already contains distinct characters only.
+'''
 
-def findShortestSubstring(s):
+class Solution:
+    def findShortestSubstring(self, s: str):
 
-    n = len(s)
+        n = len(s)
 
-    char_count = Counter(s)
+        # Agar string pehle se hi unique hai
+        if len(set(s)) == n:
+            return 0
 
-    # characters appear more than once
-    duplicates = {char for char, count in char_count.items() if count > 1}
+        # Step 1: Peeche se sabse bada unique suffix dhoodo
+        right = n - 1
 
-    if len(duplicates) == 0:
-        return 0
+        seen_suffix = set()
 
-    l = 0
-    freq = {}
-    min_length = n
+        while right >= 0 and s[right] not in seen_suffix:
+            seen_suffix.add(s[right])
+            right -= 1
+        right += 1 # 'right' ab valid suffix ki shuruat par hai
 
-    for r in range(n):
+        # Agar hum poora prefix delete kar dein, toh bachega sirf suffix
+        # Is case mein deletion length hogi 'right'
+        min_len = right
 
-        if s[r] in duplicates:
-            freq[s[r]] = freq.get(s[r], 0) + 1
+        # Step 2: Aage se prefix badhao aur check karo
+        seen_prefix = set()
 
-        # Try to contract window from left
-        while l <= r:
-            # Check if current window contains enough duplicates to remove
-            # We need (char_count[char] - 1) occurrences of each duplicate char
-            can_contract = True
-            for char in duplicates:
-                if freq.get(char, 0) < char_count[char] - 1:
-                    can_contract = False
-                    break
+        for left in range(n):
 
-            if can_contract:
-
-                # Current window is valid, update minimum length
-                min_length = min(min_length, r - l + 1)
-
-                # Try to contract from left
-                if s[l] in freq:
-                    freq[s[l]] -= 1
-                    if freq[s[l]] == 0:
-                        del freq[s[l]]
-                l += 1
-            else:
+            # Agar prefix mein hi duplicate aa gaya, toh aage nahi ja sakte
+            if s[left] in seen_prefix:
                 break
 
-    return min_length
+            seen_prefix.add(s[left])
 
-print(findShortestSubstring("a"))  # Output: 0
-print(findShortestSubstring("aa"))  # Output: 1
-print(findShortestSubstring("abc"))  # Output: 0
-print(findShortestSubstring("abcbbck"))  # Output: 3
-print(findShortestSubstring("selection"))  # Output: 1
-print(findShortestSubstring("racingcar"))  # Output: 3
-print(findShortestSubstring("xabbcacpqr"))  # Output: 3
-print(findShortestSubstring("fjyoeekveqsxmjhsftrbzuxmsnnciiyijrtuqqhyphskktvboatbnrmayturngrvgqyclfxfaflccwmgmciacieineaiqxwoiuerfsqcuvggsmaclcokeuyjeegmndpsomtjxumkxwthlludskjxjdjnuhqnxkrjnoarnzgajlhajyynuikajoixwvkxbhcxebujyrxoeqffijyefwlbeeiusyjaubvgxthgllmbkkskqxicaqbpinugldsrzzjemdqiafdynwunouistwinveyylqparpedxixcygdtirxdqqubptimwlxraktkmyrvucvzkiuffshmncmbipzqxrmovyucnnbvdxagzzzxzmzmydkoonojlcgwltnfyocpvbpnvqeouadcdnwvtdehftjsiohxkahwhvncqmzorkponzawkumfxkwaqwtcpksmqggqtsueqxklaqruhkaatxvqftzezocjuvubrdgcehzqtaeftoneapzglcmgbrjlttmephovhxmvbwwmlggmmvjzgpclczmecggpirrgyatowsczrpsvimthwmauzotziixapyoqppjpckxqyzlzlkfcdmvohcioiffcmmaznehmgrghcfpkpmibtinycunxfkygrglxdsyfxwpxcftmnrypzmtrruxyrjcadeocpwfqnsrmlcybqvlpuwaplqufucytooscmtarzxultowpknhgy")) # 712
+            # Agar prefix ka character suffix mein bhi hai, 
+            # toh suffix ko tab tak chota karo jab tak wo character hat na jaye
+            while right < n and s[left] in seen_suffix:
+                seen_suffix.remove(s[right])
+                right += 1
+
+            # Beech ka jo part delete karna hai uski length: right - left - 1
+            min_len = min(min_len, right - left - 1)
+
+        return min_len
+
+
+print(Solution().findShortestSubstring("a"))  # Output: 0
+print(Solution().findShortestSubstring("aa"))  # Output: 1
+print(Solution().findShortestSubstring("abc"))  # Output: 0
+print(Solution().findShortestSubstring("abcbbck"))  # Output: 3
+print(Solution().findShortestSubstring("selection"))  # Output: 1
+print(Solution().findShortestSubstring("racingcar"))  # Output: 3
+print(Solution().findShortestSubstring("xabbcacpqr"))  # Output: 3
+print(Solution().findShortestSubstring("fjyoeekveqsxmjhsftrbzuxmsnnciiyijrtuqqhyphskktvboatbnrmayturngrvgqyclfxfaflccwmgmciacieineaiqxwoiuerfsqcuvggsmaclcokeuyjeegmndpsomtjxumkxwthlludskjxjdjnuhqnxkrjnoarnzgajlhajyynuikajoixwvkxbhcxebujyrxoeqffijyefwlbeeiusyjaubvgxthgllmbkkskqxicaqbpinugldsrzzjemdqiafdynwunouistwinveyylqparpedxixcygdtirxdqqubptimwlxraktkmyrvucvzkiuffshmncmbipzqxrmovyucnnbvdxagzzzxzmzmydkoonojlcgwltnfyocpvbpnvqeouadcdnwvtdehftjsiohxkahwhvncqmzorkponzawkumfxkwaqwtcpksmqggqtsueqxklaqruhkaatxvqftzezocjuvubrdgcehzqtaeftoneapzglcmgbrjlttmephovhxmvbwwmlggmmvjzgpclczmecggpirrgyatowsczrpsvimthwmauzotziixapyoqppjpckxqyzlzlkfcdmvohcioiffcmmaznehmgrghcfpkpmibtinycunxfkygrglxdsyfxwpxcftmnrypzmtrruxyrjcadeocpwfqnsrmlcybqvlpuwaplqufucytooscmtarzxultowpknhgy")) # 712

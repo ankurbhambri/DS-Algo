@@ -2,41 +2,61 @@ from collections import defaultdict
 
 
 def shortest_path(arr):
+
     adj = defaultdict(list)
+
     for u, v in arr:
         adj[u].append(v)
+
     visit = set()
+
     q = ["A"]
     depth = 1
+
     while q:
+
         for i in range(len(q)):
+
             node = q.pop(0)
+
             if node == "E":
                 return depth
+
             for ch in adj[node]:
                 if ch not in visit:
                     visit.add(ch)
                     q.append(ch)
+
         depth += 1
+
     return 0
 
 
 def shortest_path_undirected_bfs(n, graph, start):
+
     dist = {i: float("inf") for i in range(n)}
+
     dist[start] = 0
 
     q = [(start)]
 
     while q:
+
         node = q.pop(0)
+
         for child in graph[node]:
+
             if dist[node] + 1 < dist[child]:  # adding one to connected nodes
+
                 dist[child] = dist[node] + 1
+
                 q.append(child)
+
     return dist
 
 
 def shortest_path_directed_acyclic(n, edges, start):
+
     st = []  # first fill all nodes in topological sorted order in stack
 
     adj = defaultdict(list)
@@ -45,6 +65,7 @@ def shortest_path_directed_acyclic(n, edges, start):
         adj[u].append((v, d))
 
     def topological_sort(visit, node):
+
         nonlocal st
 
         visit.add(node)

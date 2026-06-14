@@ -31,17 +31,16 @@ print(Solution().canJump([3, 2, 1, 0, 4]))  # False
 # TC: O(n)
 # SC: O(1)
 
-# Idea here is to keep track of the farthest we can reach at each step.
-
+# Here, we have gurantee that path exists, but we need to find in how many jumps we can reach the end?
 class Solution:
     def jump(self, nums: list[int]) -> int:
 
-        jumps = 0
         end = 0
+        jumps = 0
         farthest = 0
 
         for i in range(len(nums) - 1):
-            
+
             # yha guranteed h ki n - 1 tak phuch jaoge, nhi yoh humme jump 1 ki tarah check karna padte i > farthest.
             farthest = max(farthest, i + nums[i])
 
@@ -54,6 +53,7 @@ class Solution:
 
         return jumps
 
+
 print(Solution().jump([2, 3, 1, 1, 4]))  # 2
 print(Solution().jump([2, 3, 0, 1, 4]))  # 2
 
@@ -63,7 +63,7 @@ print(Solution().jump([2, 3, 0, 1, 4]))  # 2
 # TC: O(n)
 # SC: O(n)
 
-# Idea here is to use BFS to explore all reachable indices from the start index, till then the index wheere arr[idx] == 0.
+# Here we are using using BFS to explore all reachable indices from the start index, till then the index where arr[idx] == 0.
 class Solution:
     def canReach(self, arr: list[int], start: int) -> bool:
 
@@ -94,6 +94,8 @@ print(Solution().canReach([4,2,3,0,3,1,2], 0))  # True
 
 # TC: O(n)
 # SC: O(n)
+
+# Find the minimum steps to reach to the end, that's why using BFS.
 class Solution:
     def minJumps(self, arr: list[int]) -> int:
 
@@ -145,7 +147,7 @@ print(Solution().minJumps([7,7,2,1,7,7,7,3,4,1]))  # 3
 # TC: O(n * d) in worst case, but often much better due to early breaks
 # SC: O(n) for the dp array and recursion stack
 
-# yha d ka matlab h ki hum maximum d steps jump kar sakte hain ek building se dusri building pe.
+# Yha d ka matlab h ki hum maximum d steps jump kar sakte hain ek building se dusri building pe.
 class Solution:
     def maxJumps(self, arr: list[int], d: int) -> int:
 
@@ -231,10 +233,11 @@ class Solution:
 def canReach(s: str, minJump: int, maxJump: int) -> bool:
 
     n = len(s)
-    queue = deque([0])  # Start from index 0
     farthest = 0        # Track the farthest index we've explored
+    queue = deque([0])  # Start from index 0
 
     while queue:
+
         i = queue.popleft()
 
         # Start exploring from the max of previously explored to i + minJump

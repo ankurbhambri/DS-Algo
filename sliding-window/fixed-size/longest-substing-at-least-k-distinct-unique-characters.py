@@ -9,16 +9,18 @@ def longest_substring_k_unique(s, k):
 
     if k == 0:
         return len(s), s
-    
+
     l = 0
+
     max_len = 0
+
     char_freq = {}
+
     max_substring = ""
-    
+
     for r in range(len(s)):
 
         char_freq[s[r]] = char_freq.get(s[r], 0) + 1
-        
 
         while len(char_freq) >= k:
 
@@ -31,11 +33,12 @@ def longest_substring_k_unique(s, k):
             # l ko aage badhane ki try karo (greedy approach)
             # Lekin unique chars >= k maintain karo
             char_freq[s[l]] -= 1
+
             if char_freq[s[l]] == 0:
                 del char_freq[s[l]]
 
             l += 1
-    
+
     return max_len, max_substring
 
 print(longest_substring_k_unique("aabacbebebe", 3))  # Output: (5, "aabac")
@@ -62,9 +65,12 @@ def longest_substring_exactly_k_unique(s, k):
         
         # Agar unique chars > k ho gaye, l ko move karo
         while len(char_freq) > k:
+
             char_freq[s[l]] -= 1
+
             if char_freq[s[l]] == 0:
                 del char_freq[s[l]]
+
             l += 1
         
         # Agar exactly k unique chars hain

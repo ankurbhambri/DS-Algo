@@ -12,7 +12,7 @@ class MyCalendar:
 
         return False
 
-    def overlapping(self, start, end):
+    def overlapping(self, start, end) -> bool:
 
         for s, e in self.booking:
             if start < e and end > s:

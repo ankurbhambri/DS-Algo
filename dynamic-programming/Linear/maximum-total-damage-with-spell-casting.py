@@ -20,8 +20,9 @@ class Solution:
             # Find last index j where nums[j] < nums[i] - 2
             j = bisect_right(nums, nums[i] - 3) - 1
 
-            take = damage[i] + (dp[j] if j >= 0 else 0)
             skip = dp[i - 1] if i > 0 else 0
+
+            take = damage[i] + (dp[j] if j >= 0 else 0)
 
             dp[i] = max(take, skip)
 

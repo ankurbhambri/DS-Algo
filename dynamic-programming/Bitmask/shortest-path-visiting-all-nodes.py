@@ -1,5 +1,22 @@
 # https://leetcode.com/problems/shortest-path-visiting-all-nodes
 
+'''
+
+Visit all nodes (can revisit) and return shortest path length. Can start from any node.
+
+Why this matters: Most advanced pattern - combines Dijkstra concepts with bitmask state compression.
+
+Key insight:
+
+    State is (node, visited_bitmask) where bitmask tracks which nodes visited
+    Can revisit nodes with different visited sets
+    Goal: reach any node where bitmask = (1 << n) - 1 (all bits set)
+    Since edges have weight 1, use BFS instead of Dijkstra
+
+This is huge: Bitmask state compression appears in many hard problems (TSP, Hamiltonian paths, etc.)
+
+'''
+
 from collections import deque
 
 # TC: O(n * 2^n) where n is the number of nodes in the graph
@@ -13,7 +30,7 @@ class Solution:
         if n == 1:
             return 0
 
-        # Target mask: agar n=4 hai, toh 1111 (binary) yani 15 (decimal)
+        # Target mask: agar n = 4 hai, toh 1111 (binary) yani 15 (decimal)
         target_mask = (1 << n) - 1
 
         # Queue mein store karenge: (current_node, mask)

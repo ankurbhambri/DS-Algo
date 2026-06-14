@@ -71,7 +71,7 @@ print(Solution(3).next(5))
         The third window is (8,14,3)/3=8
 '''
 
-def solution(nums, size):
+def solution(nums, k):
 
     l = 0
     sm = 0
@@ -79,13 +79,14 @@ def solution(nums, size):
 
     for r in range(len(nums)):
 
-        if r - l + 1 > size:
+        if r - l + 1 > k:
             sm -= nums[l]
             l += 1
 
         sm += nums[r]
-        if r - l + 1 == size:
-            res.append(sm // size)
+
+        if r - l + 1 == k:
+            res.append(sm // k)
 
     return res
 

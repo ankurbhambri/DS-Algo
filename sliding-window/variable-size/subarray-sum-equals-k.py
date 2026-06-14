@@ -7,17 +7,17 @@
 
 def subarraySum(nums, k):
 
-    sum_val = 0
+    sm = 0
     res = 0
     prefixSum = {0: 1}
 
     for i in nums:
 
-        sum_val += i
+        sm += i
 
-        res += prefixSum.get(sum_val - k, 0)
+        res += prefixSum.get(sm - k, 0)
 
-        prefixSum[sum_val] = 1 + prefixSum.get(sum_val, 0)
+        prefixSum[sm] = 1 + prefixSum.get(sm, 0)
 
     return res
 
@@ -29,16 +29,16 @@ print(subarraySum([1, 2, 1, 2, 1], 3))  # Output: 4 -> [1, 2], [2, 1], [1, 2], [
 # Variant: Return True if there exists a subarray with sum equal to k, otherwise return False.
 def hasSubarraySum(nums, k):
 
-    sum_val = 0
+    sm = 0
     prefixSum = {0: 1}
 
     for i in nums:
-        sum_val += i
+        sm += i
 
-        if (sum_val - k) in prefixSum:
+        if (sm - k) in prefixSum:
             return True
 
-        prefixSum[sum_val] = 1 + prefixSum.get(sum_val, 0)
+        prefixSum[sm] = 1 + prefixSum.get(sm, 0)
 
     return False
 

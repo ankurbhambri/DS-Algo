@@ -80,6 +80,7 @@ def dijkstra(graph, N, start):
             continue
 
         for child, child_weight in adj[node]:
+
             # Relaxtion
             new_dist = dist[node] + child_weight
 
@@ -101,7 +102,8 @@ problem Link - https://leetcode.com/problems/network-delay-time/description/
 
 Instead of returning distance to a specific node, return the maximum distance among all reachable nodes. If any node is unreachable, return -1.
 
-Why this matters: This tests your understanding of basic Dijkstra and edge case handling. Think of it as a signal broadcast - everyone receives it when the furthest person gets it.
+Why this matters: This tests your understanding of basic Dijkstra and edge case handling. 
+Think of it as a signal broadcast - everyone receives it when the furthest person gets it.
 
 Key insight: After running standard Dijkstra, check max(distances). This is a warm-up problem that appears frequently in OAs.
 
@@ -129,8 +131,10 @@ def networkDelayTime(times, n: int, k: int) -> int:
             continue
 
         for nei, t in adj[node]:
+
+            # Relaxtion
             new_t = time + t
-            
+
             if new_t < dist[nei]:
                 dist[nei] = new_t
                 heapq.heappush(hm, (new_t, nei))
@@ -151,52 +155,58 @@ The cost of a path is the maximum absolute difference between consecutive cells,
 
 Why this matters: Shows that Dijkstra works for any monotonic cost function, not just addition. The greedy property still holds.
 
-Key insight: When relaxing edges, use new_effort = max(current_effort, abs(height[current] - height[next])) instead of addition. This pattern appears in many grid-based problems where you minimize the "worst" step rather than total cost.
+Key insight: When relaxing edges, use new_effort = max(current_effort, abs(height[current] - height[next])) instead of addition.
+This pattern appears in many grid-based problems where you minimize the "worst" step rather than total cost.
 
 Similar problems: Swim in Rising Water (LC 778)
 '''
 
 # TC: O(m * n * log(m * n)) - We process each cell at most once, and each cell has up to 4 neighbors. The priority queue operations take O(log(m * n)) time.
 # SC: O(m * n) - We maintain a cost array of size m * n
-
 class Solution:
     def minimumEffortPath(self, heights):
 
         m, n = len(heights), len(heights[0])
-        
+
         # dist[r][c] = minimum effort to reach (r, c)
         dist = [[float('inf')] * n for _ in range(m)]
         dist[0][0] = 0
-        
+
         # min-heap: (effort_so_far, r, c)
         heap = [(0, 0, 0)]
-        
-        directions = [(1,0), (-1,0), (0,1), (0,-1)]
-        
+
+        directions = [(1, 0), (-1, 0), (0,1), (0,-1)]
+
         while heap:
+
             effort, r, c = heapq.heappop(heap)
-            
+
             # If we reached destination, this is the minimum possible effort
             if r == m - 1 and c == n - 1:
                 return effort
-            
+
             # Skip stale entries
             if effort > dist[r][c]:
                 continue
-            
+
             for dr, dc in directions:
+
                 nr, nc = r + dr, c + dc
+
                 if 0 <= nr < m and 0 <= nc < n:
+
                     step = abs(heights[r][c] - heights[nr][nc])
+
                     new_effort = max(effort, step)
-                    
+
                     if new_effort < dist[nr][nc]:
                         dist[nr][nc] = new_effort
                         heapq.heappush(heap, (new_effort, nr, nc))
-        
+
         return 0
 
-print(Solution.minimumEffortPath([[1,2,2],[3,8,2],[5,3,5]]))
+
+print(Solution.minimumEffortPath([[1, 2, 2], [3, 8, 2], [5, 3, 5]]))
 
 
 '''
@@ -295,7 +305,6 @@ def maxProbability(n: int, edges, succProb, start_node: int, end_node: int) -> f
 
 
 '''
-
 Pattern: Minimizing maximum value on path
 
 Problem Link - https://leetcode.com/problems/swim-in-rising-water/description/
@@ -304,10 +313,10 @@ Find path where the maximum elevation encountered is minimized. Similar to "Path
 
 Why this matters: Another example of modifying the cost metric. Instead of summing costs, track the maximum.
 
-Key insight: Use max(current_time, grid[next_cell]) as the cost. Can also be solved with binary search + BFS, but Dijkstra is more intuitive once you understand the pattern.
+Key insight: Use max(current_time, grid[next_cell]) as the cost. Can also be solved with binary search + BFS,
+but Dijkstra is more intuitive once you understand the pattern.
 
 Common mistake: We often try to use BFS without considering that different paths to same cell can have different maximum heights.
-
 '''
 
 class Solution:
@@ -322,9 +331,10 @@ class Solution:
         # min-heap: (time_so_far, r, c)
         heap = [(grid[0][0], 0, 0)]
 
-        directions = [(1,0), (-1,0), (0,1), (0,-1)]
+        directions = [(1,0), (-1,0), (0, 1), (0, -1)]
 
         while heap:
+
             time, r, c = heapq.heappop(heap)
 
             # Once we reach destination, this is the minimum possible time
@@ -336,7 +346,9 @@ class Solution:
                 continue
 
             for dr, dc in directions:
+
                 nr, nc = r + dr, c + dc
+
                 if 0 <= nr < n and 0 <= nc < n:
                     new_time = max(time, grid[nr][nc])
                     
@@ -702,6 +714,7 @@ Key insight:
 # SC: O(V + E) for the graph representation and distance arrays.
 class Solution:
     def reachableNodes(self, edges, maxMoves, n):
+
         # Build adjacency list: weight = cnt + 1
         adj = defaultdict(list)
         for u, v, cnt in edges:
@@ -732,6 +745,7 @@ class Solution:
 
         # Count reachable subdivided nodes on each edge
         for u, v, cnt in edges:
+
             # Moves left from both ends
             left_u = max(0, maxMoves - dist[u])
             left_v = max(0, maxMoves - dist[v])
@@ -741,8 +755,8 @@ class Solution:
 
         return ans
 
-'''
 
+'''
 Pattern: Multiple source Dijkstra + graph reversal
 
 problem Link - https://leetcode.com/problems/minimum-weighted-subgraph-with-the-required-paths/description/
@@ -803,7 +817,6 @@ class Solution:
 
 
 '''
-
 Pattern: Dijkstra with on-the-fly edge weight modification
 
 problem Link - https://leetcode.com/problems/modify-graph-edge-weights/description/
@@ -891,59 +904,3 @@ class Solution:
 
 print(Solution().modifiedGraphEdges(3, [[0, 1, -1], [1, 2, 5]], 0, 2, 6))  # [[0,1,1],[1,2,5]]
 print(Solution().modifiedGraphEdges(5, [[0, 1, -1], [0, 2, 5], [1, 2, -1], [1, 3, 8], [2, 4, -1], [3, 4, 2]], 0, 4, 20))  # [[0,1,1],[0,2,5],[1,2,14],[1,3,8],[2,4,1],[3,4,2]]
-
-'''
-
-Pattern: State compression using bitmask
-
-problem Link - https://leetcode.com/problems/shortest-path-visiting-all-nodes/description/
-
-Visit all nodes (can revisit) and return shortest path length. Can start from any node.
-
-Why this matters: Most advanced pattern - combines Dijkstra concepts with bitmask state compression.
-
-Key insight:
-
-    State is (node, visited_bitmask) where bitmask tracks which nodes visited
-    Can revisit nodes with different visited sets
-    Goal: reach any node where bitmask = (1 << n) - 1 (all bits set)
-    Since edges have weight 1, use BFS instead of Dijkstra
-
-This is huge: Bitmask state compression appears in many hard problems (TSP, Hamiltonian paths, etc.)
-
-'''
-
-# TC: O(2^n * (V + E)) or O(n^2 * 2^n) in worst case - There are n * 2^n unique states, each processed once. For each state (u, mask), we iterate over graph[u] neighbors. Total transitions = 2^n * sum(degrees) = 2^n * 2E. For dense graphs (E = O(n^2)), this becomes O(n^2 * 2^n).
-# SC: O(n * 2^n) - The queue can hold up to n * 2^n states in the worst case, and the seen set also stores these states.
-class Solution:
-    def shortestPathLength(self, graph: List[List[int]]) -> int:
-
-        n = len(graph)
-        goal = (1 << n) - 1
-
-        ans = 0
-        q = deque()  # (u, state)
-        seen = set()
-
-        for i in range(n):
-            q.append((i, 1 << i))
-
-        while q:
-
-            for _ in range(len(q)):
-                u, state = q.popleft()
-
-                if state == goal:
-                    return ans
-
-                if (u, state) in seen:
-                    continue
-
-                seen.add((u, state))
-
-                for v in graph[u]:
-                    q.append((v, state | (1 << v)))
-
-            ans += 1
-
-        return -1

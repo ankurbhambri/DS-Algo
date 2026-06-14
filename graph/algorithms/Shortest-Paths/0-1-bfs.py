@@ -1,6 +1,6 @@
 # https://cp-algorithms.com/graph/01_bfs.html
 
-from collections import deque
+from collections import defaultdict, deque
 
 
 def zero_one_bfs(graph, source, n):
@@ -39,9 +39,6 @@ print(zero_one_bfs(graph, 2, 4))  # [inf, inf, 0, 1]
 
 
 # minimum edge reversals to reach node K from node 0 in a directed graph.
-
-from collections import deque, defaultdict
-
 def minEdgeReversal(n, edges, src, dest):
     adj = defaultdict(list)
 
@@ -79,16 +76,15 @@ print(minEdgeReversal(n, edges, 0, 3))  # Output: 1
 
 # https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/
 
-from collections import deque
-
-
 def minCost(grid):
 
     r, c = len(grid), len(grid[0])
+
     dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 
     # Track minimum cost to reach each cell
     min_cost = [[float("inf")] * c for _ in range(r)]
+
     min_cost[0][0] = 0
 
     # Use deque for 0-1 BFS - add zero cost moves to front, cost=1 to back
@@ -98,10 +94,10 @@ def minCost(grid):
         return 0 <= row < r and 0 <= col < c
 
     while deque:
+
         row, col = deque.popleft()
 
         # Try all four directions
-        [[1, 1, 1, 1], [2, 2, 2, 2], [1, 1, 1, 1], [2, 2, 2, 2]]
         for dir_idx, (dx, dy) in enumerate(dirs):
 
             new_row, new_col = row + dx, col + dy
@@ -109,16 +105,14 @@ def minCost(grid):
             cost = 0 if grid[row][col] == dir_idx + 1 else 1
 
             # If position is valid and we found a better path
-            if (
-                is_valid(new_row, new_col, r, c)
-                and min_cost[row][col] + cost < min_cost[new_row][new_col]
-            ):
+            if is_valid(new_row, new_col, r, c) and min_cost[row][col] + cost < min_cost[new_row][new_col]:
 
                 min_cost[new_row][new_col] = min_cost[row][col] + cost
 
                 # Add to back if cost=1, front if cost=0
                 if cost == 1:
                     deque.append((new_row, new_col))
+
                 else:
                     deque.appendleft((new_row, new_col))
 
@@ -126,10 +120,6 @@ def minCost(grid):
 
 
 # https://codeforces.com/contest/1063/problem/B
-
-
-from collections import deque
-
 
 def labyrinth_solver():
 

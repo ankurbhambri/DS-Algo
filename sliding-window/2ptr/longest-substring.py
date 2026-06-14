@@ -20,6 +20,7 @@ def length_of_longest_substring(s: str) -> int:
 
     return max_length
 
+
 print(length_of_longest_substring("abcabcbb"))  # Output: 3
 print(length_of_longest_substring("bbbbb"))     # Output: 1
 print(length_of_longest_substring("pwwkew"))    # Output: 3

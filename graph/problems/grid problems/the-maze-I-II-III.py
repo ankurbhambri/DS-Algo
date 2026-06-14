@@ -1,3 +1,5 @@
+from collections import deque
+
 
 # https://leetcode.com/problems/the-maze/
 
@@ -44,41 +46,43 @@ Both the ball and the destination exist in an empty space, and they will not be 
 The maze contains at least 2 empty spaces.
 
 '''
+class Solution:
+    def hasPath(maze, start, destination):
 
-def hasPath(maze, start, destination):
+        rows, cols = len(maze), len(maze[0])
 
-    rows, cols = len(maze), len(maze[0])
+        queue = [start]
+        visited = {tuple(start)}
+        
+        # Chaaro dirs: Up, Down, Left, Right
+        dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        
+        while queue:
 
-    queue = [start]
-    visited = {tuple(start)}
-    
-    # Chaaro dirs: Up, Down, Left, Right
-    dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-    
-    while queue:
+            x, y = queue.pop(0)
 
-        x, y = queue.pop(0)
+            if [x, y] == destination:
+                return True
+                
+            for dr, dc in dirs:
 
-        if [x, y] == destination:
-            return True
-            
-        for dr, dc in dirs:
-            nr, nc = x, y
-            
-            # Ball ko roll karvao jab tak wall na aaye
-            while 0 <= nr + dr < rows and 0 <= nc + dc < cols and maze[nr + dr][nc + dc] == 0:
-                nr += dr
-                nc += dc
-            
-            # Jahan ball ruki, check karo agar wo naya spot hai
-            if (nr, nc) not in visited:
-                visited.add((nr, nc))
-                queue.append([nr, nc])
+                nr, nc = x, y
 
-    return False
+                # Ball ko roll karvao jab tak wall na aaye
+                while 0 <= nr + dr < rows and 0 <= nc + dc < cols and maze[nr + dr][nc + dc] == 0:
+                    nr += dr
+                    nc += dc
+                
+                # Jahan ball ruki, check karo agar wo naya spot hai
+                if (nr, nc) not in visited:
+                    visited.add((nr, nc))
+                    queue.append([nr, nc])
 
-print(hasPath([[0,0,1,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1],[0,0,0,0,0]], [0,4], [4,4]))  # True
-print(hasPath([[0,0,1,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1],[0,0,0,0,0]], [0,4], [3,2]))  # False
+        return False
+
+
+print(Solution().hasPath([[0,0,1,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1],[0,0,0,0,0]], [0,4], [4,4]))  # True
+print(Solution().hasPath([[0,0,1,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1],[0,0,0,0,0]], [0,4], [3,2]))  # False
 
 
 # https://leetcode.com/problems/the-maze-ii/
@@ -113,7 +117,6 @@ Example 3:
 
 Input: maze = [[0,0,0,0,0],[1,1,0,0,1],[0,0,0,0,0],[0,1,0,0,1],[0,1,0,0,0]], start = [4,3], destination = [0,1]
 Output: -1
- 
 
 Constraints:
 
@@ -134,8 +137,6 @@ Constraints:
 
 
 '''
-from collections import deque
-
 class Solution:
     def shortestDistance(self, maze, start, destination):
 
@@ -159,10 +160,14 @@ class Solution:
 
                 while 0 <= x + a < m and 0 <= y + b < n and maze[x + a][y + b] == 0:
 
-                    x, y, d = x + a, y + b, d + 1
+                    x = x + a
+                    y = y + b
+                    d = d + 1
 
                 if d < dist[x][y]:
+
                     dist[x][y] = d
+
                     q.append((x, y))
 
         return -1 if dist[tuple(destination)] == float('inf') else dist[tuple(destination)]
@@ -172,13 +177,17 @@ class Solution:
 
 '''
 There is a ball in a maze with empty spaces (represented as 0) and walls (represented as 1). 
-The ball can go through the empty spaces by rolling up, down, left or right, but it won't stop rolling until hitting a wall. When the ball stops, 
-it could choose the next direction (must be different from last chosen direction). There is also a hole in this maze. 
+
+The ball can go through the empty spaces by rolling up, down, left or right, but it won't stop rolling until hitting a wall.
+
+When the ball stops, it could choose the next direction (must be different from last chosen direction). There is also a hole in this maze. 
+
 The ball will drop into the hole if it rolls onto the hole.
 
-Given the m x n maze, the ball's position ball and the hole's position hole, 
-where ball = [ballrow, ballcol] and hole = [holerow, holecol], 
+Given the m x n maze, the ball's position ball and the hole's position hole,  where ball = [ballrow, ballcol] and hole = [holerow, holecol],
+
 return a string instructions of all the instructions that the ball should follow to drop in the hole with the shortest distance possible. 
+
 If there are multiple valid instructions, return the lexicographically minimum one. If the ball can't drop in the hole, return "impossible".
 
 If there is a way for the ball to drop in the hole, the answer instructions should contain the characters 'u' (i.e., up), 'd' (i.e., down), 'l' (i.e., left), and 'r' (i.e., right).
@@ -206,5 +215,5 @@ Example 3:
 
 Input: maze = [[0,0,0,0,0,0,0],[0,0,1,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,1]], ball = [0,4], hole = [3,5]
 Output: "dldr"
-'''
 
+'''

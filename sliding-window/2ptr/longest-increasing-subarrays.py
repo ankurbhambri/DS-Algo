@@ -27,22 +27,23 @@ Return "Exception" for any invalid inputs.
 
 '''
 
-
 def longest_ascending_subsequence(nums):
 
     if not nums:
         return
-    
+
     l = 0
     max_start, max_end, max_len = 0, 0, 1
 
     for r in range(1, len(nums)):
 
         if nums[r] <= nums[r - 1]:
+
             # reset the left pointer to the current right pointer
             l = r
 
         else:
+
             # check if current subsequence is longer
             current_len = r - l + 1
 
@@ -51,14 +52,15 @@ def longest_ascending_subsequence(nums):
                 max_len = current_len
 
                 max_start = l
+
                 max_end = r
-    
+
     result = [
         f"subsequence: {', '.join(map(str, nums[max_start: max_end + 1]))}",
         f"first: {max_start}",
         f"last: {max_end}"
     ]
-    
+
     return "\n".join(result)
 
 

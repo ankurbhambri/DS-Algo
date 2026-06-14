@@ -25,7 +25,6 @@ def maximumNonAdjacentSum(nums):
 # tabulation
 # take idea from memoization
 
-
 def maximumNonAdjacentSum(nums):
     n = len(nums)
     dp = [0] * n

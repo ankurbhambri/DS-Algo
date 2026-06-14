@@ -55,32 +55,33 @@ You may assume all eight edges of the grid are all surrounded by water.
 
 class Solution:
     def islandAreas(self, grid):
+
         if not grid:
             return []
-        
+
         m, n = len(grid), len(grid[0])
-        areas = []
-        
+
         def dfs(i: int, j: int) -> int:
 
             # Base case: out of bounds or cell is water/visited
             if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] != "1":
                 return 0
-            
+
             # Mark as visited by changing to '0'
             grid[i][j] = "0"
-            
+
             area = 1  # Current cell
-            
+
             # Recursively explore all 8 directions
             for di in [-1, 0, 1]:
                 for dj in [-1, 0, 1]:
                     if di != 0 or dj != 0:
                         area += dfs(i + di, j + dj)
-            
+
             return area
-        
-        # Step 1: Iterate through each cell
+
+        areas = []
+        # Iterate through each cell
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == "1":
@@ -90,19 +91,20 @@ class Solution:
         return areas
 
 
-print(Solution().islandAreas([
-  ["1","1","0","0","0"],
-  ["1","0","0","1","1"],
-  ["0","0","0","0","0"],
-  ["0","1","0","0","1"],
-  ["1","1","0","1","1"]
-]))  # Output: [3, 4, 1, 3]
+print(Solution().islandAreas(
+    [
+        ["1","1","0","0","0"],
+        ["1","0","0","1","1"],
+        ["0","0","0","0","0"],
+        ["0","1","0","0","1"],
+        ["1","1","0","1","1"]]
+    )
+)  # Output: [3, 3, 2, 3]
 
 
 ############################################### Similar problems #######################################################
 
 # https://leetcode.com/problems/max-area-of-island/
-
 
 '''
 
@@ -161,16 +163,19 @@ class Solution:
     def largestIsland(self, grid):
 
         n = len(grid)
+
         island_sizes = {}
+
         island_id = 2  # 0 aur 1 pehle se grid mein hain, isliye 2 se start karenge
-        
-        # Step 1: DFS function island identify karne aur size nikalne ke liye
+
+        # DFS function se island identify karne aur size nikalne ke liye
         def dfs(r, c, id):
 
             if r < 0 or r >= n or c < 0 or c >= n or grid[r][c] != 1:
                 return 0
 
             grid[r][c] = id
+
             size = 1
 
             for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
@@ -178,26 +183,34 @@ class Solution:
 
             return size
 
-        # Step 1 continued: Saare islands ko ID dena
+        # Step 1: Saare islands ko ID dena
         for r in range(n):
+
             for c in range(n):
+
                 if grid[r][c] == 1:
+
                     size = dfs(r, c, island_id)
+
                     island_sizes[island_id] = size
+
                     island_id += 1
-        
-        # Agar puri grid 1 thi, toh answer n*n hoga
+
+
+        # Agar puri grid 1 thi, toh answer n * n hoga
         max_area = max(island_sizes.values() or [0])
-        
+
         # Step 2: Har '0' ko flip karke check karna
         for r in range(n):
             for c in range(n):
+
                 if grid[r][c] == 0:
 
                     seen_islands = set()
 
                     # Charo taraf ke neighbors check karo
                     for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+
                         nr, nc = r + dr, c + dc
 
                         if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] > 1:
@@ -205,9 +218,11 @@ class Solution:
 
                     # Current Area = 1 (flipped zero) + sum of unique neighbor islands
                     current_area = 1 + sum(island_sizes[iid] for iid in seen_islands)
+
                     max_area = max(max_area, current_area)
-                    
+
         return max_area if max_area > 0 else n * n
+
 
 print(Solution().largestIsland([[1,0],[0,1]]))  # Output: 3
 print(Solution().largestIsland([[1,1],[1,0]]))  # Output: 4
@@ -255,41 +270,41 @@ print(findMaxFish(grid))  # Output: 7
 
 # https://leetcode.com/problems/count-sub-islands/description/
 
-
 def countSubIslands(grid1, grid2):
 
     if not grid1 or not grid2:
         return 0
-    
-    m, n = len(grid1), len(grid1[0])
+
     count = 0
-    
+    m, n = len(grid1), len(grid1[0])
+
     def dfs(i: int, j: int) -> bool:
 
         # out of bounds
         if i < 0 or i >= m or j < 0 or j >= n or grid2[i][j] == 0:
             return True
-        
+
         # Mark current cell as visited
         grid2[i][j] = 0
+
         # Check if current cell is valid for sub-island
         is_valid = grid1[i][j] == 1
-        
+
         # Check all 4 directions
         is_valid &= dfs(i-1, j)  # Up
         is_valid &= dfs(i+1, j)  # Down
         is_valid &= dfs(i, j-1)  # Left
         is_valid &= dfs(i, j+1)  # Right
-        
+
         return is_valid
-    
+
     # Traverse grid2
     for i in range(m):
         for j in range(n):
             if grid2[i][j] == 1:
                 if dfs(i, j):  # if island have sub-island, then count
                     count += 1
-    
+
     return count
 
 grid1 = [

@@ -7,10 +7,12 @@ class DisjointSet:
         # initially every node is its own parent
         self.parent = list(range(n))
 
+
     def find(self, node):
         if node != self.parent[node]:
             self.parent[node] = self.find(self.parent[node])
         return self.parent[node]
+
 
     def union(self, node1, node2):
 
@@ -24,10 +26,10 @@ class DisjointSet:
 
         if self.rank[p1] < self.rank[p2]:
             self.parent[p1] = p2
-        
+
         elif self.rank[p1] > self.rank[p2]:
             self.parent[p2] = p1
-        
+
         else:
             self.parent[p1] = p2
             self.rank[p2] += self.rank[p1]
@@ -82,6 +84,7 @@ class DisjointSet:
 
 class Solution:
     def removeStones(self, stones):
+
         uf = DisjointSet()
 
         max_row = max(x for x, y in stones) + 1
@@ -101,6 +104,7 @@ class Solution:
 
 class Solution:
     def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:
+
         # Each character 'a' to 'z' represented by index 0 to 25
         parent = list(range(26))
 

@@ -6,21 +6,23 @@
 '''
 
 def rob(nums):
+
     if not nums:
         return 0
+
     if len(nums) == 1:
         return nums[0]
-    
+
     dp = [0] * len(nums)
     dp[0] = nums[0]
     dp[1] = max(nums[0], nums[1])
-    
+
     for i in range(2, len(nums)):
         dp[i] = max(dp[i-1], nums[i] + dp[i-2])
-    
+
     return dp[-1]
 
-    
+
 Example  nums = [2,7,9,3,1]
 
 # dp[i] = max(dp[i-1], nums[i] + dp[i-2])
@@ -83,13 +85,15 @@ class TreeNode:
 
 class Solution:
     def rob(self, root: TreeNode):
-        def dfs(node):
+
+        def helper(node):
+
             if not node:
                 return [0, 0]  # [include, exclude]
             
             # Left aur right subtree ke results
-            left = dfs(node.left)
-            right = dfs(node.right)
+            left = helper(node.left)
+            right = helper(node.right)
             
             # Include case: node ka value + left exclude + right exclude
             include = node.val + left[1] + right[1]
@@ -99,7 +103,7 @@ class Solution:
             
             return [include, exclude]
         
-        result = dfs(root)
+        result = helper(root)
         return max(result[0], result[1])
 
 obj = TreeNode(3)
@@ -154,9 +158,10 @@ Space Complexity:
 
 class Solution:
     def minCapability(self, nums, k):
+
         def canRobK(mid: int) -> bool:
-            count = 0
             i = 0
+            count = 0
             while i < len(nums):
                 if nums[i] <= mid:
                     count += 1
@@ -164,8 +169,9 @@ class Solution:
                 else:
                     i += 1
             return count >= k
-        
+
         left, right = min(nums), max(nums)
+
         while left < right:
             mid = (left + right) // 2
             if canRobK(mid):

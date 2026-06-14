@@ -6,7 +6,9 @@ You are given an integer array nums and two integers minK and maxK.
 A fixed-bound subarray of nums is a subarray that satisfies the following conditions:
 
 The minimum value in the subarray is equal to minK.
+
 The maximum value in the subarray is equal to maxK.
+
 Return the number of fixed-bound subarrays.
 
 A subarray is a contiguous part of an array.
@@ -14,6 +16,7 @@ A subarray is a contiguous part of an array.
 '''
 
 def countSubarrays(nums, minK: int, maxK: int):
+
     res = 0
     bad_idx = -1  # Last invalid element index
     min_idx = -1  # Last minK index

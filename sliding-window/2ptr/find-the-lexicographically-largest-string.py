@@ -2,9 +2,8 @@
 
 '''
 
-Question: Given a string word and an integer numFriends, return the lexicographically largest string that can be formed by distributing the characters of word among numFriends friends, 
-such that each friend gets at least one character.
-
+Given a string word and an integer numFriends, return the lexicographically largest string that can be formed by,
+distributing the characters of word among numFriends friends, such that each friend gets at least one character.
 
 Idea: here we have to find the largest lexicographically string that can be formed for number of friends.
 
