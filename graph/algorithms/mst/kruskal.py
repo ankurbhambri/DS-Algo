@@ -150,7 +150,7 @@ class Solution:
         used = 0
         ans = float("inf")
 
-        dsu = DSU(N)
+        dsu = UnionFind(N)
 
         for u, v, s, m in edges:
             if m:
