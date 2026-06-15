@@ -1,3 +1,5 @@
+import heapq
+
 from collections import deque
 
 
@@ -217,3 +219,63 @@ Input: maze = [[0,0,0,0,0,0,0],[0,0,1,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,1]],
 Output: "dldr"
 
 '''
+
+# TC: O(M x N log(M x N))
+class Solution:
+    def findShortestWay(self, maze: list[list[int]], ball: list[int], hole: list[int]) -> str:
+
+        m, n = len(maze), len(maze[0])
+
+        # Directions matrix aur unke corresponding character representations
+        # Alphabetical order: 'd', 'l', 'r', 'u' (Yeh automatic tie-break mein help karega)
+        directions = [(1, 0, 'd'), (0, -1, 'l'), (0, 1, 'r'), (-1, 0, 'u')]
+
+        # Priority Queue: (distance, path, row, col)
+        pq = [(0, "", ball[0], ball[1])]
+
+        # Visited dictionary jo (row, col) ke liye {distance: path} track karega
+        # Hum isme sirf tabhi update karenge agar koi behtar (chhota) path mile
+        visited = {}
+
+        while pq:
+
+            dist, path, r, c = heapq.heappop(pq)
+
+            # Agar hum hole par pahunch gaye hain, toh yahi shortest aur lexicographically smallest path hai
+            if r == hole[0] and c == hole[1]:
+                return path
+
+            # Agar hum is cell par pehle aa chuke hain ek chhote distance ya better path ke saath, toh skip karein
+            if (r, c) in visited and (visited[(r, c)][0] < dist or (visited[(r, c)][0] == dist and visited[(r, c)][1] <= path)):
+                continue
+
+            visited[(r, c)] = (dist, path)
+
+            # 4 directions mein roll karne ki koshish karein
+            for dr, dc, d_char in directions:
+
+                nr, nc = r, c
+
+                steps = 0
+
+                # Ball ko tab tak roll karein jab tak wall na aaye ya hole na mil jaye
+                while 0 <= nr + dr < m and 0 <= nc + dc < n and maze[nr + dr][nc + dc] == 0:
+                    nr += dr
+                    nc += dc
+                    steps += 1
+
+                    # Agar raste mein hi hole mil jaye, toh roll stop kar do
+                    if nr == hole[0] and nc == hole[1]:
+                        break
+
+                # Agar ball sach mein move hui hai (steps > 0)
+                if steps > 0:
+
+                    next_dist = dist + steps
+                    next_path = path + d_char
+
+                    # Sirf tabhi heap mein push karein agar yeh path potential candidate ho
+                    if (nr, nc) not in visited or next_dist < visited[(nr, nc)][0] or (next_dist == visited[(nr, nc)][0] and next_path < visited[(nr, nc)][1]):
+                        heapq.heappush(pq, (next_dist, next_path, nr, nc))
+
+        return "impossible"

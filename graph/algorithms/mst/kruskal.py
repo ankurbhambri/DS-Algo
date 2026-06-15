@@ -35,6 +35,7 @@ class UnionFind:
 
 # We have to select minimum cost edges which must not be part of same parent.
 def kruskal_mst(edges, n):
+
     # Sort edges by weight
     edges.sort(key=lambda x: x[2])
 
@@ -57,8 +58,6 @@ print(kruskal_mst(edges, n))  # Output: 16
 
 
 # https://leetcode.com/problems/connecting-cities-with-minimum-cost/
-
-
 def minimumCost(n, connections):
 
     uf = UnionFind(n + 1)
