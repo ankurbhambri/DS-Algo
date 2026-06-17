@@ -83,74 +83,48 @@ For an Eulerian Path:
 """
 
 
-def strongly_connected(graph, n):
-    """
-    Check if the graph is strongly connected using DFS
-    """
+# Hierholzer Alogorithm to find Eulerian Path/Circuit
+def find_eulerian_path(graph):
+    # Count in-degrees and out-degrees
+    in_degree = defaultdict(int)
+    out_degree = defaultdict(int)
 
-    def dfs(node, visited, adj_list):
-        visited.add(node)
-        for neighbor in adj_list[node]:
-            if neighbor not in visited:
-                dfs(neighbor, visited, adj_list)
+    for node, neighbors in graph.items():
+        out_degree[node] += len(neighbors)
+        for neighbor in neighbors:
+            in_degree[neighbor] += 1
 
-    # First DFS on the graph
-    visited = set()
-    dfs(0, visited, graph)
-    if len(visited) != n:
-        return False
+    start_node = None
+    end_node = None
 
-    # Transpose the graph
-    transposed = defaultdict(list)
-    for u in graph:
-        for v in graph[u]:
-            transposed[v].append(u)
-
-    # Second DFS on the transposed graph
-    visited = set()
-    dfs(0, visited, transposed)
-    return len(visited) == n
-
-
-def is_eulerian_directed(graph, n):
-    """
-    Determines if a directed graph is Eulerian
-    """
-    in_degree = [0] * n
-    out_degree = [0] * n
-
-    for u in graph:
-        for v in graph[u]:
-            out_degree[u] += 1
-            in_degree[v] += 1
-
-    # Check degree conditions
-    start, end = 0, 0
-    for i in range(n):
-        if out_degree[i] - in_degree[i] == 1:
-            start += 1
-        elif in_degree[i] - out_degree[i] == 1:
-            end += 1
-        elif in_degree[i] != out_degree[i]:
+    for node in set(in_degree.keys()).union(set(out_degree.keys())):
+        if out_degree[node] - in_degree[node] == 1:
+            if start_node is not None:
+                return "Not Eulerian"
+            start_node = node
+        elif in_degree[node] - out_degree[node] == 1:
+            if end_node is not None:
+                return "Not Eulerian"
+            end_node = node
+        elif in_degree[node] != out_degree[node]:
             return "Not Eulerian"
 
-    # Check connectivity
-    if not strongly_connected(graph, n):
-        return "Not Eulerian"
+    if start_node is None:  # Eulerian Circuit
+        start_node = next(iter(graph))
 
-    # Determine if the graph has Eulerian Path or Circuit
-    if start == 0 and end == 0:
-        return "Eulerian Circuit"
+    # Hierholzer's Algorithm to find the path/circuit
+    stack = [start_node]
+    path = []
 
-    if start == 1 and end == 1:
-        return "Eulerian Path"
+    while stack:
+        current = stack[-1]
+        if graph[current]:
+            next_node = graph[current].pop()
+            stack.append(next_node)
+        else:
+            path.append(stack.pop())
 
-    return "Not Eulerian"
+    return path[::-1]  # Reverse the path to get the correct order
 
-
-# Example Directed Graph as Adjacency List
-# Graph: 0 -> 1 -> 2 -> 0 and 1 -> 3
-graph = {0: [1], 1: [2, 3], 2: [0], 3: []}
-
-n = 4  # Number of vertices
-print(is_eulerian_directed(graph, n))  # Output: Eulerian Path
+print(find_eulerian_path(graph))  # Output: ['A', 'D', 'A', 'C', 'B', 'A']
+print(find_eulerian_path({"A": ["B"], "B": ["C"], "C": ["A"]}))  # Output: ['A', 'B', 'C', 'A']

@@ -36,6 +36,7 @@ class Solution:
 
             # Option B: j laps pehle kiye, fir pit stop liya (tire badla), fir baaki laps kiye
             for j in range(1, min(i, MAX_LAPS + 1)):
+                # iss recurrence ka meaning hai: i - j laps pehle kiye, fir changeTime lagaya, fir j laps ka time add kiya
                 dp[i] = min(dp[i], dp[i - j] + changeTime + min_time_for_laps[j])
 
         return dp[numLaps]

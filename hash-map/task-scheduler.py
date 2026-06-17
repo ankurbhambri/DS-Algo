@@ -39,7 +39,7 @@ class Solution:
         return time
 
 
-print(Solution().leastInterval(["A", "A", "A", "B", "B", "B"], 2))  # 8
+print(Solution().leastInterval(["A", "A", "A", "B", "C", "D"], 2))  # 7
 print(Solution().leastInterval(["A", "C", "A", "B", "D", "B"], 1))  # 6
 
 
@@ -80,7 +80,9 @@ class Solution:
             return 0
 
         count = Counter(tasks)
+
         max_freq = max(count.values())
+
         count_max_freq = sum(1 for freq in count.values() if freq == max_freq)
 
         # Upper bound logic: Har max_freq task ko unique CPU chahiye parallel mein

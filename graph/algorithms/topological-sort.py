@@ -8,8 +8,6 @@
 
 - Topological Sorting for a graph is not possible if the graph is not a DAG(Direct Acyclic Graph).
 
-
-
 """
 
 # TC: O(V + E) where V is the number of vertices and E is the number of edges in the graph.
@@ -249,9 +247,9 @@ which does not contain any placeholders.
 Example 1:
     
     Input: replacements = [["A","abc"],["B","def"]], text = "%A%_%B%"
-    
+
     Output: "abc_def"
-    
+
     Explanation: The mapping associates "A" with "abc" and "B" with "def".
     Replace %A% with "abc" and %B% with "def" in the text.
     The final text becomes "abc_def".
@@ -284,7 +282,6 @@ Constraints:
     - There are no cyclic dependencies between replacement keys
 '''
 
-
 import re
 from collections import deque, defaultdict
 
@@ -312,6 +309,7 @@ class Solution:
         resolved = {}
 
         while q:
+
             cur = q.popleft()
 
             # cur already has all placeholders resolved
@@ -321,10 +319,7 @@ class Solution:
             for nxt in graph[cur]:
 
                 # Replace all occurrences of %cur% in nxt
-                resolved_val = (
-                    resolved.get(nxt, mp[nxt])
-                    .replace(f"%{cur}%", resolved[cur])
-                )
+                resolved_val = resolved.get(nxt, mp[nxt]).replace(f"%{cur}%", resolved[cur])
 
                 resolved[nxt] = resolved_val
 
@@ -341,5 +336,5 @@ class Solution:
         return ans
 
 
-print(Solution.applySubstitutions([["A","abc"],["B","def"]], "%A%_%B%")) # "abc_def"
-print(Solution.applySubstitutions([["A","bce"],["B","ace"],["C","abc%B%"]], "%A%_%B%_%C%")) # "bce_ace_abcace"
+print(Solution().applySubstitutions([["A","abc"],["B","def"]], "%A%_%B%")) # "abc_def"
+print(Solution().applySubstitutions([["A","bce"],["B","ace"],["C","abc%B%"]], "%A%_%B%_%C%")) # "bce_ace_abcace" 
