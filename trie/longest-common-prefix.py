@@ -3,28 +3,29 @@
 
 # TC: O(S) where S is the sum of all characters in all strings
 # SC: O(S) where S is the sum of all characters in all strings
+class Solution:
+    def longestCommonPrefix(self, strs: list[str]) -> str:
 
-def longestCommonPrefix(strs):
-    trie = {}
+        trie = {}
 
-    for word in strs:
+        for word in strs:
+            curNode = trie
+            for char in word:
+                if char not in curNode:
+                    curNode[char] = {}
+                curNode = curNode[char]
+            curNode["*"] = {}
+
+        curPre = ""
         curNode = trie
-        for char in word:
-            if char not in curNode:
-                curNode[char] = {}
-            curNode = curNode[char]
-        curNode["*"] = {}
 
-    curNode = trie
-    curPre = ""
+        while len(curNode) == 1 and "*" not in curNode:
+            for key in curNode:
+                curNode = curNode[key]
+                curPre += key
 
-    while len(curNode) == 1 and "*" not in curNode:
-        for key in curNode:
-            curNode = curNode[key]
-            curPre += key
+        return curPre
 
-    return curPre
-
-
-print(longestCommonPrefix(["dog", "racecar", "car"]))
-print(longestCommonPrefix(["flower", "flow", "flight"]))
+print(Solution().longestCommonPrefix(["apple", "apps", "ape"]))
+print(Solution().longestCommonPrefix(["dog", "racecar", "car"]))
+print(Solution().longestCommonPrefix(["flower", "flow", "flight"]))

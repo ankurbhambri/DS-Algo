@@ -3,6 +3,7 @@ class Trie:
 
     def __init__(self):
         self.head = {}
+        self.is_word = False
 
     def insert(self, word: str) -> None:
         curr = self.head

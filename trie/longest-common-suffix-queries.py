@@ -12,6 +12,11 @@ class Trie:
     def __init__(self):
         self.root = TrieNode()
 
+    # yha hum node ke andar length aur idx store kar rahe hain 
+    # taki hume pata chale ki kaunsa word longest common suffix banata hai aur uska index kya hai. 
+    # Jab bhi hum insert karenge, hum check karenge ki kya current word ka length existing length se chota hai ya nahi. 
+    # Agar chota hai, toh hum update karenge. Agar length same hai, toh hum index check karenge aur chota index update karenge. 
+    # Isse hume longest common suffix ke sath sath uska index bhi mil jayega.
     def update(self, node, idx, word):
 
         l = len(word)
@@ -20,6 +25,7 @@ class Trie:
             node.length = l
             node.idx = idx
 
+    # insert function mein hum word ko reverse order mein insert karenge taki hum longest common suffix ke hisab se trie banayein.
     def insert(self, word, idx):
 
         node = self.root
@@ -35,6 +41,7 @@ class Trie:
 
             self.update(node, idx, word)
 
+    # query function mein hum word ko reverse order mein traverse karenge aur trie mein check karenge ki kya current node ke length aur index valid hain ya nahi.
     def query(self, word):
 
         node = self.root
@@ -42,7 +49,7 @@ class Trie:
         for ch in reversed(word):
 
             if ch not in node.children:
-                break
+                return -1
 
             node = node.children[ch]
 
@@ -54,9 +61,11 @@ class Solution:
 
         trie = Trie()
 
+        # Step 1: Trie mein saare words ko insert karo
         for i, word in enumerate(wordsContainer):
             trie.insert(word, i)
 
+        # Step 2: Har query ke liye longest common suffix ka index find karo
         return [trie.query(word) for word in wordsQuery]
 
 
