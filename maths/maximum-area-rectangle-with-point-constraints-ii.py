@@ -42,12 +42,15 @@ class Solution:
 
             x = xCoord[i]
             y = yCoord[i]
+
             if x not in col_points:
                 col_points[x] = []
+
             col_points[x].append(y)
 
         # Har column ke andar Y-coordinates ko sort karna aur pooray columns ko X ke hisab se sort karna
         sorted_x = sorted(col_points.keys())
+
         for x in sorted_x:
             col_points[x].sort()
 
@@ -87,9 +90,10 @@ class Solution:
                     points_inside_or_on_border = current_total_points - prev_total_points
 
                     if points_inside_or_on_border == 0:
+
                         current_area = (x - prev_x) * (y2 - y1)
-                        if current_area > max_area:
-                            max_area = current_area
+
+                        max_area = max(max_area, current_area)
 
             # Ab is current column ke saare points ko Fenwick Tree mein update/insert karenge
             for y in ys:
@@ -108,3 +112,7 @@ class Solution:
                 last_seen[(y1, y2)] = (x, bit.query_range(r1, r2))
 
         return max_area
+
+
+print(Solution().maxRectangleArea([1, 1, 3, 3], [1, 3, 1, 3]))  # Output: 4
+print(Solution().maxRectangleArea([1, 1, 3, 3, 2], [1, 3, 1, 3, 2]))  # Output: -1
