@@ -3,28 +3,39 @@ class TrieNode:
         self.children = {}
         self.suggestions = []
 
+
 class Solution:
     def suggestedProducts(self, products, searchWord):
+
         products.sort()  # Sort lexicographically
 
         # Build Trie
         head = TrieNode()
+
         for product in products:
+
             curr = head
+
             for char in product:
+
                 if char not in curr.children:
                     curr.children[char] = TrieNode()
+
                 curr = curr.children[char]
+
                 if len(curr.suggestions) < 3:
                     curr.suggestions.append(product)
 
         # Search Suggestions
         result = []
         curr = head
+
         for char in searchWord:
+
             if curr and char in curr.children:
                 curr = curr.children[char]
                 result.append(curr.suggestions)
+
             else:
                 curr = None
                 result.append([])

@@ -6,6 +6,7 @@
 class Solution:
     def minimumFinishTime(self, tires: list[list[int]], changeTime: int, numLaps: int) -> int:
 
+        # Max lap 18 isliye kyunki 2^18 = 262144 > 10^5 (max time limit)
         MAX_LAPS = min(18, numLaps)
 
         # Step 1: Bina tire badle x laps ka min time nikalna
@@ -40,5 +41,8 @@ class Solution:
         return dp[numLaps]
 
 
+# tires[i] = [fi, ri]
+# fi (Initial Time / Base Time)
+# ri (Multiplier / Cost Factor)
 print(Solution().minimumFinishTime([[2, 3], [3, 4]], 5, 4))  # Output: 21
-print(Solution().minimumFinishTime([[1, 10], [2, 2], [3, 4]], 6, 5))  # Output: 25
+# print(Solution().minimumFinishTime([[1, 10], [2, 2], [3, 4]], 6, 5))  # Output: 25

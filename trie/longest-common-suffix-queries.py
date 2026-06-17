@@ -12,11 +12,11 @@ class Trie:
     def __init__(self):
         self.root = TrieNode()
 
-    # yha hum node ke andar length aur idx store kar rahe hain 
-    # taki hume pata chale ki kaunsa word longest common suffix banata hai aur uska index kya hai. 
     # Jab bhi hum insert karenge, hum check karenge ki kya current word ka length existing length se chota hai ya nahi. 
     # Agar chota hai, toh hum update karenge. Agar length same hai, toh hum index check karenge aur chota index update karenge. 
     # Isse hume longest common suffix ke sath sath uska index bhi mil jayega.
+
+    # Isse benifit ye hoga ki jab hum query karenge, toh hume longest common suffix ka index directly mil jayega bina extra traversal ke.
     def update(self, node, idx, word):
 
         l = len(word)
