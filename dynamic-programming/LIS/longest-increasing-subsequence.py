@@ -49,20 +49,20 @@ import bisect
 
 def lengthOfLIS(nums):
 
-    sub = []  # this stores the smallest last values of increasing subsequences
+    lis = []  # this stores the smallest last values of increasing lissequences
 
     for num in nums:
-        # Find index of the first element in sub that is >= num
-        idx = bisect.bisect_left(sub, num)
+        # Find index of the first element in lis that is >= num
+        idx = bisect.bisect_left(lis, num)
         
-        if idx == len(sub):
-            # num is bigger than all elements in sub, so it extends LIS
-            sub.append(num)
+        if idx == len(lis):
+            # num is bigger than all elements in lis, so it extends LIS
+            lis.append(num)
         else:
-            # num can replace an existing element to keep sub minimal
-            sub[idx] = num
+            # num can replace an existing element to keep lis minimal
+            lis[idx] = num
 
-    return len(sub)
+    return len(lis)
 
 
 print(lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]))  # 4
