@@ -4,7 +4,7 @@
 ## https://leetcode.com/discuss/post/458695/dynamic-programming-patterns-by-aatalyk-pmgr/
 
 
-## 1. Linear DP TODO
+## 1. Linear DP
 - https://leetcode.com/problems/climbing-stairs/
 - https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 - https://leetcode.com/problems/min-cost-climbing-stairs/
@@ -32,15 +32,17 @@
 - https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/
 - https://leetcode.com/problems/greatest-sum-divisible-by-three/
 - https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
+- https://leetcode.com/problems/maximum-profit-in-job-scheduling/
+
 - https://leetcode.com/problems/student-attendance-record-ii/
 - https://leetcode.com/problems/triples-with-bitwise-and-equal-to-zero/
-- https://leetcode.com/problems/maximum-profit-in-job-scheduling/
 - https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/
 - https://leetcode.com/problems/count-all-valid-pickup-and-delivery-options/
 - https://leetcode.com/problems/stone-game-iii/
 - https://leetcode.com/problems/restore-the-array/
 - https://leetcode.com/problems/form-largest-integer-with-digits-that-add-up-to-target/
 - https://leetcode.com/problems/stone-game-iv/
+
 - https://leetcode.com/problems/coin-change-2/
 - https://leetcode.com/problems/n-th-tribonacci-number/
 - https://leetcode.com/problems/count-number-of-ways-to-place-houses/
@@ -50,7 +52,7 @@
 - https://leetcode.com/problems/jump-game-ii/
 
 
-## 2.Knapsack TODO
+## 2.Knapsack
 - https://leetcode.com/problems/house-robber-ii/
 - https://leetcode.com/problems/pizza-with-3n-slices/
 - https://leetcode.com/problems/last-stone-weight-ii/
@@ -63,7 +65,7 @@
 - https://leetcode.com/problems/reducing-dishes/
 
 
-## 3.Multi Dimensions DP TODO
+## 3.Multi Dimensions DP
 - https://leetcode.com/problems/triangle/
 - https://leetcode.com/problems/combination-sum-iv/
 - https://leetcode.com/problems/out-of-boundary-paths/
@@ -146,7 +148,7 @@
 - https://leetcode.com/problems/number-of-ways-to-reorder-array-to-get-same-bst/
 
 
-## 7.Probability DP TODO
+## 7.Probability DP
 - https://leetcode.com/problems/soup-servings/
 - https://leetcode.com/problems/new-21-game/
 - https://leetcode.com/problems/airplane-seat-assignment-probability/

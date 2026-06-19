@@ -10,6 +10,7 @@ class Solution:
             arr[i] += v
             arr[j + 1] -= v
 
+        # prefix sum to get the final values
         for i in range(1, length + 1):
             arr[i] += arr[i - 1]
 
