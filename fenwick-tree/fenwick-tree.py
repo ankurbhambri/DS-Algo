@@ -15,7 +15,9 @@ SC: O(n) for the tree array
 
 '''
 
-# Below code is for Point Update and Range Query
+# Point Update and Range Query
+# TC: O(log n) for both update and query operations
+# SC: O(n) for the tree array
 class FenwickTree:
     def __init__(self, size: int):
         self.n = size
@@ -55,8 +57,11 @@ bit.update(3, 3)  # update index 3 to 3
 print(bit.range_query(2, 5))
 
 
-# Below code is for Range Update and Point Query
+# Range Update and Point Query
 # Will use difference array technique to convert range update to point update
+
+# TC: O(log n) for both range update and point query operations
+# SC: O(n) for the tree array
 class FenwickTreeRangeUpdate:
     def __init__(self, size: int):
         self.n = size
@@ -95,3 +100,58 @@ bit_range_update.range_update(1, 3, -1)  # Update indices 1 to 3 by subtracting 
 print(bit_range_update.query(3))  # Query the value at index 3
 
 print(bit_range_update.range_query(2, 5))  # Query the sum from index 2 to 5
+
+
+# Range Update and Range Query
+
+# TC: O(q * log n) for both range update and range query operations, where q is the number of queries
+# SC: O(n) for the two tree arrays
+class FenwickTreeRangeUpdateRangeQuery:
+    def __init__(self, size: int):
+        self.n = size
+        self.bit1 = [0] * (size + 1)
+        self.bit2 = [0] * (size + 1)
+
+    def update(self, bit: list[int], i: int, delta: int):
+        while i <= self.n:
+            bit[i] += delta
+            i += i & (-i)
+
+    def range_update(self, l: int, r: int, delta: int):
+
+        self.update(self.bit1, l, delta)
+        self.update(self.bit1, r + 1, -delta)
+
+        # delta * (l - 1) ka matlab hai ki humne l-1 tak ke elements ko update kar diya hai
+        self.update(self.bit2, l, delta * (l - 1))
+
+        # -delta * r ka matlab hai ki humne r tak ke elements ko update kar diya hai
+        self.update(self.bit2, r + 1, -delta * r)
+
+    def query(self, i: int) -> int:
+        return self.query_bit(self.bit1, i) * i - self.query_bit(self.bit2, i)
+
+    def query_bit(self, bit: list[int], i: int) -> int:
+        res = 0
+        while i > 0:
+            res += bit[i]
+            i -= i & (-i)
+        return res
+
+    def range_query(self, l: int, r: int) -> int:
+        if l > r:
+            return 0
+        return self.query(r) - self.query(l - 1)
+
+
+bit = FenwickTreeRangeUpdateRangeQuery(n)
+
+bit.range_update(3, 5, 2)  # Update indices 3 to 5 by adding 2
+
+bit.range_update(1, 3, -1)  # Update indices 1 to 3 by subtracting 1
+
+bit.range_update(2, 4, 3)  # Update indices 2 to 4 by adding 3
+
+bit.range_update(5, 7, -2)  # Update indices 5 to 7 by subtracting 2
+
+bit.range_query(2, 5)  # Query the sum from index 2 to 5
