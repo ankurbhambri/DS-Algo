@@ -7,11 +7,11 @@
 """
 
 
+# TC: O(log n) for both range update and point query operations
+# SC: O(n) for the tree and lazy arrays
 class LazySegmentTree:
     def __init__(self, nums):
-        """
-        Initialize the segment tree with lazy propagation.
-        """
+
         n = len(nums)
         self.n = n
         self.tree = [0] * (4 * n)  # Segment tree array
@@ -19,100 +19,116 @@ class LazySegmentTree:
         self.build(nums, 0, 0, n - 1)
 
     def build(self, nums, node, start, end):
-        """
-        Build the segment tree.
-        """
+
         if start == end:
             self.tree[node] = nums[start]
-        else:
-            mid = (start + end) // 2
-            left_child = 2 * node + 1
-            right_child = 2 * node + 2
-            self.build(nums, left_child, start, mid)
-            self.build(nums, right_child, mid + 1, end)
-            self.tree[node] = self.tree[left_child] + self.tree[right_child]
+            return
 
-    def update_range(self, l, r, val):
-        """
-        Update the range [l, r] with the given value.
-        """
+        mid = (start + end) // 2
 
-        def update(node, start, end, l, r, val):
-            # Apply any pending updates
-            if self.lazy[node] != 0:
-                self.tree[node] += (end - start + 1) * self.lazy[node]
-                if start != end:  # Not a leaf node
-                    self.lazy[2 * node + 1] += self.lazy[node]
-                    self.lazy[2 * node + 2] += self.lazy[node]
-                self.lazy[node] = 0
+        left_child = 2 * node + 1
 
-            # No overlap
-            if start > r or end < l:
-                return
+        right_child = 2 * node + 2
 
-            # Total overlap
-            if start >= l and end <= r:
-                self.tree[node] += (end - start + 1) * val
-                if start != end:
-                    self.lazy[2 * node + 1] += val
-                    self.lazy[2 * node + 2] += val
-                return
+        self.build(nums, left_child, start, mid)
 
-            # Partial overlap
-            mid = (start + end) // 2
-            left_child = 2 * node + 1
-            right_child = 2 * node + 2
-            update(left_child, start, mid, l, r, val)
-            update(right_child, mid + 1, end, l, r, val)
-            self.tree[node] = self.tree[left_child] + self.tree[right_child]
+        self.build(nums, right_child, mid + 1, end)
 
-        update(0, 0, self.n - 1, l, r, val)
+        self.tree[node] = self.tree[left_child] + self.tree[right_child]
 
-    def query_range(self, l, r):
-        """
-        Query the sum in the range [l, r].
-        """
 
-        def query(node, start, end, l, r):
-            # Apply any pending updates
-            if self.lazy[node] != 0:
-                self.tree[node] += (end - start + 1) * self.lazy[node]
-                if start != end:  # Not a leaf node
-                    self.lazy[2 * node + 1] += self.lazy[node]
-                    self.lazy[2 * node + 2] += self.lazy[node]
-                self.lazy[node] = 0
+    def apply_lazy(self, node, start, end):
 
-            # No overlap
-            if start > r or end < l:
-                return 0
+        if self.lazy[node] != 0:
 
-            # Total overlap
-            if start >= l and end <= r:
-                return self.tree[node]
+            # Update the current node
+            self.tree[node] += (end - start + 1) * self.lazy[node]
 
-            # Partial overlap
-            mid = (start + end) // 2
-            left_child = 2 * node + 1
-            right_child = 2 * node + 2
-            left_sum = query(left_child, start, mid, l, r)
-            right_sum = query(right_child, mid + 1, end, l, r)
-            return left_sum + right_sum
+            # If not a leaf node, propagate the update to children
+            if start != end:
+                self.lazy[2 * node + 1] += self.lazy[node]
+                self.lazy[2 * node + 2] += self.lazy[node]
 
-        return query(0, 0, self.n - 1, l, r)
+            # Clear the lazy value for the current node
+            self.lazy[node] = 0
+
+
+    def update(self, node, start, end, l, r, val):
+
+        # Apply any pending updates
+        if self.lazy[node] != 0:
+            self.apply_lazy(node, start, end)
+
+        # out of bounds
+        if start > r or end < l:
+            return
+
+        # Total overlap
+        if start >= l and end <= r:
+
+            self.tree[node] += (end - start + 1) * val
+
+            if start != end:
+                self.lazy[2 * node + 1] += val
+                self.lazy[2 * node + 2] += val
+
+            return
+
+        # Partial overlap
+        mid = (start + end) // 2
+
+        left_child = 2 * node + 1
+
+        right_child = 2 * node + 2
+
+        self.update(left_child, start, mid, l, r, val)
+
+        self.update(right_child, mid + 1, end, l, r, val)
+
+        self.tree[node] = self.tree[left_child] + self.tree[right_child]
+
+
+    def query(self, node, start, end, l, r):
+
+        # Apply any pending updates
+        if self.lazy[node] != 0:
+            self.apply_lazy(node, start, end)
+
+        # out of bounds
+        if start > r or end < l:
+            return 0
+
+        # Total overlap
+        if start >= l and end <= r:
+            return self.tree[node]
+
+        # Partial overlap
+        mid = (start + end) // 2
+
+        left_child = 2 * node + 1
+
+        right_child = 2 * node + 2
+
+        left_sum = self.query(left_child, start, mid, l, r)
+
+        right_sum = self.query(right_child, mid + 1, end, l, r)
+
+        return left_sum + right_sum
 
 
 # Example Usage
 nums = [1, 2, 3, 4, 5]
+
 segment_tree = LazySegmentTree(nums)
 
 # Query sum of range [1, 3]
-print("Initial sum [1, 3]:", segment_tree.query_range(1, 3))  # Output: 9
+print("Initial sum [1, 3]:", segment_tree.query(0, 0, segment_tree.n - 1, 1, 3))  # Output: 9
 
 # Update range [1, 3] by adding 10
-segment_tree.update_range(1, 3, 10)
+segment_tree.update(0, 0, segment_tree.n - 1, 1, 3, 10)
 
 # Query sum of range [1, 3] after update
-print("Updated sum [1, 3]:", segment_tree.query_range(1, 3))  # Output: 39
+print("Updated sum [1, 3]:", segment_tree.query(0, 0, segment_tree.n - 1, 1, 3))  # Output: 39
 
 # Query sum of range [0, 4]
-print("Sum [0, 4]:", segment_tree.query_range(0, 4))  # Output: 59
+print("Sum [0, 4]:", segment_tree.query(0, 0, segment_tree.n - 1, 0, 4))  # Output: 45

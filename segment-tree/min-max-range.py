@@ -1,117 +1,102 @@
-class Node:
-    def __init__(self, start, end):
-        self.start = start
-        self.end = end
-        self.min_value = float("inf")
-        self.max_value = float("-inf")
-        self.left = None
-        self.right = None
-
-
 class SegmentTree:
-    def __init__(self, nums):
-        """
-        Initialize your segment tree here.
-        """
+    def __init__(self, arr):
 
-        def createTree(nums, l, r):
-            if l > r:
-                return None
+        self.arr = arr
 
-            node = Node(l, r)
-            if l == r:  # Leaf node
-                node.total = nums[l]
-                node.min_value = nums[l]
-                node.max_value = nums[l]
-                return node
+        self.n = len(arr)
 
-            mid = (l + r) // 2
-            node.left = createTree(nums, l, mid)
-            node.right = createTree(nums, mid + 1, r)
+        # Segment tree ka size max 4 * N hota hai
+        self.tree_min = [float("inf")] * (4 * self.n)
+        self.tree_max = [float("-inf")] * (4 * self.n)
 
-            node.min_value = min(node.left.min_value, node.right.min_value)
-            node.max_value = max(node.left.max_value, node.right.max_value)
+        if self.n > 0:
+            self._build(0, 0, self.n - 1)
 
-            return node
+    # 1. Tree Build Karne ka Function
+    def _build(self, node, start, end):
 
-        self.root = createTree(nums, 0, len(nums) - 1)
+        if start == end:
+            # Leaf node: actual array element store karo
+            self.tree_min[node] = self.arr[start]
+            self.tree_max[node] = self.arr[start]
+            return
 
-    def update(self, i, val):
-        """
-        Update value at index `i` to `val`.
-        :type i: int
-        :type val: int
-        """
+        mid = (start + end) // 2
 
-        def updateVal(node, i, val):
-            if node.start == node.end:  # Leaf node
-                node.total = val
-                node.min_value = val
-                node.max_value = val
-                return
+        left_child = 2 * node + 1
 
-            mid = (node.start + node.end) // 2
-            if i <= mid:
-                updateVal(node.left, i, val)
-            else:
-                updateVal(node.right, i, val)
+        right_child = 2 * node + 2
 
-            node.min_value = min(node.left.min_value, node.right.min_value)
-            node.max_value = max(node.left.max_value, node.right.max_value)
+        # Left aur Right subtrees ko build karo
+        self._build(left_child, start, mid)
 
-        updateVal(self.root, i, val)
+        self._build(right_child, mid + 1, end)
 
-    def queryMin(self, i, j):
-        """
-        Min of elements nums[i..j], inclusive.
-        :type i: int
-        :type j: int
-        """
+        # Parent node ko update karo
+        self.tree_min[node] = min(self.tree_min[left_child], self.tree_min[right_child])
+        self.tree_max[node] = max(self.tree_max[left_child], self.tree_max[right_child])
 
-        def rangeMin(node, i, j):
-            if node.start == i and node.end == j:
-                return node.min_value
+    # 2. Range Maximum Query Function
+    def query(self, node, start, end, l, r):
 
-            mid = (node.start + node.end) // 2
-            if j <= mid:
-                return rangeMin(node.left, i, j)
-            elif i > mid:
-                return rangeMin(node.right, i, j)
-            else:
-                return min(
-                    rangeMin(node.left, i, mid), rangeMin(node.right, mid + 1, j)
-                )
+        # Case 1: No Overlap (Query range completely bahar hai)
+        if r < start or end < l:
+            return float('inf'), float('-inf') # Neutral values for min and max
 
-        return rangeMin(self.root, i, j)
+        # Case 2: Complete Overlap (Current range query range ke andar hai)
+        if l <= start and end <= r:
+            return self.tree_min[node], self.tree_max[node]
 
-    def queryMax(self, i, j):
-        """
-        Max of elements nums[i..j], inclusive.
-        :type i: int
-        :type j: int
-        """
+        # Case 3: Partial Overlap
+        mid = (start + end) // 2
 
-        def rangeMax(node, i, j):
-            if node.start == i and node.end == j:
-                return node.max_value
+        left_mn, left_mx = self.query(2 * node + 1, start, mid, l, r)
 
-            mid = (node.start + node.end) // 2
-            if j <= mid:
-                return rangeMax(node.left, i, j)
-            elif i > mid:
-                return rangeMax(node.right, i, j)
-            else:
-                return max(
-                    rangeMax(node.left, i, mid), rangeMax(node.right, mid + 1, j)
-                )
+        right_mn, right_mx = self.query(2 * node + 2, mid + 1, end, l, r)
 
-        return rangeMax(self.root, i, j)
+        return min(left_mn, right_mn), max(left_mx, right_mx)
+
+    # 3. Point Update Function (Index par value badalna)
+    def update(self, node, start, end, idx, val):
+
+        if start == end:
+            # Leaf node par nayi value update karo
+            self.arr[idx] = val
+            self.tree_min[node] = val
+            self.tree_max[node] = val
+            return
+
+        mid = (start + end) // 2
+
+        left_child = 2 * node + 1
+
+        right_child = 2 * node + 2
+
+        if start <= idx <= mid:
+            # Agar index left side mein hai
+            self.update(left_child, start, mid, idx, val)
+        else:
+            # Agar index right side mein hai
+            self.update(right_child, mid + 1, end, idx, val)
+
+        self.tree_min[node] = min(self.tree_min[left_child], self.tree_min[right_child])
+        self.tree_max[node] = max(self.tree_max[left_child], self.tree_max[right_child])
 
 
-# Example Usage
-nums = [2, 3, -1, -2, 4, 8, 10]
-segTree = SegmentTree(nums)
+arr = [1, 3, 2, 8]
 
-print(segTree.queryMin(1, 4))  # Min of range [1, 4] -> -2
-segTree.update(2, 10)  # Update index 2 to value 10
-print(segTree.queryMax(0, 6))  # Max of range [0, 6] -> 10
+# Segment tree initialize karein
+seg_tree = SegmentTree(arr)
+
+# Range [0, 2] yaani (1, 3, 2) ka max nikaalein
+print("Min an Max in range [0, 2]:", seg_tree.query(0, 0, len(arr)-1, 0, 2)) # Output: (1, 3)
+
+# Range [1, 3] yaani (3, 2, 8) ka max nikaalein
+print("Min and Max in range [1, 3]:", seg_tree.query(0, 0, len(arr)-1, 1, 3)) # Output: (2, 8)
+
+# Index 3 ki value ko 8 se badalkar 0 kar dete hain
+print("\nUpdating index 3 to 0...")
+seg_tree.update(0, 0, len(arr)-1, 3, 0)
+
+# Ab poore array [1, 3, 2, 0] ka max nikaalein
+print("New Min and Max in range [0, 3]:", seg_tree.query(0, 0, len(arr)-1, 0, 3)) # Output: (0, 3)

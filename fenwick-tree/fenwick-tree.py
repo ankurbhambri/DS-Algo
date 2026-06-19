@@ -108,6 +108,7 @@ print(bit_range_update.range_query(2, 5))  # Query the sum from index 2 to 5
 # SC: O(n) for the two tree arrays
 class FenwickTreeRangeUpdateRangeQuery:
     def __init__(self, size: int):
+
         self.n = size
         self.bit1 = [0] * (size + 1)
         self.bit2 = [0] * (size + 1)
