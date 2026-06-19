@@ -3,6 +3,7 @@
 
 class NumArray:
     def __init__(self, nums: list[int]):
+
         self.nums = nums
         self.n = len(nums)
 
@@ -14,29 +15,30 @@ class NumArray:
             self._add(i + 1, nums[i])
 
     def _add(self, i: int, delta: int):
-        """Adds delta to the tree at index i."""
         while i <= self.n:
             self.tree[i] += delta
-            # Move to the next responsible index
             i += i & -i
 
     def _query(self, i: int) -> int:
-        """Returns the prefix sum from nums[0] to nums[i-1]."""
         total = 0
         while i > 0:
             total += self.tree[i]
-            # Move to the parent index
             i -= i & -i
         return total
 
     def update(self, index: int, val: int) -> None:
+
         # Calculate the difference between the new value and old value
         delta = val - self.nums[index]
+
         self.nums[index] = val
         # Update the tree (converting 0-indexed to 1-indexed)
+
+        # yha se hum range update nahi kar rahe, sirf point update kar rahe hain, isliye delta ko directly add karenge
         self._add(index + 1, delta)
 
     def sumRange(self, left: int, right: int) -> int:
+
         # sum[left...right] = prefix_sum(right) - prefix_sum(left - 1)
         return self._query(right + 1) - self._query(left)
 
