@@ -42,6 +42,7 @@
 - https://leetcode.com/problems/restore-the-array/
 - https://leetcode.com/problems/form-largest-integer-with-digits-that-add-up-to-target/
 - https://leetcode.com/problems/stone-game-iv/
+- https://leetcode.com/problems/maximize-cyclic-partition-score
 
 - https://leetcode.com/problems/coin-change-2/
 - https://leetcode.com/problems/n-th-tribonacci-number/

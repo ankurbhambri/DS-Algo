@@ -82,19 +82,23 @@ print(Solution().minFlightCost([1,2,3,4], [4,3,2,1]))  # Expected output: 2
 
 # https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
 
-#TC: O(n)
-#SC: O(1)
+# TC: O(n)
+# SC: O(1)
 class Solution:
     def maxProfit(self, prices: list[int]) -> int:
-        res = 0
-        for r in range(1, len(prices)):
-            # Yha pe hum har adjacent pair ko check karenge, agar profit hai toh usko add kar denge, kyunki multiple transactions allowed hain
-            cur = prices[r] - prices[r - 1]
-            if cur < 0:
-                cur = 0
-            else:
-                res += cur
-        return res
+
+        # yeh simple "Buy low, Sell high" ban jata hai
+        # Yha pe hum har adjacent pair ko check karenge, agar profit hai toh usko add kar denge, kyunki multiple transactions allowed hain
+        return sum(max(0, prices[i] - prices[i-1]) for i in range(1, len(prices)))
+
+        # res = 0
+        # for r in range(1, len(prices)):
+        #     cur = prices[r] - prices[r - 1]
+        #     if cur < 0:
+        #         cur = 0
+        #     else:
+        #         res += cur
+        # return res
 
 
 print(Solution().maxProfit([1, 2, 3, 4, 5]))  # 4
@@ -174,28 +178,35 @@ class Solution:
         if not prices or k == 0:
             return 0
 
-        # Agar k bahut bada hai (n/2 se zyada), toh yeh simple "Buy low, Sell high" ban jata hai
+        # Agar k bahut bada hai (n/2 se zyada), toh yeh simple "Buy low, Sell high" ban jata hai part - II
         if k >= len(prices) // 2:
             return sum(max(0, prices[i] - prices[i-1]) for i in range(1, len(prices)))
 
-        # Arrays ko initialize karein
-        buy = [-float('inf')] * (k + 1)
         sell = [0] * (k + 1)
 
+        buy = [-float('inf')] * (k + 1)
+
         for price in prices:
+
             for j in range(1, k + 1):
+
                 # j-th baar kharidne ka decision: pehle wale sell profit se price minus karo
                 buy[j] = max(buy[j], sell[j-1] - price)
+
                 # j-th baar bechne ka decision: current buy price mein aaj ka price add karo
                 sell[j] = max(sell[j], buy[j] + price)
 
         return sell[k] # k transactions ke baad ka max profit
 
+
+print(Solution().maxProfit(2, [3, 2, 6, 5, 0, 3]))  # Expected output: 7 (Buy on day 1 at price 2, sell on day 2 at price 6; Buy on day 4 at price 0, sell on day 5 at price 3)
+print(Solution().maxProfit(2, [1, 2, 3, 4, 5]))  # Expected output: 4 (Buy on day 0 at price 1, sell on day 4 at price 5)
+
 '''
         n = len(prices)
         if n == 0 or k == 0:
             return 0
-            
+
         # Memoization table (cache) tabdeel karne ke liye
         memo = {}
 
@@ -203,13 +214,13 @@ class Solution:
             # Base Case: Agar saare din khatam ya transactions khatam
             if i == n or tx_left == 0:
                 return 0
-                
+
             if (i, tx_left, holding) in memo:
                 return memo[(i, tx_left, holding)]
-            
+
             # Option 1: Kuch mat karo, agle din par jao (Skip)
             skip = dfs(i + 1, tx_left, holding)
-            
+
             if holding:
                 # Option 2: Stock bech do (+prices[i] profit milega)
                 # Bechne par humara ek transaction complete hota hai -> tx_left - 1
@@ -219,7 +230,7 @@ class Solution:
                 # Option 2: Stock kharid lo (-prices[i] jeb se jayega)
                 buy = -prices[i] + dfs(i + 1, tx_left, 1)
                 memo[(i, tx_left, holding)] = max(skip, buy)
-                
+
             return memo[(i, tx_left, holding)]
 
         return dfs(0, k, 0) # Day 0 se start, k transactions baaki, holding = 0
@@ -231,21 +242,30 @@ class Solution:
 # TC: O(n * k)
 # SC: O(k)
 class Solution:
-    def maximumProfit(self, nums: list[int], k: int) -> int:
+    def maximumProfit(self, prices: list[int], k: int) -> int:
 
         sold = [0] * k
+
         res = [0] * (k + 1)
+
         bought = [-float('inf')] * k
 
-        for num in nums:
+        for price in prices:
 
             for j in range(k, 0, -1):
 
-                res[j] = max(res[j], bought[j - 1] + num, sold[j - 1] - num)
+                # 1. kuch mat karo: Jo purana res[j] ka profit tha, wahi rehne do.
+                # 2. Normal Sale: Pehle se kharide hue stock (bought[j-1]) ko aaj ke price par bech do (+ price).
+                # 3. Short Cover: Pehle se short-sell kiye hue stock (sold[j-1]) ko aaj saste mein wapas kharid lo (- price).
+                res[j] = max(res[j], bought[j - 1] + price, sold[j - 1] - price)
 
-                bought[j - 1] = max(bought[j - 1], res[j - 1] - num)
+                # 1. Kuch mat karo: Pehle ki buy state ko waise hi hold rakho.
+                # 2. Naya Buy: Pichli transaction ke total profit (res[j-1]) mein se aaj ka stock kharid lo (- price).
+                bought[j - 1] = max(bought[j - 1], res[j - 1] - price)
 
-                sold[j - 1] = max(sold[j - 1], res[j - 1] + num)
+                # 1. Kuch mat karo: Pehle ki short-sell state ko waise hi hold rakho.
+                # 2. Naya Short-Sell: Pichli transaction ke total profit (res[j-1]), ke upar aaj ek naya stock bina kharide pehle hi bech do (+ price).
+                sold[j - 1] = max(sold[j - 1], res[j - 1] + price)
 
         return max(res)
 
