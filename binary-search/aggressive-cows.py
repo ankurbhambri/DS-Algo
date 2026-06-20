@@ -29,28 +29,35 @@ Example:
 
 def aggressiveCows(stalls, k):
 
-    def isPossible(mid):
+    stalls.sort()
+
+    def isPossible(cap):
+
         count = 1  # place the first cow at stalls[0]
         lastPos = stalls[0]
 
         for i in range(1, n):
-            # distance between the current stall and the last placed cow must be at least mid, 
+
+            # distance between the current stall and the last placed cow must be at least cap, 
             # if it is, we can place another cow, otherwise we skip this stall and check the next one.
-            if stalls[i] - lastPos >= mid:
+
+            if stalls[i] - lastPos >= cap:
                 count += 1
                 lastPos = stalls[i]
 
                 # if we have placed k cows, we can return True
-                # as we have found a valid configuration with at least mid distance.
+                # as we have found a valid configuration with at least cap distance.
                 # We can try for a larger distance now.
-                if count == k:
+                if count >= k:
                     return True
 
         return False
 
+
     res = 0  # we store the best possible minimum distance
-    stalls.sort()
+
     n = len(stalls)
+
     l, r = 1, stalls[-1] - stalls[0]
 
     while l <= r:

@@ -6,32 +6,33 @@
 
 
 # TC: O(n^2), SC: O(1)
-def longestPalindrome(s):
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
 
-    def helper(l, r):
+        def helper(l, r):
 
-        while l >= 0 and r < len(s) and s[l] == s[r]:
-            l -= 1
-            r += 1
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                l -= 1
+                r += 1
 
-        return s[l + 1 : r]
+            return s[l + 1 : r]
 
-    res = ""
-    for i in range(len(s)):
+        res = ""
+        for i in range(len(s)):
 
-        # odd string
-        odd = helper(i, i)
-        res = odd if len(odd) > len(res) else res
+            # odd string
+            odd = helper(i, i)
+            res = odd if len(odd) > len(res) else res
 
-        # even string
-        even = helper(i, i + 1)
-        res = even if len(even) > len(res) else res
+            # even string
+            even = helper(i, i + 1)
+            res = even if len(even) > len(res) else res
 
-    return res
+        return res
 
 
-print(longestPalindrome("babad"))
-print(longestPalindrome("racecar"))
+print(Solution().longestPalindrome("babad"))
+print(Solution().longestPalindrome("racecar"))
 
 
 # TC: O(N), SC: O(n) - Manacher's Algorithm
