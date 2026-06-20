@@ -39,18 +39,16 @@ class LazySegmentTree:
 
     def apply_lazy(self, node, start, end):
 
-        if self.lazy[node] != 0:
+        # Update the current node
+        self.tree[node] += (end - start + 1) * self.lazy[node]
 
-            # Update the current node
-            self.tree[node] += (end - start + 1) * self.lazy[node]
+        # If not a leaf node, propagate the update to children
+        if start != end:
+            self.lazy[2 * node + 1] += self.lazy[node]
+            self.lazy[2 * node + 2] += self.lazy[node]
 
-            # If not a leaf node, propagate the update to children
-            if start != end:
-                self.lazy[2 * node + 1] += self.lazy[node]
-                self.lazy[2 * node + 2] += self.lazy[node]
-
-            # Clear the lazy value for the current node
-            self.lazy[node] = 0
+        # Clear the lazy value for the current node
+        self.lazy[node] = 0
 
 
     def update(self, node, start, end, l, r, val):

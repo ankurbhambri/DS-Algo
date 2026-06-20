@@ -26,29 +26,3 @@ Thus, the answer is the sum of all the sums above, which is:
 
 7 + 4 + 5 + 6 + 5 + 9 + 11 + 11 + 15 = 73.
 '''
-
-class Solution:
-    def goodArithmeticSum(self, nums):
-        n = len(nums)
-        ans = 0
-        i = 0
-
-        while i < n:
-
-            j = i
-
-            # extend segment while diff is ±1
-            while j + 1 < n and abs(nums[j + 1] - nums[j]) == 1:
-                j += 1
-
-            # process segment [i, j]
-            for k in range(i, j + 1):
-                left = k - i + 1
-                right = j - k + 1
-                ans += nums[k] * left * right
-
-            i = j + 1
-
-        return ans
-
-print(Solution().goodArithmeticSum([7, 4, 5, 6, 5]))  # Output: 73

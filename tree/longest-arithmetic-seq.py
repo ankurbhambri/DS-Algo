@@ -16,6 +16,7 @@ class Node:
 
 class Solution:
     def maximumLengthAP(self, root):
+
         self.res = 0
 
         # Base Cases
@@ -56,7 +57,6 @@ class Solution:
         return self.res
 
 
-# Given Tree
 root = Node(6)
 root.right = Node(9)
 root.right.left = Node(7)
