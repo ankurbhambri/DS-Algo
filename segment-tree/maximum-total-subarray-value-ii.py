@@ -15,46 +15,48 @@ class SegmentTree:
         if self.n > 0:
             self._build(nums, 0, 0, self.n - 1)
 
-    def _build(self, nums, tree_idx, l, r):
-
+    def _build(self, nums, node, start, end):
         # Base case: Jab leaf node par ho
-        if l == r:
-            self.tree_min[tree_idx] = nums[l]
-            self.tree_max[tree_idx] = nums[l]
+        if start == end:
+            self.tree_min[node] = nums[start]
+            self.tree_max[node] = nums[start]
             return
 
-        mid = (l + r) // 2
+        mid = (start + end) // 2
 
-        left_child = 2 * tree_idx + 1
-        right_child = 2 * tree_idx + 2
+        left_child = 2 * node + 1
+        right_child = 2 * node + 2
 
         # Left aur Right subtrees build karo
-        self._build(nums, left_child, l, mid)
-        self._build(nums, right_child, mid + 1, r)
+        self._build(nums, left_child, start, mid)
+        self._build(nums, right_child, mid + 1, end)
 
         # Parent node ko update karo
-        self.tree_min[tree_idx] = min(self.tree_min[left_child], self.tree_min[right_child])
-        self.tree_max[tree_idx] = max(self.tree_max[left_child], self.tree_max[right_child])
+        self.tree_min[node] = min(self.tree_min[left_child], self.tree_min[right_child])
+        self.tree_max[node] = max(self.tree_max[left_child], self.tree_max[right_child])
 
-    def query(self, ql, qr):
-        # Helper function range query ke liye
-        def _query(tree_idx, l, r, ql, qr):
-            # 1. No overlap
-            if r < ql or l > qr:
-                return float("inf"), float("-inf")
-            
-            # 2. Complete overlap
-            if ql <= l and r <= qr:
-                return self.tree_min[tree_idx], self.tree_max[tree_idx]
+    def query(self, node, start, end, l, r):
 
-            # 3. Partial overlap
-            mid = (l + r) // 2
-            left_mn, left_mx = _query(2 * tree_idx + 1, l, mid, ql, qr)
-            right_mn, right_mx = _query(2 * tree_idx + 2, mid + 1, r, ql, qr)
+        # 1. No overlap
+        if end < l or start > r:
+            return float("inf"), float("-inf")
 
-            return min(left_mn, right_mn), max(left_mx, right_mx)
+        # 2. Complete overlap
+        if l <= start and end <= r:
+            return self.tree_min[node], self.tree_max[node]
 
-        return _query(0, 0, self.n - 1, ql, qr)
+        # 3. Partial overlap
+        mid = (start + end) // 2
+
+        left_child = 2 * node + 1
+
+        right_child = 2 * node + 2
+
+        left_mn, left_mx = self.query(left_child, start, mid, l, r)
+
+        right_mn, right_mx = self.query(right_child, mid + 1, end, l, r)
+
+        return min(left_mn, right_mn), max(left_mx, right_mx)
 
 
 class Solution:
@@ -70,7 +72,8 @@ class Solution:
         # Heap ko initialize karo
         for i in range(n):
             j = n - 1
-            mn, mx = st.query(i, j)
+            # node, start, end, l, r
+            mn, mx = st.query(0, 0, n - 1, i, j)
             val = mx - mn
             heappush(hp, (-val, i, j))
 
@@ -82,7 +85,8 @@ class Solution:
 
             j -= 1
             if i <= j:
-                mn, mx = st.query(i, j)
+                # node, start, end, l, r
+                mn, mx = st.query(0, 0, n - 1, i, j)
                 new_val = mx - mn
                 heappush(hp, (-new_val, i, j))
             k -= 1

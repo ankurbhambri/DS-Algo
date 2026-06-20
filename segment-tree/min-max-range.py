@@ -50,9 +50,13 @@ class SegmentTree:
         # Case 3: Partial Overlap
         mid = (start + end) // 2
 
-        left_mn, left_mx = self.query(2 * node + 1, start, mid, l, r)
+        left_child = 2 * node + 1
 
-        right_mn, right_mx = self.query(2 * node + 2, mid + 1, end, l, r)
+        right_child = 2 * node + 2
+
+        left_mn, left_mx = self.query(left_child, start, mid, l, r)
+
+        right_mn, right_mx = self.query(right_child, mid + 1, end, l, r)
 
         return min(left_mn, right_mn), max(left_mx, right_mx)
 

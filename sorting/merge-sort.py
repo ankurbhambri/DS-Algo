@@ -42,4 +42,5 @@ def sortArray(nums):
     return nums
 
 
+print(sortArray([5, 2, 3, 1]))
 print(sortArray([38, 27, 43, 3, 9, 82, 10]))

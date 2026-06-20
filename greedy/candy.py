@@ -6,14 +6,15 @@ Each child must get at least one candy. Children with a higher rating than their
 
 The classic greedy solution involves two passes:
 
-Left to right – ensure increasing sequence gets more candy.
+Left to right -> ensure increasing sequence gets more candy.
 
-Right to left – ensure decreasing sequence also gets more when needed.
+Right to left -> ensure decreasing sequence also gets more when needed.
 
 '''
 
 class Solution:
     def candy(self, ratings):
+
         n = len(ratings)
         candies = [1] * n
 
