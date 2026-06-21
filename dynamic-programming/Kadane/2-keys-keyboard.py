@@ -45,24 +45,42 @@ class Solution:
 print(Solution().minSteps(3))  # 3
 print(Solution().minSteps(1))  # 0
 
-
+'''
 # We can solve this problem using prime factorization technique more optimimum way.
 # TC: O(sqrt(n)) in worst case, but generally much less due to prime factorization
 # SC: O(1)
-def minSteps_primeFactors(n):
 
-    factors = 0
-    divisor = 2
+Example for n = 18:
+Side-by-side Table
+Prime Factor	Meaning	Operations
+2	Multiply count by 2	Copy + Paste = 2
+3	Multiply count by 3	Copy + Paste + Paste = 3
+3	Multiply count by 3	Copy + Paste + Paste = 3
 
-    while n >= 2:
-        if n % divisor == 0:
-            factors += divisor
-            n //= divisor
-        else:
-            divisor += 1
+Total steps = 2 + 3 + 3 = 8
+'''
+class Solution:
+    def minSteps(self, n: int) -> int:
 
-    return factors
+        factors = 0
+
+        d = 2
+
+        while d * d <= n:
+
+            while n % d == 0:
+
+                factors += d
+
+                n //= d
+
+            d += 1
+
+        if n > 1:
+            factors += n
+
+        return factors
 
 
-print(minSteps_primeFactors(3))  # 3
-print(minSteps_primeFactors(1))  # 0
+print(Solution().minSteps(3))  # 3
+print(Solution().minSteps(1))  # 0

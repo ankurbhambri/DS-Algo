@@ -1,40 +1,51 @@
 #  https://leetcode.com/problems/prime-arrangements/
 
-'''
-Idea here is to find the number of prime numbers up to n and then find the number of permutations of prime numbers and non-prime numbers.
-We can use Sieve of Eratosthenes to find the number of prime numbers up to n.
-Then we can use Factorial formula to find the number of permutations of prime numbers and non-prime numbers.
-'''
+# Pehle nikalo ki 1 se n ke beech mein kitne prime numbers hain, aur kitne non-prime numbers hain.
 
+# Fir unka factorial nikal ke multiply kar do, aur answer ko 10^9 + 7 se mod kardo.
+
+# Factorial isliye nikalna hai kyunki hum prime numbers ko alag se arrange kar sakte hain, aur non-prime numbers ko bhi alag se arrange kar sakte hain. 
+
+# Formula - Total arrangements = (prime_count)! * (non_prime_count)!
+
+# TC: O(n * sqrt(n)) for counting primes + O(n) for calculating factorials
+# SC: O(1) if we don't consider the space used for recursion in factorial calculation
 class Solution:
     def numPrimeArrangements(self, n: int) -> int:
 
         MOD = 10**9 + 7
 
-        # 1. Function to count primes up to n
-        def count_primes(n):
-            if n < 2: return 0
-            is_prime = [True] * (n + 1)
-            is_prime[0] = is_prime[1] = False
-            for p in range(2, int(n**0.5) + 1):
-                if is_prime[p]:
-                    for i in range(p * p, n + 1, p):
-                        is_prime[i] = False
-            return sum(is_prime)
+        # check karo number prime hai ya nahi
+        def isPrime(num):
 
-        # 2. Factorial function with modulo
-        def factorial(k):
-            res = 1
-            for i in range(1, k + 1):
-                res = (res * i) % MOD
-            return res
+            if num < 2:
+                return False
 
-        # Main Logic
-        num_primes = count_primes(n)
-        num_non_primes = n - num_primes
+            d = 2
+            while d * d <= num:
+                if num % d == 0:
+                    return False
+                d += 1
 
-        # Total Ways = Ways to arrange Primes * Ways to arrange Non-Primes
-        return (factorial(num_primes) * factorial(num_non_primes)) % MOD
+            return True
+
+        prime_count = 0
+
+        # agar hai toh prime_count ko increment karo
+        for num in range(1, n + 1):
+            if isPrime(num):
+                prime_count += 1
+
+        # yha pe factorial nikal rhe h count ka
+        def factorial(x):
+            ans = 1
+
+            for i in range(2, x + 1):
+                ans = (ans * i) % MOD
+
+            return ans
+
+        return (factorial(prime_count) * factorial(n - prime_count)) % MOD
 
 
 print(Solution().numPrimeArrangements(5))  # Output: 12
