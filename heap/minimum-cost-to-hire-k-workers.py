@@ -6,7 +6,7 @@ import heapq
 class Solution:
     def mincostToHireWorkers(self, quality: list[int], wage: list[int], k: int) -> float:
 
-        # 1. Sabhi workers ka (ratio, quality) nikal kar ratio ke hisab se sort kar lo
+        # 1. Sabhi workers ka (ratio, quality) nikal kar quality ke hisab se sort kar lo
         # ratio = wage / quality
         workers = []
         for q, w in zip(quality, wage):
@@ -33,7 +33,11 @@ class Solution:
                 biggest_q = -heapq.heappop(max_heap)
                 total_quality -= biggest_q
 
-            # 3. Jaise hi hamare paas barabar K workers ho jayein, cost calculate karo
+            # 3. Jaise hi hamare paas barabar K workers ho jayein, toh cost calculate karo
+
+            # yha pe humme ratio * total_quality karna hai kyunki har worker ko uske ratio ke hisab se pay karna hai, 
+            # aur total_quality se pata chalega ki hume kitna pay karna hai
+
             if len(max_heap) == k:
                 current_cost = ratio * total_quality
                 min_cost = min(min_cost, current_cost) # Sabse minimum cost ko track karo

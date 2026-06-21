@@ -135,6 +135,7 @@
 - https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs/
 - https://leetcode.com/problems/minimum-one-bit-operations-to-make-integers-zero/
 - https://leetcode.com/problems/find-the-shortest-superstring/
+- https://leetcode.com/problems/beautiful-arrangement
 
 
 ## 6.DP on Trees

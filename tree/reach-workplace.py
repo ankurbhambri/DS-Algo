@@ -1,4 +1,4 @@
-'''
+"""
 You are enjoying your vacation and suddenly you are informed to reach the workplace.
 
 You are given a root map in form of tree rooted at 1.
@@ -17,12 +17,12 @@ You have to reach back to your workplace spending minimum cost.
 
 You are given Q independent queries to be answered where X, Y are the inputs to you queries.
 
-7 nodes
-        1
-      /   \
-     2     3
-   / | \     \
-  7  4  6     5
+7 nodes:
+         1
+      //   \\
+      2      3
+   // || \\   \\
+  7  4    6     5
 
 Query: 1 -> 7
 
@@ -44,9 +44,9 @@ paths = 1 -> 2 -> 4 - (3 + 6) = 9
 
 ---
 
-### Step 1 & 2: BFS (Level Pata Karna)
+### Step 1: Level Pata Karna
 
-Sabse pehle code har node ka Level (depth) nikalta hai aur unhe yaad rakh leta hai:
+Sabse pehle BFS ka code har node ka Level (depth) nikalta hai aur unhe yaad rakh leta hai:
 
 - level[1] = 0
 - level[2] = 1, level[3] = 1
@@ -56,11 +56,11 @@ Yahan tak max_level = 2 ho chuka hai.
 
 ---
 
-### Step 3: Minimum Transition Cost (Sabse sasti sidhi dhoodna)
+### Step 2: Minimum Transition Cost (Sabse sasti sidhi dhoodna)
 
 Ab code har ek edge (raaste) ko check karega aur dekhega ki ek level se dusre level jaane ka sabse sasta raasta kaun sa hai.
 
-Shuru mein min_edge_cost = [inf,] (kyunki 2 levels ke beech ke gaps hain: Level 0 -> 1 aur Level 1 -> 2).
+Shuru mein min_edge_cost = float('inf') se initialize karta hai, matlab abhi tak koi raasta nahi mila.
 
 Ab loop chalega saare edges par:
 
@@ -91,50 +91,45 @@ Ab loop chalega saare edges par:
 5. Edge (2, 6): Cost 2+6=8 (6 se bada hai, ignore).
 6. Edge (3, 5): Cost 3+5=8 (6 se bada hai, ignore).
 
-Step 3 ke baad hamara result:
+- Step 2, ke baad hamara result:
 
 - min_edge_cost[0] (Lvl 0 -> Lvl 1 ka sasta raasta) = 3
+
 - min_edge_cost[1] (Lvl 1 -> Lvl 2 ka sasta raasta) = 6
 
 ---
 
-### Step 4: Prefix Sum Array (Kharcha jorhte jana)
+### Step 3: Prefix Sum Array (Kharcha jorhte jana)
 
 Ab hum shuruat se lekar aage tak ka total kharcha jorhte hain taaki baad mein baar-baar plus na karna pade.
 
 - prefix_sum[0] = 0 (Level 0 par hi rehne ka kharcha)
+
 - prefix_sum[1] = prefix_sum[0] + min_edge_cost[0] -> 0 + 3 = 3 (Level 0 se Level 1 tak aane ka total kharcha)
-- prefix_sum[2] = prefix_sum[1] + min_edge_cost[1] -> 3 + 6 = 9 (Level 0 se Level 2 tak aane ka total kharcha)
+
+- prefix_sum[2] = prefix_sum[1] + min_edge_cost[1] -> 3 + 6 = 9 (Level 1 se Level 2 tak aane ka total kharcha)
 
 Hamara final prefix_sum array taiyar hai: [0, 3, 9]
 
 ---
 
-### Step 5: Queries Solve Karna (Asli Jadu)
+### Step 4: Queries Solve Karna (Asli Jadu)
 
-Chaliye aapki dono queries ka dry run karte hain:
-
-#### Query A: 1 se 7 tak jana hai
+Query A: 1 se 7 tak jana hai
 
 1. Code check karega: 1 ka level kya hai? 0 (root node). 7 ka level kya hai? 2.
 2. Dono alag level par hain? Haan.
-3. Code formula lagayega: prefix_sum[high_lvl] - prefix_sum[low_lvl]
-- prefix_sum[2] - prefix_sum[0]
-- 9 - 0 = 9
-
-
+3. Code formula lagayega: prefix_sum[high_lvl] -> prefix_sum[low_lvl] - prefix_sum[2] = prefix_sum[0] - 9 - 0 = 9
 4. Answer: 9 (Wahi jo humne manually nikala tha: 1 -> 2 -> 4 aur fir free mein 4 -> 7).
 
 #### Query B: 3 se 7 tak jana hai
 
 1. Code check karega: 3 ka level kya hai? 1. 7 ka level kya hai? 2.
 2. Dono alag level par hain? Haan.
-3. Code formula lagayega: prefix_sum[2] - prefix_sum[1]
-- 9 - 3 = 6
-
-
+3. Code formula lagayega: prefix_sum[2] - prefix_sum[1] = 9 - 3 = 6
 4. Answer: 6 (Wahi jo humne nikala tha: free mein 3 -> 2, fir niche 2 -> 4 cost 6, fir free mein 4 -> 7).
-'''
+
+"""
 
 from collections import defaultdict, deque
 
@@ -156,6 +151,8 @@ class Solution:
         level_nodes[0].append(1)
 
         max_level = 0
+
+        # Step 1: Level find karna using BFS
         while queue:
 
             curr = queue.popleft()
@@ -168,8 +165,7 @@ class Solution:
                     level_nodes[curr_level + 1].append(neighbor)
                     queue.append(neighbor)
 
-        # Step 3: Find the minimum transition cost between level i and level i+1
-        # min_edge_cost[i] stores the cheapest cost to go from Level i to Level i+1
+        # Step 2: Minimum transition cost find karna, level i se level i+1 ke liye sabse sasta raasta dhoodna
         min_edge_cost = [float('inf')] * max_level
 
         for u, v in edges:
@@ -179,17 +175,19 @@ class Solution:
 
             # An edge always connects level i and level i+1
             from_lvl = min(lvl_u, lvl_v)
+
             edge_cost = u + v
 
-            if from_lvl < max_level:
-                min_edge_cost[from_lvl] = min(min_edge_cost[from_lvl], edge_cost)
+            # yeh check isliye hai kyunki agar dono nodes same level par hain, to cost 0 hai, aur hum sirf level transition ke liye cost chahte hain
+            # if from_lvl < max_level:
+            min_edge_cost[from_lvl] = min(min_edge_cost[from_lvl], edge_cost)
 
-        # Step 4: Build a prefix sum array of level transition costs for O(1) query lookup
+        # Step 3: Build a prefix sum array of level transition costs for O(1) query lookup
         prefix_sum = [0] * (max_level + 1)
         for i in range(max_level):
             prefix_sum[i + 1] = prefix_sum[i] + min_edge_cost[i]
 
-        # Step 5: Answer the queries
+        # Step 4: Finally!! Answer the queries
         results = []
         for X, Y in queries:
 
@@ -209,4 +207,4 @@ class Solution:
         return results
 
 
-print(Solution.vacation(N = 7, edges=[(1,2),(1,3),(2,7),(2,4),(2,6),(3,5)], queries=[(1, 7), (3, 7)]))  # [9, 12]
+print(Solution().vacation(edges=[(1,2),(1,3),(2,7),(2,4),(2,6),(3,5)], queries=[(1, 7), (3, 7)]))  # [9, 6]

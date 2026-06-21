@@ -16,10 +16,14 @@ class Solution:
         # Har ek insaan ko check karo
         for i, person_skills in enumerate(people):
 
-            # Is insaan ka skill mask banao
+            # Is insaan ke saare skills ka mask banao
             person_mask = 0
             for skill in person_skills:
+                
+                # agar skill required skills mein hai, toh uska bit set kar do
                 if skill in skill_to_id:
+
+                    # yha skill ka bit set kar do aur uska mask mein add kardo
                     person_mask |= (1 << skill_to_id[skill])
 
             # Agar iske paas koi kaam ki skill hi nahi hai, toh chhor do
@@ -32,8 +36,12 @@ class Solution:
 
                 new_mask = mask | person_mask
 
-                # Agar yeh naya combination pehle nahi bana,
-                # YA fir is naye bande ko lekar team chhoti ban rahi hai:
+                # Agar yeh naya combination pehle nahi bana, ya fir is naye bande ko lekar team chhoti ban rahi hai:
+
+                # dp[new_mask] > len(team) + 1 ka matlab hai ki purani team se chhoti team ban rahi hai
+
+                # new_mask vo key h jo pehle dp mein agar h and uski team ki length, new team + 1 se badi hai, toh nayi team ko update kar do
+
                 if new_mask not in dp or len(dp[new_mask]) > len(team) + 1:
                     dp[new_mask] = team + [i] # Purani team + yeh naya banda
 
