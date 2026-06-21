@@ -1,5 +1,4 @@
 '''
-
 How it Works: To find the shortest path in unweighted graphs - BFS
 
 BFS explores a graph in "waves." This is why it's perfect for finding the shortest path in unweighted graphs:
@@ -53,14 +52,19 @@ print(bfs_shortest_path(graph, "A"))
 
 '''
 Mooshak the mouse has been placed in a maze.There is a huge chunk of cheese somewhere in the maze.
+
 The maze is represented as a two-dimensional array of integers, where 0 represents walls, 
-1 represents paths where Mooshak can move, and 9 represents the huge chunk of cheese.Mooshak starts in the top-left corner at 0,0.
+1 represents paths where Mooshak can move, and 9 represents the huge chunk of cheese.
+
+Mooshak starts in the top-left corner at 0,0.
 
 Write a method isPath of class Maze Path to determine if Mooshak can reach the huge chunk of cheese. 
+
 The input to isPath consists of a two dimensional array grid for the maze matrix.
 
 The method should return 1 if there is a path from Mooshak to the cheese, and 0 if not.
-Mooshak is not allowed to leave the maze or climb on walls/
+
+Mooshak is not allowed to leave the maze or climb on walls.
 
 Example 8x8 maze where Mooshak can get the cheese.
 
@@ -84,6 +88,7 @@ Example 8x8 maze where Mooshak can get the cheese.
 
 from collections import deque
 
+# 0 means wall, 1 means path, 9 means cheese
 class MazePath:
     def isPath(self, grid):
         # 1. Edge case: empty grid
@@ -102,6 +107,7 @@ class MazePath:
         visited = set([(0, 0)])
         
         while queue:
+
             r, c = queue.popleft()
             
             # 3. Check if we found the cheese (9)
@@ -121,133 +127,3 @@ class MazePath:
                         
         # 5. If queue is empty and cheese not found
         return 0
-
-# Example Usage:
-# maze = MazePath()
-# print(maze.isPath(grid_data))
-
-
-'''
-Closest DashMart
-
-Problem Statement
-A DashMart is a warehouse run by DoorDash that houses items found in convenience stores, grocery stores, and restaurants. 
-We have a city with open roads, blocked-off roads, and DashMarts.
-
-City planners want you to identify how far a location is from its closest DashMart.
-
-You can only travel over open roads (up, down, left, right).
-
-Locations are given in [row, col] format.
-
-Example 1
-[
-    ['X', ' ', ' ', 'D', ' ', ' ', 'X', ' ', 'X'],
-    ['X', ' ', 'X', 'X', ' ', ' ', ' ', ' ', 'X'],
-    [' ', ' ', ' ', 'D', 'X', 'X', ' ', 'X', ' '],
-    [' ', ' ', ' ', 'D', ' ', 'X', ' ', ' ', ' '],
-    [' ', ' ', ' ', ' ', ' ', 'X', ' ', ' ', 'X'],
-    [' ', ' ', ' ', ' ', 'X', ' ', ' ', 'X', 'X'] 
-]
-
-' ' represents an open road that you can travel over in any direction (up, down, left, or right).
-'X' represents an blocked road that you cannot travel through.
-'D' represents a DashMart.
-
-list of pairs [row, col]
-locations = [
-    [200, 200],
-    [1, 4],
-    [0, 3],
-    [5, 8],
-    [1, 8],
-    [5, 5]
-]
-
-answer = [-1, 2, 0, -1, 6, 9]
-
-Provided:
-
-city: char[][]
-locations: int[][2]
-Return:
-
-answer: int[]
-Return a list of the distances from a given point to its closest DashMart.
-
-# Similar to walls and gates problem LeetCode - https://leetcode.com/problems/walls-and-gates/description/
-
-'''
-
-from collections import deque
-
-def closest_dashmart(city, locations):
-
-    queue = deque()
-    rows, cols = len(city), len(city[0]) if city else 0
-    dist = [[-1] * cols for _ in range(rows)]  # Distance to closest DashMart
-
-    # Step 1: Add all DashMart positions to the queue
-    for r in range(rows):
-        for c in range(cols):
-
-            if city[r][c] == 'D':
-                dist[r][c] = 0
-                queue.append((r, c))
-
-    # Step 2: Multi-source BFS
-    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Up, Down, Left, Right
-    
-    # Output: [-1, 2, 0, -1, 6, 9]
-    while queue:
-
-        r, c = queue.popleft()
-
-        for dr, dc in directions:
-
-            nr, nc = r + dr, c + dc
-
-            if 0 <= nr < rows and 0 <= nc < cols and dist[nr][nc] == -1:
-
-                if city[nr][nc] != 'X':
-                    queue.append((nr, nc))
-
-                dist[nr][nc] = dist[r][c] + 1
-
-    # Step 3: Answer queries
-    answer = []
-    for r, c in locations:
-
-        if 0 <= r and r < rows and 0 <= c and c < cols:
-            answer.append(dist[r][c])
-
-        else:
-            answer.append(-1)
-    
-    return answer
-
-
-print(closest_dashmart([
-    ['X', ' ', ' ', 'D', ' ', ' ', 'X', ' ', 'X'],
-    ['X', ' ', 'X', 'X', ' ', ' ', ' ', ' ', 'X'],
-    [' ', ' ', ' ', 'D', 'X', 'X', ' ', 'X', ' '],
-    [' ', ' ', ' ', 'D', ' ', 'X', ' ', ' ', ' '],
-    [' ', ' ', ' ', ' ', ' ', 'X', ' ', ' ', 'X'],
-    [' ', ' ', ' ', ' ', 'X', ' ', ' ', 'X', 'X']
-], [
-    [200, 200],
-    [1, 4],
-    [0, 3],
-    [5, 8],     
-    [1, 8],
-    [5, 5]
-]))  # Output: [-1, 2, 0, -1, 6, 9]
-
-print(closest_dashmart([
-    ['X', 'X'],
-    ['X', 'D'],
-], [
-    [0, 1],
-    [1, 0],
-    [1, 1]
-]))  # Output: [1, 1, 0]
