@@ -10,6 +10,7 @@ class Solution:
         l = 0
         r = n
         while l < r:
+            # l + (r - l) // 2 (to avoid overflow)
             m = (l + r) // 2
             if not isBadVersion(m):
                 l = m + 1

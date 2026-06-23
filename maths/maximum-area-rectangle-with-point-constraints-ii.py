@@ -34,6 +34,7 @@ class Solution:
         # Step 1: Coordinate Compression for Y-coordinates
         # Kyunki Y ki values 8 * 10^7 tak hain, hum unhe 1 se M tak ranks de denge
         unique_ys = sorted(list(set(yCoord)))
+
         y_to_rank = {y: rank for rank, y in enumerate(unique_ys, 1)}
 
         # Step 2: Points ko X-coordinate ke basis par group karna

@@ -17,25 +17,23 @@ def get_min_wait_time(flights: list[Flight], start: str, end: str) -> int:
     for f in flights:
         graph[f.src].append(f)
 
-    pq = []
-
     # (wait, time, city)
-    heapq.heappush(pq, (0, 0, start))
+    pq = [(0, 0, start)]
 
     # (city, arrival_time) -> min_wait_time
-    min_wait_at_state = defaultdict(lambda: float('inf'))
-    min_wait_at_state[(start, 0)] = 0
+    best = defaultdict(lambda: float('inf'))
+    best[(start, 0)] = 0
 
     while pq:
 
-        total_wait_time, arrival_time, cur_city = heapq.heappop(pq)
+        parent_wait_time, arrival_time, cur_city = heapq.heappop(pq)
 
         # Agar destination mil gaya, toh yahi humara minimum wait time hai
         if cur_city == end:
-            return total_wait_time
+            return parent_wait_time
 
         # Agar is state par hum pehle isse behtar (kam wait time mein) aa chuke hain, toh skip karein
-        if min_wait_at_state[(cur_city, arrival_time)] < total_wait_time:
+        if best[(cur_city, arrival_time)] < parent_wait_time:
             continue
 
         # Next flights explore karna
@@ -45,16 +43,17 @@ def get_min_wait_time(flights: list[Flight], start: str, end: str) -> int:
             if next_flight.dep >= arrival_time:
 
                 # Edge Case: Agar start city hai, toh koi wait time nahi (ghar se aaye hain)
-                current_wait = 0 if cur_city == start else (next_flight.dep - arrival_time)
+                child_wait_time = 0 if cur_city == start else (next_flight.dep - arrival_time)
 
-                new_total_wait = total_wait_time + current_wait
-
-                state_key = (next_flight.dest, next_flight.arr)
+                new_total_wait = parent_wait_time + child_wait_time
 
                 # Agar is nayi state par pehle se kam wait time mil raha hai, toh PQ mein daalein
-                if new_total_wait < min_wait_at_state[state_key]:
+                if new_total_wait < best[state_key]:
+                    
+                    # source is from where we came and dest is where we need to go
+                    state_key = (next_flight.dest, next_flight.arr)
 
-                    min_wait_at_state[state_key] = new_total_wait
+                    best[state_key] = new_total_wait
 
                     heapq.heappush(pq, (new_total_wait, next_flight.arr, next_flight.dest))
 

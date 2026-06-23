@@ -74,7 +74,7 @@ class HitCounter:
             else:
                 left = mid + 1
 
-        # Sum from idx to end
+        # Sum from idx till end
         total_hits = 0
         for i in range(idx, len(self.hits)):
             total_hits += self.hits[i][1]

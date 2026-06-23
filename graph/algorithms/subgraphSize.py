@@ -29,6 +29,7 @@ def subGraphSize(edges):
     def dfs(node):
 
         sm = 1
+
         visit.add(node)
 
         for nei in adj[node]:

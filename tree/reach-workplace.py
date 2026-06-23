@@ -143,12 +143,10 @@ class Solution:
             adj[u].append(v)
             adj[v].append(u)
 
-        level = {}
-        level_nodes = defaultdict(list)
+        # isme sabka level store hoga
+        level = {1: 0}
 
         queue = deque([1])
-        level[1] = 0
-        level_nodes[0].append(1)
 
         max_level = 0
 
@@ -156,13 +154,15 @@ class Solution:
         while queue:
 
             curr = queue.popleft()
-            curr_level = level[curr]
-            max_level = max(max_level, curr_level)
+
+            max_level = max(max_level, level[curr])
 
             for neighbor in adj[curr]:
+
                 if neighbor not in level:
-                    level[neighbor] = curr_level + 1
-                    level_nodes[curr_level + 1].append(neighbor)
+
+                    level[neighbor] = level[curr] + 1
+
                     queue.append(neighbor)
 
         # Step 2: Minimum transition cost find karna, level i se level i+1 ke liye sabse sasta raasta dhoodna
@@ -171,16 +171,11 @@ class Solution:
         for u, v in edges:
 
             lvl_u = level[u]
-            lvl_v = level[v]
-
-            # An edge always connects level i and level i+1
-            from_lvl = min(lvl_u, lvl_v)
 
             edge_cost = u + v
 
-            # yeh check isliye hai kyunki agar dono nodes same level par hain, to cost 0 hai, aur hum sirf level transition ke liye cost chahte hain
-            # if from_lvl < max_level:
-            min_edge_cost[from_lvl] = min(min_edge_cost[from_lvl], edge_cost)
+            # uske immediate children se minimum cost kya h
+            min_edge_cost[lvl_u] = min(min_edge_cost[lvl_u], edge_cost)
 
         # Step 3: Build a prefix sum array of level transition costs for O(1) query lookup
         prefix_sum = [0] * (max_level + 1)

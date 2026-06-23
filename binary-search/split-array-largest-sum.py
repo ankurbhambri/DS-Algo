@@ -1,38 +1,48 @@
 # https://leetcode.com/problems/split-array-largest-sum/
 
+
+# TC: O(n * log(sum(nums)))
+# SC: O(1)
 class Solution:
     def splitArray(self, nums, k: int) -> int:
 
-        def helper(m):
+        def partitions_needed(max_sum):
 
             partitions = 1
             curr_sum = 0
 
-            for n in nums:
+            for num in nums:
 
-                if curr_sum + n <= m:
-                    curr_sum += n
-
+                if curr_sum + num <= max_sum:
+                    curr_sum += num
                 else:
-                    curr_sum = n
+                    curr_sum = num
                     partitions += 1
 
             return partitions
 
-        l = max(nums)
-        r = max(sum(nums), max(nums)) # Safety check for negative-heavy arrays
+        low = max(nums)
+        high = sum(nums)
 
-        while l < r:
-            m = (l + r) // 2
+        while low < high:
 
-            partitions = helper(m)
+            mid = (low + high) // 2
+
+            partitions = partitions_needed(mid)
 
             if partitions > k:
-                l = m + 1 # too many partitions
+                low = mid + 1
             else:
-                r = m # try smaller max_sum
-        return l
+                high = mid
 
-print(Solution().splitArray([1,4,4], 3)) # 4
-print(Solution().splitArray([1,2,3,4,5], 2)) # 9
-print(Solution().splitArray([7,2,5,10,8], 2)) # 18
+        return low
+
+
+print(Solution().splitArray([1, 4, 4], 3))       # 4
+print(Solution().splitArray([1, 2, 3, 4, 5], 2)) # 9
+print(Solution().splitArray([7, 2, 5, 10, 8], 2))# 18
+
+
+# VARIATION:  What if we have negative number as well, so in that case our hi will be, hi = max(sum(nums), max(nums))
+# here, low will be same as max(nums)
+# this will Safety check for negative-heavy arrays rest is same as above

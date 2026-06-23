@@ -11,7 +11,6 @@ class Node:
         self.prev = prev
         self.next = nxt
 
-
 class DLL:
     def __init__(self):
         self.head = Node(0, 0)
@@ -30,7 +29,6 @@ class DLL:
         nxt, prev = node.next, node.prev
         prev.next = nxt
         nxt.prev = prev
-
 
 class LFUCache:
     def __init__(self, capacity: int):
@@ -85,7 +83,6 @@ class LFUCache:
             self.freq_map[1].insert(self.freq_map[1].head, new_node)
             self.min_freq = 1
 
-
 ope = [
     "LFUCache",
     "put",
@@ -102,17 +99,19 @@ ope = [
 cache = [[2], [1, 1], [2, 2], [1], [3, 3], [2], [3], [4, 4], [1], [3], [4]]
 
 
-
 '''
 # Important Variant:
 
-    A question very similar to designing LFU cache was asked. The only difference was there were changes in key-value eviction property. 
-    Keys were numbers. Values were in the format [ Content : String, Score : INT]. Once we have accessed a key-value pair, the score was supposed to increase by 1. 
-    While evicting I need to follow the standard pattern but I was supposed to evict only those values whose score was even.
+    A question very similar to designing LFU cache was asked. 
+
+    The only difference was there were changes in key-value eviction property. 
+
+    Keys were numbers. Values were in the format [ Content : String, Score : INT].
+
+    Once we have accessed a key-value pair, the score was supposed to increase by 1. 
+
+    We can only evict those values whose score is even.
 '''
-
-# Variant: What if we have score with value and we can only eveict even score keys?
-
 class Node:
     def __init__(self, key, content, score):
         self.key = key
@@ -121,7 +120,7 @@ class Node:
         self.prev = None
         self.next = None
 
-class DoublyLinkedList:
+class DLL:
     def __init__(self):
         # Dummy head aur tail taaki boundary conditions handle na karni padein
         self.head = Node(None, None, None)
@@ -162,31 +161,35 @@ class LFUEvenCache:
     def __init__(self, capacity: int):
         self.capacity = capacity
         self.cache = {}        # key -> Node
-        self.freq_map = {}     # score -> DoublyLinkedList
+        self.freq_map = defaultdict(DLL)    # score -> DLL
         self.min_score = float('inf')  # Minimum score present in cache (for eviction)
 
     def _update_score(self, node):
-
         """Node ka score 1 se badhata hai aur use nayi score list mein move karta hai."""
+
         old_score = node.score
-        
+
         # 1. Purani score list se remove karo
         self.freq_map[old_score].remove(node)
+
         if self.freq_map[old_score].is_empty():
             del self.freq_map[old_score]
             # Agar yahi min_score wali list thi, to min_score ko bump karo
             # (kyunki score sirf +1 hota hai, baaki sab >= old_score + 1)
             if old_score == self.min_score:
-                self.min_score = old_score + 1
+                self.min_score += 1
 
         # 2. Score badhao
         node.score += 1
         new_score = node.score
-        
+
         # 3. Nayi score list mein daalo
         if new_score not in self.freq_map:
-            self.freq_map[new_score] = DoublyLinkedList()
+            self.freq_map[new_score] = DLL()
+
         self.freq_map[new_score].insert(node)
+
+        self.freq_map[new_score]._size = len(self.freq_map[new_score]._size)
 
     def get(self, key: int) -> str:
         if key not in self.cache:
@@ -197,8 +200,6 @@ class LFUEvenCache:
         return node.content
 
     def put(self, key: int, content: str, initial_score: int):
-        if self.capacity <= 0:
-            return
 
         # Case 1: Key pehle se exist karti hai (Sirf update hoga)
         if key in self.cache:
@@ -211,59 +212,52 @@ class LFUEvenCache:
         if len(self.cache) >= self.capacity:
             evicted = self._evict_even_score_node()
             if not evicted:
-                print("Eviction failed: No even score found to evict!")
-                return # Interviewer ke custom fallback ke hisab se yahan change ho sakta hai
+                return "Eviction failed: No even score found to evict!"
 
         # Case 3: Naya node insert karo
         new_node = Node(key, content, initial_score)
+
         self.cache[key] = new_node
-        
+
         if initial_score not in self.freq_map:
-            self.freq_map[initial_score] = DoublyLinkedList()
+            self.freq_map[initial_score] = DLL()
+
         self.freq_map[initial_score].insert(new_node)
 
         # min_score update karo agar naya score chhota hai
         if initial_score < self.min_score:
             self.min_score = initial_score
 
+        self.freq_map[initial_score]._size = len(self.freq_map[initial_score])
+
     def _evict_even_score_node(self) -> bool:
-        """min_score se shuru karke sabse chhota EVEN score dhoondh kar evict karta hai."""
+
         if not self.freq_map:
             return False
 
-        # min_score se start; agar wo odd hai to +1 karke nearest even pe jao
-        score = self.min_score
-        if score % 2 != 0:
-            score += 1
+        candidates = None
 
-        # Sirf existing even scores mein se smallest dhoondho (min_score se aage)
-        candidate = None
-        for s in self.freq_map.keys():
-            if s % 2 == 0 and s >= score:
-                if candidate is None or s < candidate:
-                    candidate = s
+        n = len(self.freq_map)
 
-        if candidate is None:
-            return False
+        score = self.min_score + 1 if self.min_score % 2 else self.min_score
 
-        dll = self.freq_map[candidate]
-        evicted_node = dll.remove_head()
-        if not evicted_node:
-            return False
+        while n:
+            if score in self.freq_map:
+                candidates = self.freq_map[score]
+                break
+            score += 2
+            n -= 1
 
-        # Cache se bhi delete karo
+        evicted_node = candidates.remove_head()
+        if self.freq_map[score].is_empty():
+            del self.freq_map[score]
+        else:
+            self.freq_map[score]._size = len(self.freq_map[score])
+
         del self.cache[evicted_node.key]
-        if dll.is_empty():
-            del self.freq_map[candidate]
 
-        # Cache empty ho gaya to min_score reset karo;
-        # warna agar evicted score == min_score tha to min_score ko
-        # remaining freq_map ki smallest key tak badha do
-        if not self.cache:
-            self.min_score = float('inf')
+        self.min_score = min(self.freq_map.keys()) if self.freq_map else float('inf')
 
-        elif candidate == self.min_score and candidate not in self.freq_map:
-            self.min_score = min(self.freq_map.keys())
+        print(f"Evicted Key: {evicted_node.key} (Score: {score})")
 
-        print(f"Evicted Key: {evicted_node.key} (Score: {candidate})")
         return True

@@ -16,6 +16,7 @@ class Codec:
         res = []
 
         def dfs(node):
+
             if not node:
                 return
             
@@ -38,7 +39,9 @@ class Codec:
         self.i = 0
 
         def dfs():
+
             val = data[self.i]
+
             self.i += 1
 
             node = Node(int(val), [])

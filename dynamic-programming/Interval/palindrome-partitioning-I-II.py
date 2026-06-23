@@ -19,6 +19,7 @@ class Solution:
                 return
 
             for end in range(start + 1, len(s) + 1):
+                print(start, end)
                 sub = s[start:end]
                 if is_palindrome(sub): # condition to check if substring is palindrome
                     path.append(sub)
@@ -52,7 +53,7 @@ class Solution:
             if i >= j:
                 return 0
 
-            if ispal(s[i : j + 1]): # like a and aaa cases
+            if ispal(s[i : j + 1]): # like a, aaa and aba cases
                 return 0
 
             if memo[i][j] != -1:
@@ -71,48 +72,49 @@ class Solution:
 
 
 # Bottom-up approach
-
 # TC: O(n^2) and SC: O(n^2)
 class Solution:
     def minCut(self, s: str) -> int:
-
         n = len(s)
+        if n <= 1:
+            return 0
 
-        # palindrome table
+        # Palindrome table (Yeh aapka bilkul sahi tha)
         isPal = [[False] * n for _ in range(n)]
 
-        # every single char palindrome
         for i in range(n):
             isPal[i][i] = True
 
-        # fill table
         for length in range(2, n + 1):
+
             for i in range(n - length + 1):
 
                 j = i + length - 1
 
                 if s[i] == s[j]:
+
                     if length == 2 or isPal[i + 1][j - 1]:
+
                         isPal[i][j] = True
 
-        dp = [0] * n
 
-        for i in range(n - 1, -1, -1):
+        # dp[i] ko unke max possible cuts (jo ki khud index 'i' hai) se fill karenge
+        # Example: 0th index ke liye max 0 cuts, 1st index ke liye max 1 cut, etc.
+        dp = [i for i in range(n)] 
 
-            # worst case
-            dp[i] = float('inf')
+        for i in range(n):
 
-            for j in range(i, n):
+            for j in range(i + 1):
 
-                if isPal[i][j]:
-
-                    # whole remaining string palindrome
-                    if j == n - 1:
+                if isPal[j][i]:
+                    # Agar poori string j=0 se lekar i tak palindrome hai, toh 0 cuts chahiye
+                    if j == 0:
                         dp[i] = 0
                     else:
-                        dp[i] = min(dp[i], 1 + dp[j + 1])
-
-        return dp[0]
+                        # Agar j > 0 hai, toh humne ek naya j - 1 aur j ke beech mein lagaya taaki j se i wala palindrome alag ho sake.
+                        dp[i] = min(dp[i], dp[j - 1] + 1)
+        
+        return dp[-1]
 
 
 print(Solution().minCut("aab"))  # 1

@@ -1,5 +1,7 @@
 class Solution:
     def maxAreaRect(self, points: list[list[int]]) -> int:
+        
+        n = len(points)
 
         # 1. Shuru mein hi saare points ko set mein daal do
         visit = set((x, y) for x, y in points)
@@ -7,11 +9,11 @@ class Solution:
         res = 0  # Max area track karne ke liye (0 se shuru kar sakte hain)
 
         # 2. Har do points ka pair check karo
-        for i in range(len(points)):
+        for i in range(n):
 
             x1, y1 = points[i]
 
-            for j in range(i + 1, len(points)): # i + 1 se start karne par duplicate pairs check nahi honge
+            for j in range(i + 1, n): # i + 1 se start karne par duplicate pairs check nahi honge
 
                 x2, y2 = points[j]
 

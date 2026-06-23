@@ -8,17 +8,14 @@ implement two methods
 registerEvent(sender, receiver, timestamp)
 getMostActiveUser()
 
-activeness is defined as number of chats with other users (at any moment)
+Activeness is defined as number of chats with other users (at any moment)
 
-i used hashmap<username, hashset>
-to keep the active chats for specific user
-
-follow up:
-what if we need to return Top K active users
-what would we need to change
+Follow up:
+- what if we need to return Top K active users
+- what would we need to change
 
 follow up 2
-what if registerEvent is called millions times a day and getMostActiveUser only once a day, what would change
+- what if registerEvent is called millions times a day and getMostActiveUser only once a day, what would change
 '''
 
 import heapq
@@ -29,6 +26,7 @@ class ChatProcessor:
         self.active_count = {}     # user -> count (mirrors len of set)
         self.current_max_user = None
 
+    # O(N)
     def registerEvent(self, sender: str, receiver: str, timestamp: int):
         for user, partner in [(sender, receiver), (receiver, sender)]:
             if user not in self.user_chats:
@@ -40,13 +38,13 @@ class ChatProcessor:
 
             if len(self.user_chats[user]) > prev_size:  # genuinely new partner
                 self.active_count[user] += 1
-                if (self.current_max_user is None or
-                        self.active_count[user] > self.active_count[self.current_max_user]):
+                if (self.current_max_user is None or self.active_count[user] > self.active_count[self.current_max_user]):
                     self.current_max_user = user
-
+    # O(1)
     def getMostActiveUser(self) -> str:
         return self.current_max_user or ""
 
+    # O(N log k)
     def getTopKActiveUsers(self, k: int) -> list:
         if not self.user_chats or k <= 0:
             return []

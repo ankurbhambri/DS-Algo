@@ -9,6 +9,7 @@
 # SC: O(N) for storing points in set
 class Solution:
     def maxRectangleArea(self, points: list[list[int]]) -> int:
+
         n = len(points)
 
         point_set = set((x, y) for x, y in points)

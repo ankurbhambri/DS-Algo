@@ -128,5 +128,7 @@ segment_tree.update(0, 0, segment_tree.n - 1, 1, 3, 10)
 # Query sum of range [1, 3] after update
 print("Updated sum [1, 3]:", segment_tree.query(0, 0, segment_tree.n - 1, 1, 3))  # Output: 39
 
+segment_tree.update(0, 0, segment_tree.n - 1, 0, 4, 5)
+
 # Query sum of range [0, 4]
-print("Sum [0, 4]:", segment_tree.query(0, 0, segment_tree.n - 1, 0, 4))  # Output: 45
+print("Sum [0, 4]:", segment_tree.query(0, 0, segment_tree.n - 1, 0, 4))  # Output: 70

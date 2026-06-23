@@ -13,9 +13,12 @@ class Solution:
         min_time_for_laps = [float("inf")] * (MAX_LAPS + 1)
 
         for f, r in tires:
-            current_lap_time = f
-            total_time = f
+
             lap = 1
+
+            total_time = f
+
+            current_lap_time = f
 
             # Jab tak time limit se bahar na jaye, check karo
             while lap <= MAX_LAPS and current_lap_time < changeTime + f:

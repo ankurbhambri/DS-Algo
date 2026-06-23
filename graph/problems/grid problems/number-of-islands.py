@@ -398,12 +398,10 @@ class Solution:
 
         def dfs(r, c):
 
-            if r < 0 or r >= row or c < 0 or c >= col:
+            if r < 0 or r >= row or c < 0 or c >= col or grid[r][c] != 0:
                 return
 
-            if grid[r][c] != 0:
-                return
-
+            # mark visited
             grid[r][c] = 2
 
             dfs(r - 1, c)

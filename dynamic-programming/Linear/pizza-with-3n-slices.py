@@ -26,11 +26,11 @@ class Solution:
                 if (i, j) in memo:
                     return memo[(i, j)]
 
-                # Option 1: Take current slice, skip previous, pick j-1 more
-                take = arr[i] + dp(i - 2, j - 1)
-
-                # Option 2: Skip current slice, pick j from remaining
+                # Option 1: Skip current slice, pick j from remaining
                 skip = dp(i - 1, j)
+
+                # Option 2: Take current slice, skip previous, pick j-1 more, yha hum circular ka bhi dhayan rakh rhe h
+                take = arr[i] + dp(i - 2, j - 1)
 
                 memo[(i, j)] = max(take, skip)
 

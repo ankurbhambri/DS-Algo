@@ -41,7 +41,8 @@ Return the new head.
 '''
 from collections import Counter
 
-# TC: O(n) | SC: O(k) where k is number of unique targets
+# TC: O(n)
+# SC: O(k) where k is number of unique targets
 class Node:
     def __init__(self, val):
         self.val = val
@@ -50,18 +51,19 @@ class Node:
 
 def remove_multi_nodes(head, targets):
 
-    to_remove = Counter(targets)
     curr = head
 
+    to_remove = Counter(targets)
+
     while curr:
+
         if curr.val in to_remove and to_remove[curr.val] > 0:
 
             # Remove current node
-            if curr.prev is None:  # head node
+            if curr.prev is None:
                 head = curr.next
                 if head:
                     head.prev = None
-
             else:
                 curr.prev.next = curr.next
                 if curr.next:

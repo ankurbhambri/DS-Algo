@@ -118,7 +118,6 @@ class Solution:
 
             elif prev_char == '*':
 
-                # Wildcard followed by a digit
                 if curr_char <= '6': # curr less than 6
                     curr += 2 * prev2  # '*' can be '1' or '2'
 

@@ -66,41 +66,32 @@ if __name__ == "__main__":
 
 # https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/description/
 
-class DisjointSet:
-    def __init__(self):
-        self.parent = {}
-
-    def find(self, x):
-
-        if x not in self.parent:
-            self.parent[x] = x
-
-        if x != self.parent[x]:
-            self.parent[x] = self.find(self.parent[x])
-        return self.parent[x]
-
-    def union(self, x, y):
-        self.parent[self.find(x)] = self.find(y)
-
 class Solution:
     def removeStones(self, stones):
 
-        uf = DisjointSet()
+        parent = {x: x for x, y in stones}
 
         max_row = max(x for x, y in stones) + 1
 
+        def find(x):
+            if x != parent[x]:
+                parent[x] = find(parent[x])
+            return parent[x]
+
+        def union(x, y):
+            parent[find(x)] = find(y)        
+
         for x, y in stones:
-            uf.union(x, y + max_row + 1)
-        
+            union(x, y + max_row + 1)
+
         res = set()
         for x, y in stones:
-            res.add(uf.find(x))
-        
+            res.add(find(x))
+
         return len(stones) - len(res)
 
 
 # https://leetcode.com/problems/lexicographically-smallest-equivalent-string
-
 
 class Solution:
     def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:

@@ -29,7 +29,7 @@ class Solution:
                 # adding one because values are -neg and reducing their frequency
                 cnt = 1 + heapq.heappop(mh)
                 if cnt:
-                    # count left and time + wait time
+                    # count left time + wait time
                     q.append([cnt, time + n])
 
             # if top value of queue is equals to current time that can allow to proceed again.

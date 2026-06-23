@@ -16,9 +16,7 @@ def minSecurityPath(n, edges, start, end):
     for u, v, w in edges:
         graph[u].append((v, w))
 
-    INF = float('inf')
-    dist = [INF] * n
-
+    dist = [float('inf')] * n
     dist[start] = 0
 
     pq = [(0, start)]  # (security_level, node)

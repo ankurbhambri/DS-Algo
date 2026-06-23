@@ -459,7 +459,9 @@ class Solution:
                     fire[r][c] = 0
                     q.append((r, c))
 
+        # sabse pehle hum fire ke arrival ka time nikal rhe h ki vo har cell tak kab tak ayega
         while q:
+
             r, c = q.popleft()
 
             for dr, dc in dirs:
@@ -584,7 +586,7 @@ class Solution:
             if (r, c) == (R - 1, C - 1):
                 return safety
 
-            if (r, c) in visit or visit[(r, c)] >= safety:
+            if (r, c) in visit and visit[(r, c)] >= safety:
                 continue
 
             visit[(r, c)] = safety

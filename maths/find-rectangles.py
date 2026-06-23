@@ -18,8 +18,9 @@ from collections import defaultdict
 
 def count_rectangles(points):
 
-    total_rectangles = 0
     n = len(points)
+
+    total_rectangles = 0
 
     vertical_lines_count = defaultdict(int)
 
@@ -79,7 +80,7 @@ def count_tilted_rectangles(points):
             sum_y = y1 + y2
 
             # 2. Squared length of the diagonal
-            dist_sq = (x1 - x2)**2 + (y1 - y2)**2
+            dist_sq = (x1 - x2) ** 2 + (y1 - y2) ** 2
 
             # Our unique key for this diagonal
             diag_key = (sum_x, sum_y, dist_sq)

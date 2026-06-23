@@ -37,6 +37,7 @@ class AdSystem:
         heapq.heappush(self.hp, (-score, content))
 
     def get_ad(self) -> str:
+
         self.turn += 1
 
         # Step A: Cooldown queue check karo. Agar kisi ad ka rest time poora ho gaya hai,

@@ -27,6 +27,7 @@ def update_array(arr, queries, k):
     diff = [0] * (n + 1)
 
     for l, r in queries:
+
         diff[l] += 1
 
         if r + 1 < n:

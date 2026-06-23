@@ -61,13 +61,13 @@ class Solution:
         for x in nums:
             if prev and x - prev == 1:
                 # extend every ascending chain ending at prev, plus the new single [x]
-                s_asc = s_asc + x * c_asc + x
+                s_asc = s_asc + (x * c_asc) + x
                 c_asc += 1
             else:
                 s_asc, c_asc = x, 1
 
             if prev and x - prev == -1:
-                s_desc = s_desc + x * c_desc + x
+                s_desc = s_desc + (x * c_desc) + x
                 c_desc += 1
             else:
                 s_desc, c_desc = x, 1

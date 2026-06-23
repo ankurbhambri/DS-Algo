@@ -135,7 +135,7 @@ def networkDelayTime(times, n: int, k: int) -> int:
             # Relaxtion
             new_t = time + t
 
-            if new_t < dist[nei]:
+            if dist[nei] > new_t:
                 dist[nei] = new_t
                 heapq.heappush(hm, (new_t, nei))
 
@@ -147,13 +147,11 @@ print(networkDelayTime([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2))
 
 
 '''
-Pattern: Modified cost function (max instead of sum)
-
 problem Link - https://leetcode.com/problems/path-with-minimum-effort/description/
 
-The cost of a path is the maximum absolute difference between consecutive cells, not the sum. You want to minimize this maximum difference.
+Iss problem me, aapko ek grid diya gaya hai jisme har cell ka height diya gaya hai.
 
-Why this matters: Shows that Dijkstra works for any monotonic cost function, not just addition. The greedy property still holds.
+Aapko top-left se bottom-right tak ka path find karna hai jisme maximum absolute difference between consecutive cells ko minimize karna hai.
 
 Key insight: When relaxing edges, use new_effort = max(current_effort, abs(height[current] - height[next])) instead of addition.
 This pattern appears in many grid-based problems where you minimize the "worst" step rather than total cost.
@@ -194,23 +192,24 @@ class Solution:
                 nr, nc = r + dr, c + dc
 
                 if 0 <= nr < m and 0 <= nc < n:
-
+                    
+                    # yha pe humne heights ke difference ka absolute value liya aur usko current effort ke sath max kiya
                     step = abs(heights[r][c] - heights[nr][nc])
 
                     new_effort = max(effort, step)
 
-                    if new_effort < dist[nr][nc]:
+                    if dist[nr][nc] > new_effort:
                         dist[nr][nc] = new_effort
                         heapq.heappush(heap, (new_effort, nr, nc))
 
         return 0
 
 
-print(Solution.minimumEffortPath([[1, 2, 2], [3, 8, 2], [5, 3, 5]]))
+print(Solution().minimumEffortPath([[1, 2, 2], [3, 8, 2], [5, 3, 5]]))
 
 
 '''
-Pattern: Dijkstra with constraints (expanding state space)
+Pattern: Dijkstra with constraints (expanding state space) TODO
 
 Problem Link - https://leetcode.com/problems/cheapest-flights-within-k-stops/description/
 
@@ -218,7 +217,9 @@ Find cheapest flight from source to destination with at most K stops. The constr
 
 Why this matters: You cannot use standard visited set optimization. You might visit the same node multiple times with different numbers of stops.
 
-Key insight: State becomes (node, stops_used) instead of just (node). You need to track the best cost for each (node, stops) pair. This is crucial - many candidates fail here because they try to mark nodes as visited.
+Key insight: State becomes (node, stops_used) instead of just (node). You need to track the best cost for each (node, stops) pair. 
+
+Here, we don't need to mark nodes in visited set because the state includes stops used.
 
 Pro tip: This pattern appears whenever there are constraints on path properties (max edges, required visits, etc.)
 
@@ -235,27 +236,27 @@ class Solution:
         for u, v, price in flights:
             adj[u].append((v, price))
 
-        visit = [float("inf")] * n
+        dist = [float("inf")] * n
 
-        q = [(0, -1, src)] # cost, steps, node
+        q = [(0, 0, src)] # cost, stops, node
 
         while q:
-            cost, steps, node = heapq.heappop(q)
+            cost, stops, node = heapq.heappop(q)
 
-            # Have seen the node already, and the current steps are more than last time
-            if visit[node] <= steps:  
+            # Have seen the node already, and the current stops are more than last time
+            if dist[node] <= stops:  
                 continue
 
-            if steps > k: # More than k stops, invalid
+            if stops > k: # More than k stops, invalid
                 continue
 
             if node == dst:
                 return cost
 
-            visit[node] = steps
+            dist[node] = stops
 
             for nei, weight in adj[node]: # weight means cost
-                heapq.heappush(q, (cost + weight, steps + 1, nei))
+                heapq.heappush(q, (cost + weight, stops + 1, nei))
 
         return -1
 
@@ -350,6 +351,7 @@ class Solution:
                 nr, nc = r + dr, c + dc
 
                 if 0 <= nr < n and 0 <= nc < n:
+
                     new_time = max(time, grid[nr][nc])
                     
                     if new_time < dist[nr][nc]:
@@ -383,25 +385,32 @@ def minCost(maxTime, edges, passingFees):
         graph[v].append((u, t))
     
     min_time = [float("inf")] * n
+
+    # fee, time, node
     heap = [(passingFees[0], 0, 0)]
     
     while heap:
-        cost, time, node = heapq.heappop(heap)
+
+        fee, time, node = heapq.heappop(heap)
 
         if node == n - 1:
-            return cost
+            return fee
 
+        # yha pe min_time ka use hum iske liye kar rahe hai ki agar hum kisi node pe pahuchne ke liye already ek time record kar chuke hai,
+        # toh agar hum wapas usi node pe pahuchte hai aur time zyada hai toh usko ignore kar denge kyunki hume minimum time me destination tak pahuchna hai
         if time >= min_time[node]:
             continue
 
         min_time[node] = time
         
         for nei, t in graph[node]:
+
             new_time = time + t
-            new_cost = cost + passingFees[nei]
+
+            new_fee = fee + passingFees[nei]
             
             if new_time <= maxTime:
-                heapq.heappush(heap, (new_cost, new_time, nei))
+                heapq.heappush(heap, (new_fee, new_time, nei))
     
     return -1
 
@@ -429,13 +438,12 @@ class Solution:
 
         for u, v, w in edges:
             adj[u].append((v, w))
-            adj[v].append((u, 2 * w))
+            adj[v].append((u, 2 * w)) # reversal cost humne yhi nikal li hai
 
         dist = [float("inf")] * n
         dist[0] = 0
 
-        visit = set()
-        mh = [(0, 0)]  # (cost_so_far, current_node)
+        mh = [(0, 0)]  # (cost, current_node)
 
         while mh:
 
@@ -447,14 +455,12 @@ class Solution:
             if weight > dist[node]:
                 continue
 
-            if node in visit:
-                continue
-
-            visit.add(node)
-
             for child, d in adj[node]:
+
                 new_dist = d + weight
+
                 if new_dist < dist[child]:
+
                     dist[child] = new_dist
                     heapq.heappush(mh, (dist[child], child))
 
@@ -481,220 +487,45 @@ Key insight: Add validation during edge relaxation: if arrival_time < disappear_
 class Solution:
     def minimumTime(self, n: int, edges: List[List[int]], disappear: List[int]) -> List[int]:
 
-        # Build graph
         graph = defaultdict(list)
+
         for u, v, w in edges:
             graph[u].append((v, w))
             graph[v].append((u, w))
 
-        # Result & distance
-        answer = [-1] * n
         dist = [float('inf')] * n
-
-        # Dijkstra-like
         dist[0] = 0
-        heap = [(0, 0)]  # (current_time, node)
 
-        while heap:
-            time, u = heapq.heappop(heap)
-            # If we've already assigned a valid answer, skip,
-            # or if we've reached too late
-            if answer[u] != -1 or time >= disappear[u]:
+        pq = [(0, 0)]  # (time, node)
+
+        while pq:
+
+            time, node = heapq.heappop(pq)
+
+            if time > dist[node]:
                 continue
 
-            answer[u] = time
+            for nei, wt in graph[node]:
+                new_time = time + wt
 
-            for v, cost in graph[u]:
-                newTime = time + cost
-                if newTime < disappear[v] and newTime < dist[v]:
-                    dist[v] = newTime
-                    heapq.heappush(heap, (newTime, v))
+                # Must arrive before node disappears
+                if new_time < disappear[nei] and new_time < dist[nei]:
+                    dist[nei] = new_time
+                    heapq.heappush(pq, (new_time, nei))
 
-        return answer
+        for i in range(n):
+            if dist[i] == float('inf'):
+                dist[i] = -1
+
+        return dist
 
 
-'''
-Pattern: Dijkstra with coupon
 
-problem Link - https://cses.fi/problemset/task/1195/
-
-Find minimum cost path where you can use a coupon to halve the cost of one edge. State includes whether coupon used or not.
-
-Why this matters: Tests ability to handle additional state (coupon used or not) in Dijkstra. You need to track best cost for both states at each node.
-
-Key insight: State is (node, coupon_used). When relaxing edges, consider both options:
-
-- Move without using coupon: new_cost = current_cost + edge_weight
-- Move using coupon (if not used): new_cost = current_cost + edge_weight // 2
-
-This pattern appears in problems where you have a one-time power-up or discount that can be applied to any edge.
+# https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/description/
 
 '''
 
-# TC: O((V + E) log V) - State space is 2V (each node with coupon used or not), edges are 2E. O((2V + 2E) log 2V) simplifies to O((V + E) log V).
-# SC: O(V + E) - O(V) for the 2-state distance array, O(V + E) for the adjacency list, and O(V) for the heap.
-
-def find_min_cost_with_coupon(n, m, edges):
-
-    graph = [[] for _ in range(n + 1)]
-
-    for a, b, c in edges:
-        graph[a].append((b, c))
-
-    dist = [[float("inf")] * 2 for _ in range(n + 1)]
-    dist[1][0] = 0  # Starting at node 1 without using a coupon
-
-    # (current_cost, current_node, coupon_used)
-    pq = [(0, 1, 0)]
-
-    while pq:
-        current_cost, node, coupon_used = heapq.heappop(pq)
-
-        # If the current cost is maximum than the recorded distance, skip
-        if current_cost > dist[node][coupon_used]:
-            continue
-
-        for neighbor, weight in graph[node]:
-
-            # Option 1: Move to the next node without using a coupon
-            if current_cost + weight < dist[neighbor][coupon_used]:
-                dist[neighbor][coupon_used] = current_cost + weight
-                heapq.heappush(pq, (dist[neighbor][coupon_used], neighbor, coupon_used))
-
-            # Option 2: Use the coupon on this edge (if not already used)
-            if not coupon_used and current_cost + weight // 2 < dist[neighbor][1]:
-                dist[neighbor][1] = current_cost + weight // 2
-                heapq.heappush(pq, (dist[neighbor][1], neighbor, 1))
-
-    # minimum cost to reach node n with or without using the coupon
-    return min(dist[n][0], dist[n][1])
-
-
-'''
-
-Pattern: K shortest paths
-
-problem Link - https://cses.fi/problemset/task/1196
-
-Find k shortest paths from source to destination. State includes the number of paths found so far.
-
-Why this matters: Tests ability to track multiple best paths and handle more complex state in Dijkstra.
-
-Key insight:
-    Instead of tracking just the best cost to each node, track a list of the k best costs. 
-    When relaxing edges, add new cost to the list and keep only the k smallest. 
-    This pattern appears in problems where you need multiple solutions, not just the single best one.
-
-'''
-
-# TC: O(K * E * log(K * V)) - Each node can be popped at most K times. Total pops: O(V * K). Each pop pushes up to degree(node) neighbors, so total pushes: O(K * E). Each heap operation costs O(log(K * V)).
-# SC: O(K * (V + E)) - O(V * K) for storing K shortest distances per node, and the heap can hold up to O(K * E) entries in the worst case.
-
-def find_k_shortest_paths(n, m, k, edges):
-    # Build the graph
-    graph = defaultdict(list)
-    for a, b, c in edges:
-        graph[a].append((b, c))
-
-    # Min-heap priority queue
-    pq = [(0, 1)]  # (current_cost, current_node)
-
-    # Tracking k shortest distances for each node
-    dist = defaultdict(list)  # dist[node] will store the k smallest costs to reach node
-
-    # BFS-style traversal using the priority queue
-    while pq:
-
-        cost, node = heapq.heappop(pq)
-
-        # If we've already found k shortest paths to this node, skip
-        if len(dist[node]) >= k:
-            continue
-
-        # Add the current path cost to the list for this node
-        dist[node].append(cost)
-
-        # Traverse neighbors
-        for neighbor, weight in graph[node]:
-            new_cost = cost + weight
-            heapq.heappush(pq, (new_cost, neighbor))
-
-    # Output the k shortest distances to node n
-    if len(dist[n]) >= k:
-        return sorted(dist[n])[:k]
-    else:
-        return []
-
-'''
-
-Pattern: 0-1 weighted graphs
-
-problem Link - https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/description/
-
-Grid with arrows. Following arrow = cost 0, changing direction = cost 1. This creates a 0-1 weighted graph.
-
-Why this matters: When all edges have weight 0 or 1, you can optimize Dijkstra using 0-1 BFS with a deque instead of priority queue. Runs in O(V + E) instead of O((V + E) log V).
-
-Key insight: While Dijkstra works fine here, mentioning 0-1 BFS optimization in interviews shows advanced knowledge. The pattern: edges with only two possible weights.
-
-Interview tip: Always look for binary edge weights - it's an optimization opportunity.
-
-'''
-
-# TC: O(m * n) - We process each cell at most once, and each cell has up to 4 neighbors. The deque operations take O(1) time.
-# SC: O(m * n) - We maintain a cost array of size m * n and a deque that can hold up to m * n entries in the worst case.
-
-class Solution:
-    def minCost(self, grid):
-
-        m, n = len(grid), len(grid[0])
-
-        # Directions: Right, Left, Down, Up (matching 1,2,3,4)
-        directions = {
-            1: (0, 1),   # Right
-            2: (0, -1),  # Left
-            3: (1, 0),   # Down
-            4: (-1, 0)   # Up
-        }
-
-        # Cost array to track minimum cost to reach each cell
-        cost = [[float('inf')] * n for _ in range(m)]
-        cost[0][0] = 0
-
-        # Deque for 0-1 BFS: (row, col)
-        dq = deque([(0, 0)])
-
-        while dq:
-
-            r, c = dq.popleft()
-
-            # Try all 4 directions
-            for direction, (dr, dc) in directions.items():
-                nr, nc = r + dr, c + dc
-
-                # Check bounds
-                if 0 <= nr < m and 0 <= nc < n:
-                    # Calculate cost for this move
-                    # If current cell points to this direction → cost = 0
-                    # Otherwise → cost = 1 (need to change sign)
-                    move_cost = 0 if grid[r][c] == direction else 1
-                    new_cost = cost[r][c] + move_cost
-
-                    # If found cheaper path to (nr, nc)
-                    if new_cost < cost[nr][nc]:
-                        cost[nr][nc] = new_cost
-
-                        # 0-1 BFS trick:
-                        if move_cost == 0:
-                            dq.appendleft((nr, nc))  # Add to front
-                        else:
-                            dq.append((nr, nc))      # Add to back
-
-        return cost[m-1][n-1]
-
-'''
-
-Pattern: Dijkstra with additional counting logic
+Pattern: Dijkstra with additional counting logic TODO
 
 problem Link - https://leetcode.com/problems/reachable-nodes-in-subdivided-graph/description/
 
@@ -718,9 +549,9 @@ class Solution:
         # Build adjacency list: weight = cnt + 1
         adj = defaultdict(list)
         for u, v, cnt in edges:
-            w = cnt + 1
-            adj[u].append((v, w))
-            adj[v].append((u, w))
+            # cnt + 1 because we need to account for the original edge as well
+            adj[u].append((v, cnt + 1))
+            adj[v].append((u, cnt + 1))
 
         # Dijkstra from node 0
         dist = [float("inf")] * n
@@ -755,6 +586,7 @@ class Solution:
 
         return ans
 
+print(Solution().reachableNodes(edges = [[0,1,10],[0,2,1],[1,2,2]], maxMoves = 6, n = 3))  # Output: 13
 
 '''
 Pattern: Multiple source Dijkstra + graph reversal
@@ -811,46 +643,30 @@ class Solution:
 
         ans = float('inf')
         for i in range(n):
+            
+            # yha pe hum dono source se destination ka total shortest distance nikal rhe h
+
+            # jaise 0 se 1 ka distance 3 and 1 se 5 (dest) ka distance 6 h toh toal 9 distance mein dono source se destination tak pahuch sakte h
+
+            # question mein yhi puch h ki minium distance from both of the source to destination kya h
             ans = min(ans, dist1[i] + dist2[i] + distToDest[i])
 
         return -1 if ans == float('inf') else ans
 
 
-'''
-Pattern: Dijkstra with on-the-fly edge weight modification
+print(Solution().minimumWeight(
+    n = 6, edges = [[0,2,2],[0,5,6],[1,0,3],[1,4,5],[2,1,1],[2,3,3],[2,3,4],[3,4,2],[4,5,1]],
+    src1 = 0, src2 = 1, dest = 5
+))  # Output: 9
 
-problem Link - https://leetcode.com/problems/modify-graph-edge-weights/description/
 
-Find edge weights to make shortest path from source to destination equal target. You can only increase weights of edges with -1.
+# https://leetcode.com/problems/modify-graph-edge-weights/description/# 
 
-Why this matters: Tests ability to integrate Dijkstra with a search over edge modifications. You need to check the impact of each modification on the shortest path.
-
-Key insight:
-    First, run Dijkstra with only fixed edges to see if target is already met or impossible
-    Then, for each -1 edge, try setting it to 1 and check if we can meet the target. If we can, adjust it to hit the target exactly.
-    This pattern appears in problems where you have to find the right parameters to achieve a specific path cost.
-
-'''
 
 # TC: O(E log V) for each Dijkstra run, and we may run Dijkstra up to E times in the worst case (if all edges are -1). So worst case is O(E^2 log V).
 # SC: O(V + E) for the graph representation and distance arrays.
 class Solution:
     def modifiedGraphEdges(self, n, edges, source, destination, target):
-
-        def dijkstra(adj, n, src, dest):
-
-            dist = [float('inf')] * n
-            dist[src] = 0
-            pq = [(0, src)]
-            while pq:
-                d, u = heapq.heappop(pq)
-                if d > dist[u]:
-                    continue
-                for v, w in adj[u]:
-                    if d + w < dist[v]:
-                        dist[v] = d + w
-                        heapq.heappush(pq, (dist[v], v))
-            return dist[dest]
 
         # 1. Sirf fixed edges (weight != -1) ke saath graph banao
         adj = [[] for _ in range(n)]
@@ -859,7 +675,28 @@ class Solution:
                 adj[u].append([v, w])
                 adj[v].append([u, w])
 
+        def dijkstra(adj, n, src, dest):
+
+            dist = [float('inf')] * n
+            dist[src] = 0
+            pq = [(0, src)]
+
+            while pq:
+
+                d, u = heapq.heappop(pq)
+
+                if d > dist[u]:
+                    continue
+
+                for v, w in adj[u]:
+                    if d + w < dist[v]:
+                        dist[v] = d + w
+                        heapq.heappush(pq, (dist[v], v))
+
+            return dist[dest]
+
         # Pehla check: Kya fixed edges se distance target se chota hai?
+        # ab hum -1 vale edges ko kuch bhi change kar le, Djikstra humesha yhi chota vala hi choose karega
         current_dist = dijkstra(adj, n, source, destination)
         if current_dist < target:
             return []
@@ -871,7 +708,7 @@ class Solution:
                 if edge[2] == -1:
                     edge[2] = int(2e9)
             return edges
- 
+
         found = False
         # 2. Ab ek-ek karke -1 waale edges ko process karo
         for i in range(len(edges)):
@@ -899,8 +736,14 @@ class Solution:
                 # Extra weight adjust karo taaki exact target mile
                 edges[i][2] += (target - new_dist)
 
+            # ** ignore ** just to change that change adj with. new change is giving target or not
+            # adj[u][-1][1] = edges[i][2]
+            # adj[v][-1][1] = edges[i][2]
+            # new_dist = dijkstra(adj, n, source, destination)
+            # print(f"After processing edge {u}-{v}, new distance: {new_dist}, target: {target}")
+
         return edges if found else []
 
 
-print(Solution().modifiedGraphEdges(3, [[0, 1, -1], [1, 2, 5]], 0, 2, 6))  # [[0,1,1],[1,2,5]]
+# print(Solution().modifiedGraphEdges(3, [[0, 1, -1], [1, 2, 5]], 0, 2, 6))  # [[0,1,1],[1,2,5]]
 print(Solution().modifiedGraphEdges(5, [[0, 1, -1], [0, 2, 5], [1, 2, -1], [1, 3, 8], [2, 4, -1], [3, 4, 2]], 0, 4, 20))  # [[0,1,1],[0,2,5],[1,2,14],[1,3,8],[2,4,1],[3,4,2]]
