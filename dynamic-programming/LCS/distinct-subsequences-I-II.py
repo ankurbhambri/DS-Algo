@@ -87,6 +87,36 @@ print(Solution().numDistinct("rabbbit", "rabbit"))  # Output: 3
 
 # https://leetcode.com/problems/distinct-subsequences-ii/
 
+
+# TC: O(n ^ 2)
+# SC: O(n)
+class Solution:
+    def distinctSubseqII(self, s: str) -> int:
+
+        res = 0
+
+        n = len(s)
+
+        dp = [1] * (n)
+
+        mod = 10 ** 9 + 7
+
+        for i in range(n):
+            for j in range(i):
+
+                if s[i] != s[j]:
+
+                    dp[i] = (dp[i] + dp[j]) % mod
+
+            res += dp[i]
+
+        return res % mod
+
+
+print(Solution().distinctSubseqII("abc"))  # Output: 7
+print(Solution().distinctSubseqII("aba"))  # Output: 6
+
+
 # TC: O(n)
 # SC: O(n)
 class Solution:
