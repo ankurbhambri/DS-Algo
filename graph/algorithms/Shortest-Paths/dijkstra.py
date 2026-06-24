@@ -58,6 +58,8 @@ print(bfs(graph, "A"))
 
 
 # For Weighted Graphs (Dijkstra's)
+# TC: O((V + E) log V) - E is the number of edges, V is the number of vertices using priority queue aka Min Heap
+# SC: O(V) for the distance array and priority queue
 def dijkstra(graph, N, start):
 
     adj = defaultdict(list)
@@ -388,7 +390,7 @@ def minCost(maxTime, edges, passingFees):
 
     # fee, time, node
     heap = [(passingFees[0], 0, 0)]
-    
+
     while heap:
 
         fee, time, node = heapq.heappop(heap)

@@ -62,7 +62,7 @@ class Solution:
         return dp[m][n]
 
 
-# space optimised 1D DP
+# space optimized 1D DP
 # TC: O(m*n)
 # SC: O(n)
 class Solution:
@@ -128,11 +128,16 @@ class Solution:
         MOD = 10**9 + 7
 
         for ch in s:
+            # yeh character pehle kabhi aaya tha ya nahi, agar aaya tha toh uske last time total ko minus karna padega
+            last_time_total_for_this_char = last.get(ch, 0)
+            
+            # yha pe humne total ko 2 se multiply kiya kyunki har subsequence ke liye hum ya toh current character ko add karenge ya skip karenge
+            new_total = (total * 2 - last_time_total_for_this_char) % MOD
 
-            new_total = (total * 2 - last.get(ch, 0)) % MOD
-
+            # update last time total for this character
             last[ch] = total
 
+            # update total to new_total
             total = new_total
 
         return (total - 1) % MOD

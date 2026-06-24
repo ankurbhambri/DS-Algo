@@ -4,25 +4,35 @@
 class Solution:
     def wordPattern(self, pattern: str, s: str) -> bool:
 
-        hm = {}
-        nsl = s.split(' ')
+        # String 's' ko words ki list mein convert karo space ke basis par
+        words = s.split()
 
-        if len(nsl) != len(pattern):
+        # Agar dono ki length alag hai, toh pattern kabhi match nahi ho sakta
+        if len(pattern) != len(words):
             return False
-        
-        for i in range(len(nsl)):
 
-            key = pattern[i]
-            val = nsl[i]
+        char_to_word = {}  # Letter se Word ki mapping ke liye
+        visited_words = set() # Jo words hum use kar chuke hain unhe track karne ke liye
 
-            if key not in hm:
-                if val in hm.values():
+        # Ek-ek karke pattern ka letter aur s ka word uthao
+        for letter, word in zip(pattern, words):
+
+            # Case 1: Agar yeh letter pehle aa chuka hai
+            if letter in char_to_word:
+
+                # Check karo ki kya yeh usi word se map ho raha hai ya nhi
+                if char_to_word[letter] != word:
                     return False
-                hm[key] = val
 
+            # Case 2: Agar letter naya hai
             else:
-                if val != hm[key]:
-                    return False  
+                # Lekin woh word pehle hi kisi aur letter ko map hua h, toh pattern match nahi hoga
+                if word in visited_words:
+                    return False
+
+                # Agar sab sahi hai, toh naye letter aur word ko map kar do
+                char_to_word[letter] = word
+                visited_words.add(word)
 
         return True
 
@@ -38,6 +48,7 @@ Given a pattern and a string s, return true if s matches the pattern.
 
 A string s matches a pattern if there is some bijective mapping of single characters to non-empty strings,
 such that if each character in pattern is replaced by the string it maps to, then the resulting string is s.
+
 A bijective mapping means that no two characters map to the same string, and no character maps to two different strings.
 
 
@@ -48,12 +59,14 @@ Output: true
 Explanation: One possible mapping is as follows:
 'a' -> "red"
 'b' -> "blue"
+
 Example 2:
 
 Input: pattern = "aaaa", s = "asdasdasdasd"
 Output: true
 Explanation: One possible mapping is as follows:
 'a' -> "asd"
+
 Example 3:
 
 Input: pattern = "aabb", s = "xyzabcxzyabc"

@@ -20,8 +20,9 @@ def get_min_wait_time(flights: list[Flight], start: str, end: str) -> int:
     # (wait, time, city)
     pq = [(0, 0, start)]
 
-    # (city, arrival_time) -> min_wait_time
     best = defaultdict(lambda: float('inf'))
+
+    # (city, arrival_time) -> min_wait_time
     best[(start, 0)] = 0
 
     while pq:
@@ -48,8 +49,9 @@ def get_min_wait_time(flights: list[Flight], start: str, end: str) -> int:
                 new_total_wait = parent_wait_time + child_wait_time
 
                 # Agar is nayi state par pehle se kam wait time mil raha hai, toh PQ mein daalein
+                state_key = (next_flight.dest, next_flight.arr)
                 if new_total_wait < best[state_key]:
-                    
+
                     # source is from where we came and dest is where we need to go
                     state_key = (next_flight.dest, next_flight.arr)
 
