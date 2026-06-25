@@ -16,7 +16,9 @@ class Solution:
             # yha pe, ya toh new subarray start karo ya phir element to existing one mein add karo (without deletion)
             new_keep = max(arr[i], keep + arr[i])
 
-            # yha pe
+            # Case 1 (Keep): Current element ko hi delete kar do, aur pure subarray ko keep karo
+            # Case 2 (Delete): Current element ko add karo, aur pehle se hi ek deletion use kar chuke ho
+
             new_delete = max(
                 keep,               # delete current
                 delete + arr[i]     # deletion already used

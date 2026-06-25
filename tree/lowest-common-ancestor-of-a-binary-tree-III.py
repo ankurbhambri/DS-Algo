@@ -40,7 +40,6 @@ def lowestCommonAncestor(p, q):
 
     # Traverse from q to root and find the first common ancestor
     while q:
-
         if q in ancestors:
             return q
 

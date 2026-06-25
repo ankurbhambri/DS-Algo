@@ -17,12 +17,12 @@ class Solution:
             # Update the prefix sum for the current node
             current_sum += node.val
 
+            # Add current_sum to the map for child nodes to use
+            prefix_sums[current_sum] = prefix_sums.get(current_sum, 0) + 1
+
             # The number of valid paths ending at the current node is the 
             # number of times (current_sum - targetSum) has occurred before.
             count = prefix_sums.get(current_sum - targetSum, 0)
-
-            # Add current_sum to the map for child nodes to use
-            prefix_sums[current_sum] = prefix_sums.get(current_sum, 0) + 1
 
             # Recurse to children
             count += dfs(node.left, current_sum)
