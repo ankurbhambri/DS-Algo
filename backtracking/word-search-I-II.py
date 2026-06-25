@@ -97,22 +97,3 @@ class Solution:
 board = [["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
 words = ["oath","pea","eat","rain"]
 print(Solution().findWords(board, words))  # ["eat","oath"]
-
-
-# from collections import defaultdict
-
-# class TrieNode:
-#     def __init__(self):
-#         self.children = defaultdict(TrieNode)  # Dictionary for next characters
-#         self.word = None  # Store word if this is end of a word
-
-# # Building Trie
-# root = TrieNode()
-# words = ["oath", "pea", "eat", "rain", "apple", "apply", "applet"]
-# for word in words:
-#     node = root
-#     for char in word:
-#         node = node.children[char]  # Move to next node or create new
-#     node.word = word  # Mark end of word
-
-# print(root)

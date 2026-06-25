@@ -81,12 +81,13 @@ class Solution:
         res = float("-inf")
         
         for j in range(len(points)):
+
             xj, yj = points[j]
-            
+
             # Remove points from front where |xj - xi| > k
             while q and xj - points[q[0]][0] > k:
                 q.popleft()
-            
+
             # Compute max value using the front of deque
             if q:
                 i = q[0]

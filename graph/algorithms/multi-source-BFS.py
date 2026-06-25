@@ -268,6 +268,7 @@ Find the maximum time taken to reach a hospital from all the N cities.
 # TC: O(n + e)
 # SC: O(n)
 def max_time_to_hospital(n, edges, hospitals):
+
     graph = [[] for _ in range(n)]
 
     for u, v in edges:

@@ -47,51 +47,43 @@ class TreeAncestor:
                     visited.add(v)
 
         # 3. Fill the rest of the table (Powers of 2)
-        for j in range(1, self.LOG):
-            for i in range(1, n + 1):
-                if self.up[i][j-1] != -1:
-                    # i ka 2^j ancestor = (i ke 2^j-1 ancestor) ka 2^j-1 ancestor
-                    # Magic Formula: Halfway jump + Halfway jump
-                    self.up[i][j] = self.up[self.up[i][j-1]][j-1]
+        for i in range(1, self.LOG):
+            for node in range(self.n):
+                parent = self.up[node][i-1]
+                if parent != -1:
+                    self.up[node][i] = self.up[parent][i-1]
 
-
-    def kth_ancestor(self, u, k):
-        for j in range(self.LOG):
-            if k & (1 << j): # Bit Manipulation: check if j-th bit is active
-                u = self.up[u][j]
-                if u == -1:
+    def kth_ancestor(self, node, k):
+        for i in range(self.LOG):
+            if k & (1 << i): # if i-th bit is active
+                node = self.up[node][i]
+                if node == -1:
                     break
-        return u
+        return node
 
 
     def get_lca(self, u, v):
 
-        # 1. U ko deeper node banao
+        # Step 1: Ensure u hamesha gehra (deeper) node ho
         if self.depth[u] < self.depth[v]:
             u, v = v, u
 
-        # 2. U ko V ke same level par lao
+        # Step 2: Dono nodes ko same level/depth par lao
+        # u ko upar uthao jitna dono ki depth mein diff hai
         diff = self.depth[u] - self.depth[v]
         u = self.kth_ancestor(u, diff)
 
+        # Agar same depth par aane ke baad u aur v ek hi node hain,
+        # toh wahi LCA hai (e.g., agar v, u ka ancestor tha)
         if u == v:
             return u
 
-        # 3. Binary Jumps together
-        l, r = 0, self.LOG - 1
-        while l <= r:
-             mid = (l + r) // 2
-             if self.up[u][mid] != self.up[v][mid]:
-                 u = self.up[u][mid]
-                 v = self.up[v][mid]
-             else:
-                 r = mid - 1
-        
-        # Iterative way
-        # for j in range(self.LOG - 1, -1, -1):
-        #     if self.up[u][j] != self.up[v][j]:
-        #         u = self.up[u][j]
-        #         v = self.up[v][j]
+        # Step 3: Dono ko ek saath upar uthao (Bade jumps se shuru karke chote tak)
+        # Hum tabhi jump karenge jab dono ke ancestors ALAG honge
+        for j in range(self.LOG - 1, -1, -1):
+            if self.up[u][j] != self.up[v][j]:
+                u = self.up[u][j]
+                v = self.up[v][j]
 
         # Final step: Dono ka parent hi LCA hai
         return self.up[u][0]

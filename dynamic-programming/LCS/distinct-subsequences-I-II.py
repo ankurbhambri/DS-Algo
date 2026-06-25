@@ -62,7 +62,7 @@ class Solution:
         return dp[m][n]
 
 
-# space optimised 1D DP
+# space optimized 1D DP
 # TC: O(m*n)
 # SC: O(n)
 class Solution:
@@ -87,6 +87,36 @@ print(Solution().numDistinct("rabbbit", "rabbit"))  # Output: 3
 
 # https://leetcode.com/problems/distinct-subsequences-ii/
 
+
+# TC: O(n ^ 2)
+# SC: O(n)
+class Solution:
+    def distinctSubseqII(self, s: str) -> int:
+
+        res = 0
+
+        n = len(s)
+
+        dp = [1] * (n)
+
+        mod = 10 ** 9 + 7
+
+        for i in range(n):
+            for j in range(i):
+
+                if s[i] != s[j]:
+
+                    dp[i] = (dp[i] + dp[j]) % mod
+
+            res += dp[i]
+
+        return res % mod
+
+
+print(Solution().distinctSubseqII("abc"))  # Output: 7
+print(Solution().distinctSubseqII("aba"))  # Output: 6
+
+
 # TC: O(n)
 # SC: O(n)
 class Solution:
@@ -98,11 +128,16 @@ class Solution:
         MOD = 10**9 + 7
 
         for ch in s:
+            # yeh character pehle kabhi aaya tha ya nahi, agar aaya tha toh uske last time total ko minus karna padega
+            last_time_total_for_this_char = last.get(ch, 0)
+            
+            # yha pe humne total ko 2 se multiply kiya kyunki har subsequence ke liye hum ya toh current character ko add karenge ya skip karenge
+            new_total = (total * 2 - last_time_total_for_this_char) % MOD
 
-            new_total = (total * 2 - last.get(ch, 0)) % MOD
-
+            # update last time total for this character
             last[ch] = total
 
+            # update total to new_total
             total = new_total
 
         return (total - 1) % MOD
