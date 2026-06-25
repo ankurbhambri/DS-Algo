@@ -4,22 +4,26 @@
 # TC: O(n)
 # SC: O(1)
 class Solution:
-    def maximumSum(self, arr: list[int]) -> int:
+    def maximumSum(self, arr):
 
-        keep = arr[0]
-        delete = float('-inf')
+        keep = arr[0]          # no deletion
+        delete = float("-inf") # one deletion used
 
         ans = arr[0]
 
         for i in range(1, len(arr)):
+            
+            # yha pe, ya toh new subarray start karo ya phir element to existing one mein add karo (without deletion)
+            new_keep = max(arr[i], keep + arr[i])
 
-            nkeep = max(arr[i], keep + arr[i])
+            # yha pe
+            new_delete = max(
+                keep,               # delete current
+                delete + arr[i]     # deletion already used
+            )
 
-            # delete kar rhe h current element or taking the best sum till now
-            ndelete = max(delete + arr[i], keep)
-
-            keep = nkeep
-            delete = ndelete
+            keep = new_keep
+            delete = new_delete
 
             ans = max(ans, keep, delete)
 
