@@ -6,6 +6,7 @@
 - With lazy propagation, we mark the range to be updated and postpone the actual update until it is needed.
 """
 
+# Here we are doing range update and range query.
 
 # TC: O(log n) for both range update and point query operations
 # SC: O(n) for the tree and lazy arrays

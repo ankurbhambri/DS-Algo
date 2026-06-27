@@ -25,9 +25,7 @@
 # chat-processor.py
 # book-shelf-manager.py
 # multi-source-BFS.py
-
-# https://leetcode.com/problems/longest-univalue-path/
-
+# TODO https://leetcode.com/problems/longest-univalue-path/
 # https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/
 # https://leetcode.com/problems/integer-break/
 # remove-target.py
@@ -45,3 +43,4 @@
 # https://leetcode.com/problems/split-array-largest-sum/ (binary search + greedy bas mid nikalo aur ek helper functin mein partition check karo agar k se bada h l = m+1 else h = m)
 # dijkstra.py
 # https://leetcode.com/problems/smallest-sufficient-team/
+# longest-subsequence-such-that-difference-between-adjacents-is-one

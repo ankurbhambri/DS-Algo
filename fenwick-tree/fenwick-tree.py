@@ -1,21 +1,23 @@
 # https://cp-algorithms.com/data_structures/fenwick.html
 
 
-# Fenwick Tree (Binary Indexed Tree)
-
 '''
 Update i += i & (-i): Isme hum Bottom-to-Top (Neeche se Upar) jaate hain. 
+
 Hum chote child se shuru karke un sabhi bade Parents tak jaate hain jo us child par dependent hain, taaki sabka data naye badlav ke hisaab se update ho jaye.
 
-Query i -= i & (-i): Isme hum Top-to-Bottom / Right-to-Left (Piche ki taraf) jaate hain. 
+Query i -= i & (-i): Isme hum Top-to-Bottom / Right-to-Left (Piche ki taraf) jaate hain.
+
 Hum bade pre-computed blocks se shuru karte hain aur unke piche wale Children/Sub-blocks par jump karte hain, taaki ready-made sums ko utha kar jaldi se total sum nikal sakein.
 
-TC: O(log n) for both update and query operations
-SC: O(n) for the tree array
+Note:
+- Fenwick ye only supports: Sum, XOR (similar invertible operations)
+- Does not support: Max, Min, GCD, etc. (non-invertible operations)Lekin Max, Min, GCD, etc. ke liye nahi.
 
 '''
 
 # Point Update and Range Query
+
 # TC: O(log n) for both update and query operations
 # SC: O(n) for the tree array
 class FenwickTree:
