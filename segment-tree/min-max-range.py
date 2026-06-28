@@ -1,3 +1,4 @@
+# Here we are doing Range Query and Point Update
 class SegmentTree:
     def __init__(self, arr):
 
