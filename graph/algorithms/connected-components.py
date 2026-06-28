@@ -17,6 +17,7 @@ def count_connected_components(graph, all_nodes):
             if neighbor not in visited:
                 dfs(neighbor)
 
+    # Count the number of connected components
     connected_components = 0
     for node in all_nodes:
         if node not in visited:
