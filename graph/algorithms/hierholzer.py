@@ -2,74 +2,128 @@ from collections import defaultdict
 
 # Directed Graph
 
-"""
-Steps to Check if a Directed Graph is Eulerian
+# TC: O(E) where E is the number of edges
+# SC: O(V + E) for the graph representation, where V is the number of vertices
+def hierholzer(edges, start):
+    graph = defaultdict(list)
 
-Check Strong Connectivity:
-A directed graph is strongly connected if there is a directed path from any vertex to every other vertex. Use Depth-First Search (DFS) or any similar algorithm to verify this.
-If the graph is not strongly connected, it is not Eulerian.
+    for u, v in edges:
+        graph[u].append(v)
 
-Check Degree Conditions:
-For an Eulerian Circuit:
-- In-degree = Out-degree for all vertices.
+    path = []
 
-For an Eulerian Path:
-- Exactly one vertex should have out-degree - in-degree = 1 (starting point of the path).
-- Exactly one vertex should have in-degree - out-degree = 1 (ending point of the path).
-- All other vertices should have in-degree = out-degree.
-"""
+    def dfs(u):
+        while graph[u]:
+            v = graph[u].pop()      # Remove unused edge
+            dfs(v)
+        path.append(u)              # Dead end -> add vertex
+
+    dfs(start)
+
+    return path[::-1]
 
 
-# Hierholzer Algorithm to find Eulerian Path/Circuit
-def find_eulerian_path(graph):
+# Iterative Version (No Recursion)
 
-    # Count in-degrees and out-degrees
-    in_degree = defaultdict(int)
-    out_degree = defaultdict(int)
+# TC: O(E) where E is the number of edges
+# SC: O(V + E) for the graph representation, where V is the number of vertices
+def hierholzer(edges, start):
 
-    for node, neighbors in graph.items():
-        out_degree[node] += len(neighbors)
-        for neighbor in neighbors:
-            in_degree[neighbor] += 1
+    graph = defaultdict(list)
 
-    start_node = None
-    end_node = None
+    for u, v in edges:
+        graph[u].append(v)
 
-    for node in set(in_degree.keys()).union(set(out_degree.keys())):
-        if out_degree[node] - in_degree[node] == 1:
-            if start_node is not None:
-                return "Not Eulerian"
-            start_node = node
-        elif in_degree[node] - out_degree[node] == 1:
-            if end_node is not None:
-                return "Not Eulerian"
-            end_node = node
-        elif in_degree[node] != out_degree[node]:
-            return "Not Eulerian"
-
-    if start_node is None:  # Eulerian Circuit
-        start_node = next(iter(graph))
-
-    # Hierholzer's Algorithm to find the path/circuit
-    stack = [start_node]
+    stack = [start]
     path = []
 
     while stack:
-        current = stack[-1]
-        if graph[current]:
-            next_node = graph[current].pop()
-            stack.append(next_node)
+
+        u = stack[-1]
+
+        if graph[u]:
+            stack.append(graph[u].pop())
         else:
             path.append(stack.pop())
 
-    return path[::-1]  # Reverse the path to get the correct order
+    return path[::-1]
 
 
-graph = {
-    "A": ["B", "C"],
-    "B": ["A", "C"],
-    "C": ["A", "B"],
-    "D": ["A"]
-}
-print(find_eulerian_path(graph))  # Output: ['D', 'A', 'B', 'C', 'A', 'B', 'C']
-print(find_eulerian_path({"A": ["B"], "B": ["C"], "C": ["A"]}))  # Output: ['A', 'B', 'C', 'A']
+# Undirected Graph
+
+# TC: O(E) where E is the number of edges
+# SC: O(V + E) for the graph representation, where V is the number of vertices
+from collections import defaultdict
+
+def hierholzer(edges, start):
+
+    graph = defaultdict(list)
+
+    for idx, (u, v) in enumerate(edges):
+        graph[u].append((v, idx))
+        graph[v].append((u, idx))
+
+    used = [False] * len(edges)
+    path = []
+
+    def dfs(u):
+
+        while graph[u]:
+
+            v, eid = graph[u].pop()
+
+            if used[eid]:
+                continue
+
+            used[eid] = True
+
+            dfs(v)
+
+        path.append(u)
+
+    dfs(start)
+
+    return path[::-1]
+
+
+# https://leetcode.com/problems/reconstruct-itinerary
+
+
+# TC: O(E log E) due to sorting the adjacency list, where E is the number of edges (tickets)
+# SC: O(V + E) for the graph representation, where V is the number of vertices (airports) and E is the number of edges (tickets)
+class Solution:
+    def findItinerary(self, tickets: list[list[str]]) -> list[str]:
+
+        graph = defaultdict(list)
+
+        for src, dst in tickets:
+            graph[src].append(dst)
+
+        # Step 2: Destinations ko ulta sort (reverse sort) karna
+        # Taaki pop() karne par alphabetically sabse chota airport pehle nikle
+        for src in graph:
+            graph[src].sort(reverse=True)
+
+        # Step 3: Hierholzer's Algorithm using Stack
+        stack = ["JFK"] # Hamesha JFK se shuru karna hai
+        result = []
+
+        while stack:
+
+            current_airport = stack[-1] # Stack ka sabse upar waala element check karo
+
+            # Agar is airport se aur flights bachi hain
+            if graph[current_airport]:
+                next_airport = graph[current_airport].pop() # Agli flight lo
+                stack.append(next_airport) # Stack mein daalo aur aage badho
+
+            else:
+                # Agar dead-end mil gaya (koi flight nahi bachi), toh ise result mein daalo
+                result.append(stack.pop())
+
+        # Step 4: Result ko ulta (reverse) karke return karo
+        return result[::-1]
+
+
+print(Solution().findItinerary([["MUC", "LHR"], ["JFK", "MUC"], ["SFO", "SJC"], ["LHR", "SFO"]]))  # Output: ['JFK', 'MUC', 'LHR', 'SFO', 'SJC']
+print(Solution().findItinerary([["JFK", "SFO"], ["JFK", "ATL"], ["SFO", "ATL"], ["ATL", "JFK"], ["ATL", "SFO"]]))  # Output: ['JFK', 'ATL', 'JFK', 'SFO', 'ATL', 'SFO']
