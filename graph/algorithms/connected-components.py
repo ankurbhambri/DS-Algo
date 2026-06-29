@@ -74,43 +74,54 @@ print(countComponent([[0, 1], [1, 2], [3, 4]], list(range(5))))
 print(countComponent([[0, 1], [1, 2], [2, 3], [3, 4]], list(range(5))))
 
 
-# Count the Number of Complete Components
 
 # https://leetcode.com/problems/count-the-number-of-complete-components/description
 
 
-def countCompleteComponents(n, edges):
+from collections import defaultdict
 
-    adj = {i: [] for i in range(n)}
-    for u, v in edges:
-        adj[u].append(v)
-        adj[v].append(u)
+class Solution:
+    def countCompleteComponents(self, n: int, edges: list[list[int]]) -> int:
 
-    def is_complete_component(component):
-        m = len(component)
-        expected_edges = (m * (m - 1)) // 2
+        graph = defaultdict(list)
 
-        actual_edges = sum(len(adj[node]) for node in component) // 2
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
 
-        return actual_edges == expected_edges
+        visited = [False] * n
+        ans = 0
 
-    def dfs(node, visit, component):
-        visit.add(node)
-        component.append(node)
-        for nei in adj[node]:
-            if nei not in visit:
-                dfs(nei, visit, component)
-    
-    visit = set()
-    c = 0
-    for i in range(n):
-        if i not in visit:
-            component = []
-            dfs(i, visit, component)
-            if is_complete_component(component):
-                c += 1
+        def dfs(u):
 
-    return c
+            visited[u] = True
 
-print(countCompleteComponents(6, [[0,1],[0,2],[1,2],[3,4]]))  # Output: 3
-print(countCompleteComponents(5, [[0,1],[0,2],[1,2],[3,4]]))  # Output: 2
+            nodes = 1
+            edge_cnt = len(graph[u])
+
+            for v in graph[u]:
+
+                if not visited[v]:
+
+                    a, b = dfs(v)
+
+                    nodes += a
+                    edge_cnt += b
+
+            return nodes, edge_cnt
+
+        for i in range(n):
+
+            if not visited[i]:
+
+                nodes, edge_cnt = dfs(i)
+
+                # edge_cnt counts every edge twice
+                if edge_cnt == nodes * (nodes - 1):
+                    ans += 1
+
+        return ans
+
+
+print(Solution().countCompleteComponents(6, [[0, 1], [0, 2], [1, 2], [3, 4]]))  # Output: 1
+print(Solution().countCompleteComponents(6, [[0, 1], [0, 2], [1, 2], [3, 4], [4, 5]]))  # Output: 0

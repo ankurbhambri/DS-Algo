@@ -1,3 +1,4 @@
+# We use KMP algorithm to search for a pattern in a text. The KMP algorithm uses the concept of longest prefix which is also suffix (LPS) to avoid unnecessary comparisons.
 class Solution:
     def pieTable(self, pattern: str) -> list[int]:
 
