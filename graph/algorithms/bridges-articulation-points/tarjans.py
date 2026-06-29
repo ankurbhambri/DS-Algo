@@ -1,6 +1,53 @@
-# https://leetcode.com/problems/critical-connections-in-a-network
-
 from collections import defaultdict
+
+# TC: O(V + E), SC: O(V + E)
+class Solution:
+    def criticalConnections(self, n, connections):
+        graph = defaultdict(list)
+
+        for u, v in connections:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        disc = [-1] * n          # Discovery time
+        low = [-1] * n           # Lowest reachable discovery time
+        timer = 0
+        bridges = []
+
+        def dfs(node, parent):
+            nonlocal timer
+
+            disc[node] = low[node] = timer
+            timer += 1
+
+            for nei in graph[node]:
+
+                if nei == parent:
+                    continue
+
+                if disc[nei] == -1:
+                    dfs(nei, node)
+
+                    low[node] = min(low[node], low[nei])
+
+                    if low[nei] > disc[node]:
+                        bridges.append([node, nei])
+
+                else:
+                    low[node] = min(low[node], disc[nei])
+
+        for i in range(n):
+            if disc[i] == -1:
+                dfs(i, -1)
+
+        return bridges
+
+
+print(Solution().criticalConnections(4, [[0, 1], [1, 2], [2, 0], [1, 3]]))   # Output: [[1, 3]]
+print(Solution().criticalConnections(5, [[0, 1], [1, 2], [2, 0], [1, 3], [3, 4]]))   # Output: [[3, 4]]
+
+
+# https://leetcode.com/problems/critical-connections-in-a-network
 
 
 # TC: O(V + E), SC: O(V + E)
