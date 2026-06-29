@@ -57,6 +57,7 @@ print(find_bridges_and_articulation_points({0: [1], 1: [0, 2, 3], 2: [1], 3: [1]
 
 from collections import defaultdict
 
+
 # TC: O(V + E), SC: O(V + E)
 class Solution:
     def criticalConnections(self, n, connections):
@@ -67,15 +68,20 @@ class Solution:
             graph[u].append(v)
             graph[v].append(u)
 
-        disc = [-1] * n
-        low = [0] * n
         timer = 0
+
         bridges = []
 
+        low = [0] * n
+
+        disc = [-1] * n
+
         def dfs(u, parent):
+
             nonlocal timer
 
             disc[u] = low[u] = timer
+
             timer += 1
 
             for v in graph[u]:
