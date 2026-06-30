@@ -74,10 +74,8 @@ class Solution:
             if disc[i] == -1:
                 dfs(i, -1)
 
-        ans = []
+        return [i for i in range(V) if isAP[i]]  # Articulation points ka list return karo
 
-        for i in range(V):
-            if isAP[i]:
-                ans.append(i)
 
-        return ans
+print(Solution().articulationPoints(5, [[0, 1], [0, 2], [2, 1], [0, 3], [3, 4]]))  # Output: [0, 3]
+print(Solution().articulationPoints(4, [[0, 1], [1, 2], [2, 0], [1, 3]]))  # Output: [1]
