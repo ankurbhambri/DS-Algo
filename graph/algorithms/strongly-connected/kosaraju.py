@@ -82,47 +82,66 @@ print(Solution().kosaraju(5, [[1], [2], [0], [4], [3]]))  # Output: [[3, 4], [0,
 from collections import defaultdict
 
 def get_airport_connections(airports, routes, starting_airport):
+
     # Step 1: Adjacency list aur Reverse Adjacency list banao
     graph = defaultdict(list)
     rev_graph = defaultdict(list)
+
     for u, v in routes:
         graph[u].append(v)
         rev_graph[v].append(u)
 
     # Kosaraju's Step 1: Order fill karo stack mein
-    visited = set()
     stack = []
+    visited = set()
 
-    def fill_order(node):
+    def dfs(node):
+
         visited.add(node)
+
         for neighbor in graph[node]:
+
             if neighbor not in visited:
-                fill_order(neighbor)
+                dfs(neighbor)
+
         stack.append(node)
 
     for airport in airports:
         if airport not in visited:
-            fill_order(airport)
+            dfs(airport)
 
     # Kosaraju's Step 3: Reversed graph par DFS chalao SCCs nikalne ke liye
-    visited = set()
     sccs = []
+
+    visited = set()
+
     # Ek map jo har airport ko uske SCC ID (index) se connect karega
     airport_to_scc_id = {} 
 
     def dfs_reverse(node, component):
+
         visited.add(node)
+
         component.append(node)
+
         airport_to_scc_id[node] = len(sccs) # Current SCC ka index assign kiya
+
         for neighbor in rev_graph[node]:
+
             if neighbor not in visited:
+
                 dfs_reverse(neighbor, component)
 
     while stack:
+
         node = stack.pop()
+
         if node not in visited:
+
             component = []
+
             dfs_reverse(node, component)
+
             sccs.append(component)
 
     # Step 4: Har SCC ki In-degree nikalna
@@ -130,8 +149,10 @@ def get_airport_connections(airports, routes, starting_airport):
     scc_in_degree = [0] * len(sccs)
 
     for u, v in routes:
+
         scc_u = airport_to_scc_id[u]
         scc_v = airport_to_scc_id[v]
+
         # Agar edge do alag-alag SCCs ke beech mein hai
         if scc_u != scc_v:
             scc_in_degree[scc_v] += 1
@@ -142,6 +163,7 @@ def get_airport_connections(airports, routes, starting_airport):
 
     connections_needed = 0
     for scc_id in range(len(sccs)):
+
         # Agar kisi SCC ki in-degree 0 hai aur wo starting wala SCC nahi hai
         if scc_in_degree[scc_id] == 0 and scc_id != starting_scc_id:
             connections_needed += 1
