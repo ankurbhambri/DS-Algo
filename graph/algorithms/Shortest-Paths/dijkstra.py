@@ -749,3 +749,79 @@ class Solution:
 
 # print(Solution().modifiedGraphEdges(3, [[0, 1, -1], [1, 2, 5]], 0, 2, 6))  # [[0,1,1],[1,2,5]]
 print(Solution().modifiedGraphEdges(5, [[0, 1, -1], [0, 2, 5], [1, 2, -1], [1, 3, 8], [2, 4, -1], [3, 4, 2]], 0, 4, 20))  # [[0,1,1],[0,2,5],[1,2,14],[1,3,8],[2,4,1],[3,4,2]]
+
+
+
+# https://leetcode.com/problems/network-recovery-pathways
+
+
+# Yha pe humne valid paths ke minimum edge weight ka maximum nikalna h,
+# so we can use binary search on edge weights and check if a valid path exists with that minimum weight using Dijkstra's algorithm.
+
+# Simple Dijkstra kaam nhi karega kyuki vo shortest path dega aur maybe uski edge weight minium ho, ya sabhi paths mein maximum ho hi na?
+
+class Solution:
+    def findMaxPathScore(self, edges: List[List[int]], online: List[bool], k: int) -> int:
+
+        n = len(online)
+
+        g = [[] for _ in range(n)]
+
+        l, r = float("inf"), 0
+
+        for u, v, w in edges:
+            if not online[u] or not online[v]:
+                continue
+            g[u].append((v, w))
+            l = min(l, w)
+            r = max(r, w)
+
+        def check(mid: int) -> bool:
+
+            dis = [float("inf")] * n
+
+            pq = [(0, 0)]
+
+            dis[0] = 0
+
+            while pq:
+
+                d, u = heapq.heappop(pq)
+
+                if d > k:
+                    return False
+
+                if u == n - 1:
+                    return True
+
+                if d > dis[u]:
+                    continue
+
+                for v, w in g[u]:
+
+                    if w < mid:
+                        continue
+
+                    if dis[v] > dis[u] + w:
+                        dis[v] = dis[u] + w
+                        heapq.heappush(pq, (dis[v], v))
+
+            return False
+
+        if not check(l):
+            return -1
+
+        while l <= r:
+
+            mid = (l + r) // 2
+
+            # yha pe hum check kar rahe h ki kya mid ke liye valid path exist karta h ya nhi, agar karta h toh hum aur bada mid try karenge
+            # aur agar nhi karta h toh hum chota mid try karenge
+
+            # mid ka fayda hum dekhenge ki edge >= mid hoga toh cosider karo, lekin tota cost k se kam hi ho.
+            if check(mid):
+                l = mid + 1
+            else:
+                r = mid - 1
+
+        return r
