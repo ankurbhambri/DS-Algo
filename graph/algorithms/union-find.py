@@ -132,3 +132,75 @@ print(Solution().smallestEquivalentString("parker", "morris", "parser"))  # Outp
 print(Solution().smallestEquivalentString("hello", "world", "hold"))  # Output: "hdld"
 print(Solution().smallestEquivalentString("leetcode", "programs", "sourcecode"))  # Output: "aauaaaa"
 print(Solution().smallestEquivalentString("abc", "cde", "fgh"))  # Output: "fgh"
+
+
+# https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths/
+
+
+# TC: O(ElogE + QlogQ + (E+Q) * α(N)) where E is the number of edges, Q is the number of queries, N is the number of nodes, and α is the inverse Ackermann function.
+# SC: O(N) for the DSU data structure.
+class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [1] * n
+
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, x, y):
+
+        px = self.find(x)
+        py = self.find(y)
+
+        if px == py:
+            return
+
+        if self.rank[px] < self.rank[py]:
+            px, py = py, px
+
+        self.parent[py] = px
+
+        if self.rank[px] == self.rank[py]:
+            self.rank[px] += 1
+
+class Solution:
+    def distanceLimitedPathsExist(self, n: int, edgeList: List[List[int]], queries: List[List[int]]) -> List[bool]:
+
+        # Step 1: DSU initialize karna
+        dsu = DSU(n)
+
+        # Step 2: Queries ka original index track karna kyunki humein ans usi order mein chahiye
+        # queries_with_index = [[p, q, limit, original_index], ...]
+        queries_with_index = []
+        for i, q in enumerate(queries):
+            queries_with_index.append([q[0], q[1], q[2], i])
+
+        # Step 3: Edges aur Queries dono ko sort karna (Weights and Limits ke basis par)
+        edgeList.sort(key=lambda x: x[2])
+        queries_with_index.sort(key=lambda x: x[2])
+
+        ans = [False] * len(queries)
+        edge_idx = 0
+
+        # Step 4: Process Queries One by One
+        for p, q, limit, original_idx in queries_with_index:
+
+            # Jab tak edge ka weight limit se chhota hai, unhe DSU mein connect karte jao
+            while edge_idx < len(edgeList) and edgeList[edge_idx][2] < limit:
+                u, v, w = edgeList[edge_idx]
+                dsu.union(u, v)
+                edge_idx += 1
+
+            # Check karo kya p aur q ab connected hain
+            if dsu.find(p) == dsu.find(q):
+                ans[original_idx] = True
+            else:
+                ans[original_idx] = False
+
+        return ans
+
+
+print(Solution().distanceLimitedPathsExist(3, [[0, 1, 2], [1, 2, 4], [2, 0, 8], [1, 0, 16]], [[0, 1, 2], [0, 2, 5]]))  # Output: [False, True]
+print(Solution().distanceLimitedPathsExist(5, [[0, 1, 10], [1, 2, 5], [2, 3, 9], [3, 4, 13]], [[0, 4, 14], [1, 4, 13]]))  # Output: [True, False]
