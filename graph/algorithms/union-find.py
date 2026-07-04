@@ -166,7 +166,7 @@ class DSU:
             self.rank[px] += 1
 
 class Solution:
-    def distanceLimitedPathsExist(self, n: int, edgeList: List[List[int]], queries: List[List[int]]) -> List[bool]:
+    def distanceLimitedPathsExist(self, n: int, edgeList: list[list[int]], queries: list[list[int]]) -> list[bool]:
 
         # Step 1: DSU initialize karna
         dsu = DSU(n)
