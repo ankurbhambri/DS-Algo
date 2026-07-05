@@ -28,7 +28,7 @@ def manacher(s: str) -> str:
         # Ab iske aage expand karke check karo agar kuch naya milta hai toh
         while T[i + 1 + P[i]] == T[i - 1 - P[i]]:
             P[i] += 1
-            
+
         # Agar naya palindrome humari purani boundary R ko cross kar gaya,
         # toh Center aur Right boundary ko update kar do
         if i + P[i] > R:
