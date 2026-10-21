@@ -31,6 +31,8 @@ def aggressiveCows(stalls, k):
 
     stalls.sort()
 
+    n = len(stalls)
+
     def isPossible(cap):
 
         count = 1  # place the first cow at stalls[0]
@@ -55,8 +57,6 @@ def aggressiveCows(stalls, k):
 
 
     res = 0  # we store the best possible minimum distance
-
-    n = len(stalls)
 
     l, r = 1, stalls[-1] - stalls[0]
 

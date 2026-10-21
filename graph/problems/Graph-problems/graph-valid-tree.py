@@ -1,8 +1,13 @@
 # https://leetcode.com/problems/graph-valid-tree/
+
 # No cycle
 # No multiple component in graph
+
+# TC: O(N + E), where N is the number of nodes and E is the number of edges
+# SC: O(N + E), where N is the number of nodes and E is the number of edges
 class Solution:
     def validTree(self, n: int, edges):
+
         graph = {i: [] for i in range(n)}
 
         for u, v in edges:

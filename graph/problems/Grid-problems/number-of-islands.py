@@ -268,58 +268,41 @@ print(findMaxFish(grid))  # Output: 7
 
 # https://leetcode.com/problems/count-sub-islands/description/
 
-def countSubIslands(grid1, grid2):
+class Solution:
+    def countSubIslands(self, grid1, grid2) -> int:
 
-    if not grid1 or not grid2:
-        return 0
-
-    count = 0
-    m, n = len(grid1), len(grid1[0])
-
-    def dfs(i: int, j: int) -> bool:
-
-        # out of bounds
-        if i < 0 or i >= m or j < 0 or j >= n or grid2[i][j] == 0:
-            return True
-
-        # Mark current cell as visited
-        grid2[i][j] = 0
-
-        # Check if current cell is valid for sub-island
-        is_valid = grid1[i][j] == 1
-
-        # Check all 4 directions
-        is_valid &= dfs(i-1, j)  # Up
-        is_valid &= dfs(i+1, j)  # Down
-        is_valid &= dfs(i, j-1)  # Left
-        is_valid &= dfs(i, j+1)  # Right
-
-        return is_valid
-
-    # Traverse grid2
-    for i in range(m):
-        for j in range(n):
-            if grid2[i][j] == 1:
-                if dfs(i, j):  # if island have sub-island, then count
-                    count += 1
-
-    return count
-
-grid1 = [
-    [1,1,1,0,0],
-    [0,1,1,1,1],
-    [0,0,0,0,0],
-    [1,0,0,0,0],
-    [1,1,0,1,1]
-]
-grid2 = [
-    [1,1,1,0,0],
-    [0,0,1,1,1],
-    [0,1,0,0,0],
-    [1,0,1,1,0],
-    [0,1,0,1,0]
-]
-print(countSubIslands(grid1, grid2))  # Output: 3
+        if not grid1 or not grid2:
+            return 0
+        
+        m, n = len(grid1), len(grid1[0])
+        count = 0
+        
+        def dfs(i: int, j: int) -> bool:
+            # Agar out of bounds hai ya grid2 mein 0 hai, to True return (no impact)
+            if i < 0 or i >= m or j < 0 or j >= n or grid2[i][j] == 0:
+                return True
+            
+            # Mark current cell as visited
+            grid2[i][j] = 0
+            # Check if current cell is valid for sub-island
+            is_valid = grid1[i][j] == 1
+            
+            # Check all 4 directions
+            is_valid &= dfs(i-1, j)  # Up
+            is_valid &= dfs(i+1, j)  # Down
+            is_valid &= dfs(i, j-1)  # Left
+            is_valid &= dfs(i, j+1)  # Right
+            
+            return is_valid
+        
+        # Traverse grid2
+        for i in range(m):
+            for j in range(n):
+                if grid2[i][j] == 1:
+                    if dfs(i, j):  # Agar island sub-island hai, to count badhao
+                        count += 1
+        
+        return count
 
 
 # https://leetcode.com/problems/number-of-distinct-islands/

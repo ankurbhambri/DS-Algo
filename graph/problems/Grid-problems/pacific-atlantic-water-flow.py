@@ -6,6 +6,7 @@
 # TC: O(R * C) where R is the number of rows and C is the number of columns in the grid.
 # SC: O(R * C) for the visited sets.
 
+
 class Solution:
     def pacificAtlantic(self, heights):
 
@@ -16,12 +17,12 @@ class Solution:
 
         # visit_pac = visited pacific, visit_atl = visited atlantic
         visit_pac, visit_atl = set(), set()
-        
+
         # Pacific Boundaries
         for r in range(R):
             pac.append((r, 0))
             atl.append((r, C - 1))
-            
+
         # Atlantic Boundaries
         for c in range(C):
             pac.append((0, c))

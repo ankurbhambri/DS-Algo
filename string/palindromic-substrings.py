@@ -85,7 +85,7 @@ class Solution:
         # For example, S = "abba", T = "^#a#b#b#a#$".
         # ^ and $ signs are sentinels appended to each end to avoid bounds checking
 
-        T = '@#' + '#'.join(s) + '#$'
+        T = "#" + "#".join(s) + "#"
 
         n = len(T)
 
@@ -95,8 +95,10 @@ class Solution:
 
         for i in range(1, n - 1):
 
+            i_mirror = 2 * C - i
+
             if i < R:
-                P[i] = min(R - i, P[2 * C - i])  # equals to min(R - i, P[i_mirror])
+                P[i] = min(R - i, P[i_mirror])
 
             # Attempt to expand palindrome centered at i
             while T[i + 1 + P[i]] == T[i - 1 - P[i]]:
@@ -105,6 +107,7 @@ class Solution:
             # If palindrome centered at i expand past R,
             # adjust center based on expanded palindrome.
             if i + P[i] > R:
-                C, R = i, i + P[i]
+                C = i
+                R = i + P[i]
 
         return sum((v + 1) // 2 for v in P)
