@@ -28,7 +28,7 @@ def numIslands(grid):
             if grid[i][j] == "1":
                 islands += 1  # Found a new island
                 dfs(i, j)    # Explore and mark the entire island
-    
+
     return islands
 
 grid = [
@@ -75,7 +75,7 @@ class Solution:
             # Recursively explore all 8 directions
             for di in [-1, 0, 1]:
                 for dj in [-1, 0, 1]:
-                    if di != 0 or dj != 0:
+                    if di != 0 or dj != 0: # to skip current cell itself
                         area += dfs(i + di, j + dj)
 
             return area
@@ -176,12 +176,10 @@ class Solution:
 
             grid[r][c] = id
 
-            size = 1
+            sm = 1
+            sm += dfs(r-1, c, id) + dfs(r+1, c, id) + dfs(r, c-1, id) + dfs(r, c+1, id)
 
-            for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-                size += dfs(r + dr, c + dc, id)
-
-            return size
+            return sm
 
         # Step 1: Saare islands ko ID dena
         for r in range(n):

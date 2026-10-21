@@ -3,7 +3,6 @@
 from heapq import heappush, heappop
 
 class MedianFinder:
-
     def __init__(self):
         self.small = []   # max heap (store negatives)
         self.large = []   # min heap

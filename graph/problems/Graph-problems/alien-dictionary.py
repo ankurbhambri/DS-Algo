@@ -63,14 +63,17 @@ class Solution:
             w1, w2 = words[i], words[i + 1]
             min_length = min(len(w1), len(w2))
 
-            if w1[:min_length] == w2[:min_length] and len(w1) > len(w2):
+            if w1[:min_length] == w2[:min_length] and len(w1) > len(w2): # in case the first word is longer but has the same prefix as the second word
                 return ""
 
             for j in range(min_length):
+
                 if w1[j] != w2[j]:
-                    if w2[j] not in adj[w1[j]]:  # ✅ FIX
+
+                    if w2[j] not in adj[w1[j]]: # in case there is a new ordering between w1[j] and w2[j]
                         adj[w1[j]].add(w2[j])
                         indegree[w2[j]] += 1
+
                     break
 
         queue = deque([c for c in indegree if indegree[c] == 0])
