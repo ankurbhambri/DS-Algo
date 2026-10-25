@@ -29,6 +29,3 @@ print(isAnagram("anagram", "nagaram"))
 print(isAnagram("rat", "car"))
 print(isAnagram("a", "ab"))
 print(isAnagram("ab", "ba"))
-
-
-
